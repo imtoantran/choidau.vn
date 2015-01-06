@@ -396,26 +396,37 @@ a:hover {
 }
 .header-middle-right .icon-user-7{
 background-color: rgb(244, 211, 211);
-padding: 5px;
-height: 30px;
-width: 30px;
+padding: 4px 2px;
+height: 26px;
+width: 26px;
 border-radius: 94px;
+font-size: 15px;
+color: green;
 
 }
 .header-middle-right  .badge{
 font-family: "Open Sans", sans-serif;
 position: absolute;
 top: -5px;
-right: -5px;
+right: -12px;
 font-weight: 300px;
-padding: 3px 6px;
+/* padding: 3px 6px; */
 font-weight: bold;
-color: green;
-background-color: transparent;
+height: 19px;
+width: 19px;
+color: white;
+background-color: green;
+font-size: 14px !important;
+border-radius: 67px !important;
 }
 
 .header-middle-right .icon-bell{
-font-size: 20px;
+background-color: rgb(244, 211, 211);
+padding: 5px 3px;
+height: 26px;
+width: 26px;
+border-radius: 94px;
+font-size: 16px;
 }
 
 .header-middle-right  .input-group{
@@ -439,4 +450,24 @@ border: none;
 box-shadow: none;
 font-weight: bold;
 }
+
+.icon-circle-radius{
+background-color: rgb(244, 211, 211);
+padding: 4px 0px;
+height: 39px;
+width: 39px;
+border-radius: 94px;
+font-size: 28px;
+
+}
+.icon-images{
+background-color: rgb(244, 211, 211);
+/* padding: 0px 0px; */
+height: 39px;
+width: 39px;
+border-radius: 32px;
+vertical-align: middle;
+}
+.icon-images img{ 
+padding: 2px;}
 

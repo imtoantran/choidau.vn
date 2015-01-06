@@ -495,12 +495,26 @@ body.page-header-fixed {
 	list-style: none;
 }
 .header-navigation > ul > li {
-	float: left;
+border-right: 1px solid;
+/* float: left; */
+display: inline-block;
+width: 14%;
+margin-left: -2px;
+
 }
+
+.header-navigation > ul > li :hover{
+ background-color:aqua;
+ 
+}
+
+
 .header-navigation > ul > li > a {
-	color: #333;
-	display: block;	
-	padding: 29px 12px 30px;
+display: block;
+padding: 2px 18px;
+text-transform: uppercase;
+font-weight: bold;
+text-align: center;
 }
 .header-navigation ul > li.active > a,
 .header-navigation ul > li > a:hover,
@@ -1676,7 +1690,7 @@ Pre-Footer and pre-footer elements
 
 /* footer */
 .footer {
-	background: #272626;
+	background: #0a7c05;
 	color: #fff;
 	font-size: 12px;
 	padding: 15px 0;
@@ -3085,11 +3099,38 @@ padding: 10px;
 position: relative;
 
 }
-.icon-badge-number span{
+.header-bottom{
+margin-top: 2px;
+float: left;
+width: 100%;
+}
+.nav-li-last{
+border: none !important;width: 13.8% !important;
+}
+.box-infor-user{
+margin-top:3px !important;
+padding: 0px;
+}
+.box-infor-user span{
+color: green;
+font-size: 14px;
+}
 
-
+.box-add-location{
+font-size: 16px;
+padding: 0px;
 }
 
 
-
-
+ .pre-footer-col1 ul{
+ color: white;
+text-align: center;
+margin-left: -121px;
+margin-top: 31px;
+ 
+ }
+ 
+ .pre-footer-col1 ul i{
+font-size: 23px;
+ 
+ } 

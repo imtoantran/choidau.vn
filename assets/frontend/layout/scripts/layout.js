@@ -327,6 +327,21 @@ var Layout = function () {
         });
     }
 
+    var handleMobiMenu=function () {
+        $(".mobi_menubar").on("click", function(event) {
+            event.preventDefault();//the default action of the event will not be triggered
+
+            $('.header-navigation').toggle(300);
+        });
+    }
+    var handleMobiSearch=function () {
+        $(".mobi_search").on("click", function(event) {
+            event.preventDefault();//the default action of the event will not be triggered
+
+            $('.box-search').toggle(300);
+        });
+    }
+
     var handleTheme = function () {
     
         var panel = $('.color-panel');
@@ -359,7 +374,7 @@ var Layout = function () {
     return {
         init: function () {
             // init core variables
-            handleTheme();
+         /*   handleTheme();
             handleInit();
             handleResponsiveOnResize();
             handleIEFixes();
@@ -373,6 +388,8 @@ var Layout = function () {
             handleSubMenuExt();
             handleMobiToggler();
             handlePortletTools();
+           */ handleMobiMenu();
+            handleMobiSearch();
         },
 
         initUniform: function (els) {
@@ -553,6 +570,7 @@ var Layout = function () {
         scrollTop: function () {
             App.scrollTo();
         },
+
 
         gridOption1: function () {
             $(function(){

@@ -60,10 +60,11 @@ Header and header elements
 	font: 19px "PT Sans Narrow", sans-serif;
 	letter-spacing: 1px;
 	margin: 0;
+	width: 100%;
 }
 .choidau .header-navigation > ul > li > a {
 	color: #767f88;
-	padding: 34px 12px 32px;
+	//padding: 34px 12px 32px;
 }
 .choidau .header-navigation ul > li.active > a,
 .choidau .header-navigation ul > li > a:hover,

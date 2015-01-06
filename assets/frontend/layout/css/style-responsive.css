@@ -17,19 +17,53 @@
 }
 /* END max width 1200px */
 
+@media (max-width: 1190px) {
+	.header-navigation > ul > li > a {
+		display: block;
+		padding: 3px 1px;
+		text-transform: uppercase;
+		font-weight: bold;
+		text-align: center;
+	}
+	.nav-li-last{
+
+		border: none !important;
+		width: 12.8% !important;
+	}
+
+
+}
+
+
 /* BEGIN min width 1025px */
 @media (min-width: 1025px) {
 	.header .header-navigation {
 		display: block !important;
 	}
+	.box-search{
+		display: block !important;
+	}
+	.header-navigation{
+		display: block !important;
+	}
+
 }
 /* END min width 1025px */
+
+
+@media (min-width: 994px){
+	.toolbar-top{
+		display: none;
+	}
+
+}
 
 /* BEGIN min width 1025px max width 1205 */
 @media (min-width: 1025px) and (max-width: 1205px) {
 	body.page-header-fixed {
 		padding-top: 121px !important; /* height of the header */
 	}
+
 
 	.header .header-navigation {
 		display: block !important;
@@ -293,9 +327,13 @@
 
 	}
 
+
+
+
 }
 
 @media (max-width: 767px) {
+
 
 	.header-top-content{
 		width:43%;
@@ -311,6 +349,23 @@
 		margin-right: 10px;
 	}
 
+	.header-navigation{
+		display: none;
+
+	}
+	.box-search{
+		display: none;
+		position: absolute;
+		top: 59px;
+		left: 1px;
+		padding: 5px;
+		background-color: aqua;
+		width: 43%;
+	}
+	.box-add-location{
+		display: none;
+
+	}
 	.logo{
 		position: absolute;
 		left: 20px;
@@ -318,7 +373,21 @@
 		z-index: 999;
 
 	}
-
+	
+	.box-infor-user{
+	float: right;
+	margin-right: 95px;
+	
+	}
+	
+	.toolbar-top{
+	margin-top: -50px;
+	
+	}
+	.header-middle-right {
+	background-color: aqua;
+	padding: 10px;
+	}
 	.brands .container {
 		padding-right: 25px;
 	}
@@ -812,6 +881,32 @@
 
 /* BEGIN max width 405px */
 @media (max-width: 405px) {
+	.toolbar-top{
+		margin-top: -57px;
+
+	}
+
+	.box-search {
+		display: none;
+		position: absolute;
+		top:113px;
+		left: 1px;
+		padding: 5px;
+		background-color: aqua;
+		width: 100%;
+	}
+
+	.box-infor-user {
+		float: right;
+		margin-right: 38px;
+	}
+	.header-middle-right {
+		background-color: aqua;
+		padding: 10px;
+		height: 110px;
+	}
+
+
 	.top-cart-content {
 		width: 100%;
 	}
