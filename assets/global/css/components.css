@@ -12100,3 +12100,11 @@ margin-bottom: 20px;
 width: 100%;
 
 }
+.col-none-padding{
+padding:0px;
+}
+
+.col-none-padding-left{
+padding-left:0px;
+
+}
