@@ -1176,14 +1176,14 @@ steps block and steps block elements
 .pagination > li > a, .pagination > li > span,
 .pagination > li:first-child > a, .pagination > li:first-child > span,
 .pagination > li:last-child > a, .pagination > li:last-child > span {
-	border-radius: 25px !important;
-	border: none;
-	color: #868c93;
+	//border-radius: 25px !important;
+color: #868c93;
+border: 2px solid;
 }
 .pagination > li > span,
 .pagination > li > span:hover {
-	background: #555;
-	color: #fff;
+//color: green;
+box-shadow: -1px 3px 7px #888888
 }
 .pagination > li:first-child > a,
 .pagination > li:last-child > a {
@@ -1441,7 +1441,7 @@ Pre-Footer and pre-footer elements
 .pre-footer {
 	background: #313030;
 	color: #b0b0b0;
-	background-image:url('../img/bg-footer.png');
+	//background-image:url('../img/bg-footer.png');
 }
 .pre-footer .container {
 	padding-top: 45px;
@@ -2057,8 +2057,8 @@ Demo Utils
 
 /* Blockquote Box */
 .quote-v1 {
-  background: #7C858E;
-  padding: 10px 0;
+  background: #0a7c05;
+ // padding: 10px 0;
   margin-left: 0;
   margin-right: 0;
 }
@@ -3135,3 +3135,100 @@ margin-top: 31px;
 font-size: 23px;
  
  } 
+ 
+ 
+ 
+ 
+ 
+ .box-product-img-content{
+position: relative;
+border-bottom: 1px solid;
+ }
+ 
+ .box-product-img-content h1{
+position: absolute;
+top: 117px;
+left: -24px;
+text-transform: capitalize !important;
+color: white;
+font-size: 19px !important;
+/* text-align: center; */
+width: 100%;
+ }
+ .box-product-img-content span{
+position: absolute;
+top: 144px;
+right: 32px;
+text-transform: capitalize;
+color: white;
+font-size: 13px;
+text-align: center;
+width: 100%;;
+ }
+  .box-product-img-content h2{
+ font-size: 13px  !important;
+text-align: left;
+text-transform: none  !important;
+ }
+ 
+.box-product-comment {
+padding: 3px 0px;
+height: 100%;
+border-bottom: 1px solid;
+ text-align: left;
+ margin: 0px;
+ }
+ 
+ .box-product-comment img{
+ width: 25%;
+ float:left;
+ margin-right: 5px;
+ }
+  .box-product-comment h5{
+   text-transform: capitalize !important;
+	font-weight: bold!important;
+	color: green;
+	padding: 0px;
+	padding-top: 5px;
+	margin: 0px !important;
+  
+  }
+ .box-product-like {
+ padding: 5px 0px;
+margin-left: -13px;
+ margin: 0px;
+ }
+  .box-product-like img{
+width: 15%;
+ float:left;
+ margin-right: 5px;
+  }
+
+ .box-product-like .icon-comment{
+font-size: 28px;
+margin-top: -2px;
+position:relative;
+ }
+ 
+  .box-product-like .quantity-comment{
+position: absolute;
+top: 22%;
+right: 30%;
+font-size: 11px
+ }
+ 
+   .box-product-like .quantity-like{
+padding: 2px 5px;
+float: left;
+background: rgb(172, 194, 172);
+margin-top: 7px;
+
+
+ }
+ 
+ .pre-footer-col .list-link{
+  padding: 0;
+  padding-left: 7%;
+  list-style:none;
+ 
+ }

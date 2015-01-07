@@ -926,8 +926,29 @@
 		padding: 10px;
 		height: 110px;
 	}
+	
+	
+	.box-product-img-content h1 {
+	position: absolute;
+	top: 117px;
+	left: -12px;
+	text-transform: capitalize !important;
+	color: white;
+	font-size: 16px !important;
+	/* text-align: center; */
+	width: 100%;
+	}
 
-
+	.box-product-img-content span {
+	position: absolute;
+	top: 144px;
+	right: 3px;
+	text-transform: capitalize;
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	width: 100%;
+	}
 	.top-cart-content {
 		width: 100%;
 	}
