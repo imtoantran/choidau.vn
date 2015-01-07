@@ -353,6 +353,27 @@
 		display: none;
 
 	}
+
+    .choidau .header-navigation {
+        font: 19px "PT Sans Narrow", sans-serif;
+        letter-spacing: 1px;
+        margin: 0;
+        width: 41%;
+        float: right;
+        background-color: aliceblue;
+        margin-top: 5px;
+    }
+    .header-navigation > ul > li {
+         border-right:none;
+        /* float: left; */
+        display: block;
+        width: 100%;
+        margin-left: -2px;
+    }
+    .nav-li-last {
+        border: none !important;
+        width: 100% !important;
+    }
 	.box-search{
 		display: none;
 		position: absolute;
