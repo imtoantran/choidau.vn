@@ -1441,6 +1441,7 @@ Pre-Footer and pre-footer elements
 .pre-footer {
 	background: #313030;
 	color: #b0b0b0;
+	background-image:url('../img/bg-footer.png');
 }
 .pre-footer .container {
 	padding-top: 45px;
