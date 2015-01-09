@@ -3237,7 +3237,7 @@ margin-top: 7px;
  
  
  .box-product{
-//text-align: center;
+text-align: center;
 //padding: 0px;
 //width: 103%;
 }
@@ -3453,6 +3453,61 @@ margin-bottom:6px;
 margin-bottom:6px;
 }
 
+.box-hot-video >header  span{
+color:white !important;
+padding: 6px;
+}
+
+.box-hot-video >header  span>a{
+color:white !important;
+}
+.box-hot-video >header  h1{
+color: white;
+font-size: 14px;
+font-weight: bold;
+text-transform: capitalize;
+margin: 7px 0px;
+}
+
+.box-hot-post-item{
+padding-right: 0%;
+}
+
+
+.box-hot-post-item header>h1{
+font-size: 15px;
+text-transform: capitalize;
+font-weight: bold;
+margin-bottom: 2px;
+}
+.box-hot-post >header  h1{
+color: green;
+font-size: 14px;
+font-weight: bold;
+text-transform: capitalize;
+margin: 7px 0px;
+
+}
+
+
+.box-hot-post-item  div >img{
+width: 100%;
+padding: 0px;
+height: 100%;
+}
+
+.box-hot-post >section{
+margin-right: -3px;
+padding: 0px;
+
+}
+
+.box-hot-post >section article:last-child{
+padding-right:0px;
+}
+.box-hot-post >section article:first-child{
+padding-left: 0px;
+}
 
 
 #fb_login_button { 

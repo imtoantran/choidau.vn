@@ -470,4 +470,6 @@ vertical-align: middle;
 }
 .icon-images img{ 
 padding: 2px;}
-
+.bg-normal{
+background-color:aqua;
+}
