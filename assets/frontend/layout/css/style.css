@@ -3313,9 +3313,12 @@ padding: 6px;
 .box-blog-content .item-blog{
 border-bottom: 1px solid;
 }
-/*luuhoabk - personal page*/
+/*luuhoabk - person page*/
+.margin-none{margin:0 !important;}
 .style-green{color:#fff; background-color: #0a7c05;}
 .style-green-hover:hover{color:#0a7c05; background-color: #fff;}
+.article-img-text img{padding: 2px; float:left; margin-right: 5px;}
+
 .avatar-pad2{
 	border: 1px solid #ddd;
 	padding: 5px;
@@ -3331,27 +3334,43 @@ border-bottom: 1px solid;
 	-webkit-box-shadow: 0 0 1px 1px #ccc;
 }
 
-/* personal - header */
-#choidau-personal .personal-header-bg{width: 100%; height:180px; background-color: #cfcfcf;}
-#choidau-personal .perconal-header-username{margin-top: -20px; margin: -50px 0px 20px 0px; font-size: 2em; font-weight:bold;}
-#choidau-personal .personal-header-avatar{margin-top: -110px;}
-#choidau-personal .personal-header-avatar img{padding: 5px;}
-nav.personal-header-nav{margin-top: 5px;}
-nav.personal-header-nav ul{border: 2px solid #0a7c05;}
-nav.personal-header-nav ul li{text-align: center;	padding: 5px 0;	font-size: 1.1em; font-weight: bold; }
-nav.personal-header-nav ul li.active, nav.personal-header-nav ul li:hover{color:#fff; background-color: #0a7c05;}
-/* end personal - header */
+
+/* person - header */
+#choidau-person .person-header-bg{width: 100%; height:180px; background-color: #cfcfcf;}
+#choidau-person .person-header-username{margin-top: -20px; margin: -50px 0px 20px 0px; font-size: 2em; font-weight:bold;}
+#choidau-person .person-header-avatar{margin-top: -110px;}
+#choidau-person .person-header-avatar img{padding: 5px;}
+nav.person-header-nav{margin-top: 5px;}
+nav.person-header-nav ul{border: 2px solid #0a7c05;}
+nav.person-header-nav ul li{text-align: center;	padding: 5px 0;	font-size: 1.1em; font-weight: bold; }
+nav.person-header-nav ul li.active, nav.person-header-nav ul li:hover{color:#fff; background-color: #0a7c05;}
+/* end person - header */
 
 /*pesonal - aside*/
-section.personal-aside .aside-list{border: 1px solid #ccc; padding: 5px; box-shadow: 0 1px 1px 0px #CCB;} 
-section.personal-aside header{text-align: center; padding: 5px;} 
-section.personal-aside ul.aside-info li{border-bottom: 1px solid #ccc; padding: 10px; } 
-section.personal-aside ul.aside-info li:last-child{border-bottom: none;} 
-section.personal-aside ul.aside-info span{font-weight: bold;} 
+section.person-aside header{text-align: center; padding: 5px; margin:5px;} 
+section.person-aside .aside-list{border: 1px solid #ccc; box-shadow: 0 1px 1px 0px #CCB; margin-bottom: 10px;} 
+section.person-aside .aside-list ul li{padding: 5px;} 
+section.person-aside .aside-list ul li>div{border-bottom: 1px solid #ddd; padding-bottom:5px;} 
+section.person-aside .aside-list ul li:last-child>div{border-bottom: none;} 
 
-section.personal-aside ul.aside-add-friend img{max-width: 100px ;max-height: 100px;} 
-section.personal-aside ul.aside-add-friend .btn-aside-add-friend{} 
+section.person-aside ul.aside-info span{font-weight: bold;} 
+section.person-aside ul.aside-info li>div{padding: 0px 5px 10px 10px;} 
 
+section.person-aside ul.aside-items img{max-width: 60px ;max-height: 60px;}
+section.person-aside ul.aside-items .aside-items-text{font-size: 0.9em; margin-top: 5px;}
+section.person-aside ul.aside-items .aside-items-text p{font-size: 0.8em;}
+section.person-aside ul.aside-items .btn-aside-add-friend{margin-top:10px;font-size: 0.8em; padding: 2px 6px 2px 2px; border-bottom: 1px solid #d2d2d2;} 
+section.person-aside .aside-item-viewmore{margin: 5px;}
+
+section.person-aside ul.aside-items .aside-link-web{margin-top:20px;font-size: 0.9em;} 
+section.person-aside ul.aside-items .aside-link-web>a{text-decoration: none; font-weight: bold;}
 /*end pesonal - aside*/
 
-/*end luuhoabk - personal page
+
+/*pesonal - content - wraper*/
+section.person-content-checkin {padding: 5px; }
+section.person-content-checkin .checkin-item{ margin: 5px; background-color: #fff; border: 1px solid; }
+section.person-content-checkin .article-img-text img{width: 80px; height: 80px;}
+/*pesonal - content - wraper*/
+
+/*end luuhoabk - person page

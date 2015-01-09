@@ -166,21 +166,21 @@
 
 	<section id="container">
 
-		<!-- choidau-personal-checkin luuhoabk -->
-			<div id="choidau-personal">
+		<!-- choidau-person-checkin luuhoabk -->
+			<div id="choidau-person">
 				<div class="container">
 
-					<!-- choidau-personal-header -->
-					<div class="personal-header">
-						<div class="personal-header-bg">							
+					<!-- choidau-person-header -->
+					<div class="person-header">
+						<div class="person-header-bg">							
 						</div>						
 						<div class="row">
-							<div class="col-md-2 text-right personal-header-avatar">
+							<div class="col-md-2 text-right person-header-avatar">
 								<img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" width="150" height="150" alt="">
 							</div>
 							<div class="col-md-10">
-							<div class="perconal-header-username">	moonlovesun	</div>							
-								<nav class="personal-header-nav">									
+							<div class="person-header-username">	moonlovesun	</div>							
+								<nav class="person-header-nav">									
 									<ul class="list-inline">
 										<li style="width: 20%;">Hoạt động</li>
 										<li style="width: 10%;">Ảnh</li>
@@ -193,61 +193,116 @@
 							</div>	
 						</div>						
 					</div>
-					<!-- end choidau-personal-header -->				
+					<!-- end choidau-person-header -->				
 					
-					<div class="row">						
-						<div class="col-md-9">
-							<section class="personal-content">
-								content
+					<div class="person-body">
+						<div class="row">
+							<div class="col-md-9">
+							<section class="person-content-checkin style-green">
+								<div class="row checkin-item">
+									<div class="col-md-9 article-img-text">
+										<img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" alt="">							<div>dsd</div>	
+									</div>
+									<div class="col-md-3 text-right">
+										<div class="btn-group">
+												<button type="button" class="btn btn-default">Công khai</button>
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-down-dir"></i>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li>a</li>
+													<li>b</li>
+													<li>c</li>
+												</ul>
+											</div>
+									</div>
+								</div>
 							</section>
-						</div>					
+						</div>		
+
 						<div class="col-md-3">
-							<!-- choidau-personal-content -->
-							<section class="personal-aside">
+							<section class="person-aside">
 								<div class="aside-list aside-info">
 									<header class="style-green">
 										<i class="icon-info"></i>
 										Thông tin
 									</header>
 									<ul class="aside-info list-unstyled">
-										<li>Cấp bậc: <span>Newbie</span></li>
-										<li>Địa chỉ: <span>TP HCM</span></li>
-										<li>Ngày sinh: <span>25/11/1995</span></li>
-										<li>Đã theo dõi: <span>34 người</span></li>
-										<li>Được theo dõi: <span>115 người</span></li>
-										<li>Số lượt thích: <span>430</span></li>										
+										<li><div>Cấp bậc: <span>Newbie</span></div></li>
+										<li><div>Địa chỉ: <span>TP HCM</span></div></li>
+										<li><div>Ngày sinh: <span>25/11/1995</div></span></li>
+										<li><div>Đã theo dõi: <span>34 người</span></div></li>
+										<li><div>Được theo dõi: <span>115 người</span></div></li>
+										<li><div>Số lượt thích: <span>430</span></div></li>										
 									</ul>
 								</div>
-								<div class="aside-list personal-aside-add-friend">
+
+								<!-- add friend -->
+								<div class="aside-list">
 									<header class="style-green">
 										<i class="icon-info"></i>
 										Gợi ý kết bạn
-									</header>
-									<ul class="aside-add-friend list-unstyled">
+									</header>								
+									<ul class="list-unstyled aside-items">
 										<li>
-											<div class="row">
-												<div class="col-md-3 add-friend-img">
+											<div class="row margin-none">
+												<div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
 													<img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" alt="">
+													<div class="aside-items-text"><b>meoconxauxi</b><p>12 bạn chung</p></div>	
 												</div>
-												<div class="col-md-5 col-none-padding">
-													<div>meoconxauxi</div>
-													<div>12 bạn chung</div>
-												</div>
-												<div class="col-md-4 col-none-padding">
-													<button class="btn btn-aside-add-friend"><i class="icon-info"></i>Kết bạn</button>
+												<div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
+													<button class="btn btn-aside-add-friend">
+														<i class="icon-info"></i>Kết bạn
+													</button>
 												</div>
 											</div>
-										</li>																	
+										</li>
+
 									</ul>
+									<div class="aside-item-viewmore">
+										<button class="btn btn-block default">
+											<i class="icon-down-dir"></i>
+										</button>										
+									</div>
 								</div>
+
+								<!-- online friend -->
+								<div class="aside-list">
+									<header class="style-green">
+										<i class="icon-info"></i>
+										Bạn bè đang online
+									</header>								
+									<ul class="list-unstyled aside-items">
+										<li>
+											<div class="row margin-none">
+												<div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
+													<img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" alt="">
+													<div class="aside-items-text"><b>meoconxauxi</b><p>12 bạn chung</p></div>	
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
+													<div class="aside-link-web">
+														<a class="aside-link-web" href="#">Web <i class="icon-info"></i></a>	
+													</div>
+												</div>
+											</div>
+										</li>
+
+									</ul>
+									<div class="aside-item-viewmore">
+										<button class="btn btn-block default">
+											<i class="icon-down-dir"></i>
+										</button>										
+									</div>
+								</div>
+
 							</section>
-							<!-- end choidau-personal-content -->
+							<!-- end choidau-person-content -->
 						</div>
-						
+						</div>		
 					</div>
 				</div>
 			</div>
-		<!-- endchoidau-personal-checkin luuhoabk -->
+		<!-- endchoidau-person-checkin luuhoabk -->
 
 	</section>
 
