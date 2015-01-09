@@ -503,9 +503,8 @@ margin-left: -2px;
 
 }
 
-.header-navigation > ul > li :hover{
- background-color:aqua;
- 
+.header-navigation ul  li :hover{
+
 }
 
 
@@ -800,7 +799,7 @@ text-align: center;
 
 /* page slider */
 .page-slider {
-	margin-top: -25px;
+	//margin-top: -25px;
 	clear: both;
 }
 
@@ -3304,17 +3303,108 @@ border: 2px solid rgb(203, 211, 203);
 
 
 .box-blog-content .nav-tabs>li a{
-
 margin: 0px;
 padding: 6px;
-
 }
 
 .box-blog-content .item-blog{
 border-bottom: 1px solid;
 }
+<<<<<<< HEAD
 /*luuhoabk - person page*/
 .margin-none{margin:0 !important;}
+=======
+<<<<<<< HEAD
+
+
+.box-post-hot{
+
+}
+
+.box-post-hot >header{
+background-color: rgb(234, 226, 216);
+}
+.box-post-hot  >header >h1{
+text-align: center;
+margin-bottom: 3px;
+} 
+
+.box-post-hot  >article >img{
+float: left;
+width: 82px;
+height: 85px;
+margin-bottom: 5px;
+margin-right: 5px;
+} 
+
+.box-post-hot  >article >div >h1{
+font-size: 15px;
+text-transform: capitalize;
+font-weight: bold;
+color: green;
+margin: 0px;
+
+}
+
+.box-post-hot  >article >div >h2{
+float: left;
+font-size: 12px;
+padding-right: 5px;
+clear: b;
+text-transform: capitalize;
+/* padding: 0px; */
+margin: 0px;
+font-weight: bold;
+}
+
+
+.box-post-hot  >article >div >span{
+float: left;
+padding: 0xp;
+margin: 0px;
+}
+
+.box-post-hot  >article >div >time{
+float:left;
+}
+
+.box-post-hot  >article  >header >h2{
+font-size: 14px;
+font-weight: bold;
+text-transform: capitalize;
+margin: 0px;
+}
+
+.box-face-hot{
+
+}
+
+.box-face-hot >header{
+background: rgb(150, 189, 228);
+}
+
+.box-face-hot > header >h1{
+margin-bottom: -3px !important;
+color: white !important;
+text-transform: capitalize !important;
+text-align: center
+}
+.box-face-hot  >article {
+border: 2px solid rgb(84, 206, 234) !important;
+
+}
+
+#fb_login_button { 
+    width: 80px; 
+}
+#fb_login_button span, 
+#fb_login_button iframe {.
+    width: 80px! important;
+    height: 25px! important;
+}
+=======
+/*luuhoabk - personal page*/
+>>>>>>> origin/master
 .style-green{color:#fff; background-color: #0a7c05;}
 .style-green-hover:hover{color:#0a7c05; background-color: #fff;}
 .article-img-text img{padding: 2px; float:left; margin-right: 5px;}
@@ -3373,4 +3463,9 @@ section.person-content-checkin .checkin-item{ margin: 5px; background-color: #ff
 section.person-content-checkin .article-img-text img{width: 80px; height: 80px;}
 /*pesonal - content - wraper*/
 
+<<<<<<< HEAD
 /*end luuhoabk - person page
+=======
+/*end luuhoabk - personal page
+>>>>>>> origin/master
+>>>>>>> origin/master
