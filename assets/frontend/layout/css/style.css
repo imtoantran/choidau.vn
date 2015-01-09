@@ -1,4 +1,4 @@
-/*   
+   
 Template Name: Metronic - Responsive Website Template build with Twitter Bootstrap 3.1.1
 */
 
@@ -3310,6 +3310,7 @@ padding: 6px;
 .box-blog-content .item-blog{
 border-bottom: 1px solid;
 }
+<<<<<<< HEAD
 
 
 .box-post-hot{
@@ -3397,3 +3398,47 @@ border: 2px solid rgb(84, 206, 234) !important;
     width: 80px! important;
     height: 25px! important;
 }
+=======
+/*luuhoabk - personal page*/
+.style-green{color:#fff; background-color: #0a7c05;}
+.style-green-hover:hover{color:#0a7c05; background-color: #fff;}
+.avatar-pad2{
+	border: 1px solid #ddd;
+	padding: 5px;
+	background-color: #fff;
+	box-shadow: 0 0 1px 1px #eee;
+	-moz-box-shadow: 0 0 1px 1px #eee;
+	-webkit-box-shadow: 0 0 1px 1px #eee;
+}
+.avatar-pad2:hover{
+	border-color: #bbb;
+	box-shadow: 0 0 1px 1px #ccc;
+	-moz-box-shadow: 0 0 1px 1px #ccc;
+	-webkit-box-shadow: 0 0 1px 1px #ccc;
+}
+
+/* personal - header */
+#choidau-personal .personal-header-bg{width: 100%; height:180px; background-color: #cfcfcf;}
+#choidau-personal .perconal-header-username{margin-top: -20px; margin: -50px 0px 20px 0px; font-size: 2em; font-weight:bold;}
+#choidau-personal .personal-header-avatar{margin-top: -110px;}
+#choidau-personal .personal-header-avatar img{padding: 5px;}
+nav.personal-header-nav{margin-top: 5px;}
+nav.personal-header-nav ul{border: 2px solid #0a7c05;}
+nav.personal-header-nav ul li{text-align: center;	padding: 5px 0;	font-size: 1.1em; font-weight: bold; }
+nav.personal-header-nav ul li.active, nav.personal-header-nav ul li:hover{color:#fff; background-color: #0a7c05;}
+/* end personal - header */
+
+/*pesonal - aside*/
+section.personal-aside .aside-list{border: 1px solid #ccc; padding: 5px; box-shadow: 0 1px 1px 0px #CCB;} 
+section.personal-aside header{text-align: center; padding: 5px;} 
+section.personal-aside ul.aside-info li{border-bottom: 1px solid #ccc; padding: 10px; } 
+section.personal-aside ul.aside-info li:last-child{border-bottom: none;} 
+section.personal-aside ul.aside-info span{font-weight: bold;} 
+
+section.personal-aside ul.aside-add-friend img{max-width: 100px ;max-height: 100px;} 
+section.personal-aside ul.aside-add-friend .btn-aside-add-friend{} 
+
+/*end pesonal - aside*/
+
+/*end luuhoabk - personal page
+>>>>>>> origin/master
