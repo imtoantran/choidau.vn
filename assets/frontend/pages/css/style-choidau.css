@@ -63,7 +63,7 @@ Header and header elements
 	width: 100%;
 }
 .choidau .header-navigation > ul > li > a {
-	color: #767f88;
+	//color: #767f88;
 	//padding: 34px 12px 32px;
 }
 .choidau .header-navigation ul > li.active > a,
@@ -314,7 +314,7 @@ Header and header elements
 }
 
 .choidau .page-slider {
-	margin-top: -23px;
+	//margin-top: -23px;
 }
 
 /* breadcrumb */
@@ -1142,3 +1142,11 @@ Shop Stype Buttons
 .btn {
 	text-transform: uppercase;
 }
+
+
+/*index */
+
+
+
+
+
