@@ -5,3 +5,10 @@
 .panel-primary{
 	border-color: #67bd3c;
 }
+.blog-item .comments .media{
+	padding-bottom: 10px;
+}
+.blog-item .comments .media:last-child{
+	border-bottom: none;
+	margin-bottom: 0;
+}
