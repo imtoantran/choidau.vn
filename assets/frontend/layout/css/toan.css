@@ -2,3 +2,6 @@
 .choidau-form .control-label{
 	text-align: left;
 }
+.panel-primary{
+	border-color: #67bd3c;
+}

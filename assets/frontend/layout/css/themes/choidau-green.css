@@ -478,7 +478,9 @@ background-color:aqua;
 
 /* imtoantran */
 .bg-primary{
-  background-color: #0a7c05;
+  background-color: #0a7c05 !important;
 }
-/* imtoantran */
 
+.text-primary{
+  color:#0a7c05 !important;
+}/* imtoantran */
