@@ -12084,34 +12084,29 @@ Transparent Button
   color: #888;
 }
 
+.col-no-padding{
+text-align: center;
+padding: 0px;
+width: 103%;
+}
+.col-no-padding-left{
+padding: 0px;
+padding-right: 3%;
+/* border: solid; */
+margin-bottom: 20px;
+/* margin-right: 21px; */
+}
+.col-no-padding-left img{
+width: 100%;
 
+}
 .col-none-padding{
 padding:0px;
 }
 
 .col-none-padding-left{
 padding-left:0px;
-}
 
-.header-box{
-
-}
-
-.header-box h1{ 
-color: white;
-font-size: 14px;
-font-weight: bold;
-text-transform: capitalize;
-margin: 7px 0px
-}
-
-.header-box  span{
-color:white !important;
-padding: 6px;
-}
-
-.col-none-margin {
-margin: 0px;
 }
 
 /*select button*/

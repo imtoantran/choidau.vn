@@ -1,5 +1,7 @@
-/* BEGIN max width 1200px */
+ /*BEGIN max width 1200px */
 @media (max-width: 1200px) {
+	#choidau-person .person-header-avatar img{margin-left: 10px;}
+	nav.person-header-nav ul li{padding: 6px 34px;}
 	.content-form-page .control-label {
 		padding-left: 30px;
 		padding-bottom: 5px;
@@ -18,6 +20,9 @@
 /* END max width 1200px */
 
 @media (max-width: 1190px) {
+	#choidau-person .person-header-username{margin-left: 20px;}
+	nav.person-header-nav ul li{padding: 6px 33px;}
+	section.person-content-checkin .person-command .article-img-text div input{	width: 93%;	}
 	.header-navigation > ul > li > a {
 		display: block;
 		padding: 3px 1px;
@@ -30,8 +35,6 @@
 		border: none !important;
 		width: 12.8% !important;
 	}
-
-
 }
 
 
@@ -48,15 +51,7 @@
 	}
 
 }
-/* END min width 1025px */
 
-
-@media (min-width: 994px){
-	.toolbar-top{
-		display: none;
-	}
-
-}
 
 /* BEGIN min width 1025px max width 1205 */
 @media (min-width: 1025px) and (max-width: 1205px) {
@@ -114,6 +109,7 @@
 
 /* BEGIN max width 1024px */
 @media (max-width: 1024px) {
+	#choidau-person .person-header-avatar img{margin-left: 15px;}
 	body.page-header-fixed {
 		padding-top: 107px !important; /* height of the header */
 	}
@@ -319,6 +315,284 @@
 /* END max width 1024px */
 
 
+ @media (max-width: 994px){
+	 /*nav.person-header-nav ul li{padding: 6px 33px;}*/
+	 #choidau-person .person-header-avatar img{float: left;}
+	 #choidau-person .person-header-username{float: left;}
+ }
+ @media (min-width: 994px){
+	 .toolbar-top{
+		 display: none;
+	 }
+
+ }
+
+ /* BEGIN max width 992px */
+ @media (max-width: 992px) {
+
+	 .shop-index-carousel {
+		 margin-left: 0;
+		 margin-right: 10px;
+	 }
+
+	 .header-navigation{
+		 display: none;
+
+	 }
+
+	 .choidau .header-navigation {
+		 font: 19px "PT Sans Narrow", sans-serif;
+		 letter-spacing: 1px;
+		 margin: 0;
+		 width: 41%;
+		 float: right;
+		 background-color: aliceblue;
+		 margin-top: 5px;
+	 }
+	 .header-navigation > ul > li {
+		 border-right:none;
+		 /* float: left; */
+		 display: block;
+		 width: 100%;
+		 margin-left: -2px;
+	 }
+	 .nav-li-last {
+		 border: none !important;
+		 width: 100% !important;
+	 }
+	 .box-search{
+		 display: none;
+		 position: absolute;
+		 top: 59px;
+		 left: 1px;
+		 padding: 5px;
+		 background-color: aqua;
+		 width: 43%;
+	 }
+	 .box-add-location{
+		 display: none;
+
+	 }
+	 .logo{
+		 position: absolute;
+		 left: 20px;
+		 top: -72px;
+		 z-index: 999;
+
+	 }
+
+	 .box-infor-user{
+		 float: right;
+		 margin-right: 95px;
+
+	 }
+
+	 .toolbar-top{
+		 margin-top: -50px;
+
+	 }
+	 .header-middle-right {
+		 background-color: aqua;
+		 padding: 10px;
+	 }
+	 .brands .container {
+		 padding-right: 25px;
+	 }
+
+	 .sidebar-menu a:focus {
+		 color: #333 !important;
+		 text-decoration: none;
+	 }
+
+	 .sale-product___removed {
+		 margin-bottom: 40px;
+	 }
+	 .new-arrivals___removed {
+		 margin-left: 15px;
+		 padding-left: 0;
+	 }
+	 .two-items-bottom-items {
+		 margin-bottom: 40px;
+	 }
+	 .carousel img {
+		 width: 100%;
+	 }
+	 /*luuhoabk*/
+
+	 /*.steps-block {
+        padding-bottom: 10px;
+    }
+    .steps-block-col {
+        border: 2px solid #FFF;
+        margin: 0 20px 20px 15px;
+        padding: 20px 20px 15px;
+        min-height: auto;
+        float: left;
+    }
+    .steps-block-col:last-child {
+        margin-right: 0;
+    }
+    .steps-block .steps-block-col div {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .steps-block h2 {
+        font-size: 25px;
+    }
+    .steps-block em {
+        text-transform: inherit;
+    }
+    .steps-block-col span,
+    .steps-block-col .fa {
+        display: none;
+    }
+    .steps-block-col:first-child em {
+        margin-left: 0;
+    }*/
+
+	 .steps-block-col {
+		 border: 2px solid #FFF;
+		 margin: 0 25px 20px 15px;
+		 padding: 20px 20px 15px;
+		 min-height: auto;
+		 float: none;
+	 }
+	 .steps-block-col:last-child {
+		 margin-right: 25px;
+		 margin-bottom: 0;
+	 }
+	 .steps-block .steps-block-col div {
+		 margin-left: 0;
+		 margin-right: 0;
+	 }
+	 .steps-block h2 {
+		 font-size: 43px;
+	 }
+	 .steps-block em {
+		 text-transform: uppercase;
+	 }
+	 .steps-block-col span {
+		 display: none;
+	 }
+	 .steps-block-col .fa {
+		 display: block;
+	 }
+
+	 .pre-footer-subscribe-box form {
+		 width: 100%;
+	 }
+
+	 .sidebar-products img {
+		 float: none;
+		 margin-bottom: 5px;
+		 width: 100%;
+		 height: auto;
+	 }
+	 .sidebar-products h3,
+	 .sidebar-products .price {
+		 margin-left: 0;
+	 }
+	 .product-page-options .pull-left {
+		 margin-bottom: 10px;
+
+	 }
+	 .product-quantity {
+		 margin-bottom: 10px;
+	 }
+
+	 /*
+    if you want to hide buttons on mobile view, uncomment this block
+    .pi-img-wrapper div {
+        display: none !important;
+    }*/
+	 .review .rateit {
+		 width: 100%;
+		 margin-bottom: 10px;
+	 }
+	 .list-view-sorting .pull-right {
+		 margin-bottom: 10px;
+	 }
+
+	 .service-box p, .service-box .service-box-heading em, .service-box .service-box-heading span {
+		 display: block;
+		 text-align: center;
+	 }
+	 .service-box .service-box-heading em {
+		 margin-bottom: 10px;
+	 }
+
+	 .quote-v1 {
+		 text-align: center;
+	 }
+	 .quote-v1 .text-right {
+		 text-align: center;
+	 }
+
+	 .recent-work .owl-carousel {
+		 margin-left: -10px;
+	 }
+	 .our-clients .owl-carousel {
+		 margin-left: -2px;
+	 }
+	 .recent-work .owl-carousel,
+	 .our-clients .owl-carousel {
+		 padding-top: 30px;
+	 }
+	 .recent-work .owl-buttons,
+	 .our-clients .owl-buttons {
+		 top: 0;
+		 left: -3px;
+	 }
+	 .our-clients .owl-buttons {
+		 left: -10px;
+	 }
+
+	 .testimonials-v1 {
+		 padding-top: 40px;
+	 }
+
+	 .recent-work .recent-work-item .fa {
+		 width: 36px;
+		 height: 36px;
+		 margin-top: -18px;
+		 font-size: 14px;
+		 padding: 12px;
+	 }
+
+	 .recent-news-inner {
+		 padding: 10px 15px 0;
+	 }
+
+	 .ecommerce .pre-footer-subscribe-box h2, .corporate .pre-footer-subscribe-box h2 {
+		 padding-top: 0;
+	 }
+	 .pre-footer .pre-footer-subscribe-box {
+		 padding-bottom: 25px;
+	 }
+	 .ecommerce .pre-footer-subscribe-box form {
+		 width: 100%;
+	 }
+
+	 .ecommerce .content-search h1 {
+		 padding-top: 0;
+		 margin-bottom: 3px;
+	 }
+	 .content-search form {
+		 margin: 0 0 6px;
+	 }
+ }
+ /* END max width 992px */
+ @media (max-width: 991px){
+	 nav.person-header-nav ul li{padding: 6px 15px;}
+	 #choidau-person .person-header-username{float: left; margin-top: 55px;}
+	 #choidau-person .person-content-checkin {padding: 10px; margin-right: 0; }
+ }
+ /*@media (max-width: 900px){*/
+	 /*nav.person-header-nav ul li{padding: 6px 15px;}*/
+	 /*#choidau-person .person-header-username{float: left; margin-top: 55px;}*/
+ /*}*/
+
+ /*----------------------*/
 @media (min-width: 767px) and (max-width: 992px) {
 
 	.header-top-content{
@@ -326,278 +600,16 @@
 		float:right !important;
 
 	}
-
-
-
-
 }
 
+/* BEGIN max width 767px */
 @media (max-width: 767px) {
-
-
 	.header-top-content{
 		width:43%;
 		float:right !important;
 
 	}
 
-}
-/* BEGIN max width 992px */	
-@media (max-width: 992px) {
-	.shop-index-carousel {
-		margin-left: 0;
-		margin-right: 10px;
-	}
-
-	.header-navigation{
-		display: none;
-
-	}
-
-    .choidau .header-navigation {
-        font: 19px "PT Sans Narrow", sans-serif;
-        letter-spacing: 1px;
-        margin: 0;
-        width: 41%;
-        float: right;
-        background-color: aliceblue;
-        margin-top: 5px;
-    }
-    .header-navigation > ul > li {
-         border-right:none;
-        /* float: left; */
-        display: block;
-        width: 100%;
-        margin-left: -2px;
-    }
-    .nav-li-last {
-        border: none !important;
-        width: 100% !important;
-    }
-	.box-search{
-		display: none;
-		position: absolute;
-		top: 59px;
-		left: 1px;
-		padding: 5px;
-		background-color: aqua;
-		width: 43%;
-	}
-	.box-add-location{
-		display: none;
-
-	}
-	.logo{
-		position: absolute;
-		left: 20px;
-		top: -72px;
-		z-index: 999;
-
-	}
-	
-	.box-infor-user{
-	float: right;
-	margin-right: 95px;
-	
-	}
-	
-	.toolbar-top{
-	margin-top: -50px;
-	
-	}
-	.header-middle-right {
-	background-color: aqua;
-	padding: 10px;
-	}
-	.brands .container {
-		padding-right: 25px;
-	}
-
-	.sidebar-menu a:focus {
-		color: #333 !important;
-		text-decoration: none;
-	}
-
-	.sale-product___removed {
-		margin-bottom: 40px;
-	}
-	.new-arrivals___removed {
-		margin-left: 15px;
-		padding-left: 0;
-	}
-	.two-items-bottom-items {
-		margin-bottom: 40px;
-	}
-	.carousel img {
-		width: 100%;
-	}
-
-	/*.steps-block {
-		padding-bottom: 10px;
-	}
-	.steps-block-col {
-		border: 2px solid #FFF;
-		margin: 0 20px 20px 15px;
-		padding: 20px 20px 15px;
-		min-height: auto;
-		float: left;
-	}
-	.steps-block-col:last-child {
-		margin-right: 0;
-	}
-	.steps-block .steps-block-col div {
-		margin-left: 0;
-		margin-right: 0;
-	}
-	.steps-block h2 {
-		font-size: 25px;
-	}
-	.steps-block em {
-		text-transform: inherit;
-	}
-	.steps-block-col span,
-	.steps-block-col .fa {
-		display: none;
-	}
-	.steps-block-col:first-child em {
-		margin-left: 0;
-	}*/
-
-	.steps-block-col {
-		border: 2px solid #FFF;
-		margin: 0 25px 20px 15px;
-		padding: 20px 20px 15px;
-		min-height: auto;
-		float: none;
-	}
-	.steps-block-col:last-child {
-		margin-right: 25px;
-		margin-bottom: 0;
-	}
-	.steps-block .steps-block-col div {
-		margin-left: 0;
-		margin-right: 0;
-	}
-	.steps-block h2 {
-		font-size: 43px;
-	}
-	.steps-block em {
-		text-transform: uppercase;
-	}
-	.steps-block-col span {
-		display: none;
-	}
-	.steps-block-col .fa {
-		display: block;
-	}
-
-	.pre-footer-subscribe-box form {
-		width: 100%;
-	}
-
-	.sidebar-products img {
-		float: none;
-		margin-bottom: 5px;
-		width: 100%;
-		height: auto;
-	}
-	.sidebar-products h3,
-	.sidebar-products .price {
-		margin-left: 0;
-	}
-	.product-page-options .pull-left {
-		margin-bottom: 10px;
-
-	}
-	.product-quantity {
-		margin-bottom: 10px;
-	}
-
-	/*
-	if you want to hide buttons on mobile view, uncomment this block
-	.pi-img-wrapper div {
-		display: none !important;
-	}*/
-	.review .rateit {
-		width: 100%;
-		margin-bottom: 10px;
-	}
-	.list-view-sorting .pull-right {
-		margin-bottom: 10px;
-	}
-
-	.service-box p, .service-box .service-box-heading em, .service-box .service-box-heading span {
-		display: block;
-		text-align: center;
-	}
-	.service-box .service-box-heading em {
-		margin-bottom: 10px;
-	}
-
-	.quote-v1 {
-		text-align: center;
-	}
-	.quote-v1 .text-right {
-		text-align: center;
-	}
-
-	.recent-work .owl-carousel {
-		margin-left: -10px;
-	}
-	.our-clients .owl-carousel {
-		margin-left: -2px;
-	}
-	.recent-work .owl-carousel,
-	.our-clients .owl-carousel {
-		padding-top: 30px;
-	}
-	.recent-work .owl-buttons,
-	.our-clients .owl-buttons {
-		top: 0;
-		left: -3px;
-	}
-	.our-clients .owl-buttons {
-		left: -10px;
-	}
-
-	.testimonials-v1 {
-		padding-top: 40px;
-	}
-
-	.recent-work .recent-work-item .fa {
-		width: 36px;
-		height: 36px;
-		margin-top: -18px;
-		font-size: 14px;
-		padding: 12px;
-	}
-
-	.recent-news-inner {
-		padding: 10px 15px 0;
-	}
-
-	.ecommerce .pre-footer-subscribe-box h2, .corporate .pre-footer-subscribe-box h2 {
-		padding-top: 0;
-	}
-	.pre-footer .pre-footer-subscribe-box {
-    	padding-bottom: 25px;
-	}
-	.ecommerce .pre-footer-subscribe-box form {
-		width: 100%;
-	}
-
-	.ecommerce .content-search h1 {
-		padding-top: 0;
-		margin-bottom: 3px;
-	}
-	.content-search form {
-		margin: 0 0 6px;
-	}
-}
-/* END max width 992px */
-
-/* BEGIN max width 767px */
-@media (max-width: 767px) {
 	.pre-header .pull-right {
 		float: left !important;
 	}
@@ -735,8 +747,34 @@
 	.ecommerce .pre-footer-subscribe-box h2, .corporate .pre-footer-subscribe-box h2 {
 		padding-top: 7px;
 	}
+
 }
 /* END max width 767px */
+
+ @media (max-width: 760px){
+	 nav.person-header-nav ul {float: left; margin-top: 5px;}
+	 nav.person-header-nav ul li{padding: 6px 19px;}
+ }
+
+ /* BEGIN max width 693px */
+ @media (max-width: 693px){
+	 section.person-content-checkin .person-command .article-img-text div input{
+		 width: 92%;
+	 }
+ }
+ /* END max width 600px *
+
+ /* BEGIN max width 693px */
+ @media (max-width: 640px){
+	 nav.person-header-nav ul li{padding: 6px 25px;}
+
+ }
+ @media (max-width: 620px){
+	 section.person-content-checkin .person-command .article-img-text div input{
+		 width: 90%;
+	 }
+ }
+ /* END max width 600px *
 
 /* BEGIN max width 600px */
 @media (max-width: 600px) {
@@ -763,10 +801,17 @@
 
 }
 
-
+ @media (max-width: 515px) {
+	 section.person-content-checkin .person-command .article-img-text div input{
+		 width: 89%;
+	 }
+ }
 /* BEGIN max width 480px */
 @media (max-width: 480px) {
-
+	nav.person-header-nav ul li{padding: 6px 33px;}
+	section.person-content-checkin .person-command .article-img-text div input{
+		width: 88%;
+	}
 	.pre-header .list-inline li {
 		display: block;
 		border: none;
@@ -894,14 +939,31 @@
 
 /* BEGIN max width 450px */
 @media (max-width: 450px) {
+	section.person-content-checkin .person-command .article-img-text div input{
+		width: 87%;
+	}
 	.ecommerce .steps-block h2 {
 		font-size: 33px;
 	}
 }
 /* END max width 450px */
 
+ /* BEGIN max width 450px */
+ @media (max-width: 425px) {
+	 section.person-content-checkin .person-command .article-img-text div input{
+		 width: 86%;
+	 }
+	 .ecommerce .steps-block h2 {
+		 font-size: 33px;
+	 }
+ }
+ /* END max width 450px */
+
 /* BEGIN max width 405px */
 @media (max-width: 405px) {
+	section.person-content-checkin .person-command .article-img-text div input{
+		width: 85%;
+	}
 	.toolbar-top{
 		margin-top: -57px;
 
@@ -958,9 +1020,15 @@
 	}
 }
 /* END max width 405px */
-
+ @media (max-width: 402px) {
+	 #choidau-person .person-header-username{margin: 0px;}
+ }
 /* BEGIN max width 390px */
 @media (max-width: 390px) {
+	section.person-content-checkin .person-command .article-img-text div input{
+		width: 83%;
+	}
+	.text-algin-img>article+a{font-size: 0.8em;}
 	.steps-block .fa-truck, .steps-block .fa-gift, .steps-block .fa-phone {
 	    border: 2px solid #FFFFFF;
 	    border-radius: 30px !important;
@@ -995,8 +1063,18 @@
 }
 /* END max width 330px */
 
+ /* BEGIN max width 330px */
+ @media (max-width: 350px) {
+	 section.person-content-checkin .person-command .article-img-text div input{
+		 width: 81%;
+	 }
+ }
+ /* END max width 330px */
+
 /* BEGIN max width 320px */
 @media (max-width: 320px) {
+	nav.person-header-nav ul li{padding: 6px 44px;}
+
 	.site-logo {
 		margin-right: 0;
 	}
