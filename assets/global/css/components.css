@@ -12091,5 +12091,25 @@ padding:0px;
 
 .col-none-padding-left{
 padding-left:0px;
+}
 
+.header-box{
+
+}
+
+.header-box h1{ 
+color: white;
+font-size: 14px;
+font-weight: bold;
+text-transform: capitalize;
+margin: 7px 0px
+}
+
+.header-box  span{
+color:white !important;
+padding: 6px;
+}
+
+.col-none-margin {
+margin: 0px;
 }
