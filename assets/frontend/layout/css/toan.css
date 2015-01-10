@@ -2,6 +2,7 @@
 .choidau-form .control-label{
 	text-align: left;
 }
+/*1/10/2015 3:33:27 PM*/
 .panel-primary{
 	border-color: #67bd3c;
 }
@@ -11,4 +12,26 @@
 .blog-item .comments .media:last-child{
 	border-bottom: none;
 	margin-bottom: 0;
+}
+.reply-count{
+	font-weight: bold;
+	font-size: 20px;
+	padding: 18px 60px 0 60px;
+}
+.comments .media-body p{
+	text-align: justify;
+}
+.page-title{
+	padding: 6px;	
+}
+.page-title .btn{
+	/*padding:10px;*/
+	color: #444;	
+	line-height: 21px;
+}
+.page-title .btn:hover{
+	color: #fff;
+}
+.page-title header{
+	text-transform: uppercase;
 }
