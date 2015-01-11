@@ -1,7 +1,12 @@
  /*BEGIN max width 1200px */
-@media (max-width: 1200px) {
-	#choidau-person .person-header-avatar img{margin-left: 10px;}
-	nav.person-header-nav ul li{padding: 6px 34px;}
+ /*@media (width: 1200px) {*/
+	 /*nav.person-header-nav ul li{padding: 6px 48px!important;}*/
+ /*}*/
+ /*@media (min-width: 1200px){nav.person-header-nav ul li{padding: 6px 48px!important;}}*/
+ @media (max-width: 1200px){
+	 #choidau-person .person-header-username{padding-left: 15px;}
+	 #choidau-person .person-header-avatar img{margin-left: 10px;}
+	 nav.person-header-nav ul li{padding: 6px 48px!important;}
 	.content-form-page .control-label {
 		padding-left: 30px;
 		padding-bottom: 5px;
@@ -18,11 +23,12 @@
 	}
 }
 /* END max width 1200px */
+ @media (max-width: 1199px){nav.person-header-nav ul li{padding: 6px 33px!important;}}
 
 @media (max-width: 1190px) {
-	#choidau-person .person-header-username{margin-left: 20px;}
+	/*#choidau-person .person-header-username{margin-left: 20px;}*/
 	nav.person-header-nav ul li{padding: 6px 33px;}
-	section.person-content-checkin .person-command .article-img-text div input{	width: 93%;	}
+	section.person-content .person-command .article-img-text div input{	width: 93%;	}
 	.header-navigation > ul > li > a {
 		display: block;
 		padding: 3px 1px;
@@ -110,6 +116,8 @@
 /* BEGIN max width 1024px */
 @media (max-width: 1024px) {
 	#choidau-person .person-header-avatar img{margin-left: 15px;}
+	section.person-content .person-command .article-img-text div input {width: 93%!important;}
+
 	body.page-header-fixed {
 		padding-top: 107px !important; /* height of the header */
 	}
@@ -316,9 +324,9 @@
 
 
  @media (max-width: 994px){
-	 /*nav.person-header-nav ul li{padding: 6px 33px;}*/
+	 nav.person-header-nav ul li{padding: 6px 33px!important;}
 	 #choidau-person .person-header-avatar img{float: left;}
-	 #choidau-person .person-header-username{float: left;}
+	 #choidau-person .person-header-username{float: left; padding-left: 15px;}
  }
  @media (min-width: 994px){
 	 .toolbar-top{
@@ -583,18 +591,19 @@
  }
  /* END max width 992px */
  @media (max-width: 991px){
-	 nav.person-header-nav ul li{padding: 6px 15px;}
-	 #choidau-person .person-header-username{float: left; margin-top: 55px;}
-	 #choidau-person .person-content-checkin {padding: 10px; margin-right: 0; }
+	 #choidau-person .person-body-content{padding-right: 0!important;}
+	 nav.person-header-nav ul li{padding: 6px 15px!important;}
+	 #choidau-person .person-header-username{float: left; margin-top: 55px!important; padding-left: 0;}
+	 #choidau-person .person-content {padding: 10px; margin-right: 0; }
  }
- /*@media (max-width: 900px){*/
-	 /*nav.person-header-nav ul li{padding: 6px 15px;}*/
-	 /*#choidau-person .person-header-username{float: left; margin-top: 55px;}*/
- /*}*/
 
+ @media (max-width: 755px){
+	 nav.person-header-nav ul{float: left!important; margin-top: 10px!important;}
+	 nav.person-header-nav ul li{padding: 6px 28px!important;}
+
+ }
  /*----------------------*/
 @media (min-width: 767px) and (max-width: 992px) {
-
 	.header-top-content{
 		width:35%;
 		float:right !important;
@@ -604,6 +613,8 @@
 
 /* BEGIN max width 767px */
 @media (max-width: 767px) {
+	section.person-content .person-command .article-img-text div input {width: 93%!important;}
+
 	.header-top-content{
 		width:43%;
 		float:right !important;
@@ -758,7 +769,7 @@
 
  /* BEGIN max width 693px */
  @media (max-width: 693px){
-	 section.person-content-checkin .person-command .article-img-text div input{
+	 section.person-content .person-command .article-img-text div input{
 		 width: 92%;
 	 }
  }
@@ -767,12 +778,11 @@
  /* BEGIN max width 693px */
  @media (max-width: 640px){
 	 nav.person-header-nav ul li{padding: 6px 25px;}
+	 section.person-content .person-command .article-img-text div input {width: 92%!important;}
 
  }
  @media (max-width: 620px){
-	 section.person-content-checkin .person-command .article-img-text div input{
-		 width: 90%;
-	 }
+	 section.person-content .person-command .article-img-text div input{ width: 88%!important; }
  }
  /* END max width 600px *
 
@@ -802,14 +812,14 @@
 }
 
  @media (max-width: 515px) {
-	 section.person-content-checkin .person-command .article-img-text div input{
+	 section.person-content .person-command .article-img-text div input{
 		 width: 89%;
 	 }
  }
 /* BEGIN max width 480px */
 @media (max-width: 480px) {
 	nav.person-header-nav ul li{padding: 6px 33px;}
-	section.person-content-checkin .person-command .article-img-text div input{
+	section.person-content .person-command .article-img-text div input{
 		width: 88%;
 	}
 	.pre-header .list-inline li {
@@ -939,7 +949,7 @@
 
 /* BEGIN max width 450px */
 @media (max-width: 450px) {
-	section.person-content-checkin .person-command .article-img-text div input{
+	section.person-content .person-command .article-img-text div input{
 		width: 87%;
 	}
 	.ecommerce .steps-block h2 {
@@ -950,7 +960,7 @@
 
  /* BEGIN max width 450px */
  @media (max-width: 425px) {
-	 section.person-content-checkin .person-command .article-img-text div input{
+	 section.person-content .person-command .article-img-text div input{
 		 width: 86%;
 	 }
 	 .ecommerce .steps-block h2 {
@@ -961,7 +971,7 @@
 
 /* BEGIN max width 405px */
 @media (max-width: 405px) {
-	section.person-content-checkin .person-command .article-img-text div input{
+	section.person-content .person-command .article-img-text div input{
 		width: 85%;
 	}
 	.toolbar-top{
@@ -1025,7 +1035,7 @@
  }
 /* BEGIN max width 390px */
 @media (max-width: 390px) {
-	section.person-content-checkin .person-command .article-img-text div input{
+	section.person-content .person-command .article-img-text div input{
 		width: 83%;
 	}
 	.text-algin-img>article+a{font-size: 0.8em;}
@@ -1065,7 +1075,7 @@
 
  /* BEGIN max width 330px */
  @media (max-width: 350px) {
-	 section.person-content-checkin .person-command .article-img-text div input{
+	 section.person-content .person-command .article-img-text div input{
 		 width: 81%;
 	 }
  }
@@ -1073,8 +1083,8 @@
 
 /* BEGIN max width 320px */
 @media (max-width: 320px) {
-	nav.person-header-nav ul li{padding: 6px 44px;}
-
+	section.person-content .person-command .article-img-text div input {width: 80%!important;}
+	#choidau-person .person-header-username{margin: 0!important; padding-left: 0;}
 	.site-logo {
 		margin-right: 0;
 	}
