@@ -45,3 +45,26 @@
 	left: 50%;
 	margin: -30px 0 0 -36px
 }
+.full-width{
+	width:100% !important;
+}
+.location-item{
+	margin-top:15px;
+	margin-bottom:15px;
+}
+.location-info{
+	
+}
+.location-description{
+	position: absolute;
+	bottom:0;
+	left:10%;
+	color:#fff;
+}
+.location .show-more{
+	display:block;
+	color: #fff;
+	position: absolute;
+	right: 0;
+	float: right;
+}
