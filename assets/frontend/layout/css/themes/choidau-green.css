@@ -18,6 +18,10 @@ a {
 a:hover {
   color: #0a7c05;
 }
+
+i {
+  color: #0a7c05;
+}
 .pre-header a:hover {
   color: #0a7c05;
 }
@@ -473,6 +477,9 @@ padding: 2px;}
 
 .bg-normal{
 background-color:aqua;
+}
+.color-white{
+color:white;
 }
 
 
