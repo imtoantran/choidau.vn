@@ -82,10 +82,8 @@ section.person-content .person-content-item .person-type-scopy{margin-top:20px;}
 section.person-content .article-img-text>img{width: 70px; height: 70px;}
 section.person-content .article-img-text>div{margin-top: 8px;}
 section.person-content .article-img-text .person-wrapper-text>div>a{font-weight: 600;font-size: 1.1em;}
-section.person-content .article-img-text .person-wrapper-text>div>span{font-size: 0.9em; font-weight: 600;	}
-
+section.person-content .article-img-text .person-wrapper-text>div>span{font-size: 0.9em; font-weight: 600;}
 section.person-content .font-size-10 {font-size: 10px;}
-
 section.person-content .person-content-article{margin: 10px 0 0 0; border: 1px solid #f7f7f7; padding: 5px; box-shadow: 0px 1px 2px 1px #ccc;}
 section.person-content .person-content-article section>img{width: 110px; height: 110px;}
 section.person-content .article-img-text>div{margin-top: 0px;}
@@ -105,7 +103,7 @@ section.person-content .person-text-assoc a{margin-right:20px; font-weight: 600;
 section.person-content .person-command{background-color: #ddd; padding:5px 8px;}
 section.person-content .person-command>div{font-weight: 600; font-size: 0.9em;}
 section.person-content .person-command img{width: 36px; height: 36px;}
-section.person-content .person-command .article-img-text div input{height: 32px; padding-left: 5px; border: 1px solid #ccc; margin-top: 2px; width: 94.666667%;}
+section.person-content .person-command .article-img-text div input{height: 32px; padding-left: 5px; border: 1px solid #ccc; margin-top: 2px;}
 /*pesonal - content - wrapper*/
 
 
@@ -141,7 +139,6 @@ section.person-content .person-command .article-img-text div input{height: 32px;
 /*person action*/
 #choidau-person .person-content .action-comment-subject,
 #choidau-person .person-content .action-comment-submit{background-color: #eee; padding: 10px;}
-
 #choidau-person .person-content .action-comment-input{background-color: #fff; padding: 5px;}
 #choidau-person .action-view-more{padding: 5px; background-color: #fff; font-size: 1em; }
 
