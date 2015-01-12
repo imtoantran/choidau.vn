@@ -26,7 +26,6 @@
  @media (max-width: 1199px){nav.person-header-nav ul li{padding: 6px 33px!important;}}
 
 @media (max-width: 1190px) {
-	/*#choidau-person .person-header-username{margin-left: 20px;}*/
 	nav.person-header-nav ul li{padding: 6px 33px;}
 	section.person-content .person-command .article-img-text div input{	width: 93%;	}
 	.header-navigation > ul > li > a {
@@ -116,7 +115,7 @@
 /* BEGIN max width 1024px */
 @media (max-width: 1024px) {
 	#choidau-person .person-header-avatar img{margin-left: 15px;}
-	section.person-content .person-command .article-img-text div input {width: 93%!important;}
+	section.person-content .person-command .article-img-text div input {width: 93%;}
 
 	body.page-header-fixed {
 		padding-top: 107px !important; /* height of the header */
@@ -613,7 +612,7 @@
 
 /* BEGIN max width 767px */
 @media (max-width: 767px) {
-	section.person-content .person-command .article-img-text div input {width: 93%!important;}
+	section.person-content .person-command .article-img-text div input {width: 93%;}
 
 	.header-top-content{
 		width:43%;
@@ -778,11 +777,8 @@
  /* BEGIN max width 693px */
  @media (max-width: 640px){
 	 nav.person-header-nav ul li{padding: 6px 25px;}
-	 section.person-content .person-command .article-img-text div input {width: 92%!important;}
+	 section.person-content .person-command .article-img-text div input {width: 92%;}
 
- }
- @media (max-width: 620px){
-	 section.person-content .person-command .article-img-text div input{ width: 88%!important; }
  }
  /* END max width 600px *
 
@@ -811,17 +807,10 @@
 
 }
 
- @media (max-width: 515px) {
-	 section.person-content .person-command .article-img-text div input{
-		 width: 89%;
-	 }
- }
 /* BEGIN max width 480px */
 @media (max-width: 480px) {
 	nav.person-header-nav ul li{padding: 6px 33px;}
-	section.person-content .person-command .article-img-text div input{
-		width: 88%;
-	}
+	section.person-content .person-command .article-img-text div input{	width: 81%;}
 	.pre-header .list-inline li {
 		display: block;
 		border: none;
@@ -949,9 +938,6 @@
 
 /* BEGIN max width 450px */
 @media (max-width: 450px) {
-	section.person-content .person-command .article-img-text div input{
-		width: 87%;
-	}
 	.ecommerce .steps-block h2 {
 		font-size: 33px;
 	}
@@ -960,9 +946,7 @@
 
  /* BEGIN max width 450px */
  @media (max-width: 425px) {
-	 section.person-content .person-command .article-img-text div input{
-		 width: 86%;
-	 }
+
 	 .ecommerce .steps-block h2 {
 		 font-size: 33px;
 	 }
@@ -971,9 +955,6 @@
 
 /* BEGIN max width 405px */
 @media (max-width: 405px) {
-	section.person-content .person-command .article-img-text div input{
-		width: 85%;
-	}
 	.toolbar-top{
 		margin-top: -57px;
 
@@ -1035,9 +1016,7 @@
  }
 /* BEGIN max width 390px */
 @media (max-width: 390px) {
-	section.person-content .person-command .article-img-text div input{
-		width: 83%;
-	}
+	#choidau-person .person-header-username{margin: 0!important; padding-left: 0;}
 	.text-algin-img>article+a{font-size: 0.8em;}
 	.steps-block .fa-truck, .steps-block .fa-gift, .steps-block .fa-phone {
 	    border: 2px solid #FFFFFF;
@@ -1073,17 +1052,8 @@
 }
 /* END max width 330px */
 
- /* BEGIN max width 330px */
- @media (max-width: 350px) {
-	 section.person-content .person-command .article-img-text div input{
-		 width: 81%;
-	 }
- }
- /* END max width 330px */
-
 /* BEGIN max width 320px */
 @media (max-width: 320px) {
-	section.person-content .person-command .article-img-text div input {width: 80%!important;}
 	#choidau-person .person-header-username{margin: 0!important; padding-left: 0;}
 	.site-logo {
 		margin-right: 0;
