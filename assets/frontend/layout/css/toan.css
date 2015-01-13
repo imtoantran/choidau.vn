@@ -68,3 +68,26 @@
 	right: 0;
 	float: right;
 }
+.reviews .media img{
+	width:90px;
+}
+.reviews .gallery-item{
+	padding-left:0; 
+}
+.reviews .review-content strong{
+	margin-top: 5px;
+}
+.reviews .review-content p.title{
+	margin-top:10px;
+	font-weight: bold;
+}
+.reviews .review-content p.content{
+	font-style: italic !important;
+	margin-top:5px;	
+}
+.nav li a{
+	white-space: nowrap !important;
+}
+.place nav{
+	
+}
