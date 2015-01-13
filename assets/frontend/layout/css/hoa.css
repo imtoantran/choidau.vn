@@ -3,7 +3,7 @@
 .choidau-bg{background-color: #0a7c05!important;}
 .choidau-bg-light{background-color: #3ec753!important;}
 .choidau-bg-light-a9{background-color: rgba(62,199,83,0.9)!important;}
-.choidau-bg-hover:hover{background-color: #0a7c05!important;; color: #fff!important;;}
+.choidau-bg-hover:hover{background-color: #0a7c05!important; color: #fff!important;}
 .choidau-bg-font{background-color: #0a7c05!important;; color: #fff!important;;}
 .choidau-font-bg{background-color: #fff!important;; color: #0a7c05!important;;}
 .choidau-font{color: #0a7c05!important;}
@@ -32,21 +32,22 @@ button.btn-xs{text-transform: inherit;}
 }
 /*---------------- END use css common ----------------------------------------------*/
 /* person - header */
-#choidau-person .person-header{margin-bottom: 10px;}
-#choidau-person .person-advertise{margin: 10px 0;}
-#choidau-person .person-header-bg{width: 100%; height:180px; background-color: #cfcfcf; background-image: url("../../../../templates/frontend/img-data-demo/bg-person.jpg	");}
-#choidau-person .person-header-username{margin: -50px 0px 20px 5px; font-size: 2em; font-weight:bold; color: #fff; text-shadow: 0px 1px 5px #aaa;}
-#choidau-person .person-header-avatar{margin-top: -110px; padding: 0px 10px 0px 0px;}
-#choidau-person .person-header-avatar img{padding: 5px;}
-/*nav.person-header-nav{margin-top: 5px;}*/
-/*nav.person-header-nav ul{border: 2px solid #0a7c05;}*/
-/*nav.person-header-nav ul li{text-align: center;	padding: 5px 0;	font-size: 1.1em; font-weight: bold; border-right: 1px solid;}*/
-/*nav.person-header-nav ul li:last-child{border-right:none;}*/
-/*nav.person-header-nav ul li.active, nav.person-header-nav ul li:hover{color:#fff; background-color: #0a7c05;}*/
-nav.person-header-nav ul{float: right; list-style: none; display: block; position: relative; padding: 0; margin: 0;  }
-nav.person-header-nav ul li{margin: 2px; border: 1px solid #0a7c05; background-color: #fff;  float:left; padding: 6px 48px; font-weight: bold; color: #0a7c05; }
-/*nav.person-header-nav ul li:last-child{margin-right: 2px;}*/
-nav.person-header-nav ul li:hover{background-color: #0a7c05; color:#fff; cursor: pointer;}
+.person-header{margin-bottom: 10px;}
+.person-advertise{margin: 10px 0;}
+.person-header-bg{width: 100%; height:180px; background-color: #cfcfcf; background-image: url("../../../../templates/frontend/img-data-demo/bg-person.jpg	");}
+.person-header-username{margin: -50px 0px 20px 5px; font-size: 2em; font-weight:bold; color: #fff; text-shadow: 0px 1px 5px #aaa;}
+.person-header-avatar{margin-top: -110px; padding: 0px 10px 0px 0px;}
+.person-header-avatar img{padding: 5px;}
+
+/*head-menu*/
+.person-header-nav>ul{border: 2px solid #0a7c05!important; padding: 0px; float: left;}
+.person-header-nav>ul li.active{background-color: #0a7c05; color: #fff!important; padding: 6px;}
+.person-header-nav>ul li>i{font-size: 1.3em;}
+.person-header-nav>ul li:hover{cursor: pointer; background-color: #0a7c05!important; color: #fff!important;}
+.person-header-nav>ul li:hover i{ color: #fff!important;}
+.person-header-nav>ul li{border: 0px!important; border-right: 1px solid!important;	text-transform: initial!important;	text-align: center; }
+.person-header-nav>ul li:last-child{border-right: 0px!important; }
+/*end head-menu*/
 /* end person - header */
 
 /*pesonal - aside*/
