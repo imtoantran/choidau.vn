@@ -35,3 +35,109 @@
 .page-title header{
 	text-transform: uppercase;
 }
+.gallery-item .zoomix .icon-cancel-circled2{
+	font-size: 60px;
+	line-height: 60px;
+	transform:rotateZ(45deg);
+	color: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -30px 0 0 -36px
+}
+.full-width{
+	width:100% !important;
+}
+.location-item{
+	margin-top:15px;
+	margin-bottom:15px;
+}
+.location-info{
+	
+}
+.location-description{
+	position: absolute;
+	bottom:0;
+	left:10%;
+	color:#fff;
+}
+.location .show-more{
+	display:block;
+	color: #fff;
+	position: absolute;
+	right: 0;
+	float: right;
+}
+.reviews{
+	margin-bottom:15px;
+}
+.reviews .media img{
+	width:90px;
+}
+.reviews .gallery-item{
+	padding-left:0; 
+}
+.reviews .review-content strong{
+	margin-top: 5px;
+}
+.reviews .review-content p.title{
+	margin-top:10px;
+	font-weight: bold;
+}
+.reviews .review-content p.content{
+	font-style: italic !important;
+	margin-top:5px;	
+}
+.nav li a{
+	white-space: nowrap !important;
+}
+.place nav{
+	
+}
+.ultility{
+	padding-top:15px;
+	padding-bottom:15px;
+}
+.ultility-item{
+	margin-top: 10px;
+}
+.ultility .title{
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 15px;	
+}
+.banner-right div{
+	padding-top:15px;
+}
+.banner-right div:last-child{
+	padding-bottom:15px;
+}
+.review-action *{
+	color:#bbb;	
+}
+.paging{
+	text-align:center;
+	padding-top:20px;
+}
+.paging li a,.paging li a:first-child,.paging li a:last-child{
+	border:1px solid #bbb;
+}
+.location-navigation li a{
+	/*background: transparent !important;*/
+}
+.location-information{
+
+}
+.location-information .title .text-primary{
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.location-information .title span:first-child{
+	background: #0a7c05;
+	line-height: 21px;
+	color: #fff;
+}
+.location-information>div{
+	border-bottom: 1px solid #0a7c05;
+	margin-bottom:10px;
+}
