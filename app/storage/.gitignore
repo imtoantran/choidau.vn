@@ -1,1 +1,5 @@
+cached/*
+sessions/*
+views/*
+logs/*
 services.manifest
