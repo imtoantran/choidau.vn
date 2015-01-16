@@ -1,0 +1,81 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(String::title($post->title)); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Update the Meta Title */ ?>
+<?php $__env->startSection('meta_title'); ?>
+@parent
+
+<?php $__env->stopSection(); ?>
+
+<?php /* Update the Meta Description */ ?>
+<?php $__env->startSection('meta_description'); ?>
+<meta name="description" content="<?php echo e($post->meta_description()); ?>" />
+
+<?php $__env->stopSection(); ?>
+
+<?php /* Update the Meta Keywords */ ?>
+<?php $__env->startSection('meta_keywords'); ?>
+<meta name="keywords" content="<?php echo e($post->meta_keywords()); ?>" />
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('meta_author'); ?>
+<meta name="author" content="<?php echo e($post->author->username); ?>" />
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<h3><?php echo $post->title; ?></h3>
+
+<p><?php echo $post->content(); ?></p>
+
+<div>
+	<span class="badge badge-info">Posted <?php echo e($post->date()); ?></span>
+</div>
+
+<hr />
+
+<a id="comments"></a>
+<h4><?php echo $comments->count(); ?> <?php echo \Illuminate\Support\Pluralizer::plural('Comment', $comments->count()); ?></h4>
+
+<?php if($comments->count()): ?>
+<?php foreach($comments as $comment): ?>
+<div class="row">
+	<div class="col-md-1">
+		<img class="thumbnail" src="http://placehold.it/60x60" alt="">
+	</div>
+	<div class="col-md-11">
+		<div class="row">
+			<div class="col-md-11">
+				<span class="muted"><?php echo e($comment->author->username); ?></span>
+				&bull;
+				<?php echo e($comment->date()); ?>
+
+			</div>
+
+			<div class="col-md-11">
+				<hr />
+			</div>
+
+			<div class="col-md-11">
+				<?php echo nl2br(e($comment->content())); ?>
+
+			</div>
+		</div>
+	</div>
+</div>
+<hr />
+<?php endforeach; ?>
+<?php else: ?>
+<hr />
+<?php endif; ?>
+
+<?php echo $commentForm; ?>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
