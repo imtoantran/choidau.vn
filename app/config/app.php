@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'YrL87jACp22qt4IirZxcX5Auc5HK62R9',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,	
 
@@ -115,8 +115,8 @@ return array(
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
 
         /* Uncomment for use in development */
-       'Way\Generators\GeneratorsServiceProvider', // Generators
-       'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
+//        'Way\Generators\GeneratorsServiceProvider', // Generators
+//        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 
     ),
 
@@ -194,6 +194,6 @@ return array(
 
     ),
 
-    'available_language' => array('en', 'pt', 'es'),
+    'available_language' => array('en', 'vi'),
 
 );

@@ -28,9 +28,7 @@
         "Illuminate\\Workbench\\WorkbenchServiceProvider",
         "Zizaco\\Confide\\ServiceProvider",
         "Zizaco\\Entrust\\EntrustServiceProvider",
-        "Bllim\\Datatables\\DatatablesServiceProvider",
-        "Way\\Generators\\GeneratorsServiceProvider",
-        "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
+        "Bllim\\Datatables\\DatatablesServiceProvider"
     ],
     "eager": [
         "Illuminate\\Cookie\\CookieServiceProvider",
@@ -42,8 +40,7 @@
         "Illuminate\\Workbench\\WorkbenchServiceProvider",
         "Zizaco\\Confide\\ServiceProvider",
         "Zizaco\\Entrust\\EntrustServiceProvider",
-        "Bllim\\Datatables\\DatatablesServiceProvider",
-        "Way\\Generators\\GeneratorsServiceProvider"
+        "Bllim\\Datatables\\DatatablesServiceProvider"
     ],
     "deferred": {
         "artisan": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
@@ -117,9 +114,7 @@
         "translator": "Illuminate\\Translation\\TranslationServiceProvider",
         "translation.loader": "Illuminate\\Translation\\TranslationServiceProvider",
         "validator": "Illuminate\\Validation\\ValidationServiceProvider",
-        "validation.presence": "Illuminate\\Validation\\ValidationServiceProvider",
-        "command.ide-helper.generate": "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider",
-        "command.ide-helper.models": "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
+        "validation.presence": "Illuminate\\Validation\\ValidationServiceProvider"
     },
     "when": {
         "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider": [],
@@ -140,7 +135,6 @@
         "Illuminate\\Auth\\Reminders\\ReminderServiceProvider": [],
         "Illuminate\\Database\\SeedServiceProvider": [],
         "Illuminate\\Translation\\TranslationServiceProvider": [],
-        "Illuminate\\Validation\\ValidationServiceProvider": [],
-        "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider": []
+        "Illuminate\\Validation\\ValidationServiceProvider": []
     }
 }
