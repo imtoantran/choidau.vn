@@ -5,21 +5,23 @@
 <!-- Head BEGIN -->
 <head>
 	<meta charset="utf-8">
-	<title>Trang Danh Mục sản phẩm</title>
-
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-	<meta content="Metronic Shop UI description" name="description">
-	<meta content="Metronic Shop UI keywords" name="keywords">
-	<meta content="keenthemes" name="author">
-
-	<meta property="og:site_name" content="-CUSTOMER VALUE-">
-	<meta property="og:title" content="-CUSTOMER VALUE-">
-	<meta property="og:description" content="-CUSTOMER VALUE-">
-	<meta property="og:type" content="website">
-	<meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
-	<meta property="og:url" content="-CUSTOMER VALUE-">
+	<title>
+		@section('title')
+		Chơi đâu
+		@show
+	</title>
+	@section('meta_keywords')
+	<meta name="keywords" content="your, awesome, keywords, here" />
+	@show
+	@section('meta_author')
+	<meta name="author" content="Choi dau" />
+	@show
+	@section('meta_description')
+	<meta name="description" content="Choi dau" />
+	@show
+	<!-- Mobile Specific Metas
+	================================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="shortcut icon" href="favicon.ico">
 
@@ -29,10 +31,10 @@
 	<!-- Fonts END -->
 
 	<!-- Global styles START -->          
-	<link href="../../assets/global/plugins/fontello/css/fontello.css" rel="stylesheet">
-	<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}">
+	<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
 	<!-- Global styles END --> 
-	
+
 	<!-- Page level plugin styles START -->
 
 	<!-- Page level plugin styles END -->
@@ -47,12 +49,16 @@
 	<link rel="stylesheet" href="{{asset('assets/frontend/layout/css/custom.css')}}">
 
 	<!-- Theme styles END -->
+	<style>
+		@section('styles')
+		@show
+	</style>	
 </head>
 <!-- Head END -->
 <!-- Body BEGIN -->
 <body class="choidau">
 	<header id="header" class="container">
-		
+
 		<div class="header-top">
 			<div class="row ">
 				<div style="" class="header-top-content">
@@ -70,22 +76,22 @@
 						</ul>
 
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="header-middle">
 			<div class="col-md-12">
-				
+
 				<div class="row">
 					<div class="col-md-2" style="position: relative;"> <img class="logo" src="#" width="150px" height="60px" /> </div>
-					
-					
+
+
 					<div class="col-md-10 header-middle-right"> 
 						<div class="row">
 							<div class="box-search">
-								
+
 								<div class="col-md-2 col-xs-12 col-sm-12" style="padding-bottom:5px">
 									<div class="form-group" style="margin-bottom:0px;">
 										<select class="form-control">
@@ -106,35 +112,35 @@
 										</span>
 									</div>
 								</div>
-								
-								
+
+
 							</div>
 							<div class=" col-md-3 margin-top-10 box-add-location" >
 								+ <a href="#">Thêm địa điểm</a><i class="icon-pinterest"></i>
-								
+
 							</div>
-							
+
 							<div class="col-md-3 margin-top-10 box-infor-user" >
 								<i class="icon-user-7"></i>
 								<span>Nguyễn Thanh Tâm</span>
-								
+
 								<a href="#" class="dropdown-toggle icon-badge-number" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 									<i class="icon-bell"></i>
 									<span class="badge badge-default">
 										7 </span>
 									</a>
-									
-									
-									
+
+
+
 								</div>
-								
+
 							</div>
-							
-							
+
+
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 			<div class="col-md-12 toolbar-top">
 				<div class="col-md-1 pull-left" style="margin-top:4px"><a href="#" class="mobi_search"><i class="icon-search-outline icon-circle-radius"></i></a></div>
@@ -158,11 +164,11 @@
 						</ul>
 					</nav>
 				</div>
-				
+
 			</div>
-			
-			
-			
+
+
+
 		</header>
 
 		<!-- Container -->
@@ -199,7 +205,7 @@
 							<li><i class="icon-skype"></i></li>
 							<li><i class="icon-pinterest"></i></li>
 						</ul>
-						
+
 					</div>
 					<!-- END BOTTOM ABOUT BLOCK -->
 
@@ -211,10 +217,10 @@
 							<li><a href="#"><i class="icon-right-open-4"></i> Trợ Giúp</a></li>
 							<li><a href="#"><i class="icon-right-open-4"></i> Gióp Ý</a></li>
 							<li><a href="#"><i class="icon-right-open-4"></i> Liên Hệ</a></li>
-							
+
 						</ul>
 
-						
+
 					</div>
 					<!-- END BOTTOM CONTACTS -->
 
@@ -228,7 +234,7 @@
 						</ul>
 
 					</div>
-					
+
 					<div class="col-md-3 col-sm-6 pre-footer-col" data-twttr-id="twttr-sandbox-0">
 						<h2 class="margin-bottom-0">COUNTER</h2>
 						<ul class="list-unstyled">
@@ -236,9 +242,9 @@
 							<li><i class="icon-users-2"></i> 13.869 user</li>
 							<li><i class="icon-photo-1"></i> 13.869 hình ảnh</li>
 							<li><i class="icon-check"></i> 13.869 checkin</li>
-							
+
 						</ul>
-						
+
 					</div>
 					<!-- END TWITTER BLOCK -->
 				</div>
@@ -257,42 +263,43 @@
 					<!-- END COPYRIGHT -->
 					<!-- BEGIN PAYMENTS -->
 					<div class="col-md-6 col-sm-6">
-						
+
 					</div>
 					<!-- END PAYMENTS -->
 				</div>
 			</div>
 		</div>
-		
+
 	</footer>
 
-	
-	
+
+
 	<!-- END fast view of a product -->
 
 	<!-- Load javascripts at bottom, this will reduce page load time -->
 	<!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
-    <!--[if lt IE 9]>
-    <script src="../../assets/global/plugins/respond.min.js"></script>  
-    <![endif]-->
-    <script src="{{asset('assets/global/plugins/jquery.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
-    <!-- END CORE PLUGINS -->
+	<!--[if lt IE 9]>
+	<script src="../../assets/global/plugins/respond.min.js"></script>  
+	<![endif]-->
+	<script src="{{asset('assets/global/plugins/jquery.min.js')}}"></script>
+	<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}"></script>
+	<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
+	<!-- END CORE PLUGINS -->
 
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    
-    <!-- BEGIN LayerSlider -->
-    <!-- END LayerSlider -->
-    
-    <script src="../../assets/frontend/layout/scripts/layout.js" type="text/javascript"></script>
-    <script type="text/javascript">
-    	jQuery(document).ready(function() {
-    		Layout.init();
-    	});
-    </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
+	<!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+	
+	<!-- BEGIN LayerSlider -->
+	<!-- END LayerSlider -->
+	
+	<script src="../../assets/frontend/layout/scripts/layout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			Layout.init();
+		});
+	</script>
+	<!-- END PAGE LEVEL JAVASCRIPTS -->
+	@yield('scripts')
 </body>
 <!-- END BODY -->
 </html>
