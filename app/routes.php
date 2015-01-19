@@ -30,6 +30,7 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
 
+
 /** ------------------------------------------
  *  Admin Routes
  *  ------------------------------------------
@@ -78,6 +79,11 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
      Route::controller('/', 'AdminHomeController');
 
 });
+
+/* imtoantran */
+
+Route::get('images/{slug}','ImageController@getView');
+Route::controller('images','ImageController');
 
 
 /** ------------------------------------------
