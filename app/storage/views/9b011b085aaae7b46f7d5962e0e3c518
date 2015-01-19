@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<!--<![endif]-->
+
+<!-- Head BEGIN -->
+<head>
+    <?php echo $__env->make('site.layouts.head', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</head>
+<!-- Head END -->
+<!-- Body BEGIN -->
+<body class="choidau">
+<header id="header" class="container">
+
+    <?php echo $__env->make('site.layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+</header>
+
+<!-- Container -->
+<section id="container">
+    <div class="container">
+
+    <!-- Content -->
+    <?php $__env->startSection('content'); ?>
+      <h1>Ko load dc dữ liệu</h1>
+    <?php echo $__env->yieldSection(); ?>
+    <!-- ./ content -->
+    </div>
+
+</section>
+<!-- ./ container -->
+
+
+
+<footer id="footer">
+  <?php echo $__env->make('site.layouts.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+</footer>
+
+  <?php echo $__env->make('site.layouts.foot', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+
+
+</body>
+<!-- END BODY -->
+</html>
