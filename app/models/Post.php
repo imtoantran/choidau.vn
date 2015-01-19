@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\URL;
 
+/**
+ * @property mixed title
+ * @property string slug
+ * @property mixed content
+ * @property mixed meta_title
+ * @property mixed meta_description
+ * @property mixed meta_keywords
+ * @property mixed user_id
+ * @property mixed id
+ */
 class Post extends Eloquent {
 
 	/**
@@ -67,7 +77,15 @@ class Post extends Eloquent {
 	 */
 	public function comments()
 	{
-		return $this->hasMany('Comment');
+		return $this->hasMany('Post','parent_id');
+	}
+	/**
+	 * Get the post's meta.
+	 *
+	 * @return array
+	 */
+	public function meta(){
+		return $this->hasMany("PostMeta","post_id");
 	}
 
     /**

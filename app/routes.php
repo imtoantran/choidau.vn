@@ -30,6 +30,7 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
 
+
 /** ------------------------------------------
  *  Admin Routes
  *  ------------------------------------------
@@ -71,6 +72,11 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
 });
+
+/* imtoantran */
+
+Route::get('images/{slug}','ImageController@getView');
+Route::controller('images','ImageController');
 
 
 /** ------------------------------------------
