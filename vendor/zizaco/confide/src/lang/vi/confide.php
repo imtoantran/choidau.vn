@@ -1,40 +1,22 @@
-<?php 
+<?php
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| User Language Lines
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
-
-	'register'              => 'Đăng ký',
-	'login'                 => 'Đăng nhập',
-	'login_first'           => 'Login first',
-	'account'               => 'Account',
-	'forgot_password'       => 'Quên mật khẩu',
-	'settings'              => 'Cài đặt',
-	'profile'               => 'Thông tin',
-	'user_account_is_not_confirmed'          => 'User Account is not confirmed.',
-	'user_account_updated'          => 'User Account updated.',
-	'user_account_created'          => 'User Account created.',
     'username' => 'Tên đăng nhập',
-    'password' => 'Mật khẩu',
-    'password_confirmation' => 'Nhập lại mật khẩu',
+    'password' => 'Password',
+    'password_confirmation' => 'Confirm Password',
     'e_mail' => 'Email',
-    'username_e_mail' => 'Tên đăng nhập/ Email',
+    'username_e_mail' => 'Username or Email',
 
     'signup' => array(
-        'title' => 'Đăng Ký',
-        'desc' => 'Đăng ký thành viên mới',
+        'title' => 'Signup',
+        'desc' => 'Signup for new account',
         'confirmation_required' => 'Confirmation required',
         'submit' => 'Đăng ký',
     ),
 
     'login' => array(
-        'title' => 'Login',
+        'title' => 'Đăng nhập',
         'desc' => 'Enter your credentials',
         'forgot_password' => '(forgot password)',
         'remember' => 'Remember me',
@@ -53,7 +35,7 @@ return array(
         'wrong_credentials' => 'Incorrect username, email or password.',
         'not_confirmed' => 'Your account may not be confirmed. Check your email for the confirmation link',
         'confirmation' => 'Your account has been confirmed! You may now login.',
-        'password_confirmation' => 'The passwords did not match.',
+        'password_confirmation' => 'The passwords did not match.', 
         'wrong_confirmation' => 'Wrong confirmation code.',
         'password_forgot' => 'The information regarding password reset was sent to your email.',
         'wrong_password_forgot' => 'User not found.',
@@ -78,4 +60,5 @@ return array(
             'farewell' => 'Regards',
         ),
     ),
+
 );

@@ -35,7 +35,8 @@ class HomeController extends BaseController {
 	public function getIndex()
 	{
 		// Show the page
-		return View::make('site/home/index');
+        $page_title='';
+		return View::make('site/home/index',compact('page_title'));
 	}
 
 	/**

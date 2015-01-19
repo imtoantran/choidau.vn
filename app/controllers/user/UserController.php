@@ -1,5 +1,6 @@
 <?php
 
+use ChoiDau\Extensions\View\Factory;
 class UserController extends BaseController {
 
     /**
@@ -118,7 +119,11 @@ class UserController extends BaseController {
      */
     public function getCreate()
     {
-        return View::make('site/user/create');
+        $page_title='Đăng ký thành viên choidau.net';
+        $seoarray=array('metakey'=>'aasd,asd,asd,','metades'=>'asd ada asd a sdads');
+
+        return View::make('site/user/create',compact('page_title','seoarray'));
+
     }
 
 
@@ -128,12 +133,13 @@ class UserController extends BaseController {
      */
     public function getLogin()
     {
+        $page_title='';
         $user = Auth::user();
         if(!empty($user->id)){
             return Redirect::to('/');
         }
 
-        return View::make('site/user/login');
+        return View::make('site/user/login',compact('page_title'));
     }
 
     /**

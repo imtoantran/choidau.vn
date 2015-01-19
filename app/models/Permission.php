@@ -1,6 +1,6 @@
 <?php
 
-use Zizaco\Entrust\EntrustPermission;
+use Suntory\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {

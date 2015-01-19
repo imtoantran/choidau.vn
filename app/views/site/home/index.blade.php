@@ -3,7 +3,7 @@
 {{-- Content --}}
 @section('content')
 
-<div class="container">
+
 	<div class="margin-bottom-10">
 		<img src="">
 	</div>
@@ -591,6 +591,6 @@
 			</ul>
 		</div>
 	</div>
-</div>
+
 
 @stop

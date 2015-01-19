@@ -18,13 +18,15 @@
 
 <!-- Container -->
 <section id="container">
-    <!-- Notifications -->
-    @include('notifications')
-    <!-- ./ notifications -->
+    <div class="container">
 
     <!-- Content -->
-    @yield('content')
+    @section('content')
+      <h1>Ko load dc dữ liệu</h1>
+    @show
     <!-- ./ content -->
+    </div>
+
 </section>
 <!-- ./ container -->
 

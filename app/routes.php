@@ -85,6 +85,9 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
  *  ------------------------------------------
  */
 
+
+Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
+
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
 // User password reset
@@ -117,3 +120,10 @@ Route::post('{postSlug}', 'BlogController@postView');
 # Index Page - Last route, no matches
 // Route::get('/', array('before' => 'detectLang','uses' => 'BlogController@getIndex'));
 Route::get('/', 'HomeController@getIndex');
+
+Route::get('language/{lang}',
+    array(
+        'as' => 'language.select',
+        'uses' => 'LanguageController@select'
+    )
+);

@@ -28,6 +28,7 @@
         "Illuminate\\Workbench\\WorkbenchServiceProvider",
         "Zizaco\\Confide\\ServiceProvider",
         "Zizaco\\Entrust\\EntrustServiceProvider",
+        "Bllim\\Datatables\\DatatablesServiceProvider",
         "Bllim\\Datatables\\DatatablesServiceProvider"
     ],
     "eager": [
@@ -40,6 +41,7 @@
         "Illuminate\\Workbench\\WorkbenchServiceProvider",
         "Zizaco\\Confide\\ServiceProvider",
         "Zizaco\\Entrust\\EntrustServiceProvider",
+        "Bllim\\Datatables\\DatatablesServiceProvider",
         "Bllim\\Datatables\\DatatablesServiceProvider"
     ],
     "deferred": {
