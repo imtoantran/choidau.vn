@@ -1,0 +1,10 @@
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h1>Login into your account</h1>
+</div>
+<?php echo Confide::makeLoginForm()->render(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
