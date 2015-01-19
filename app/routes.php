@@ -34,9 +34,13 @@ Route::pattern('token', '[0-9a-z]+');
  *  Admin Routes
  *  ------------------------------------------
  */
-Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
+Route::group(array('prefix' => 'qtri-choidau'), function()
 {
 
+   /* Route::get('/', function()
+    {
+        return View::make('admin/home');
+    });*/
     # Comment Management
     Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
     Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
@@ -69,7 +73,10 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
     Route::controller('roles', 'AdminRolesController');
 
     # Admin Dashboard
-    Route::controller('/', 'AdminDashboardController');
+    Route::controller('/das', 'AdminDashboardController');
+  //  Route::get('/', 'AdminDashboardController');
+     Route::controller('/', 'AdminHomeController');
+
 });
 
 
