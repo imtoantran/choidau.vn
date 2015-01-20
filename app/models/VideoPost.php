@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\URL;
 
 class VideoPost extends Post {
 	protected $table = "posts";
+	protected $attributes = array(
+		'post_type' => 'video'
+	);
 
 	/**
 	 * Returns the video post type

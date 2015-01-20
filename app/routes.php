@@ -81,9 +81,21 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 });
 
 /* imtoantran */
+Route::group(array('prefix' => 'post'), function() {
+ /* video */
+ Route::get('video/{slug}/edit', 'PostVideoController@getEdit');
+ Route::post('video/{slug}/edit', 'PostVideoController@postEdit');
+ Route::controller('video', 'PostVideoController');
+ /* images */
+ Route::get('image/{slug}/edit', 'PostImageController@getEdit');
+ Route::post('image/{slug}/edit', 'PostImageController@postEdit');
+ Route::controller('image', 'PostImageController');
+});
+Route::controller('post', 'PostController');
 
-Route::get('images/{slug}','ImageController@getView');
-Route::controller('images','ImageController');
+Route::get('images/{post}/edit','PostImageController@getEdit');
+Route::get('images/{slug}','PostImageController@getView');
+Route::controller('images','PostImageController');
 
 
 /** ------------------------------------------
