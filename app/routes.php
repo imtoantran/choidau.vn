@@ -85,6 +85,18 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
  *  ------------------------------------------
  */
 
+/** -------------------Site location: luuhoabk-------------**/
+Route::group(array('prefix' => 'location'), function()
+{
+
+ Route::get('create', 'LocationController@getCreate');
+ Route::get('loadProvince','AddressController@loadProvince');
+ Route::post('loadDistrict','AddressController@loadDistrict');
+
+//  Route::controller('/', 'LocationController'); // run contruct function
+});
+/** -------------------End Site location-------------------**/
+
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
 // User password reset
