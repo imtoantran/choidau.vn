@@ -18,6 +18,7 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->where('username', '=', $username)->first();
     }
 
+
     /**
      * Find the user and check whether they are confirmed
      *

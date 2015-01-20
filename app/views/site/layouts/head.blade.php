@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <title>
-    @section('title') @if (isset($default_page_title)) {{$default_page_title}} @else  {{$page_title}}   @endif @show
+   @if (isset($default_page_title)) {{$default_page_title}} @elseif(isset($page_title))  {{$page_title}} @endif
 
 </title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
