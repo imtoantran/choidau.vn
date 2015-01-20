@@ -44,6 +44,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         Layout.init();
+        URL = '{{URL::to('/')}}';
         @if (isset($js_script))
                 {{$js_script}}
         @endif
