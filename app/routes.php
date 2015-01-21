@@ -83,21 +83,23 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 /* imtoantran */
 Route::group(array('prefix' => 'post'), function() {
  /* video */
- Route::get('video/{slug}/edit', 'PostVideoController@getEdit');
- Route::post('video/{slug}/edit', 'PostVideoController@postEdit');
- Route::controller('video', 'PostVideoController');
+ Route::get('video/{slug}/edit', 'VideoController@getEdit');
+ Route::post('video/{slug}/edit', 'VideoController@postEdit');
+ Route::controller('video', 'VideoController');
  /* images */
- Route::get('image/{slug}/edit', 'PostImageController@getEdit');
- Route::post('image/{slug}/edit', 'PostImageController@postEdit');
- Route::controller('image', 'PostImageController');
+ Route::get('image/{slug}/edit', 'ImageController@getEdit');
+ Route::post('image/{slug}/edit', 'ImageController@postEdit');
+ Route::controller('image', 'ImageController');
  Route::controller('/', 'PostController');
 });
 
 
-Route::get('images/{post}/edit','PostImageController@getEdit');
-Route::get('images/{slug}','PostImageController@getView');
-Route::controller('images','PostImageController');
+Route::get('images/{post}/edit','ImageController@getEdit');
+Route::get('images/{slug}','ImageController@getView');
+Route::controller('images','ImageController');
 
+Route::controller('bai-viet','BlogController');
+/* imtoantran */
 
 /** ------------------------------------------
  *  Frontend Routes

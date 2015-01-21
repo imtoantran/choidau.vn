@@ -1,6 +1,6 @@
 <?php
 
-class BlogController extends BaseController {
+class BlogBakController extends BaseController {
 
     /**
      * Post Model
@@ -14,12 +14,12 @@ class BlogController extends BaseController {
      */
     protected $user;
 
-	/**
-	 * Inject the models.
-	 * @param Blog $post
-	 * @param User $user
-	 */
-    public function __construct(Blog $post, User $user)
+    /**
+     * Inject the models.
+     * @param Post $post
+     * @param User $user
+     */
+    public function __construct(Post $post, User $user)
     {
         parent::__construct();
 

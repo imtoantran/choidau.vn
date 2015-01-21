@@ -126,7 +126,7 @@ class Post extends Eloquent
 	 */
 	public function comments()
 	{
-		return $this->hasMany('Post', 'parent_id');
+		return $this->hasMany('Comment', 'parent_id');
 	}
 
 	/**
@@ -138,8 +138,13 @@ class Post extends Eloquent
 	{
 		return $this->hasMany("PostMeta", "post_id");
 	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
 	public function status(){
 		return $this->hasOne("Option","status");
 	}
+
 	//imtoantran
 }
