@@ -1,11 +1,11 @@
 <?php
 
-class PostImageController extends PostController {
+class ImageController extends PostController {
 	/**
 	 * Inject the models.
-	 * @param ImagePost|Post $post
+	 * @param Image|ImagePost|Post $post
 	 */
-	public function __construct(ImagePost $post)
+	public function __construct(Image $post)
 	{
 		parent::__construct($post);
 	}

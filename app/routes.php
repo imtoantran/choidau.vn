@@ -90,8 +90,9 @@ Route::group(array('prefix' => 'post'), function() {
  Route::get('image/{slug}/edit', 'PostImageController@getEdit');
  Route::post('image/{slug}/edit', 'PostImageController@postEdit');
  Route::controller('image', 'PostImageController');
+ Route::controller('/', 'PostController');
 });
-Route::controller('post', 'PostController');
+
 
 Route::get('images/{post}/edit','PostImageController@getEdit');
 Route::get('images/{slug}','PostImageController@getView');

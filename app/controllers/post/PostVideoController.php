@@ -1,11 +1,11 @@
 <?php
 
-class PostVideoController extends PostController {
+class VideoController extends PostController {
+
 	/**
-	 * Inject the models.
-	 * @param VideoPost $post
-	 */
-	public function __construct(VideoPost $post)
+	 * @param Video $post
+     */
+	public function __construct(Video $post)
 	{
 		parent::__construct($post);
 	}

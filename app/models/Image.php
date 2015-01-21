@@ -2,22 +2,22 @@
 
 use Illuminate\Support\Facades\URL;
 
-class Comment extends Post {
+class Image extends Post {
 	protected $table = "posts";
 	protected $attributes = array(
-		'post_type' => 'comment'
+		'post_type' => 'image'
 	);
 
 	/**
-	 * Returns the video post type
+	 * Returns the image
+	 *
 	 * @param bool $excludeDeleted
 	 * @return object
 	 * @internal param $query
-	 * @return object
 	 */
 
 	public function newQuery($excludeDeleted = true)
 	{
-		return parent::newQuery()->wherePost_type("comment");
+		return parent::newQuery()->wherePost_type("image");
 	}
 }

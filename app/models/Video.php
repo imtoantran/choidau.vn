@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\URL;
 
-class Comment extends Post {
+class Video extends Post {
 	protected $table = "posts";
 	protected $attributes = array(
-		'post_type' => 'comment'
+		'post_type' => 'video'
 	);
 
 	/**
@@ -18,6 +18,6 @@ class Comment extends Post {
 
 	public function newQuery($excludeDeleted = true)
 	{
-		return parent::newQuery()->wherePost_type("comment");
+		return parent::newQuery()->wherePost_type("video");
 	}
 }
