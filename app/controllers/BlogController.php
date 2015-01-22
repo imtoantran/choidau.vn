@@ -15,16 +15,12 @@ class BlogController extends BaseController {
     protected $user;
 
 	/**
-	 * Inject the models.
-	 * @param Blog $post
 	 * @param User $user
 	 */
-    public function __construct(Blog $post, User $user)
+	public function __construct(User $user)
     {
         parent::__construct();
-
-        $this->post = $post;
-        $this->user = $user;
+		$this->user = $user;
     }
     
 	/**
@@ -35,7 +31,7 @@ class BlogController extends BaseController {
 	public function getIndex()
 	{
 		// Get all the blog posts
-		$posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
+		$posts = Blog::orderBy('created_at', 'DESC')->paginate(10);
 
 		// Show the page
 		return View::make('site/blog/index', compact('posts'));
@@ -51,7 +47,7 @@ class BlogController extends BaseController {
 	public function getView($slug)
 	{
 		// Get this blog post data
-		$post = $this->post->where('slug', '=', $slug)->first();
+		$post = Post::where('slug', '=', $slug)->first();
 
 		// Check if the blog post exists
 		if (is_null($post))

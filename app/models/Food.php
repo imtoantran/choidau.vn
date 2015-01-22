@@ -1,10 +1,8 @@
 <?php
-/**
- * @author imtoantran
- */
+
 use Illuminate\Support\Facades\URL;
 
-class Blog extends Post {
+class Food extends Post {
 	protected $table = "posts";
 	protected $attributes = array(
 		'post_type' => 'blog'
@@ -19,9 +17,4 @@ class Blog extends Post {
 	{
 		return parent::newQuery()->wherePost_type("blog");
 	}
-
-	public function url(){
-		return Url::to("bai-viet/".$this->slug.".html");
-	}
-
 }

@@ -1,13 +1,11 @@
 <?php
-/**
- * @author imtoantran
- */
+
 use Illuminate\Support\Facades\URL;
 
-class Blog extends Post {
+class EventPost extends Post {
 	protected $table = "posts";
 	protected $attributes = array(
-		'post_type' => 'blog'
+		'post_type' => 'event'
 	);
 
 
@@ -17,11 +15,6 @@ class Blog extends Post {
      */
 	public function newQuery($excludeDeleted = true)
 	{
-		return parent::newQuery()->wherePost_type("blog");
+		return parent::newQuery()->wherePost_type("event");
 	}
-
-	public function url(){
-		return Url::to("bai-viet/".$this->slug.".html");
-	}
-
 }

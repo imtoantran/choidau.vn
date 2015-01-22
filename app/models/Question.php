@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\URL;
 
-class Event extends Post {
+class Question extends Post {
 	protected $table = "posts";
 	protected $attributes = array(
-		'post_type' => 'event'
+		'post_type' => 'question'
 	);
 
 
@@ -15,6 +15,6 @@ class Event extends Post {
      */
 	public function newQuery($excludeDeleted = true)
 	{
-		return parent::newQuery()->wherePost_type("event");
+		return parent::newQuery()->wherePost_type("question");
 	}
 }
