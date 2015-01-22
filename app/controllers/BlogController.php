@@ -13,30 +13,42 @@ class BlogController extends BaseController {
      * @var User
      */
     protected $user;
+	protected $cat;
 
 	/**
 	 * @param User $user
+	 * @param Blog $post
+	 * @param Category $cat
 	 */
-	public function __construct(User $user)
+	public function __construct(User $user,Blog $post,Category $cat)
     {
         parent::__construct();
 		$this->user = $user;
+		$this->post = $post;
+		$this->cat = $cat;
     }
-    
+
 	/**
 	 * Returns all the blog posts.
 	 *
+	 * @param string $catSlug
 	 * @return View
 	 */
-	public function getIndex()
+	public function getIndex($catSlug = 'an-uong-choi')
 	{
+		$cat = $this->cat->whereSlug($catSlug)->first();
 		// Get all the blog posts
-		$posts = Blog::orderBy('created_at', 'DESC')->paginate(10);
+		$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 		// Show the page
 		return View::make('site/blog/index', compact('posts'));
 	}
-
+	public function getEvent(){
+		return $this->getIndex('su-kien');
+	}
+	public function getExperience(){
+		return $this->getIndex('kinh-nghiem');
+	}
 	/**
 	 * View a blog post.
 	 *

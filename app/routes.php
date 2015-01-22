@@ -98,6 +98,8 @@ Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
 
+Route::get('bai-viet/su-kien.html','BlogController@getEvent');
+Route::get('bai-viet/kinh-nghiem.html','BlogController@getExperience');
 Route::get('bai-viet/{slug}.html','BlogController@getView');
 Route::controller('bai-viet.html','BlogController');
 /* imtoantran */

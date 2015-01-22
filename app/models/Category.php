@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\URL;
 
 class Category extends Eloquent {
-	function __construct(){
-
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+	public function blog(){
+		return $this->hasMany('Blog');
 	}
 }
