@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/*
+ * jQuery Image Manager Plugin CSS
+ * Copyright 2014, Homilor
+ * https://dvlweb.net
+ */
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}
+
+#imageManager_allImage {
+    float: left;
+    overflow-y: scroll; 
+    width: 100%;
+    height: 100%;
+}
+.radio-select-img-item {
+    width: 140px;
+    height: 80px !important;
+}
+img.radio-select-img-item {
+  border: solid 2px #dcdcdc;
+  margin: 10px 10px;
+  cursor: pointer;
+}
+img.radio-select-img-item:hover {
+  border: solid 2px #adff2f;
+}
+img.radio-select-img-item.item-checked {
+  border: solid 4px #b3d4fc;
+}
+
+#imageManager_uploadForm {
+    margin-bottom: 20px;
+}
+
+#imageManager_modal .modal-dialog {
+    width: 100% !important;
+    /*top: 80px;*/
+}
+
+#imageManager_descriptionImage {
+    float: right; 
+    width: 185px;
+    padding: 0 10px;
+    /*border-left: 1px solid #CCC;*/
+}
+
+#upload_ImagePreview, #upload_ImagePreview img {
+    width: 127px; 
+    height: 70px;
+}
+
+#imageManager_descriptionImage-content {
+    height: 270px;
+    overflow: auto;
+}

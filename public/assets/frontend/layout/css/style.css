@@ -1752,91 +1752,196 @@ Pre-Footer and pre-footer elements
 Custom icon buttons
 ***/
 .icon-btn {
-  height: 60px;
-  min-width: 80px;
-  margin: 0 5px 5px 0;
-  border: 1px solid #ddd;
-  padding: 12px 0px 0px 0px;
-  background-color: #fafafa !important;
-  background-image: none !important;
-  filter:none !important;
-  -webkit-box-shadow: none !important;
-     -moz-box-shadow: none !important;
-          box-shadow: none !important;
-  display:inline-block !important;
-  color: #646464 !important;
-  text-shadow: none !important;
-  text-align: center;
-  cursor: pointer;
-  position: relative;  
-  -webkit-transition: all 0.3s ease !important;
-  -moz-transition: all 0.3s ease !important;
-  -ms-transition: all 0.3s ease !important;
-  -o-transition: all 0.3s ease !important;
-  transition: all 0.3s ease !important;
+    height: 60px;
+    min-width: 80px;
+    margin: 0 5px 5px 0;
+    border: 1px solid #ddd;
+    padding: 12px 0px 0px 0px;
+    background-color: #fafafa !important;
+    background-image: none !important;
+    filter:none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    display:inline-block !important;
+    color: #646464 !important;
+    text-shadow: none !important;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
 }
 
 .icon-btn i {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .ie8 .icon-btn:hover {
-  filter: none !important;
-} 
+    filter: none !important;
+}
 
 .icon-btn:hover {
-  text-decoration: none !important;
-  border-color: #999 !important;
-  color: #444 !important;
-  text-shadow: 0 1px 0px rgba(255, 255, 255, 1) !important;
-  -webkit-transition: all 0.3s ease !important;
-  -moz-transition: all 0.3s ease !important;
-  -ms-transition: all 0.3s ease !important;
-  -o-transition: all 0.3s ease !important;
-  transition: all 0.3s ease !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
+    text-decoration: none !important;
+    border-color: #999 !important;
+    color: #444 !important;
+    text-shadow: 0 1px 0px rgba(255, 255, 255, 1) !important;
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .icon-btn:hover .badge {
-  -webkit-transition: all 0.3s ease !important;
-  -moz-transition: all 0.3s ease !important;
-  -ms-transition: all 0.3s ease !important;
-  -o-transition: all 0.3s ease !important;
-  transition: all 0.3s ease !important;
-  -webkit-box-shadow: none !important;
-       -moz-box-shadow: none !important;
-            box-shadow: none !important;
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .icon-btn div {
-  font-family: 'Open Sans', sans-serif;
-  margin-top: 5px;
-  margin-bottom: 10px;  
-  color: #000;
-  font-size: 12px;
-  font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #000;
+    font-size: 12px;
+    font-weight: 300;
 }
 
 .icon-btn .badge {
-  position: absolute;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px !important;
-  font-weight: 300;
-  top: -5px;
-  right: -5px;
-  padding: 3px 6px 3px 6px;
-  color: white !important;
-  text-shadow: none;
-  border-width: 0;
-  border-style: solid;
-  -webkit-border-radius: 12px !important;
-  -moz-border-radius: 12px !important;
-  border-radius: 12px !important;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+    position: absolute;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px !important;
+    font-weight: 300;
+    top: -5px;
+    right: -5px;
+    padding: 3px 6px 3px 6px;
+    color: white !important;
+    text-shadow: none;
+    border-width: 0;
+    border-style: solid;
+    -webkit-border-radius: 12px !important;
+    -moz-border-radius: 12px !important;
+    border-radius: 12px !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***
+Custom icon buttons
+***/
+.icon-btn-cd {
+    height: 60px;
+    min-width: 80px;
+    margin: 0 5px 5px 0;
+    border: 1px solid #ddd;
+    padding: 12px 0px 0px 0px;
+    background-color: #fafafa !important;
+    background-image: none !important;
+    filter:none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    display:inline-block ;
+    color: #646464 !important;
+    text-shadow: none !important;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+}
+
+.icon-btn-cd i {
+    font-size: 18px;
+}
+
+.ie8 .icon-btn-cd:hover {
+    filter: none !important;
+}
+
+.icon-btn-cd:hover {
+    text-decoration: none !important;
+    border-color: #999 !important;
+    color: #444 !important;
+    text-shadow: 0 1px 0px rgba(255, 255, 255, 1) !important;
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.icon-btn-cd:hover .badge {
+    -webkit-transition: all 0.3s ease !important;
+    -moz-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.icon-btn-cd div {
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #000;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.icon-btn-cd .badge {
+    position: absolute;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px !important;
+    font-weight: 300;
+    top: -5px;
+    right: -5px;
+    padding: 3px 6px 3px 6px;
+    color: white !important;
+    text-shadow: none;
+    border-width: 0;
+    border-style: solid;
+    -webkit-border-radius: 12px !important;
+    -moz-border-radius: 12px !important;
+    border-radius: 12px !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 /***

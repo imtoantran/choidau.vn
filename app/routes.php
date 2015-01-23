@@ -19,6 +19,7 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
+Route::model('media', 'Media');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -84,6 +85,10 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
+Route::controller('media','MediaController');
+
+Route::any('media-data','MediaController@fetchData');
+Route::get('media-getall','MediaController@getMediaAll');
 
 
 /** ------------------------------------------
