@@ -1,51 +1,60 @@
-@extends('site.layouts.default')
+@extends('post.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+	{{{ $title }}} :: @parent
+@stop
+
+@section('keywords')Blogs administration @stop
+@section('author')Laravel 4 Bootstrap Starter SIte @stop
+@section('description')Blogs administration index @stop
 
 {{-- Content --}}
 @section('content')
-@foreach ($posts as $post)
-<div class="row">
-	<div class="col-md-8">
-		<!-- Post Title -->
-		<div class="row">
-			<div class="col-md-8">
-				<h4><strong><a href="{{{ $post->url() }}}">{{ String::title($post->title) }}</a></strong></h4>
-			</div>
-		</div>
-		<!-- ./ post title -->
+	<div class="page-header">
+		<h3>
+			{{{ $title }}}
 
-		<!-- Post Content -->
-		<div class="row">
-			<div class="col-md-2">
-				<a href="{{{ $post->url() }}}" class="thumbnail"><img src="http://placehold.it/260x180" alt=""></a>
+			<div class="pull-right">
+				<a href="{{{ URL::to('post/image/create') }}}" class="btn btn-small btn-info iframe">
+					<span class="glyphicon glyphicon-plus-sign"></span> Create
+				</a>
 			</div>
-			<div class="col-md-6">
-				<p>
-					{{ String::tidy(Str::limit($post->content, 200)) }}
-				</p>
-				<p><a class="btn btn-mini btn-default" href="{{{ $post->url() }}}">Read more</a></p>
-			</div>
-		</div>
-		<!-- ./ post content -->
-
-		<!-- Post Footer -->
-		<div class="row">
-			<div class="col-md-8">
-				<p></p>
-				<p>
-					<span class="glyphicon glyphicon-user"></span> by <span class="muted">{{{ $post->author->username }}}</span>
-					| <span class="glyphicon glyphicon-calendar"></span> <!--Sept 16th, 2012-->{{{ $post->date() }}}
-					| <span class="glyphicon glyphicon-comment"></span> <a href="{{{ $post->url() }}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
-				</p>
-			</div>
-		</div>
-		<!-- ./ post footer -->
-
+		</h3>
 	</div>
-</div>
 
-<hr />
-@endforeach
+	<table id="blogs" class="table table-striped table-hover">
+		<thead>
+		<tr>
+			<th class="col-md-4">{{{ Lang::get('admin/blogs/table.title') }}}</th>
+			<th class="col-md-2">{{{ Lang::get('admin/blogs/table.comments') }}}</th>
+			<th class="col-md-2">{{{ Lang::get('admin/blogs/table.created_at') }}}</th>
+			<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+@stop
 
-{{--{{ $posts->links() }}--}}
-
+{{-- Scripts --}}
+@section('scripts-remove')
+	<script type="text/javascript">
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#blogs').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "{{ URL::to('post/blogs/data') }}",
+				"fnDrawCallback": function ( oSettings ) {
+					$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+				}
+			});
+		});
+	</script>
 @stop

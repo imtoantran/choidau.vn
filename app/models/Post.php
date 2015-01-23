@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\URL;
  * @property mixed user_id
  * @property mixed id
  */
-class Post extends Eloquent {
+class Post extends Eloquent
+{
 
 	/**
 	 * Deletes a blog post and all
@@ -70,38 +71,21 @@ class Post extends Eloquent {
 		return $this->meta_keywords;
 	}
 
+
 	/**
-	 * Get the post's comments.
+	 * Get the date the post was created.
 	 *
-	 * @return array
+	 * @param \Carbon|null $date
+	 * @return string
 	 */
-	public function comments()
+	public function date($date = null)
 	{
-		return $this->hasMany('Post','parent_id');
-	}
-	/**
-	 * Get the post's meta.
-	 *
-	 * @return array
-	 */
-	public function meta(){
-		return $this->hasMany("PostMeta","post_id");
-	}
+		if (is_null($date)) {
+			$date = $this->created_at;
+		}
 
-    /**
-     * Get the date the post was created.
-     *
-     * @param \Carbon|null $date
-     * @return string
-     */
-    public function date($date=null)
-    {
-        if(is_null($date)) {
-            $date = $this->created_at;
-        }
-
-        return String::date($date);
-    }
+		return String::date($date);
+	}
 
 	/**
 	 * Get the URL to the post.
@@ -132,7 +116,35 @@ class Post extends Eloquent {
 	 */
 	public function updated_at()
 	{
-        return $this->date($this->updated_at);
+		return $this->date($this->updated_at);
+	}
+	//imtoantran
+	/**
+	 * Get the post's comments.
+	 *
+	 * @return array
+	 */
+	public function comments()
+	{
+		return $this->hasMany('Comment', 'parent_id');
 	}
 
+	/**
+	 * Get the post's meta.
+	 *
+	 * @return array
+	 */
+	public function meta()
+	{
+		return $this->hasMany("PostMeta", "post_id");
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+	public function status(){
+		return $this->hasOne("Option","status");
+	}
+
+	//imtoantran
 }

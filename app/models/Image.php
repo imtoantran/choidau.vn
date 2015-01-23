@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\URL;
 
-class ImagePost extends Post {
+class Image extends Post {
 	protected $table = "posts";
+	protected $attributes = array(
+		'post_type' => 'image'
+	);
 
 	/**
 	 * Returns the image

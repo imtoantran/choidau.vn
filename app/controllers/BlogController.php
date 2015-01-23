@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class BlogController
+ * @author imtoantran
+ * blog page of admin
+ */
 class BlogController extends BaseController {
 
     /**
@@ -13,34 +18,42 @@ class BlogController extends BaseController {
      * @var User
      */
     protected $user;
+	protected $cat;
 
-    /**
-     * Inject the models.
-     * @param Post $post
-     * @param User $user
-     */
-    public function __construct(Post $post, User $user)
+	/**
+	 * @param User $user
+	 * @param Blog $post
+	 * @param Category $cat
+	 */
+	public function __construct(User $user,Blog $post,Category $cat)
     {
         parent::__construct();
-
-        $this->post = $post;
-        $this->user = $user;
+		$this->user = $user;
+		$this->post = $post;
+		$this->cat = $cat;
     }
-    
+
 	/**
 	 * Returns all the blog posts.
 	 *
+	 * @param string $catSlug
 	 * @return View
 	 */
-	public function getIndex()
+	public function getIndex($catSlug = 'an-uong-choi')
 	{
+		$cat = $this->cat->whereSlug($catSlug)->first();
 		// Get all the blog posts
-		$posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
+		$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 		// Show the page
 		return View::make('site/blog/index', compact('posts'));
 	}
-
+	public function getEvent(){
+		return $this->getIndex('su-kien');
+	}
+	public function getExperience(){
+		return $this->getIndex('kinh-nghiem');
+	}
 	/**
 	 * View a blog post.
 	 *
@@ -51,7 +64,7 @@ class BlogController extends BaseController {
 	public function getView($slug)
 	{
 		// Get this blog post data
-		$post = $this->post->where('slug', '=', $slug)->first();
+		$post = Post::where('slug', '=', $slug)->first();
 
 		// Check if the blog post exists
 		if (is_null($post))

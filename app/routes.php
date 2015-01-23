@@ -57,6 +57,9 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
     Route::controller('blogs', 'AdminBlogsController');
+    /* imtoantran start */
+    Route::controller('blog', 'AdminBlogsController');
+    /* imtoantran end */
 
     # User Management
     Route::get('users/{user}/show', 'AdminUsersController@getShow');
@@ -81,8 +84,21 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 
 });
 
-/* imtoantran */
+/* imtoantran start */
+Route::group(array('prefix' => 'post'), function() {
+ /* video */
+ Route::get('video/{slug}/edit', 'VideoController@getEdit');
+ Route::post('video/{slug}/edit', 'VideoController@postEdit');
+ Route::controller('video', 'VideoController');
+ /* images */
+ Route::get('image/{slug}/edit', 'ImageController@getEdit');
+ Route::post('image/{slug}/edit', 'ImageController@postEdit');
+ Route::controller('image', 'ImageController');
+ Route::controller('/', 'PostController');
+});
 
+
+Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
 Route::controller('media','MediaController');
@@ -90,6 +106,11 @@ Route::controller('media','MediaController');
 Route::any('media-data','MediaController@fetchData');
 Route::get('media-getall','MediaController@getMediaAll');
 
+Route::get('blog/su-kien.html','BlogController@getEvent');
+Route::get('blog/kinh-nghiem.html','BlogController@getExperience');
+Route::get('blog/{slug}.html','BlogController@getView');
+Route::controller('blog.html','BlogController');
+/* imtoantran end */
 
 /** ------------------------------------------
  *  Frontend Routes

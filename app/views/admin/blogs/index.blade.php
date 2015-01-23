@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('admin.layouts.main')
 
 {{-- Web site Title --}}
 @section('title')
@@ -6,8 +6,8 @@
 @stop
 
 @section('keywords')Blogs administration @stop
-@section('author')Laravel 4 Bootstrap Starter SIte @stop
-@section('description')Blogs administration index @stop
+@section('author')Choi dau @stop
+@section('description')Blogs Choi dau index @stop
 
 {{-- Content --}}
 @section('content')
@@ -16,7 +16,7 @@
 			{{{ $title }}}
 
 			<div class="pull-right">
-				<a href="{{{ URL::to('admin/blogs/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+				<a href="{{{ URL::to('admin/blog/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
 			</div>
 		</h3>
 	</div>
@@ -37,6 +37,8 @@
 
 {{-- Scripts --}}
 @section('scripts')
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+	<script src="{{asset("assets/admin/layout/scripts/demo.js")}}" type="text/javascript"></script>
 	<script type="text/javascript">
 		var oTable;
 		$(document).ready(function() {

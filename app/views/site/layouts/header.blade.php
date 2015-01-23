@@ -98,7 +98,7 @@
                 <li><a href="#">uống <i class="icon-bar"></i></a></li>
                 <li><a href="#">đi <i class="icon-school"></i></a></li>
                 <li><a href="#">video <i class="icon-videocam-3"></i></a></li>
-                <li><a href="#">blog <i class="icon-cloud-thunder"></i></a></li>
+                <li><a href="{{URL::to("bai-viet.html")}}">blog <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="#">hỏi đáp<i class="icon-wechat"></i></a></li>
                 <li class="nav-li-last" style=""><a href="#">hổ trợ<i class="icon-lifebuoy"></i></a></li>
             </ul>
