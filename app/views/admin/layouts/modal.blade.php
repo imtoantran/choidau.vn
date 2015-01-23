@@ -44,12 +44,13 @@
 	<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
 
 	<!-- CSS -->
-    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/wysihtml5/prettify.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/wysihtml5/bootstrap-wysihtml5.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/datatables-bootstrap.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/colorbox.css')}}">
+	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/prettify.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css')}}">
+	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/colorbox/colorbox.css')}}">
 
 	<style>
 	.tab-pane {
@@ -113,14 +114,21 @@
 
 	<!-- Javascripts -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/wysihtml5/wysihtml5-0.3.0.js')}}"></script>
-    <script src="{{asset('assets/js/wysihtml5/bootstrap-wysihtml5.js')}}"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script>
-    <script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.colorbox.js')}}"></script>
-    <script src="{{asset('assets/js/prettify.js')}}"></script>
+{{--    <script src="{{asset('assets/js/wysihtml5/wysihtml5-0.3.0.js')}}"></script>--}}
+    {{--<script src="{{asset('assets/js/wysihtml5/bootstrap-wysihtml5.js')}}"></script>--}}
+    {{--<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>--}}
+    {{--<script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script>--}}
+    {{--<script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script>--}}
+    {{--<script src="{{asset('assets/js/jquery.colorbox.js')}}"></script>--}}
+    {{--<script src="{{asset('assets/js/prettify.js')}}"></script>--}}
+
+	<script src="{{asset("assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/jquery.colorbox.js")}}" type="text/javascript"></script>
+{{--	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
 
  <script type="text/javascript">
 $(document).ready(function(){

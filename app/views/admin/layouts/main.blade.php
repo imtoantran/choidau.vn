@@ -18,16 +18,16 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/global/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('assets/global/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css"/>--}}
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/global/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('assets/global/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css"/>--}}
+{{--    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-    <link href="{{asset('assets/global/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/global/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('assets/global/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet" type="text/css"/>--}}
+{{--    <link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css"/>--}}
+{{--    <link href="{{asset('assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>--}}
+{{--    <link href="{{asset('assets/global/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN PAGE STYLES -->
     <link href="{{asset('assets/admin/pages/css/tasks.css')}}" rel="stylesheet" type="text/css"/>
@@ -40,6 +40,7 @@
     <link href="{{asset('assets/admin/layout/css/custom.css')}}" rel="stylesheet" type="text/css"/>
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
+    @yield('styles')
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -202,7 +203,7 @@
                 <li>
                     <a href="inbox.html?a=view">
 									<span class="photo">
-									<img src="assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+									<img src="{{asset("assets/admin/layout3/img/avatar2.jpg")}}" class="img-circle" alt="">
 									</span>
 									<span class="subject">
 									<span class="from">
@@ -216,7 +217,7 @@
                 <li>
                     <a href="inbox.html?a=view">
 									<span class="photo">
-									<img src="assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
+									<img src="{{asset("assets/admin/layout3/img/avatar3.jpg")}}" class="img-circle" alt="">
 									</span>
 									<span class="subject">
 									<span class="from">
@@ -230,7 +231,7 @@
                 <li>
                     <a href="inbox.html?a=view">
 									<span class="photo">
-									<img src="assets/admin/layout3/img/avatar1.jpg" class="img-circle" alt="">
+									<img src="{{asset("assets/admin/layout3/img/avatar1.jpg")}}" class="img-circle" alt="">
 									</span>
 									<span class="subject">
 									<span class="from">
@@ -244,7 +245,7 @@
                 <li>
                     <a href="inbox.html?a=view">
 									<span class="photo">
-									<img src="assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+									<img src="{{asset("assets/admin/layout3/img/avatar2.jpg")}}" class="img-circle" alt="">
 									</span>
 									<span class="subject">
 									<span class="from">
@@ -258,7 +259,7 @@
                 <li>
                     <a href="inbox.html?a=view">
 									<span class="photo">
-									<img src="assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
+									<img src="{{asset("assets/admin/layout3/img/avatar3.jpg")}}" class="img-circle" alt="">
 									</span>
 									<span class="subject">
 									<span class="from">
@@ -375,7 +376,7 @@
 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 <li class="dropdown dropdown-user">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-        <img alt="" class="img-circle" src="assets/admin/layout/img/avatar3_small.jpg"/>
+        <img alt="" class="img-circle" src="{{asset("assets/admin/layout/img/avatar3_small.jpg")}}"/>
 					<span class="username username-hide-on-mobile">
 					Nick </span>
         <i class="fa fa-angle-down"></i>
@@ -902,7 +903,7 @@
             <div class="media-status">
                 <span class="badge badge-success">8</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar3.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Bob Nilson</h4>
                 <div class="media-heading-sub">
@@ -911,7 +912,7 @@
             </div>
         </li>
         <li class="media">
-            <img class="media-object" src="assets/admin/layout/img/avatar1.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar1.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Nick Larson</h4>
                 <div class="media-heading-sub">
@@ -923,7 +924,7 @@
             <div class="media-status">
                 <span class="badge badge-danger">3</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar4.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar4.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Deon Hubert</h4>
                 <div class="media-heading-sub">
@@ -932,7 +933,7 @@
             </div>
         </li>
         <li class="media">
-            <img class="media-object" src="assets/admin/layout/img/avatar2.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar2.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Ella Wong</h4>
                 <div class="media-heading-sub">
@@ -947,7 +948,7 @@
             <div class="media-status">
                 <span class="badge badge-warning">2</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar6.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar6.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Lara Kunis</h4>
                 <div class="media-heading-sub">
@@ -962,7 +963,7 @@
             <div class="media-status">
                 <span class="label label-sm label-success">new</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar7.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar7.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Ernie Kyllonen</h4>
                 <div class="media-heading-sub">
@@ -972,7 +973,7 @@
             </div>
         </li>
         <li class="media">
-            <img class="media-object" src="assets/admin/layout/img/avatar8.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar8.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Lisa Stone</h4>
                 <div class="media-heading-sub">
@@ -987,7 +988,7 @@
             <div class="media-status">
                 <span class="badge badge-success">7</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar9.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar9.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Deon Portalatin</h4>
                 <div class="media-heading-sub">
@@ -996,7 +997,7 @@
             </div>
         </li>
         <li class="media">
-            <img class="media-object" src="assets/admin/layout/img/avatar10.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar10.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Irina Savikova</h4>
                 <div class="media-heading-sub">
@@ -1008,7 +1009,7 @@
             <div class="media-status">
                 <span class="badge badge-danger">4</span>
             </div>
-            <img class="media-object" src="assets/admin/layout/img/avatar11.jpg" alt="...">
+            <img class="media-object" src="{{asset("assets/admin/layout/img/avatar11.jpg")}}" alt="...">
             <div class="media-body">
                 <h4 class="media-heading">Maria Gomez</h4>
                 <div class="media-heading-sub">
@@ -1028,7 +1029,7 @@
         </div>
         <div class="page-quick-sidebar-chat-user-messages">
             <div class="post out">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar3.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Bob Nilson</a>
@@ -1038,7 +1039,7 @@
                 </div>
             </div>
             <div class="post in">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar2.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar2.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Ella Wong</a>
@@ -1048,7 +1049,7 @@
                 </div>
             </div>
             <div class="post out">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar3.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Bob Nilson</a>
@@ -1058,7 +1059,7 @@
                 </div>
             </div>
             <div class="post in">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar2.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar2.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Ella Wong</a>
@@ -1068,7 +1069,7 @@
                 </div>
             </div>
             <div class="post out">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar3.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Bob Nilson</a>
@@ -1078,7 +1079,7 @@
                 </div>
             </div>
             <div class="post in">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar2.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar2.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Ella Wong</a>
@@ -1088,7 +1089,7 @@
                 </div>
             </div>
             <div class="post out">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar3.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Bob Nilson</a>
@@ -1098,7 +1099,7 @@
                 </div>
             </div>
             <div class="post in">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar2.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar2.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Ella Wong</a>
@@ -1108,7 +1109,7 @@
                 </div>
             </div>
             <div class="post out">
-                <img class="avatar" alt="" src="assets/admin/layout/img/avatar3.jpg"/>
+                <img class="avatar" alt="" src="{{asset("assets/admin/layout/img/avatar3.jpg")}}"/>
                 <div class="message">
                     <span class="arrow"></span>
                     <a href="#" class="name">Bob Nilson</a>
@@ -1524,35 +1525,15 @@
 <script src={{asset("assets/global/plugins/jquery.min.js")}} type="text/javascript"></script>
 <script src={{asset("assets/global/plugins/jquery-migrate.min.js")}} type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-<script src="{{asset("assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrbootstrap.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")}}" type="text/javascript"></script>
+{{--<script src="{{asset("assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js")}}" type="text/javascript"></script>--}}
+<script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
+{{--<script src="{{asset("assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")}}" type="text/javascript"></script>--}}
 <script src="{{asset("assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.blockui.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.cokie.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/uniform/jquery.uniform.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-switbootstrap-switch.min.js")}}" type="text/javascript"></script>
+{{--<script src="{{asset("assets/global/plugins/uniform/jquery.uniform.min.js")}}" type="text/javascript"></script>--}}
+{{--<script src="{{asset("assets/global/plugins/bootstrap-switbootstrap-switch.min.js")}}" type="text/javascript"></script>--}}
 <!-- END CORE PLUGINS -->
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/flot/jquery.flot.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/flot/jquery.flot.resize.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/flot/jquery.flot.categories.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jquery.pulsate.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-daterangepicker/moment.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js")}}" type="text/javascript"></script>
-<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-<script src="{{asset("assets/global/plugins/fullcalendar/fullcalendar.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/jquery.sparkline.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/grittjquery.gritter.js")}}" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="{{asset("assets/global/scripts/metronic.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/admin/layout/scripts/layout.js")}}" type="text/javascript"></script>
@@ -1566,7 +1547,7 @@
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
         QuickSidebar.init(); // init quick sidebar
-        Demo.init(); // init demo features 
+        Demo.init(); // init demo features
         Index.init();
         Index.initDashboardDaterange();
         Index.initJQVMAP(); // init index page's custom scripts

@@ -155,15 +155,15 @@ class AdminBlogsController extends AdminController {
             if($post->save())
             {
                 // Redirect to the new blog post page
-                return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+                return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
             }
 
             // Redirect to the blogs post management page
-            return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+            return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
         }
 
         // Form validation failed
-        return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->withErrors($validator);
+        return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->withInput()->withErrors($validator);
 	}
 
 
@@ -229,8 +229,8 @@ class AdminBlogsController extends AdminController {
 
         ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'post_id\', \'=\', $id)->count() }}')
 
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
+        ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
+                <a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
             ')
 
         ->remove_column('id')

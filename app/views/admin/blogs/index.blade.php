@@ -34,11 +34,16 @@
 		</tbody>
 	</table>
 @stop
-
+@section('styles')
+	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
+@stop
 {{-- Scripts --}}
 @section('scripts')
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-	<script src="{{asset("assets/admin/layout/scripts/demo.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/datatables/jquery.colorbox.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>
 	<script type="text/javascript">
 		var oTable;
 		$(document).ready(function() {
@@ -50,9 +55,10 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('admin/blogs/data') }}",
+		        "sAjaxSource": "{{ URL::to('qtri-choidau/blog/data') }}",
 		        "fnDrawCallback": function ( oSettings ) {
 	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+	           		//$(".iframe").fancybox({iframe:true, width:"80%", height:"80%"});
 	     		}
 			});
 		});

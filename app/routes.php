@@ -56,8 +56,10 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
     Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
-    Route::controller('blogs', 'AdminBlogsController');
     /* imtoantran start */
+    Route::get('blog/{post}/edit', 'AdminBlogsController@getEdit');
+    Route::post('blog/{post}/edit', 'AdminBlogsController@postEdit');
+    Route::post('blog/{post}/delete', 'AdminBlogsController@postDelete');
     Route::controller('blog', 'AdminBlogsController');
     /* imtoantran end */
 
@@ -117,10 +119,10 @@ Route::controller('blog.html','BlogController');
  *  ------------------------------------------
  */
 
-<<<<<<< HEAD
+
 
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-=======
+
 /** -------------------Site location: luuhoabk-------------**/
 Route::group(array('prefix' => 'location'), function()
 {
@@ -132,7 +134,7 @@ Route::group(array('prefix' => 'location'), function()
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 /** -------------------End Site location-------------------**/
->>>>>>> luuhoabk
+
 
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');

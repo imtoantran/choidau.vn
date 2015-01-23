@@ -10,7 +10,7 @@
 	<!-- ./ tabs -->
 
 	{{-- Edit Blog Form --}}
-	<form class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/blogs/' . $post->id . '/edit') }}@endif" autocomplete="off">
+	<form class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
