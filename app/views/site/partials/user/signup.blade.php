@@ -136,11 +136,11 @@
             <div class="col-md-4 col-xs-6 col-sm-6 col-none-padding">
                 <div class="section-icon-right margin-bottom-10">
                     <select class="form-control" name="select">
-                        <option value="">Select...</option>
-                        <option value="Category 1">Category 1</option>
-                        <option value="Category 2">Category 2</option>
-                        <option value="Category 3">Category 5</option>
-                        <option value="Category 4">Category 4</option>
+                       
+						@for ($i = 1; $i <= 31; $i++)
+						 <option value="Category 1">{{ $i }}</option>
+						@endfor
+                     
                     </select>
                     <i class="icon-down-dir"></i></button>
                 </div>
@@ -149,11 +149,9 @@
             <div class="col-md-4 col-xs-6 col-sm-6 margin-bottom-10" style="padding:0px 2px;">
                 <div class="section-icon-right">
                     <select class="form-control" name="select">
-                        <option value="">Select...</option>
-                        <option value="Category 1">Category 1</option>
-                        <option value="Category 2">Category 2</option>
-                        <option value="Category 3">Category 5</option>
-                        <option value="Category 4">Category 4</option>
+                        @for ($i = 1; $i <=12; $i++)
+						 <option value="Category 1">{{ $i }}</option>
+						@endfor
                     </select>
                     <i class="icon-down-dir"></i></button>
                 </div>
@@ -161,11 +159,9 @@
             <div class="col-md-4 col-xs-6 col-sm-6 margin-bottom-10 col-none-padding">
                 <div class="section-icon-right">
                     <select class="form-control" name="select">
-                        <option value="">Select...</option>
-                        <option value="Category 1">Category 1</option>
-                        <option value="Category 2">Category 2</option>
-                        <option value="Category 3">Category 5</option>
-                        <option value="Category 4">Category 4</option>
+                       @for ($i = 1980; $i < 2018; $i++)
+						 <option value="Category 1">{{ $i }}</option>
+						@endfor
                     </select>
                     <i class="icon-down-dir"></i></button>
                 </div>

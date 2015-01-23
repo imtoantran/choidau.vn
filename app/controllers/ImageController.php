@@ -37,7 +37,7 @@ class ImageController extends BaseController {
 		// Get all the blog posts
 		//$posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
 		$posts = $this->post->get();
-
+     //   print_r($posts);
 		// Show the page
 		return View::make('post/images/index', compact('posts'));
 	}
