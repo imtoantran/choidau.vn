@@ -3181,12 +3181,12 @@ Customized Bootstrap Modal
 .modal-backdrop {
   border: 0;
   outline: none;
-  z-index: 10049;
+  z-index: 10051;
 }
+
 .modal-backdrop, .modal-backdrop.fade.in {
   background-color: #333 !important;
 }
-
 /* Full width modal */
 .modal-full.modal-dialog {
   width: 99%;
@@ -7922,6 +7922,14 @@ Grey Default
   color: #333333 !important;
 }
 
+/* General Element */
+.bg-grey-light {
+  border-color: #e5e5e5 !important;
+  background-image: none !important;
+  background-color: #f1f1f1 !important;
+  color: #333333 !important;
+}
+
 /* General Text & Icon Font Colors */
 .font-grey {
   color: #e5e5e5 !important;
@@ -12210,3 +12218,4 @@ text-align:left !important;
 }
 
 
+.modal-dialog{z-index: 10053!important;}

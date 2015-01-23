@@ -1,0 +1,26 @@
+.pac-container{z-index: 100555!important;}
+.bootbox .input-group{margin-bottom: 5px;}
+.bootbox input#location-search{
+    padding: 5px;
+    width: 100%;
+    /*position: absolute;*/
+    /*top: -47px;*/
+    /*right: 49px;*/
+    /*border: 1px solid #e4e4e4;*/
+}
+#location_create .select2-container.select2-container-multi{width: 100%!important;}
+#location_create .select2-container.select2-container-multi>.select2-choices{padding: 3px;background: #fff!important;  border-color: #e5e5e5!important;}
+.loacation-search-wrapper{border: 1px solid #e2e2e2;}
+.loacation-search-wrapper>span{padding: 0px 5px; color: #4f4f4f!important;}
+#location-gmap{width: 100%!important;height: 300px!important;}
+.bootbox .modal-dialog .modal-body{padding:5px 20px!important;}
+.bootbox .modal-header{padding: 20px 20px 10px 20px; margin: 0;}
+.bootbox .modal-header h4{ font-size: 1.2em; font-weight: 600;}
+.select2-drop{z-index: 10050!important;}
+#location-food-name, #location-utility-name{padding: 6px 6px 6px 16px!important;  border: 1px solid #e5e5e5!important; width: 100%;}
+#food-datalist{padding: 5px;}
+    @media (min-width: 1024px){
+    .modal-dialog {
+        width: 900px;
+    }
+}
