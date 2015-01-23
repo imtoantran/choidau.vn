@@ -121,15 +121,23 @@ Route::controller('blog.html','BlogController');
 
 
 
+
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
 /** -------------------Site location: luuhoabk-------------**/
 Route::group(array('prefix' => 'location'), function()
 {
 
- Route::get('create', 'LocationController@getCreate');
- Route::get('loadProvince','AddressController@loadProvince');
- Route::post('loadDistrict','AddressController@loadDistrict');
+
+Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
+
+
+/** -------------------Site location: luuhoabk-------------**/
+Route::group(array('prefix' => 'location'), function(){
+   Route::get('create', 'LocationController@getCreate');
+   Route::get('loadInitParam', 'LocationController@loadInitParam');
+   Route::get('loadProvince','AddressController@loadProvince');
+   Route::post('loadDistrict','AddressController@loadDistrict');
 
 //  Route::controller('/', 'LocationController'); // run contruct function
 });

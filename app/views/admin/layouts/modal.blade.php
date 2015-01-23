@@ -130,7 +130,7 @@
 	<script src="{{asset("assets/global/plugins/datatables/jquery.colorbox.js")}}" type="text/javascript"></script>
 {{--	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
 
- <script type="text/javascript">
+	<script type="text/javascript">
 $(document).ready(function(){
 $('.close_popup').click(function(){
 parent.oTable.fnReloadAjax();

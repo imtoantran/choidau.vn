@@ -8,26 +8,10 @@ class LocationController extends BaseController {
      */
     protected $location;
 
-    /**
-     * User Model
-     * @var User
-     */
-    protected $user;
-
-    /**
-     * @var UserRepository
-     */
-    protected $userRepo;
-
-    /**
-     * Inject the models.
-     * @param User $user
-     * @param UserRepository $userRepo
-     */
-    public function __construct(User $user, UserRepository $userRepo)
+    public function __construct()
     {
         parent::__construct();
-        $this->location = $user;
+//        $this->location = $user;
     }
 
 
@@ -37,9 +21,32 @@ class LocationController extends BaseController {
      */
     public function getCreate()
     {
-        return View::make('site/location/create');
+
+        $arrayJS = array(
+            'assets/frontend/pages/scripts/location.js',
+            'assets/global/plugins/bootbox/bootbox.min.js',
+            'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
+            'assets/global/plugins/gmaps/gmaps.min.js',
+            'assets/global/plugins/select2/select2.min.js',
+            'assets/admin/pages/scripts/maps-google.js',
+        );
+        $arrayStyle = array(
+            'assets/global/plugins/select2/select2.css',
+            'assets/frontend/pages/css/location.css'
+        );
+        $js_page = $this->JScript($arrayJS);
+        $style_page = $this->Style($arrayStyle);
+        return View::make('site/location/create', compact('js_page','style_page','$address'));
     }
 
+    public function loadInitParam(){
+        $foodType = Option::orderBy('name','ASC')->where('name','=','food_type')->get();
+        $province = Province::orderBy('name','ASC')->get();
+        $utility = Utility::orderBy('name','ASC')->get();
+        $food = Food::orderBy('name','ASC')->get();
+        $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
 
+        return json_encode($initParam);
+    }
 
 }

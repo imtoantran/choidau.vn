@@ -1275,13 +1275,14 @@ Fullcalendar
 Google Maps
 ***/
 .gmaps {
-  height: 300px;
+  height: 300px!important;
   width: 100%;
   /* important!  bootstrap sets max-width on img to 100% which conflicts with google map canvas*/
 }
 .gmaps img {
   max-width: none;
 }
+
 
 #gmap_static div {
   background-repeat: no-repeat;
