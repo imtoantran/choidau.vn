@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class BlogController
+ * @author imtoantran
+ * blog page of admin
+ */
 class BlogController extends BaseController {
 
     /**

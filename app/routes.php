@@ -56,6 +56,9 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
     Route::controller('blogs', 'AdminBlogsController');
+    /* imtoantran start */
+    Route::controller('blog', 'AdminBlogsController');
+    /* imtoantran end */
 
     # User Management
     Route::get('users/{user}/show', 'AdminUsersController@getShow');
@@ -80,7 +83,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 
 });
 
-/* imtoantran */
+/* imtoantran start */
 Route::group(array('prefix' => 'post'), function() {
  /* video */
  Route::get('video/{slug}/edit', 'VideoController@getEdit');
@@ -98,11 +101,11 @@ Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
 
-Route::get('bai-viet/su-kien.html','BlogController@getEvent');
-Route::get('bai-viet/kinh-nghiem.html','BlogController@getExperience');
-Route::get('bai-viet/{slug}.html','BlogController@getView');
-Route::controller('bai-viet.html','BlogController');
-/* imtoantran */
+Route::get('blog/su-kien.html','BlogController@getEvent');
+Route::get('blog/kinh-nghiem.html','BlogController@getExperience');
+Route::get('blog/{slug}.html','BlogController@getView');
+Route::controller('blog.html','BlogController');
+/* imtoantran end */
 
 /** ------------------------------------------
  *  Frontend Routes

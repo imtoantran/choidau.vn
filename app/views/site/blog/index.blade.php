@@ -15,9 +15,9 @@
 	<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 		<div class="row">
 			<ul class="nav nav-tabs nav-justified" role="tablist">
-				<li class="active"><a href="{{URL::to('bai-viet.html')}}"> ĂN-UỐNG-CHƠI</a></li>
-				<li class=""><a href="{{URL::to('bai-viet/su-kien.html')}}">SỰ KIỆN</a></li>
-				<li class=""><a href="{{URL::to('bai-viet/kinh-nghiem.html')}}">KINH NGHIỆM</a></li>
+				<li class="active"><a href="{{URL::to('blog.html')}}"> ĂN-UỐNG-CHƠI</a></li>
+				<li class=""><a href="{{URL::to('blog/su-kien.html')}}">SỰ KIỆN</a></li>
+				<li class=""><a href="{{URL::to('blog/kinh-nghiem.html')}}">KINH NGHIỆM</a></li>
 			</ul>
 
 		</div>
