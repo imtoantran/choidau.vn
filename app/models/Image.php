@@ -7,7 +7,7 @@ class Image extends Post {
 	protected $attributes = array(
 		'post_type' => 'image'
 	);
-
+    protected   $_img_src='';
 	/**
 	 * Returns the image
 	 *
@@ -17,7 +17,12 @@ class Image extends Post {
 	 */
 
 	public function newQuery($excludeDeleted = true)
-	{
+	{ $this->title;
 		return parent::newQuery()->wherePost_type("image");
 	}
+
+  /*  public function getUrc(){
+        return $this->meta()->whereMeta_key('url')->first()->meta_value;
+    }*/
+
 }

@@ -235,5 +235,14 @@ class PostController extends BaseController {
 			->make();
 	}
 
+    public function getView(){
+    // echo Image::find(20)->meta()->whereMeta_key('url')->first()->meta_value;
+        $img=Image::find(20);
+        echo $img->content;
+      //  echo $img->getUrc();
+      //  echo $img->_img_src;
+        echo $img->getMetaKey('url');
+    }
+
 
 }

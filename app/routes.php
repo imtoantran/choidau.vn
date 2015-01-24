@@ -103,10 +103,13 @@ Route::group(array('prefix' => 'post'), function() {
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
-Route::controller('media','MediaController');
 
+
+Route::controller('media','MediaController');
 Route::any('media-data','MediaController@fetchData');
 Route::get('media-getall','MediaController@getMediaAll');
+
+
 
 Route::get('blog/su-kien.html','BlogController@getEvent');
 Route::get('blog/kinh-nghiem.html','BlogController@getExperience');
@@ -119,11 +122,16 @@ Route::controller('blog.html','BlogController');
  *  ------------------------------------------
  */
 
+<<<<<<< Updated upstream
 
 
 
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
+=======
+
+Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
+>>>>>>> Stashed changes
 /** -------------------Site location: luuhoabk-------------**/
 Route::group(array('prefix' => 'location'), function()
 {

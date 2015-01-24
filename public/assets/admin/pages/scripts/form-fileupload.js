@@ -115,6 +115,7 @@ var FormFileUpload = function () {
                 $('.img-internet')
                     .load(function(){
                         $('.input-url-video').attr('disabled','disabled');
+                        $('#url-media').val(utt);
                         $('.infor-media').attr('style','display:block');
                     })
                     .error(function(){
@@ -124,28 +125,92 @@ var FormFileUpload = function () {
                         $('.input-url-img').val('');
                         $('.input-url-img').focus();
                         $('.infor-media').attr('style','display:none');
-                    //    alert('ko load đc hình ảnh');
+                    //    alert('ko load ?c hình ?nh');
                     });
             });
 
             $('.input-url-video').change(function(){
                 var utt=$(this).val();
                 var id_youtube=getIdYouTube(utt,'v');
-                if(id_youtube==null||id_youtube==''){
-                  //  $('.input-url-img').removeAttribute('disabled');
-                    $('.frame-media-internet').html('');
-                    $('.input-url-img').removeAttr('disabled');
-                    $('.input-url-video').val('');
-                    $('.input-url-video').focus();
-                    $('.infor-media').attr('style','display:none');
 
-                    //     alert('link youtube không đúng !');
+              var title_youtube='';
 
-                }else{
-                    $('.frame-media-internet').html('<iframe width="560" height="315" src="//www.youtube.com/embed/'+id_youtube+'" frameborder="0" allowfullscreen></iframe>');
-                    $('.input-url-img').attr('disabled','disabled');
-                    $('.infor-media').attr('style','display:block');
-                }
+                $.getJSON('http://gdata.youtube.com/feeds/api/videos/'+id_youtube+'?v=2&alt=jsonc',function(data,status,xhr){
+                    title_youtube= data.data.title;
+                  //  alert(title_youtube);
+
+                    if(title_youtube==null||title_youtube==''){
+                        //  $('.input-url-img').removeAttribute('disabled');
+                        $('.frame-media-internet').html('');
+                        $('.input-url-img').removeAttr('disabled');
+                        $('.input-url-video').val('');
+                        $('.input-url-video').focus();
+                        $('.infor-media').attr('style','display:none');
+
+                        //     alert('link youtube không ?úng !');
+
+                    }else{
+                        $('.frame-media-internet').html('<iframe width="560" height="315" src="//www.youtube.com/embed/'+id_youtube+'" frameborder="0" allowfullscreen></iframe>');
+                        $('.input-url-img').attr('disabled','disabled');
+                        $('.infor-media').attr('style','display:block');
+                        $('#url-media').val(utt);
+                    }
+
+
+                });
+//alert(title_youtube);
+
+
+
+            });
+
+           $("#form-add-media").submit(function(e){
+
+                e.preventDefault();
+                var title = $("input#title").val();
+                var url_video = $("input#input-url-video").val();
+                var url_img = $("input#input-url-img").val();
+                var url=$('#url-media').val();
+
+                var description=$("textarea#content").val();
+                var token =  $("input[name=_token]").val();
+                var dataString = 'title='+title+'&description='+description+'&url='+url+'&_token='+token;
+              //  alert(dataString);
+
+               var base_url = 'http://choidau.net/'
+            /*    $.ajax({
+                    type: "POST",
+                    url : base_url+"/post/image/create",
+                    sync:true,
+                    data : dataString,
+                    success : function(data){
+                      //  console.log(data);
+                    },complete:function(){
+                       // alert('khkhhkhk');
+                    }
+                },"json");
+*/
+
+            //    return false;
+
+
+               $.post(
+                   $( this ).prop( 'action' ),
+                   {
+                       "_token":token,
+                       "title": title,
+                       "content": description,
+                       "url":url
+                   },
+                   function( data ) {
+
+
+                   },
+                   'json'
+               );
+               $('#tab_insert_media').removeClass('active');
+               $('#tab_thu_vien').addClass('active');
+
             });
          //   $.when().then();
 

@@ -7,4 +7,6 @@ class PostMeta extends Eloquent {
 	public function meta(){
 		return $this->belongsTo("Post");
 	}
+
+
 }

@@ -34,11 +34,11 @@
                     <div class="col-md-2 col-sm-2 col-xs-2 col-none-padding">
                         <ul class="nav nav-tabs tabs-left">
 						    <li class="active">
-                                <a href="#tab_6_3" data-toggle="tab">
+                                <a href="#tab_thu_vien" data-toggle="tab">
                                     Thư Viện  </a>
                             </li>
 							 <li class="">
-                                <a href="#tab_6_4" data-toggle="tab">
+                                <a href="#tab_insert_media" data-toggle="tab">
                                     Thêm ảnh từ internet </a>
                             </li>
                             <li class="">
@@ -307,7 +307,7 @@
 
                             </div>
                             
-                            <div class="tab-pane fade " id="tab_6_3">
+                            <div class="tab-pane fade " id="tab_thu_vien">
 							<div class="col-md-10" style=" background: aliceblue;">
 								   <form id="fileupload" action="/media-data" method="POST" enctype="multipart/form-data">
                                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -527,7 +527,7 @@
                                 <div class="clearfix"></div>
 
                             </div>
-                            <div class="tab-pane fade" id="tab_6_4">
+                            <div class="tab-pane fade" id="tab_insert_media">
                                    <div class="col-md-12">
                                        <div class="form-group">
                                            <label>Thêm Url hình ảnh</label>
@@ -536,7 +536,7 @@
 											<i class="icon-attach-outline"></i>
 											</span>
                                                <i class="fa fa-exclamation tooltips" data-original-title="Invalid email." data-container="body"></i>
-                                               <input id="email" class="input-error input-url-img form-control" type="text" value="">
+                                               <input id="email" id="input-url-img" class="input-error input-url-img form-control" type="text" value="">
                                            </div>
 
                                        </div>
@@ -549,7 +549,7 @@
 											<i class="icon-attach-outline"></i>
 											</span>
                                                    <i class="fa fa-exclamation tooltips" data-original-title="Invalid email." data-container="body"></i>
-                                                   <input  id="email" class="input-error input-url-video form-control" type="text" value="">
+                                                   <input  id="email" id="input-url-video" class="input-error input-url-video form-control" type="text" value="">
                                                     <input type="hidden" name="type-media" value=""/>
                                                </div>
 
@@ -557,7 +557,9 @@
                                        <div class="frame-media-internet">
                                        </div>
 
-                                       <form class="infor-media" role="form">
+                                       <form id="form-add-media" method="post" action="{{ URL::to('post/image/create') }}" class="infor-media" role="form" autocomplete="off">
+                                           <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                            <input type="hidden" name="url" id="url-media" value=""/>
                                            <div class="form-body">
                                                <div class="form-group">
                                                    <label>Tiêu đề</label>
@@ -565,19 +567,19 @@
                                                     <span class="input-group-addon">
                                                     <i class="fa fa-envelope"></i>
                                                     </span>
-                                                     <input type="text" class="form-control" placeholder="Email Address">
+                                                     <input class="form-control" placeholder="Hãy nhập tiêu đề..." type="text" name="title" id="title" value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}" />
+                                                       {{ $errors->first('title', '<span class="help-block">:message</span>') }}
+
                                                 </div>
                                                </div>
 
                                                <div class="form-group">
                                                    <label>Giới thiệu</label>
-                                                   <textarea class="form-control" rows="3"></textarea>
+                                                   <textarea class="form-control full-width wysihtml5" placeholder="hãy nhập đoạn giới thiệu ...." name="content" id="content" value="content" rows="3">{{{ Input::old('content', isset($post) ? $post->content : null) }}}</textarea>
+                                                   {{ $errors->first('content', '<span class="help-block">:message</span>') }}
+
+
                                                </div>
-
-
-
-
-
                                            </div>
                                            <div class="form-actions">
                                                <button type="submit" class="btn blue">Chèn </button>

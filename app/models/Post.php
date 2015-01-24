@@ -146,5 +146,9 @@ class Post extends Eloquent
 		return $this->hasOne("Option","status");
 	}
 
+
+    public function getMetaKey($meta_key){
+        return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
+    }
 	//imtoantran
 }

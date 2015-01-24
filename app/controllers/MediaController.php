@@ -19,7 +19,7 @@ class MediaController extends BaseController {
      * @param Post $post
      * @param User $user
      */
-    public function __construct(ImagePost $post, User $user)
+    public function __construct(Image $post, User $user)
     {
         parent::__construct();
 
