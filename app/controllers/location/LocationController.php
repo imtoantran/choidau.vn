@@ -23,15 +23,14 @@ class LocationController extends BaseController {
     {
 
         $arrayJS = array(
-            'assets/frontend/pages/scripts/location.js',
-            'assets/global/plugins/bootbox/bootbox.min.js',
             'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
+            'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
-            'assets/global/plugins/select2/select2.min.js',
             'assets/admin/pages/scripts/maps-google.js',
+            'assets/frontend/pages/scripts/location.js',
+
         );
         $arrayStyle = array(
-            'assets/global/plugins/select2/select2.css',
             'assets/frontend/pages/css/location.css'
         );
         $js_page = $this->JScript($arrayJS);
