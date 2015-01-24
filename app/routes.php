@@ -122,19 +122,16 @@ Route::controller('blog.html','BlogController');
  *  ------------------------------------------
  */
 
-<<<<<<< Updated upstream
+
+
+
+
+Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
 
 
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
-=======
-
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
->>>>>>> Stashed changes
-/** -------------------Site location: luuhoabk-------------**/
-Route::group(array('prefix' => 'location'), function()
-{
 
 
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
