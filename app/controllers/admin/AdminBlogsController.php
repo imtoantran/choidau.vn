@@ -85,15 +85,15 @@ class AdminBlogsController extends AdminController {
             if($this->post->save())
             {
                 // Redirect to the new blog post page
-                return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
+                return Redirect::to('qtri-choidau/blog/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
             }
 
             // Redirect to the blog post create page
-            return Redirect::to('admin/blogs/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
+            return Redirect::to('qtri-choidau/blog/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
         }
 
         // Form validation failed
-        return Redirect::to('admin/blogs/create')->withInput()->withErrors($validator);
+        return Redirect::to('qtri-choidau/blog/create')->withInput()->withErrors($validator);
 	}
 
     /**
@@ -209,11 +209,11 @@ class AdminBlogsController extends AdminController {
             if(empty($post))
             {
                 // Redirect to the blog posts management page
-                return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
+                return Redirect::to('qtri-choidau/blog')->with('success', Lang::get('admin/blogs/messages.delete.success'));
             }
         }
         // There was a problem deleting the blog post
-        return Redirect::to('admin/blogs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
+        return Redirect::to('qtri-choidau/blog')->with('error', Lang::get('admin/blogs/messages.delete.error'));
     }
 
     /**

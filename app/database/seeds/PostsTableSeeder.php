@@ -24,7 +24,7 @@ Te his dolorem adversarium? Pri eu rebum viris, tation molestie id pri. Mel ei s
 
     public function run()
     {
-        DB::table('posts')->delete();
+        //DB::table('posts')->delete();
 
         $user_id = User::first()->id;
 

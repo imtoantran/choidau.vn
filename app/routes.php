@@ -50,15 +50,12 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
     Route::controller('comments', 'AdminCommentsController');
 
-    # Blog Management
-    Route::get('blogs/{post}/show', 'AdminBlogsController@getShow');
-    Route::get('blogs/{post}/edit', 'AdminBlogsController@getEdit');
-    Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
-    Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
-    Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
     /* imtoantran start */
+    # Blog Management
+    Route::get('blog/{post}/show', 'AdminBlogsController@getShow');
     Route::get('blog/{post}/edit', 'AdminBlogsController@getEdit');
     Route::post('blog/{post}/edit', 'AdminBlogsController@postEdit');
+    Route::get('blog/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blog/{post}/delete', 'AdminBlogsController@postDelete');
     Route::controller('blog', 'AdminBlogsController');
     /* imtoantran end */

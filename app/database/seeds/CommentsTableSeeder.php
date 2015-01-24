@@ -9,7 +9,7 @@ class CommentsTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('comments')->delete();
+        //DB::table('comments')->delete();
 
         $user_id = User::first()->id;
         $post_id = Post::first()->id;
