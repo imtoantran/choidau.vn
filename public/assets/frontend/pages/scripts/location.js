@@ -42,7 +42,7 @@ var Location = function () {
         },
 
 		submitForm: function(){
-
+			console.log('submit');
 		},
 		//load thuc don
 		loadInitParam: function(){
