@@ -36,6 +36,22 @@ class AdminBlogsController extends AdminController {
         return View::make('admin/blogs/index', compact('posts', 'title'));
     }
 
+    /**
+     * Show a list of all the blog posts.
+     *
+     * @param $categorySlug
+     * @return View
+     */
+    public function blogCategory($categorySlug)
+    {
+        $category = Category::whereSlug($categorySlug)->first();
+        // Title
+        $title = Lang::get('admin/blogs/title.blog_management')." - Danh mục: ".$category->name;
+        $posts = $category->blogs()->get();
+        // Show the page
+        return View::make('admin/blogs/index', compact('posts', 'title'));
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -70,7 +86,8 @@ class AdminBlogsController extends AdminController {
         if ($validator->passes())
         {
             // Create a new blog post
-            $user = Auth::user();
+//            $user = Auth::user();
+            $user =User::find(3);
 
             // Update the blog post data
             $this->post->title            = Input::get('title');
@@ -221,9 +238,9 @@ class AdminBlogsController extends AdminController {
      *
      * @return Datatables JSON
      */
-    public function getData()
+    public function getData($categorySlug = "an-uong-choi")
     {
-        $posts = Post::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'));
+        $posts = $this->post->select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'));
 
         return Datatables::of($posts)
 

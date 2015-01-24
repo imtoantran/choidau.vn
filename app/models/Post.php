@@ -146,5 +146,8 @@ class Post extends Eloquent
 		return $this->hasOne("Option","status");
 	}
 
+	public function category(){
+		return $this->belongsTo('Category');
+	}
 	//imtoantran
 }

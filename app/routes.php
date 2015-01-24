@@ -57,6 +57,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::post('blog/{post}/edit', 'AdminBlogsController@postEdit');
     Route::get('blog/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blog/{post}/delete', 'AdminBlogsController@postDelete');
+    Route::get('blog/danh-muc/{categorySlug}/', 'AdminBlogsController@blogCategory');
     Route::controller('blog', 'AdminBlogsController');
     /* imtoantran end */
 

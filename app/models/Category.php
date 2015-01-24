@@ -6,7 +6,7 @@ class Category extends Eloquent {
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-	public function blog(){
+	public function blogs(){
 		return $this->hasMany('Blog');
 	}
 }
