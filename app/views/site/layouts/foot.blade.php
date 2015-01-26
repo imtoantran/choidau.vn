@@ -53,16 +53,9 @@
 
 
 <!-- START CORE PLUGINS -->
-<script src="{{asset('assets/global/plugins/jquery.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
 <script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
-<script>
-    $.ajaxSetup({
-        data:{"_token":"{{Session::getToken()}}}"}
-    });
-</script>
+
 @if (isset($js_plugin))
 {{$js_plugin}}
 @endif

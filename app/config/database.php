@@ -46,42 +46,21 @@ return array(
 
 	'connections' => array(
 
-		'sqlite' => array(
-			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/production.sqlite',
-			'prefix'   => '',
-		),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'db_choidau',
-			'username'  => 'choidau',
-			'password'  => 'suntory',
+			'host'      => '107.167.182.195',
+			//'database'  => 'db_choidau',
+			'database'  => 'choi_dau_01',
+			//'username'  => 'choidau',
+			'username'  => 'remote_team',
+			//'password'  => 'suntory',
+			'password'  => 'ADVtxRYP3E4tKaMt',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 		),
 
-		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-            'schema'   => 'public',
-		),
-
-		'sqlsrv' => array(
-			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'prefix'   => '',
-		),
 
 	),
 
