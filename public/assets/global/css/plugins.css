@@ -2567,12 +2567,12 @@ color: #0a7c05;
 
 .media-list-content .media-item{
 
-    padding: 0px;
-    margin: 4px;
-    background: white;
-    border: 3px solid rgb(224, 220, 220);
-    height: 92px;
-    cursor: pointer;
+padding: 0px;
+margin: 3px 11px 6px;
+background: white;
+border: 3px solid rgb(224, 220, 220);
+height: 88px;
+cursor: pointer;
 }
 .media-list-content .media-item .media-tool{
     position: absolute;
@@ -2606,4 +2606,17 @@ background: transparent;
 position: absolute;
 top: 66px;
 right: 2px
+}
+.media-detail-infor {
+
+}
+.media-thumbnail{
+width: 100%;
+padding: 13px;}
+
+.media-edit{
+
+ overflow-y: scroll;
+    height:500px;
+    display:none;
 }

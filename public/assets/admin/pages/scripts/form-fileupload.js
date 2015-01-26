@@ -8,7 +8,7 @@ var FormFileUpload = function () {
              // Initialize the jQuery File Upload widget:
             $('#fileupload').fileupload({
                 disableImageResize: false,
-                autoUpload: false,
+                autoUpload: true,
                 disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
                 maxFileSize: 5000000,
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
@@ -77,28 +77,32 @@ var FormFileUpload = function () {
                     //$(this).addClass('open');
                 }
             );
-            $("ul.files.list-unstyled ").delegate(".media-item","click",function(){
 
+            $("ul.files.list-unstyled ").delegate(".media-item","click",function(){
+//alert('abc');
                 if($(this).hasClass('media-item-hover')){
                     $( this ).removeClass( "media-item-hover" )
                 }else{
                     $('.list-unstyled li').removeClass('media-item-hover');
                     $( this ).addClass( "media-item-hover" );
+                    $(".media-edit").attr('style','display:block');
+                  var imgItem=  $(this).find( "img");
+
+                    $("#name_ihinh").html(imgItem.attr('name_image'));
+                    $("#size_ihinh").html(imgItem.attr('size_img'));
+                    $("#date_ihinh").html(imgItem.attr('date_post'));
+
+                    $("#title-edit-media").val(imgItem.attr('title'));
+                    $("#url-edit-media").val(imgItem.attr('url_img'));
+                    $("#alt-edit-media").val(imgItem.attr('alt'));
+                    $("#content-edit-media").val(imgItem.attr('content_post'));
+                    $("#id-edit-media").val(imgItem.attr('id_post'));
+                    $("#media-thumbnail-img").attr('src',imgItem.attr('url_img'));
+
+                  //  alert(imgItem.attr('id_post'));
+
                 }
-
-
-                //$( this ).toggleClass( "media-item-hover" );
-            /*    $( this ).toggle(
-                    function() {
-                        $('.list-unstyled li').removeClass('media-item-hover');
-                        $( this ).addClass( "media-item-hover" );
-                    }, function() {
-                        $( this ).removeClass( "media-item-hover" );
-                    }
-                );
-*/
-              //  return false;
-            })
+            });
 
             $('.media-item').hover(
                 function(){
@@ -109,6 +113,12 @@ var FormFileUpload = function () {
 
                 }
             );
+
+
+            /**
+             *  them url img
+             *
+             * */
             $('.input-url-img').change(function(){
                 var utt=$(this).val();
                 $('.frame-media-internet').html('<img class="img-internet" src="'+utt+'" />');
@@ -129,6 +139,9 @@ var FormFileUpload = function () {
                     });
             });
 
+            /**
+             * them url youtube
+             * */
             $('.input-url-video').change(function(){
                 var utt=$(this).val();
                 var id_youtube=getIdYouTube(utt,'v');
@@ -158,11 +171,9 @@ var FormFileUpload = function () {
 
 
                 });
-//alert(title_youtube);
-
-
-
             });
+
+
 
            $("#form-add-media").submit(function(e){
 
@@ -175,7 +186,7 @@ var FormFileUpload = function () {
                 var description=$("textarea#content").val();
                 var token =  $("input[name=_token]").val();
                 var dataString = 'title='+title+'&description='+description+'&url='+url+'&_token='+token;
-              //  alert(dataString);
+                alert(dataString);
 
                var base_url = 'http://choidau.net/'
             /*    $.ajax({
@@ -191,9 +202,6 @@ var FormFileUpload = function () {
                 },"json");
 */
 
-            //    return false;
-
-
                $.post(
                    $( this ).prop( 'action' ),
                    {
@@ -208,8 +216,8 @@ var FormFileUpload = function () {
                    },
                    'json'
                );
-               $('#tab_insert_media').removeClass('active');
-               $('#tab_thu_vien').addClass('active');
+            //   $('#tab_insert_media').removeClass('active');
+            //   $('#tab_thu_vien').addClass('active');
 
             });
          //   $.when().then();

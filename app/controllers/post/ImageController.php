@@ -85,8 +85,77 @@ class ImageController extends PostController {
 
         // Form validation failed
         return Redirect::to('post/image/create')->withInput()->withErrors($validator);
+    }
 
 
+    public function upLoadFile(){
+     //   Auth::user()->
+
+        $upload=new UploadMediaHandler();
+        $initialize = true;
+        if ($initialize) {
+            switch ($upload->get_server_var('REQUEST_METHOD')) {
+                case 'OPTIONS':
+                case 'HEAD':
+                    $upload->head();
+                    break;
+                case 'GET':
+
+                    $upload->get();
+                     $id_user='3';
+
+
+                    break;
+                case 'PATCH':
+                case 'PUT':
+                case 'POST':
+                {
+                   $upload->post();
+
+                    /*Gui bài lên database*/
+                 //   $post=new Image()/*;
+                 /*   $this->post->title            =$upload->options['img_name'];//'';//$data['title'];
+                    $this->post->slug             =Str::slug( $upload->options['img_name']);
+                    $this->post->content          ='';//  $data['content'];
+                    $this->post->user_id          ='3';//  $user->id;
+                    // Was the blog post created?
+                    if($this->post->save())
+                    {
+                        // Redirect to the new blog post page
+                        //return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
+                        $print_response=true;
+                        $postMeta=new PostMeta();
+                        $postMeta->meta_key='url';
+                        $postMeta->meta_value=$upload->options['img_path'];//'ádasdad';//$data['url'];
+
+                        if(  $this->post->meta()->save($postMeta)){
+
+                          //  $upload->generate_response(
+                         //       array( $upload->options['param_name'] => $files),
+                         //       $print_response
+                        //    );
+                        }
+
+                    }
+
+                    // Redirect to the blog post create page
+                    //return Redirect::to('admin/blogs/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
+
+
+*/
+
+
+
+                    break;}
+                case 'DELETE':
+                    $upload->delete();
+
+
+                    break;
+                default:
+                    $upload->header('HTTP/1.1 405 Method Not Allowed');
+            }
+        }
 
     }
 

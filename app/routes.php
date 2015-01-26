@@ -106,7 +106,8 @@ Route::controller('images','ImageController');
 
 
 Route::controller('media','MediaController');
-Route::any('media-data','MediaController@fetchData');
+Route::any('media-data','ImageController@upLoadFile');
+//Route::any('media-data','MediaController@fetchData');
 Route::get('media-getall','MediaController@getMediaAll');
 
 

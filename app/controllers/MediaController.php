@@ -1,5 +1,5 @@
 <?php
-
+use Andrew13\Helpers\String;
 class MediaController extends BaseController {
 
     /**
@@ -101,11 +101,11 @@ class MediaController extends BaseController {
     }
 
 
-    public  function  uploadFile(){
-     echo'abc---';
+   // public  function  uploadFile(){
+  //   echo'abc---';
      //   $upload_handler=  UploadHandler();
 
-    }
+ //   }
 
     public  function getMediaAll(){
         UploadMediaHandler::get_all_images_forXML();
@@ -207,4 +207,71 @@ class MediaController extends BaseController {
         // Redirect to this blog post page
         return Redirect::to($slug)->withInput()->withErrors($validator);
     }
+
+
+    public function upLoadFile(){
+
+        $upload=new UploadMediaHandler();
+        $initialize = true;
+        if ($initialize) {
+            switch ($upload->get_server_var('REQUEST_METHOD')) {
+                case 'OPTIONS':
+                case 'HEAD':
+                    $upload->head();
+                    break;
+                case 'GET':
+                    $upload->get();
+                    break;
+                case 'PATCH':
+                case 'PUT':
+                case 'POST':
+                 {
+                        $upload->post();
+
+                    /*Gui bài lên database*/
+                     $post=new Image();
+                     $post->post->title            ='ádasd';//$data['title'];
+                     $post->post->slug             ='ádsda';//Str::slug( $data['title']);
+                     $post->post->content          ='ádad';//  $data['content'];
+                     $post->post->user_id          ='3';//  $user->id;
+                     // Was the blog post created?
+                     if($post->post->save())
+                     {
+                         // Redirect to the new blog post page
+                         //return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
+                     }
+
+                     // Redirect to the blog post create page
+                     //return Redirect::to('admin/blogs/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
+
+
+                     $postMeta=new PostMeta();
+                     $postMeta->meta_key='url';
+                     $postMeta->meta_value='ádasdad';//$data['url'];
+                     $post->post->meta()->save($postMeta);
+
+
+                    break;}
+                case 'DELETE':
+                    $upload->delete();
+                    break;
+                default:
+                    $upload->header('HTTP/1.1 405 Method Not Allowed');
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

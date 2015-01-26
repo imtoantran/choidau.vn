@@ -3,7 +3,7 @@
 class AddressController extends BaseController {
  	protected $province;
  	protected $district;
-    public function __construct(Province $province, District $district){
+    public function __construct(Provinces $province, Districts $district){
         parent::__construct();
 		$this->province = $province;
 		$this->district = $district;
