@@ -26,6 +26,8 @@ class LocationController extends BaseController {
             'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
             'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
+            'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
+            'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js',
 
