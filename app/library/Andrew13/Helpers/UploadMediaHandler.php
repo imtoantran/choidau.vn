@@ -1136,7 +1136,7 @@ class UploadMediaHandler
                      $img->slug             =Str::slug($file->name);
                      $img->thumbnail        =$file->name;
                      $img->content          ='';//  $data['content'];
-                     $img->user_id          ='3';//  $user->id;
+                     $img->user_id          ='2';//  $user->id;
 
                     // Was the blog post created?
                     if($img->save())
@@ -1144,7 +1144,7 @@ class UploadMediaHandler
                         // Redirect to the new blog post page
                         //return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
 
-                        $postMeta=new PostMeta();
+                        $postMeta=new PostMeta()
                         $postMeta->meta_key='url';
                         $postMeta->meta_value=$file->url;//'ádasdad';//$data['url'];
 
