@@ -19,7 +19,12 @@
 <!-- Container -->
 <section id="container">
     <div class="container">
-
+    {{-- imtoanran add topa and topb section start --}}
+        @section('topa')
+            @show
+        @section('topb')
+            @show
+    {{-- imtoanran add topa and topb section end --}}
     <!-- Content -->
     @section('content')
       <h1>Ko load dc dữ liệu</h1>

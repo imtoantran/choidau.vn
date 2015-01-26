@@ -35,7 +35,7 @@ class HomeController extends BaseController {
 	public function getIndex()
 	{
 		// Show the page
-        $page_title='';
+        $page_title='Địa điểm ăn uống chơi';
 		return View::make('site/home/index',compact('page_title'));
 	}
 

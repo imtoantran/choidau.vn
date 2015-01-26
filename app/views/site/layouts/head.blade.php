@@ -61,3 +61,6 @@
     {{$style_script}}
     @endif
 </style>
+{{-- imtoantran add style section from blade template start --}}
+@yield('styles')
+{{-- imtoantran add style section from blade template end --}}
