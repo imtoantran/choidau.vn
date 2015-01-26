@@ -45,7 +45,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css'
 
         ));
-        $style_page=$this->Style(array(
+        $js_page = $this->JScript($arrayJS);
             'assets/frontend/pages/css/location.css',
             'assets/global/css/plugins.css',
             'assets/global/plugins/image-manager/css/image-manager.min.css'));
@@ -85,7 +85,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js',
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js'
         ));
-        $js_page=$this->JScript(array(
+        $style_page = $this->Style($arrayStyle);
             'assets/admin/pages/scripts/form-fileupload.js',
             'assets/frontend/pages/scripts/location.js'));
         $js_script=' Layout.init();
@@ -96,7 +96,7 @@ class LocationController extends BaseController {
 
      //   $js_page = $this->JScript($arrayJS);
      //   $style_page = $this->Style($arrayStyle);
-        return View::make('site/location/create', compact('$address','style_plugin','style_page',
+        return View::make('site/location/create', compact('js_page','style_page','$address'));
             'js_plugin','js_script','js_page'));
     }
 
@@ -106,6 +106,7 @@ class LocationController extends BaseController {
         $utility = Utility::orderBy('name','ASC')->get();
         $food = Food::orderBy('name','ASC')->get();
         $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
+//        $initParam = array( "province"=>$province);
 
         return json_encode($initParam);
     }

@@ -12,7 +12,7 @@ var Location = function () {
 	var markerLocation;
 	var self;
 	var map;
-
+	
     return {
         //main function to initiate the module
         init: function () {
@@ -37,13 +37,84 @@ var Location = function () {
 					e.preventDefault();
 					self.submitForm();
 				})
+				self.submitForm();
 			});
 
         },
+		submitForm: function() {
+			var locationError = $('.alert-danger', createLocation_frm);
+			var locationSuccess = $('.alert-success', createLocation_frm);
+			createLocation_frm.validate({
+				errorElement: 'span', //default input error message container
+				errorClass: 'help-block help-block-error', // default input error message class
+				focusInvalid: true, // do not focus the last invalid input
+				ignore: "", // validate all fields including form hidden input
+				rules: {
+					location_title: {
+						minlength: 4,
+						required: true
+					},
+					location_address: {
+						minlength: 4,
+						required: true
+					},
+					location_province: {
+						required: true
+					},
 
-		submitForm: function(){
-			console.log('submit');
+					location_email: {
+						email:true
+					}
+
+				},
+
+				errorPlacement: function (error, element) { // render error placement for each input type
+					if (element.parent(".input-group").size() > 0) {
+						error.insertAfter(element.parent(".input-group"));
+					} else if (element.attr("data-error-container")) {
+						error.appendTo(element.attr("data-error-container"));
+					} else if (element.parents('.radio-list').size() > 0) {
+						error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+					} else if (element.parents('.radio-inline').size() > 0) {
+						error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+					} else if (element.parents('.checkbox-list').size() > 0) {
+						error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+					} else if (element.parents('.checkbox-inline').size() > 0) {
+						error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+					} else {
+						error.insertAfter(element); // for other inputs, just perform default behavior
+					}
+				},
+				invalidHandler: function (event, validator) { //display error alert on form submit
+					locationSuccess.hide();
+					locationError.show();
+					//Metronic.scrollTo(locationError, -200);
+				},
+				highlight: function (element) { // hightlight error inputs
+					$(element).closest('.form-group').addClass('has-error'); // set error class to the control group
+				},
+				unhighlight: function (element) { // revert the change done by hightlight
+					$(element).closest('.form-group').removeClass('has-error'); // set error class to the control group
+				},
+				success: function (label) {
+					label.closest('.form-group').removeClass('has-error'); // set success class to the control group
+				},
+				submitHandler: function (form) {
+					locationSuccess.show();
+					locationError.hide();
+					//form[0].submit(); // submit the form
+
+
+					var dataForm = createLocation_frm.serialize();
+					//$.each(dataForm,function(k,v){
+					//	console.log(k+'='+v);
+					//});
+				}
+			});
+
 		},
+
+		//load thuc don
 		loadInitParam: function(){
 			$.ajax({
 				url: URL+"/location/loadInitParam",
@@ -51,21 +122,23 @@ var Location = function () {
 				dataType: 'json',
 				success: function(dbParam){
 					var html='';
-
 					global_food_item = dbParam.food;
 					global_food_type = dbParam.foodType;
 					global_utility_item = dbParam.utility;
 					dataProvince = dbParam.province;
 
 					//load province
+					html += '<option value="" selected >-- Chọn Tỉnh/ Thành phố --</option>';
 					$.each(dataProvince, function(key,value){
-						var selected = (value.id == 79) ? 'selected' : '';  //if selected
-						html += '<option value="'+value.id+'" '+selected+'>'+value.name+'</option>';
+						if(value.id == 79 || value.id == 01){
+							html += '<option value="'+value.id+'" style="color:red!important;">'+value.name+'</option>';
+						}else{
+							html += '<option value="'+value.id+'">'+value.name+'</option>';
+						}
 					});
 					province_tag.html(html);
 				},
 				complete: function(){
-					self.loadDistrict();
 					//if province changed is set district value
 					province_tag.on('change', function(){
 						self.loadDistrict();
@@ -79,27 +152,30 @@ var Location = function () {
 			var province_id = province_tag.val();
 			var token = token_tag.val();
 			var html ='';
-			$.ajax({
-				url: URL+"/location/loadDistrict",
-				type: 'post',
-				data: {'province_id':province_id,'_token':token},
-				dataType: 'json',
-				success: function(dbDistrict){
-					$.each(dbDistrict, function(key,value){
-						var location = value.location;
-						var lat = '10.776111' ;
-						var lng = '106.695833';
-						if(location.length>0 && location!='undefined'){
-							location = location.split(", ");
-							lat = self.convertDegree(location[0]);
-							lng = self.convertDegree(location[1]);
-						}
-						var selected = (value.id == 79) ? 'selected' : '';
-						html += '<option data-lat="'+lat+'" data-lng ="'+lng+'" value="'+value.id+'" '+selected+'>'+value.type+' '+value.name+'</option>';
-					});
-					district_tag.html(html);
-				}
-			});
+			if(province_id !=""){
+				$.ajax({
+					url: URL+"/location/loadDistrict",
+					type: 'post',
+					data: {'province_id':province_id,'_token':token},
+					dataType: 'json',
+					success: function(dbDistrict){
+						$.each(dbDistrict, function(key,value){
+							var location = value.location;
+							var lat = '10.776111' ;
+							var lng = '106.695833';
+							if(location.length>0 && location!='undefined'){
+								location = location.split(", ");
+								lat = self.convertDegree(location[0]);
+								lng = self.convertDegree(location[1]);
+							}
+							html += '<option data-lat="'+lat+'" data-lng ="'+lng+'" value="'+value.id+'">'+value.type+' '+value.name+'</option>';
+						});
+						district_tag.html(html);
+					}
+				});
+			}else{
+				district_tag.html('<option value="" data-lat="" data-lng="" selected>-- Chọn Quận/ Huyện --</option>');
+			}
 		},
 
 		//load hop hoi thoai
@@ -132,7 +208,10 @@ var Location = function () {
 		loadGmap: function(){
 			var selected_tag = district_tag.find('option:selected');
 			var lat = selected_tag.attr('data-lat');
+				lat = (lat == "")? '10.822894625766558': lat;
 			var lng = selected_tag.attr('data-lng');
+				lng = (lng == "")? '106.62956714630127': lng;
+
 			var searchBox = new google.maps.places.SearchBox(document.getElementById('location-search'));
 
 			map = new GMaps({
@@ -221,7 +300,7 @@ var Location = function () {
 						callback: function(){
 							var utilityName = $('#location-utility-name');
 							var utilityMenu = $('#location-mn-utility');
-							var html = '<td>';
+							var html = '<td> <i class="icon-right-dir"> </i>';
 									html += utilityName.val();
 									html += '<button data-utilityName="'+utilityName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-utility-delete">';
 									html += '<i class="icon-trash"></i>';
@@ -238,16 +317,16 @@ var Location = function () {
 
 							// them thong tin mon an vao mảng toan cuc
 							global_arrayUtility.push({'utilityName':utilityName.val(),'utilitySuggestId':utilityName.attr('data-utility-suggest-id')});
-
+							$('.location-utility-empty').fadeOut('fast');
 							// them thẻ tien ich
 							utilityMenu.find('tbody').append(htmlItemUtility);
 							htmlItemUtility.find('button').on('click', function(){
 								var utilityName = $(this).attr('data-utilityName');
 								self.deleteUtility(utilityName);
 								$(this).closest('tr').hide('slow',function(){$(this).remove()});
-								console.log(global_arrayUtility);
+								if(global_arrayUtility.length<=0){	$('.location-utility-empty').fadeIn('fast');}
+
 							});
-							console.log(global_arrayUtility);
 						}
 					}
 				}
@@ -300,7 +379,6 @@ var Location = function () {
 				});
 			});
 
-
 			bootbox.dialog({
 				message: htmlBox,
 				title: "Thêm món ăn",
@@ -317,14 +395,13 @@ var Location = function () {
 							var foodType = $('#location-food-type').find('option:selected');
 							var foodDescribe = $('#location-food-description');
 							var foodMenu = $('#location-mn-food');
-							//var foodSuggest = $('#loction-food-suggest');
-							var html = '<td>'+foodName.val()+'</td>';
-							html += '<td>';
-							html += foodType.text();
-							html += '<button data-foodName="'+foodName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-food-delete">';
-							html += '<i class="icon-trash"></i>';
-							html += '</button>';
-							html += '</td>';
+							var html = '<td> <i class="icon-right-dir"> </i>'+foodName.val()+'</td>';
+								html += '<td>';
+									html += foodType.text();
+									html += '<button data-foodName="'+foodName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-food-delete">';
+									html += '<i class="icon-trash"></i>';
+									html += '</button>';
+								html += '</td>';
 
 							var htmlItemFood  = $('<tr/>').append(html);
 
@@ -338,16 +415,15 @@ var Location = function () {
 
 							// them thong tin mon an vao mảng toan cuc
 							global_arrayFood.push({'foodName':foodName.val(), 'foodType':foodType.val(), 'foodDescribe':foodDescribe.val(), 'foodSuggestId':foodName.attr('data-food-suggest-id')});
-
+							$('.location-food-empty').fadeOut('fast');
 							// them thẻ mon an
 							foodMenu.find('tbody').append(htmlItemFood);
 							htmlItemFood.find('button').on('click', function(){
 								var foodName = $(this).attr('data-foodName');
 								self.deleteFood(foodName);
 								$(this).closest('tr').hide('slow',function(){$(this).remove()});
-								console.log(global_arrayFood);
+								if(global_arrayFood.length<=0){	$('.location-food-empty').fadeIn('fast');}
 							});
-							console.log(global_arrayFood);
 						}
 					}
 				}
@@ -385,5 +461,6 @@ var Location = function () {
 
 jQuery(document).ready(function(){
 	Location.init();
-
 });
+
+
