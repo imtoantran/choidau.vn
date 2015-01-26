@@ -90,8 +90,15 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
 							<div class="col-sm-4 col-md-3 col-lg-3">
-								<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning">Tải ảnh lên</button>
+                                <div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+                                    <div class="add-picture vertically-centered" style="position: absolute; height: 34px; top: 50%; margin-top: -17px;">
+                                        <div class="icon icons-plus3"></div>
+                                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning">Tải ảnh lên</button>
+
+                                    </div>
+                                </div>
 							</div>
+
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Vị trí</strong></label>

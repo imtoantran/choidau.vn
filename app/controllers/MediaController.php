@@ -44,7 +44,8 @@ class MediaController extends BaseController {
         $style_global=$this->Style(array('assets/global/plugins/jquery-1.8.3.min.js'
             ));
 
-        $style_plugin=$this->Style(array('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
+        $style_plugin=$this->Style(array(
+            'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css'
 
