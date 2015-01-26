@@ -123,19 +123,6 @@ Route::controller('blog.html','BlogController');
 
 
 
-
-
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-
-
-
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-
-
-
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-
-
 /** -------------------Site location: luuhoabk-------------**/
 Route::group(array('prefix' => 'location'), function(){
    Route::get('create', 'LocationController@getCreate');
