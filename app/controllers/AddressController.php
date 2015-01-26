@@ -1,9 +1,9 @@
 <?php
-
+//luuhoabk
 class AddressController extends BaseController {
  	protected $province;
  	protected $district;
-    public function __construct(Provinces $province, Districts $district){
+    public function __construct(Province $province, District $district){
         parent::__construct();
 		$this->province = $province;
 		$this->district = $district;

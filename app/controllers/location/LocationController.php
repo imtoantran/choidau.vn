@@ -39,11 +39,12 @@ class LocationController extends BaseController {
     }
 
     public function loadInitParam(){
-        $foodType = Options::orderBy('name','ASC')->where('name','=','food_type')->get();
-        $province = Provinces::orderBy('name','ASC')->get();
-        $utility = Utilities::orderBy('name','ASC')->get();
-        $food = Foods::orderBy('name','ASC')->get();
+        $foodType = Option::orderBy('name','ASC')->where('name','=','food_type')->get();
+        $province = Province::orderBy('name','ASC')->get();
+        $utility = Utility::orderBy('name','ASC')->get();
+        $food = Food::orderBy('name','ASC')->get();
         $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
+//        $initParam = array( "province"=>$province);
 
         return json_encode($initParam);
     }

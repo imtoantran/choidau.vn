@@ -44,7 +44,6 @@ var Location = function () {
 		submitForm: function(){
 			console.log('submit');
 		},
-		//load thuc don
 		loadInitParam: function(){
 			$.ajax({
 				url: URL+"/location/loadInitParam",
@@ -52,6 +51,7 @@ var Location = function () {
 				dataType: 'json',
 				success: function(dbParam){
 					var html='';
+
 					global_food_item = dbParam.food;
 					global_food_type = dbParam.foodType;
 					global_utility_item = dbParam.utility;

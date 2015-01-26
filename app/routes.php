@@ -121,18 +121,8 @@ Route::controller('blog.html','BlogController');
  *  ------------------------------------------
  */
 
-
-
-
-
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-
-
-
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-
-
-
 Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
 
@@ -146,7 +136,6 @@ Route::group(array('prefix' => 'location'), function(){
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 /** -------------------End Site location-------------------**/
-
 
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
