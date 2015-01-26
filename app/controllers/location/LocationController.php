@@ -22,45 +22,22 @@ class LocationController extends BaseController {
     public function getCreate()
     {
 
-        $arrayJS = array(
 
+            $style_plugin=$this->Style(array(
+                'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
+                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
+                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
+                'assets/global/plugins/image-manager/css/image-manager.min.css',
+                'assets/global/plugins/uniform/css/uniform.default.css'
 
-        );
-        $arrayStyle = array(
+            ));
+            $style_page=$this->Style(array(
+                'assets/frontend/pages/css/location.css',
+                'assets/global/css/plugins.css',
 
-
-
-        );
-
-
-
-
-        $style_global=$this->Style(array('assets/global/plugins/jquery-1.8.3.min.js'
-        ));
-
-        $style_plugin=$this->Style(array(
-
-            'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
-            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
-            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css'
-
-        ));
-        $js_page = $this->JScript($arrayJS);
-            'assets/frontend/pages/css/location.css',
-            'assets/global/css/plugins.css',
-            'assets/global/plugins/image-manager/css/image-manager.min.css'));
-
-
-
-        /*--------end*/
-
-        /*thêm css---start */
-        $style_script=' .a{color:red;font-size:30px} b.{background:green;} ';
-        /*-----------end*/
-
+            ));
         /*thêm javascript*/
         $js_global=$this->JScript(array(
-
             'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
             'assets/admin/pages/scripts/maps-google.js',
         ));
@@ -68,7 +45,6 @@ class LocationController extends BaseController {
         $js_plugin=$this->JScript(array(
             'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
-
             'assets/global/plugins/image-manager/js/image-manager.js',
             'assets/global/plugins/image-manager/spaCMS_settings.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
@@ -83,20 +59,22 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js',
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js',
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js'
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js',
+
+            'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
+            'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
+            'assets/global/plugins/uniform/jquery.uniform.min.js',
         ));
-        $style_page = $this->Style($arrayStyle);
+        $js_page=$this->JScript(array(
             'assets/admin/pages/scripts/form-fileupload.js',
+            'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
         $js_script=' Layout.init();
-                FormFileUpload.init();
-        ';
+                FormFileUpload.init();';
 
-
-
-     //   $js_page = $this->JScript($arrayJS);
-     //   $style_page = $this->Style($arrayStyle);
-        return View::make('site/location/create', compact('js_page','style_page','$address'));
+      //  $js_page = $this->JScript($arrayJS);
+        //$style_page = $this->Style($arrayStyle);
+        return View::make('site/location/create', compact('$address','style_plugin','style_page',
             'js_plugin','js_script','js_page'));
     }
 
