@@ -50,9 +50,11 @@ class LocationController extends BaseController {
         $utility = Utility::orderBy('name','ASC')->get();
         $food = Food::orderBy('name','ASC')->get();
         $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
-//        $initParam = array( "province"=>$province);
-
         return json_encode($initParam);
+    }
+
+    public function saveLocation(){
+//        $province_id = Input::get('province_id');
     }
 
 }
