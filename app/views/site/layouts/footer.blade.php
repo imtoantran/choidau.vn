@@ -78,3 +78,4 @@
         </div>
     </div>
 </div>
+@include('site.partials.media_browser')
