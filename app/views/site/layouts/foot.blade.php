@@ -1,4 +1,3 @@
-<?php echo Request::server('HTTP_HOST')."/upload/"; ?>
 <!-- JavaScript required for CMS-->
 @if (isset($js_variable))
 {{$js_variable}}

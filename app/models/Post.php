@@ -147,8 +147,14 @@ class Post extends Eloquent
 	}
 
 
+
     public function getMetaKey($meta_key){
         return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
     }
+
+	public function category(){
+		return $this->belongsTo('Category');
+	}
+
 	//imtoantran
 }

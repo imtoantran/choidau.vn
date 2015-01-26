@@ -24,7 +24,7 @@
 {{--    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-{{--    <link href="{{asset('assets/global/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet" type="text/css"/>--}}
+    <link href="{{asset('assets/global/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet" type="text/css"/>
 {{--    <link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css"/>--}}
 {{--    <link href="{{asset('assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>--}}
 {{--    <link href="{{asset('assets/global/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css"/>--}}

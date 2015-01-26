@@ -46,9 +46,10 @@
 	<!-- CSS -->
 	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/prettify.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
+	<link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
+
+	{{--    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/wysiwyg-color.css')}}">--}}
 	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
     <link rel="stylesheet" href="{{asset('assets/global/plugins/colorbox/colorbox.css')}}">
 
@@ -122,8 +123,8 @@
     {{--<script src="{{asset('assets/js/jquery.colorbox.js')}}"></script>--}}
     {{--<script src="{{asset('assets/js/prettify.js')}}"></script>--}}
 
-	<script src="{{asset("assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
-	<script src="{{asset("assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
+	<script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
 	<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
 	<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
 	<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
@@ -152,7 +153,7 @@ event.preventDefault();
 });
 });
 $('.wysihtml5').wysihtml5();
-$(prettyPrint)
+//$(prettyPrint)
 </script>
 
     @yield('scripts')

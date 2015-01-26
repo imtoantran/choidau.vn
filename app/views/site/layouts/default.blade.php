@@ -33,10 +33,10 @@
 
 
 <footer id="footer">
-  @include('site.layouts.footer');
+  @include('site.layouts.footer')
 </footer>
 
-  @include('site.layouts.foot');
+  @include('site.layouts.foot')
 
 
 </body>

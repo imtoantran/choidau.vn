@@ -2,21 +2,21 @@
 
 return array(
 
-	'does_not_exist' => 'Blog post does not exist.',
+	'does_not_exist' => 'Bài viết không tồn tại.',
 
 	'create' => array(
-		'error'   => 'Blog post was not created, please try again.',
-		'success' => 'Blog post created successfully.'
+		'error'   => 'Không thể đăng bài, vui lòng thử lại.',
+		'success' => 'Đăng bài thành công.'
 	),
 
 	'update' => array(
-		'error'   => 'Blog post was not updated, please try again',
-		'success' => 'Blog post updated successfully.'
+		'error'   => 'Không thể cập nhật bài viết, vui lòng thử lại',
+		'success' => 'Cập nhật bài viết thành công.'
 	),
 
 	'delete' => array(
-		'error'   => 'There was an issue deleting the blog post. Please try again.',
-		'success' => 'The blog post was deleted successfully.'
+		'error'   => 'Có vấn đề trong việc xóa bài viết, vui lòng thử lại.',
+		'success' => 'Xóa bài viết thành công.'
 	)
 
 );
