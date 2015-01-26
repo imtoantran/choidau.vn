@@ -28,16 +28,20 @@ class LocationController extends BaseController {
             'assets/global/plugins/gmaps/gmaps.min.js',
             'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
             'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
+            'assets/global/plugins/uniform/jquery.uniform.min.js',
+            'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js',
 
         );
         $arrayStyle = array(
-            'assets/frontend/pages/css/location.css'
+            'assets/frontend/pages/css/location.css',
+            'assets/global/plugins/uniform/css/uniform.default.css',
+            'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
         );
         $js_page = $this->JScript($arrayJS);
         $style_page = $this->Style($arrayStyle);
-        return View::make('site/location/create', compact('js_page','style_page','$address'));
+        return View::make('site/location/create', compact('js_page','style_page'));
     }
 
     public function loadInitParam(){
