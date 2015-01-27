@@ -20,6 +20,7 @@ var Location = function () {
 			jQuery(document).ready(function(){
 				self.loadInitParam();
 				self.loadActionTime();
+				self.loadAvatar();
 
 				$('#location-food-add').on('click', function(){
 					self.addFoodTemp();
@@ -44,6 +45,19 @@ var Location = function () {
 			});
 
         },
+
+		loadAvatar: function(){
+			$('#location-upload-img-save').click(function(){
+				var urlImg=$('#url-edit-media').attr('data-img-url');
+				if(urlImg == "" || urlImg == 'undefined'){
+					alert('Xin vui lòng chọn hình.');
+					return false;
+				}else{
+					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
+
+				}
+			});
+		},
 		submitForm: function() {
 			var locationError = $('.alert-danger', createLocation_frm);
 			var locationSuccess = $('.alert-success', createLocation_frm);
@@ -134,6 +148,7 @@ var Location = function () {
 					$('.location-time-'+thu).removeClass('timepicker').prop('readonly', true).prop('disabled', true).val('Nghỉ');
 				}
 			});
+
 		},
 		getTimeAction: function(){
 			var arrayTime=[];

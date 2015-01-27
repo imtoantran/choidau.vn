@@ -2,7 +2,9 @@
 @if (isset($js_variable))
 {{$js_variable}}
 @endif
-
+<script>
+    URL = '{{URL::to('/')}}';
+</script>
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
@@ -15,7 +17,6 @@
         data:{"_token":"{{Session::getToken()}}"}
     });
     // Active menu
-    var URL = "";
     var URL_IMAGE_MANAGER = "/";
     var URL_IMAGE_MANAGER_PLUGINS="assets/global/plugins/image-manager/";
     var user_id = '2'; // USER ID = GET SESSION['user_id']
@@ -78,7 +79,7 @@
             data:{"_token":"{{Session::getToken()}}"}
         });
         // Active menu
-        var URL = "";
+
 
         $(function() {
             var pgurl = window.location.href.substr( window.location.href.lastIndexOf("/") + 1 );
@@ -90,7 +91,8 @@
             });
         });
         Layout.init();
-        URL = '{{URL::to('/')}}';
+
+
         @if (isset($js_script))
                 {{$js_script}}
         @endif

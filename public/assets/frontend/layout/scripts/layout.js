@@ -226,6 +226,7 @@ var Layout = function () {
             }
         });
     }
+
     var handleSubMenuExt = function() {
         $(".header-navigation .dropdown").on("hover", function() {
             if ($(this).children(".header-navigation-content-ext").show()) {
@@ -353,12 +354,12 @@ var Layout = function () {
             $('.ecommerce .site-logo img').attr("src", "../../assets/frontend/layout/img/logos/logo-shop-" + color + ".png");
         }
 
-        $('.icon-color', panel).click(function () {
+        $('.icon-color', panel).click(function (){
             $('.color-mode').show();
             $('.icon-color-close').show();
         });
 
-        $('.icon-color-close', panel).click(function () {
+        $('.icon-color-close', panel).click(function (){
             $('.color-mode').hide();
             $('.icon-color-close').hide();
         });
@@ -371,11 +372,10 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
-
         $('#iM_user_slide').click(function(){
-            $('#imageManager_saveChange').attr('cover_id','user_slide');
-            
+            //$('#imageManager_saveChange').attr('cover_id','user_slide');
         });
+
     }
     return {
         init: function () {

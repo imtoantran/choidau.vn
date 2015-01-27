@@ -104,16 +104,18 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" style="line-height: 100px;">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
-							<div class="col-sm-4 col-md-3 col-lg-3">
+							<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
                                 <div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
                                     <div class="add-picture vertically-centered" style="">
                                         <div class="icon icons-plus3"></div>
-                                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning">Tải ảnh lên</button>
-
+                                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
                                     </div>
                                 </div>
+							</div>
+							<div class="col-sm-4 col-md-3 col-lg-3">
+								<img id="location-img-url" class="hidden"  data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="150px" alt=""/>
 							</div>
 
 						</div>
@@ -121,7 +123,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Vị trí</strong></label>
 							<div class="col-sm-4 col-md-3 col-lg-3">
-								<button id="btn-update-position" type="button" class="form-control yellow btn btn-warning">Cập nhật vị trí</button>
+								<button id="btn-update-position" type="button" class="form-control yellow btn btn-warning"> <i class="icon-location pull-left" style="font-size: 1.3em;"></i> Cập nhật vị trí</button>
 							</div>
 						</div>
 					</div>
