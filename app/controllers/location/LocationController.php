@@ -23,28 +23,26 @@ class LocationController extends BaseController {
     {
 
 
-            $style_plugin=$this->Style(array(
-                'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
-                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
-                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
-                'assets/global/plugins/image-manager/css/image-manager.min.css',
-                'assets/global/plugins/uniform/css/uniform.default.css'
-                'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+        $style_plugin=$this->Style(array(
+            'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
+            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
+            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
+            'assets/global/plugins/image-manager/css/image-manager.min.css',
+            'assets/global/plugins/uniform/css/uniform.default.css',
+        ));
+        $style_page=$this->Style(array(
+            'assets/frontend/pages/css/location.css',
+            'assets/global/css/plugins.css',
+            'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
 
-            ));
-            $style_page=$this->Style(array(
-                'assets/frontend/pages/css/location.css',
-                'assets/global/css/plugins.css',
-                'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
+        ));
 
-            ));
         /*thêm javascript*/
-        $js_global=$this->JScript(array(
+        $js_global = $this->JScript(array(
             'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
             'assets/admin/pages/scripts/maps-google.js',
         ));
-        // $js_global.=$this->JScript(array('abc.js','nbkk.js'));
-        $js_plugin=$this->JScript(array(
+        $js_plugin = $this->JScript(array(
             'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
             'assets/global/plugins/image-manager/js/image-manager.js',
@@ -66,34 +64,18 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
             'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
             'assets/global/plugins/uniform/jquery.uniform.min.js',
-
+            'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'
         ));
-        $js_page=$this->JScript(array(
+        $js_page = $this->JScript(array(
             'assets/admin/pages/scripts/form-fileupload.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
         $js_script=' Layout.init();
                 FormFileUpload.init();';
 
-      //  $js_page = $this->JScript($arrayJS);
-        //$style_page = $this->Style($arrayStyle);
         return View::make('site/location/create', compact('$address','style_plugin','style_page',
-            'js_plugin','js_script','js_page'));
-
-            'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-            'assets/admin/pages/scripts/maps-google.js',
-            'assets/frontend/pages/scripts/location.js',
-
+            'js_plugin','js_script','js_page','js_global')
         );
-        $arrayStyle = array(
-            'assets/frontend/pages/css/location.css',
-            'assets/global/plugins/uniform/css/uniform.default.css',
-            'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
-        );
-        $js_page = $this->JScript($arrayJS);
-        $style_page = $this->Style($arrayStyle);
-        return View::make('site/location/create', compact('js_page','style_page'));
-
     }
 
     public function loadInitParam(){
