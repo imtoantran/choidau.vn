@@ -14,6 +14,6 @@
 
 </div>
 
-{{ Confide::makeSignupForm()->render() }}
+@include('site.partials.user.signup')
 
 @stop
