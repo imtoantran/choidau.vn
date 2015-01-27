@@ -9,7 +9,6 @@
 <script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js')}}" type="text/javascript"></script>
 
-<script src="{{asset('assets/global/plugins/image-manager/spaCMS_settings.js')}}" type="text/javascript"></script>
 
 <script type="text/javascript">
     $.ajaxSetup({

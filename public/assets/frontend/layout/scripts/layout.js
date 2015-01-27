@@ -370,7 +370,13 @@ var Layout = function () {
             $(this).addClass("current");
         });
     }
-	
+    var handleMediaBrowser = function () {
+
+        $('#iM_user_slide').click(function(){
+            $('#imageManager_saveChange').attr('cover_id','user_slide');
+            
+        });
+    }
     return {
         init: function () {
             // init core variables
@@ -390,6 +396,8 @@ var Layout = function () {
             handlePortletTools();
            */ handleMobiMenu();
             handleMobiSearch();
+            handleMediaBrowser();
+
         },
 
         initUniform: function (els) {

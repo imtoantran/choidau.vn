@@ -281,7 +281,7 @@
 
 						<div class="tab-pane fade active in " id="tab_thu_vien">
 							<div class="col-md-9 col-none-padding" style=" background: aliceblue;">
-								<form id="fileupload" action="/media-data" method="POST" enctype="multipart/form-data">
+								<form id="fileupload" action="{{URL::to('media-data')}}" method="POST" enctype="multipart/form-data">
 									<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 									<input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
 									<div class="row fileupload-buttonbar" style=" margin-left: 2px;">
