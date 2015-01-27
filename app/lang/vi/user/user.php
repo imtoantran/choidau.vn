@@ -37,8 +37,8 @@ return array(
         'title' => 'Login',
         'desc' => 'Enter your credentials',
         'forgot_password' => '(forgot password)',
-        'remember' => 'Remember me',
-        'submit' => 'Login',
+        'remember' => 'Ghi nhớ cho lần sau.',
+        'submit' => 'Đăng Nhập',
     ),
 
     'forgot' => array(

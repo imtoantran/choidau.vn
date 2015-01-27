@@ -86,8 +86,7 @@ class AdminBlogsController extends AdminController {
         if ($validator->passes())
         {
             // Create a new blog post
-//            $user = Auth::user();
-            $user =User::find(3);
+            $user = Auth::user();
 
             // Update the blog post data
             $this->post->title            = Input::get('title');

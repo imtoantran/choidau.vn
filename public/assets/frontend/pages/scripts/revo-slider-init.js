@@ -43,7 +43,7 @@ var RevosliderInit = function () {
                       hideAllCaptionAtLilmit:0,       // Hide all The Captions if Width of Browser is less then this value
                       hideSliderAtLimit:0,          // Hide the whole slider, and stop also functions if Width of Browser is less than this value
 
-                      shadow:1,                               //0 = no Shadow, 1,2,3 = 3 Different Art of Shadows  (No Shadow in Fullwidth Version !)
+                      shadow:0,                               //0 = no Shadow, 1,2,3 = 3 Different Art of Shadows  (No Shadow in Fullwidth Version !)
                       fullWidth:"on"                          // Turns On or Off the Fullwidth Image Centering in FullWidth Modus
                   });
         }

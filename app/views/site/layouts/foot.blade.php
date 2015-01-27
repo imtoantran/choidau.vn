@@ -53,16 +53,9 @@
 
 
 <!-- START CORE PLUGINS -->
-<script src="{{asset('assets/global/plugins/jquery.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
 <script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
-<script>
-    $.ajaxSetup({
-        data:{"_token":"{{Session::getToken()}}}"}
-    });
-</script>
+
 @if (isset($js_plugin))
 {{$js_plugin}}
 @endif
@@ -82,6 +75,21 @@
 <script src="{{asset('assets/frontend/layout/scripts/layout.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
+        $.ajaxSetup({
+            data:{"_token":"{{Session::getToken()}}"}
+        });
+        // Active menu
+        var URL = "";
+
+        $(function() {
+            var pgurl = window.location.href.substr( window.location.href.lastIndexOf("/") + 1 );
+            $("#nav1 li a").each(function(){
+                var href = $(this).attr("href");
+                var ctr = href.substr( href.lastIndexOf("/") + 1 ) ;
+                if(ctr == pgurl || ctr == '' )
+                    $(this).parent().addClass("on");
+            });
+        });
         Layout.init();
         URL = '{{URL::to('/')}}';
         @if (isset($js_script))
