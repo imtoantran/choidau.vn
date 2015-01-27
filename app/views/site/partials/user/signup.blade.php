@@ -21,7 +21,7 @@
 <div class="form-group">
 
 
-    <label for="lastname" class="col-lg-3 control-label" for="email">{{{ Lang::get('user/user.e_mail') }}}<small>{{ Lang::get('user/user.signup.confirmation_required') }}</small> <span class="require"></span></label>
+    <label for="lastname" class="col-lg-3 control-label" for="email">{{{ Lang::get('user/user.e_mail') }}} <span class="require"></span></label>
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
         <div class="col-xs-10 col-sm-8 col-md-8 col-lg-8 margin-bottom-10">
             <input class="form-control" placeholder="{{{ Lang::get('user/user.e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
@@ -67,7 +67,15 @@
     <label for="email" class="col-lg-3 control-label">Tỉnh/Thành Phố <span class="require"></span></label>
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
         <div class="col-xs-10 col-sm-8 col-md-8 col-lg-8 margin-bottom-10 margin-bottom-10">
-            <input type="text" class="form-control" id="email">
+            <div class="section-icon-right">
+                <select class="form-control" name="select">
+                    <option value="">--Tỉnh/Thành Phố</option>
+                    @foreach ($listProvince as $item)
+                    <option value="{{ $item['id']}}">{{ $item['name']}}</option>
+                    @endforeach
+                </select>
+                <i class="icon-down-dir"></i></button>
+            </div>
         </div>
     </div>
 </div>
@@ -81,11 +89,10 @@
         <div class="col-xs-10 col-sm-8 col-md-8 col-lg-8 margin-bottom-10">
             <div class="section-icon-right">
                 <select class="form-control" name="select">
-                    <option value="">Select...</option>
-                    <option value="Category 1">Category 1</option>
-                    <option value="Category 2">Category 2</option>
-                    <option value="Category 3">Category 5</option>
-                    <option value="Category 4">Category 4</option>
+                    <option value="">--Tình trạng hôn nhân</option>
+                    @foreach ($listTTHN as $item)
+                    <option value="{{ $item['id']}}">{{ $item['string']}}</option>
+                    @endforeach
                 </select>
                 <i class="icon-down-dir"></i></button>
             </div>
@@ -340,7 +347,7 @@
 
     </div>
     <div class=" col-xs-12 col-sm-7 col-md-7 col-lg-7"">
-    <button type="submit" class="btn btn-primary">{{{ Lang::get('confide::confide.signup.submit') }}}</button>
+    <button type="submit" class="btn btn-primary">{{{ Lang::get('user/user.signup.submit') }}}</button>
 
 
     <button type="button" class="btn btn-default">Huỷ</button>
