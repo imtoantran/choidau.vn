@@ -6,9 +6,9 @@
 			<div class="fullwidthabnner">
 				<ul id="revolutionul">
 					<!-- THE NEW SLIDE -->
-					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="../../assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg">
+					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
 						<!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
-						<img src="../../assets/frontend/pages/img/revolutionslider/bg9.jpg" alt="">
+						<img src="{{asset("assets/frontend/pages/img/revolutionslider/bg9.jpg")}}" alt="">
 
 						<div class="caption lft slide_title_white slide_item_left"
 							 data-x="30"
@@ -45,9 +45,9 @@
 					</li>
 
 					<!-- THE FIRST SLIDE -->
-					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="../../assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg">
+					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
 						<!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
-						<img src="../../assets/frontend/pages/img/revolutionslider/bg1.jpg" alt="">
+						<img src="{{asset("assets/frontend/pages/img/revolutionslider/bg1.jpg")}}" alt="">
 
 						<div class="caption lft slide_title slide_item_left"
 							 data-x="30"
@@ -92,8 +92,8 @@
 					</li>
 
 					<!-- THE SECOND SLIDE -->
-					<li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-delay="9400" data-thumb="../../assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg">
-						<img src="../../assets/frontend/pages/img/revolutionslider/bg2.jpg" alt="">
+					<li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-delay="9400" data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
+						<img src="{{asset("assets/frontend/pages/img/revolutionslider/bg2.jpg")}}" alt="">
 						<div class="caption lfl slide_title slide_item_left"
 							 data-x="30"
 							 data-y="125"
@@ -169,8 +169,8 @@
 					</li>
 
 					<!-- THE THIRD SLIDE -->
-					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="../../assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg">
-						<img src="../../assets/frontend/pages/img/revolutionslider/bg3.jpg" alt="">
+					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
+						<img src="{{asset("assets/frontend/pages/img/revolutionslider/bg3.jpg")}}" alt="">
 						<div class="caption lfl slide_item_left"
 							 data-x="30"
 							 data-y="95"
@@ -214,9 +214,9 @@
 					</li>
 
 					<!-- THE FORTH SLIDE -->
-					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="../../assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg">
+					<li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
 						<!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
-						<img src="../../assets/frontend/pages/img/revolutionslider/bg4.jpg" alt="">
+						<img src="{{asset("assets/frontend/pages/img/revolutionslider/bg4.jpg")}}" alt="">
 						<div class="caption lft slide_title"
 							 data-x="30"
 							 data-y="105"
@@ -329,7 +329,7 @@
 	</section>
 	<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
 		<header>
-			<h1>TOP REVIEW<h1>
+			<h1>TOP REVIEW</h1>
 		</header>
 		<article>
 			<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />

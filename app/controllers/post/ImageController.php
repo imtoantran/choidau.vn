@@ -58,9 +58,8 @@ class ImageController extends PostController {
         if ($validator->passes())
         {
             // Create a new blog post
-            //$user = Auth::user();
 
-            $user = User::find(3)->first();
+            $user = Auth::user();
             $data = Input::all();
             $this->post->title            =$data['title'];
             $this->post->slug             =Str::slug( $data['title']);
@@ -89,7 +88,6 @@ class ImageController extends PostController {
 
 
     public function upLoadFile(){
-     //   Auth::user()->
 
         $upload=new UploadMediaHandler();
         $initialize = true;
@@ -102,7 +100,8 @@ class ImageController extends PostController {
                 case 'GET':
 
                     $upload->get();
-                     $id_user='3';
+                    //$id_user='3';
+                    $id_user = Auth::user()->id;
 
 
                     break;
