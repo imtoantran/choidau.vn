@@ -136,29 +136,213 @@
 						<div class="form-group ">
 							<p class="btn btn-primary"><strong>Thông tin khác</strong></p>
 						</div>
-						<div class="form-group ">
-							<label for="input" class="col-sm-3 control-label"><strong>Giờ mở cửa</strong></label>
+
+						<div class="form-group">
+							<label for="input" class="col-sm-3 control-label"><strong>Giá thấp nhất</strong></label>
 							<div class="col-sm-9">
-								<input type="text" name="" id="input" class="form-control" value=""  title="">
+								<input type="text" name="" id="input" class="form-control" value=""   title="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="input" class="col-sm-3 control-label"><strong>Giờ đóng cửa</strong></label>
+							<label for="input" class="col-sm-3 control-label"><strong>Giá cao nhất</strong></label>
 							<div class="col-sm-9">
 								<input type="text" name="" id="input" class="form-control" value=""   title="">
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label for="input" class="col-sm-3 control-label"><strong>Gía thấp nhất</strong></label>
-							<div class="col-sm-9">
-								<input type="text" name="" id="input" class="form-control" value=""   title="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="input" class="col-sm-3 control-label"><strong>Gía cao nhất</strong></label>
-							<div class="col-sm-9">
-								<input type="text" name="" id="input" class="form-control" value=""   title="">
+						<div class="form-group ">
+
+							<label for="input" class="col-sm-3 control-label"><strong>Giờ hoạt động</strong></label>
+							<div class="col-sm-9 location-time-action">
+								<table id="" class="table table-bordered table-striped table-condensed flip-content">
+									<thead>
+										<tr>
+											<th class="text-center">Thứ</th><th>Giờ bắt đầu</th><th>Giờ kết thúc</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="2" class="location-time-check" type="checkbox" id="location-time-check-t2" checked></span></div>
+													Hai
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t2" type="text" class="form-control timepicker  timepicker-no-seconds location-time-2" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t2" type="text" class="form-control timepicker timepicker-no-seconds location-time-2" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="3" class="location-time-check" type="checkbox" id="location-time-check-t3" checked></span></div>
+													Ba
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t3" type="text" class="form-control timepicker  timepicker-no-seconds location-time-3" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t3" type="text" class="form-control timepicker timepicker-no-seconds location-time-3" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="4" class="location-time-check" type="checkbox" id="location-time-check-t4" checked></span></div>
+													Tư
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t4" type="text" class="form-control timepicker  timepicker-no-seconds location-time-4" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t4" type="text" class="form-control timepicker timepicker-no-seconds location-time-4" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="5" class="location-time-check" type="checkbox" id="location-time-check-t3" checked></span></div>
+													Năm
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t5" type="text" class="form-control timepicker  timepicker-no-seconds location-time-5" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t5" type="text" class="form-control timepicker timepicker-no-seconds location-time-5" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="6" class="location-time-check" type="checkbox" id="location-time-check-t6" checked></span></div>
+													Sáu
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t6" type="text" class="form-control timepicker  timepicker-no-seconds location-time-6" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t6" type="text" class="form-control timepicker timepicker-no-seconds location-time-6" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="7" class="location-time-check" type="checkbox" id="location-time-check-t7" checked></span></div>
+													Bảy
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t7" type="text" class="form-control timepicker  timepicker-no-seconds location-time-7" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t7" type="text" class="form-control timepicker timepicker-no-seconds location-time-7" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label class="location-time-check-lbl">
+													<div class="checker"><span>
+														<input data-thu="8" class="location-time-check" type="checkbox" id="location-time-check-t8" checked></span></div>
+													Chủ nhật
+												</label>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-start-t8" type="text" class="form-control timepicker  timepicker-no-seconds location-time-8" value="6:00 AM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input id="location-time-end-t8" type="text" class="form-control timepicker timepicker-no-seconds location-time-8" value="11:00 PM">
+													<span class="input-group-btn">
+													<button class="btn default" type="button"><i class="icon-clock"></i></button>
+													</span>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 
@@ -231,25 +415,6 @@
 				</div>
 			</div>
 			{{--<!-- THÔNG TIN KHÁC END-->--}}
-
-			{{--<!-- THUỘC DANH MUC -->--}}
-			<div class="row margin-top-15">
-				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 bg-grey-light padding-top-20">
-					<div class="col-md-10 col-md-offset-1">
-
-						<div class="form-group ">
-							<p class="btn btn-primary col-xs-3"><strong>Thuộc danh mục</strong></p>
-							<div class="col-sm-9">
-								<select name="" id="input" class="form-control" value="" title="">
-									<option></option>
-								</select>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-			{{--<!-- THUỘC DANH MUC -->--}}
 
 			<!-- SUBMIT -->
 			<div class="row margin-top-15">

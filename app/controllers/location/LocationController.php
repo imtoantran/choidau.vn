@@ -29,11 +29,13 @@ class LocationController extends BaseController {
                 'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
                 'assets/global/plugins/image-manager/css/image-manager.min.css',
                 'assets/global/plugins/uniform/css/uniform.default.css'
+                'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
 
             ));
             $style_page=$this->Style(array(
                 'assets/frontend/pages/css/location.css',
                 'assets/global/css/plugins.css',
+                'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
 
             ));
         /*thêm javascript*/
@@ -64,6 +66,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
             'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
             'assets/global/plugins/uniform/jquery.uniform.min.js',
+
         ));
         $js_page=$this->JScript(array(
             'assets/admin/pages/scripts/form-fileupload.js',
@@ -76,6 +79,21 @@ class LocationController extends BaseController {
         //$style_page = $this->Style($arrayStyle);
         return View::make('site/location/create', compact('$address','style_plugin','style_page',
             'js_plugin','js_script','js_page'));
+
+            'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+            'assets/admin/pages/scripts/maps-google.js',
+            'assets/frontend/pages/scripts/location.js',
+
+        );
+        $arrayStyle = array(
+            'assets/frontend/pages/css/location.css',
+            'assets/global/plugins/uniform/css/uniform.default.css',
+            'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
+        );
+        $js_page = $this->JScript($arrayJS);
+        $style_page = $this->Style($arrayStyle);
+        return View::make('site/location/create', compact('js_page','style_page'));
+
     }
 
     public function loadInitParam(){
@@ -84,9 +102,11 @@ class LocationController extends BaseController {
         $utility = Utility::orderBy('name','ASC')->get();
         $food = Food::orderBy('name','ASC')->get();
         $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
-//        $initParam = array( "province"=>$province);
-
         return json_encode($initParam);
+    }
+
+    public function saveLocation(){
+//        $province_id = Input::get('province_id');
     }
 
 }
