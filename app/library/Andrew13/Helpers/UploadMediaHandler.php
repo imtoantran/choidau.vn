@@ -1135,7 +1135,7 @@ class UploadMediaHandler
                      $img->slug             =Str::slug($file->name);
                      $img->thumbnail        =$file->name;
                      $img->content          ='';//  $data['content'];
-                     $img->user_id          ='2';//  $user->id;
+                     $img->user_id          =Auth::user()->id;//  $user->id;
 
                     // Was the blog post created?
                     if($img->save())
