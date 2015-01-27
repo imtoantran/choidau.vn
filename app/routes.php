@@ -144,19 +144,13 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::post('dang-ky.html', 'UserController@postCreate');
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
-    
+
 
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 
 
 /** -------------------End Site User-------------------**/
-
-
-
-
-
-
 
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
