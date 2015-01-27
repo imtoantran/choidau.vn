@@ -7,7 +7,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="imageManager_modalLabel">Manager Media</h4>
 			</div>
-		<div class="col-md-12 col-none-padding modal-body">
+			<div class="col-md-12 col-none-padding modal-body">
 		<div class="row margin-none">
 					<div class="col-md-2 col-sm-2 col-xs-2 col-none-padding">
 						<ul class="nav nav-tabs tabs-left">
@@ -60,219 +60,213 @@
 						<div class="col-md-12">
 
 						<div class="media-tab-content col-md-12">
-								<ul class=" list-unstyled">
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
+							<ul class=" list-unstyled">
+								<li class="col-md-2" >
+									{{--<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />--}}
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
 
 
-												<button class="icon-cancel-circle-2 delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+											<button class="icon-cancel-circle-2 delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
 
-												</button>
-
-
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
+											</button>
 
 
 
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
 
 
-												<button class="icon-cancel-circle-2 delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+											<button class="icon-cancel-circle-2 delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
 
-												</button>
-
-
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
-									<li class="col-md-2" >
-										<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
-										<span><i class="icon-ok-circled2"></i></span>
-										<div class="media-tool">
-
-											<a href="#" class="icon-btn-cd btn-delete-img">
-												<i class="icon-cancel-circle-2"></i>
-
-											</a>
-											<a href="#" class="icon-btn-cd btn-check-img">
-												<i class="icon-ok-circle-1">
-													<input type="checkbox" name="delete" value="1" class="toggle">
-												</i>
-
-											</a>
-										</div>
-									</li>
+											</button>
 
 
-								</ul>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+								<li class="col-md-2" >
+									<img class="img-responsive" src="/upload/2/thumbnails/2/j-4_165x95.jpg" />
+									<span><i class="icon-ok-circled2"></i></span>
+									<div class="media-tool">
+
+										<a href="#" class="icon-btn-cd btn-delete-img">
+											<i class="icon-cancel-circle-2"></i>
+
+										</a>
+										<a href="#" class="icon-btn-cd btn-check-img">
+											<i class="icon-ok-circle-1">
+												<input type="checkbox" name="delete" value="1" class="toggle">
+											</i>
+
+										</a>
+									</div>
+								</li>
+							</ul>
 						</div>
 
 						</div>
@@ -354,13 +348,13 @@
 																				{% if (!i && !o.options.autoUpload) { %}
 																					<button class="btn btn-primary start" disabled>
 																						<i class="glyphicon glyphicon-upload"></i>
-																						
+
 																					</button>
 																				{% } %}
 																				{% if (!i) { %}
 																					<button class="btn btn-warning cancel">
 																						<i class="glyphicon glyphicon-ban-circle"></i>
-																						
+
 																					</button>
 																				{% } %}
 																			</div>
@@ -410,7 +404,7 @@
 
 											<div class="col-md-12 media-edit"  >
 												<div class="media-detail-infor">
-													<img class="media-thumbnail" id="media-thumbnail-img" src="http://choidau.net/public/upload/files/thumbnail/2%20%281%29.jpg" />
+													<img class="media-thumbnail" id="media-thumbnail-img" src={{asset('asset')}}"/upload/files/thumbnail/2%20%281%29.jpg" />
 													<p>Tên Hình : <span id="name_ihinh">hjhjhj</span> </p>
 													<p>kích thước :  <span id="size_ihinh">hjhjhj</span></p>
 													<p>Ngày đăng :  <span id="date_ihinh">hjhjhj</span></p>
@@ -433,7 +427,7 @@
 														<div class="form-group">
 															<label>URL</label>
 															<div class="input-group">
-																<input class="form-control" placeholder="" type="text" name="url-edit" id="url-edit-media" value="">
+																<input class="form-control" placeholder="" data-img-url="" type="text" name="url-edit" id="url-edit-media" value="">
 															</div>
 														</div>
 														<div class="form-group">
@@ -516,7 +510,7 @@
 											</div>
 										</div>
 										<div class="form-actions">
-											<button type="submit" class="btn blue">Chèn </button>
+											<button type="submit" class="btn blue" >Chèn </button>
 											<button type="button" class="btn default">Cancel</button>
 										</div>
 									</form>
@@ -538,15 +532,13 @@
 
 		<div class="clearfix"></div>
 		</div>
-		<div class=" col-md-12 col-none-padding modal-footer" style="margin-top: 0px;padding-top: 10px;padding: 5px;">
-			<div class="col-md-9" style="border-right: 1px solid #CCC; margin-bottom: 10px;">
-		  
+			<div class=" col-md-12 col-none-padding modal-footer" style="margin-top: 0px;padding-top: 10px;padding: 5px;">
+				<div class="col-md-9" style="border-right: 1px solid #CCC; margin-bottom: 10px;"></div>
+				<div class="col-md-3">
+					<button type="submit" id="location-upload-img-save" class="btn btn-sm btn-primary" data-dismiss="modal" >Chèn Hình</button>
+					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
+				</div>
 			</div>
-			<div class="col-md-3">
-				<button type="submit" id="imageManager_saveChange" class="btn btn-sm btn-primary" >Chèn Hình</button>
-				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
-			</div>
-		</div>
 		</div>
 </div>
 </div><!--// END Image Manager Modal -->

@@ -25,3 +25,10 @@
         width: 900px;
     }
 }
+
+img#location-img-url{
+    padding: 5px;
+    border: 1px solid #d4d4d4;
+    background: #fff;
+    box-shadow: 0 1px 1px #ccc;
+}

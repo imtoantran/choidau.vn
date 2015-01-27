@@ -86,34 +86,28 @@ var FormFileUpload = function () {
                     $('.list-unstyled li').removeClass('media-item-hover');
                     $( this ).addClass( "media-item-hover" );
                     $(".media-edit").attr('style','display:block');
-                  var imgItem=  $(this).find( "img");
-
+                     var imgItem=  $(this).find( "img");
+                     var urlImg = imgItem.attr('url_img');
                     $("#name_ihinh").html(imgItem.attr('name_image'));
                     $("#size_ihinh").html(imgItem.attr('size_img'));
                     $("#date_ihinh").html(imgItem.attr('date_post'));
 
                     $("#title-edit-media").val(imgItem.attr('title'));
-                    $("#url-edit-media").val(imgItem.attr('url_img'));
+
+                    $("#url-edit-media").val(URL+'/'+urlImg).attr('data-img-url',urlImg);
                     $("#alt-edit-media").val(imgItem.attr('alt'));
                     $("#content-edit-media").val(imgItem.attr('content_post'));
                     $("#id-edit-media").val(imgItem.attr('id_post'));
-                    $("#media-thumbnail-img").attr('src',imgItem.attr('url_img'));
-
-                  //  alert(imgItem.attr('id_post'));
+                    $("#media-thumbnail-img").attr('src',URL+'/'+imgItem.attr('url_img'));
 
                 }
             });
 
             $('.media-item').hover(
                 function(){
-
-                        alert('lll');
-
-
-
+                    alert('lll');
                 }
             );
-
 
             /**
              *  them url img
