@@ -1,6 +1,6 @@
 <?php
 
-use ChoiDau\Extensions\View\Factory;
+//use ChoiDau\Extensions\View\Factory;
 class UserController extends BaseController {
 
     /**
@@ -121,6 +121,34 @@ class UserController extends BaseController {
     {
         $page_title='Đăng ký thành viên choidau.net';
         $seoarray=array('metakey'=>'aasd,asd,asd,','metades'=>'asd ada asd a sdads');
+
+
+
+             $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
+              $listProvince=Province::orderBy('name','ASC')->get();
+             $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+
+   //     $listTinh='abc';
+        return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
+
+    }
+    public function postCreate(){
+
+        $this->user->username='vinhle';
+        $this->user->email='ád';
+        $this->user->password='ádasd';
+
+        $this->user->save();
+        if($this->user->save())
+        {
+            return View::make('site/user/login',compact('page_title'));
+        }
+    //    $listProvince=Province::orderBy('name','ASC')->get();
+    //    $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
+
+   //     $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+
+   //     return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
 
         return View::make('site/user/create',compact('page_title','seoarray'));
 

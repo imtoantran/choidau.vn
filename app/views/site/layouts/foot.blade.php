@@ -75,6 +75,21 @@
 <script src="{{asset('assets/frontend/layout/scripts/layout.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
+        $.ajaxSetup({
+            data:{"_token":"{{Session::getToken()}}"}
+        });
+        // Active menu
+        var URL = "";
+
+        $(function() {
+            var pgurl = window.location.href.substr( window.location.href.lastIndexOf("/") + 1 );
+            $("#nav1 li a").each(function(){
+                var href = $(this).attr("href");
+                var ctr = href.substr( href.lastIndexOf("/") + 1 ) ;
+                if(ctr == pgurl || ctr == '' )
+                    $(this).parent().addClass("on");
+            });
+        });
         Layout.init();
         URL = '{{URL::to('/')}}';
         @if (isset($js_script))
