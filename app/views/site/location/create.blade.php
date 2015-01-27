@@ -104,19 +104,21 @@
 							</div>
 						</div>
 
-						<div class="form-group" style="line-height: 100px;">
+						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
+
 							<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
+								<button type="button" id="location-img-btn-close" class="no-padding hidden" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
                                 <div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
-                                    <div class="add-picture vertically-centered" style="">
+									<img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
+
+									<div class="add-picture vertically-centered" style="">
                                         <div class="icon icons-plus3"></div>
                                         <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
                                     </div>
                                 </div>
 							</div>
-							<div class="col-sm-4 col-md-3 col-lg-3">
-								<img id="location-img-url" class="hidden"  data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="150px" alt=""/>
-							</div>
+
 
 						</div>
 

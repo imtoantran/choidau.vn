@@ -54,8 +54,14 @@ var Location = function () {
 					return false;
 				}else{
 					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
-
+					$(this).removeClass('hidden').fadeIn('fast');
+					$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
 				}
+			});
+
+			$('#location-img-btn-close').click(function(){
+				$(this).addClass('hidden').fadeOut('fast');
+				$('#location-img-url').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'}).fadeOut();
 			});
 		},
 		submitForm: function() {
