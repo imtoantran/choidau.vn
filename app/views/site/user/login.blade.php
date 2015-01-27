@@ -7,5 +7,5 @@
 <div class="page-header">
 	<h1>Login into your account</h1>
 </div>
-{{ Confide::makeLoginForm()->render() }}
+@include('site.partials.user.login')
 @stop

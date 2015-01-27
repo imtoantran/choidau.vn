@@ -2,7 +2,7 @@
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <fieldset>
         <div class="form-group">
-            <label class="col-md-2 control-label" for="email">{{ Lang::get('confide::confide.username_e_mail') }}</label>
+            <label class="col-md-2 control-label" for="email">{{{ Lang::get('user/user.password') }}}</label>
             <div class="col-md-10">
                 <input class="form-control" tabindex="1" placeholder="{{ Lang::get('confide::confide.username_e_mail') }}" type="text" name="email" id="email" value="{{ Input::old('email') }}">
             </div>
