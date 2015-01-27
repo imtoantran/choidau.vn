@@ -377,6 +377,9 @@ var Layout = function () {
             
         });
     }
+
+
+
     return {
         init: function () {
             // init core variables
@@ -397,6 +400,16 @@ var Layout = function () {
            */ handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
+
+        },
+        btnSelection:function(){
+            $(".select-button ul.dropdown-menu li ").click(function(){
+                var item=$(this).parents("div.select-button");
+                var item_this=$(this).find("a");
+                var item_button=item.find('.item-btn');
+                item_button.html(item_this.html());
+
+            });
 
         },
 
