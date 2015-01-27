@@ -189,8 +189,7 @@ class UploadMediaHandler
     }
 
     public function get_user_id() {
-        @session_start();
-        return '2' ;
+        return Auth::user()->id;
     }
 
     public function get_user_path() {

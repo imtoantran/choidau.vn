@@ -19,6 +19,8 @@ var Location = function () {
 			self = this;
 			jQuery(document).ready(function(){
 				self.loadInitParam();
+				self.loadActionTime();
+
 				$('#location-food-add').on('click', function(){
 					self.addFoodTemp();
 				})
@@ -38,6 +40,7 @@ var Location = function () {
 					self.submitForm();
 				})
 				self.submitForm();
+
 			});
 
         },
@@ -109,11 +112,43 @@ var Location = function () {
 					//$.each(dataForm,function(k,v){
 					//	console.log(k+'='+v);
 					//});
+
+					//get time action
+					//$('#test-local').on('click',function(){
+					//	console.log(self.getTimeAction());
+					//});
 				}
 			});
 
 		},
-
+		loadActionTime: function(){
+			$("input.location-time-check").uniform();
+			$('.timepicker').timepicker();
+			$('.location-time-check').on('click', function(){
+				var thu = $(this).attr('data-thu');
+				if(this.checked){//nghi
+					$('.location-time-'+thu).addClass('timepicker').prop('readonly', false).prop('disabled', false);
+					$('#location-time-start-t'+thu).val('6:00 AM');
+					$('#location-time-end-t'+thu).val('11:00 PM');
+				}else{
+					$('.location-time-'+thu).removeClass('timepicker').prop('readonly', true).prop('disabled', true).val('Nghỉ');
+				}
+			});
+		},
+		getTimeAction: function(){
+			var arrayTime=[];
+			$('.location-time-check').each(function(){
+				var thu = $(this).attr('data-thu');
+				var timeStart = $('#location-time-start-t'+thu).val();
+				var timeEnd = $('#location-time-end-t'+thu).val();
+				if(this.checked){
+					arrayTime.push({'timeStart':timeStart,'timeEnd':timeEnd});
+				}else{
+					arrayTime.push({'timeStart':"",'timeEnd':""});
+				}
+			});
+;			return arrayTime;
+		},
 		//load thuc don
 		loadInitParam: function(){
 			$.ajax({
