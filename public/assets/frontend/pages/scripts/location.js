@@ -8,6 +8,7 @@ var Location = function () {
 	var global_utility_item ='';
 	var global_arrayFood =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
 	var global_arrayUtility =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
+	var global_arrayAlbum =[1,2,3,4];
 	var dataProvince ='';
 	var markerLocation;
 	var self;
@@ -41,29 +42,11 @@ var Location = function () {
 					self.submitForm();
 				})
 				self.submitForm();
-
 			});
+
 
         },
 
-		loadAvatar: function(){
-			$('#location-upload-img-save').click(function(){
-				var urlImg=$('#url-edit-media').attr('data-img-url');
-				if(urlImg == "" || urlImg == 'undefined'){
-					alert('Xin vui lòng chọn hình.');
-					return false;
-				}else{
-					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
-					$(this).removeClass('hidden').fadeIn('fast');
-					$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
-				}
-			});
-
-			$('#location-img-btn-close').click(function(){
-				$(this).addClass('hidden').fadeOut('fast');
-				$('#location-img-url').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'}).fadeOut();
-			});
-		},
 		submitForm: function() {
 			var locationError = $('.alert-danger', createLocation_frm);
 			var locationSuccess = $('.alert-success', createLocation_frm);
@@ -73,22 +56,10 @@ var Location = function () {
 				focusInvalid: true, // do not focus the last invalid input
 				ignore: "", // validate all fields including form hidden input
 				rules: {
-					location_title: {
-						minlength: 4,
-						required: true
-					},
-					location_address: {
-						minlength: 4,
-						required: true
-					},
-					location_province: {
-						required: true
-					},
-
-					location_email: {
-						email:true
-					}
-
+					//location_title: {minlength: 4,required: true},
+					//location_address: {minlength: 4,required: true},
+					//location_province: {required: true},
+					//location_email: {email:true}
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
@@ -125,19 +96,71 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-					//form[0].submit(); // submit the form
+					//var dataForm = [];
+					//var locationTitle = $('#location_title').val();
+					//var locationAddress = $('#location_address').val();
+					//var locationProvince = province_tag.val();
+					//var locationDistrict = district_tag.val();
+					//var locationArea = $('#location_area').val();
+					//var locationDetailAddress = $('#location_detail-address').val();
+					//var locationPhone = $('#location_phone').val();
+					//var locationEmail = $('#location_email').val();
+					//var locationWebsite = $('#location_website').val();
+                    //
+					//var locationAlbum = global_arrayAlbum;
+					//var locationPosition = $('#location-position').val();
+					//var locationPriceMin = $('#location-price-min').val();
+					//var locationPriceMax = $('#location-price-max').val();
+                    //
+					//var locationTimeAction = self.getTimeAction();
+					//var locationFoodArray = global_arrayFood;
+					//var locationUtilityArray = global_arrayUtility;
 
+					var locationAvatar = $('#location-img-url').attr('data-url');
 
 					var dataForm = createLocation_frm.serialize();
-					//$.each(dataForm,function(k,v){
-					//	console.log(k+'='+v);
-					//});
+					dataForm += '&location_avatar='+locationAvatar;
+					dataForm += '&location_album='+global_arrayAlbum;
+					//dataForm += '&location_timeAction='+self.getTimeAction();
+					//dataForm += '&location_food='+global_arrayFood;
+					//dataForm += '&location_utility='+global_arrayUtility;
+					console.log(dataForm);
 
-					//get time action
-					//$('#test-local').on('click',function(){
-					//	console.log(self.getTimeAction());
-					//});
+					$.ajax({
+						url: URL+"/location/luu-dia-diem",
+						type: 'post',
+						data: {'dataform':dataForm,'getTimeAction':'aaaaaaa'},
+						dataType: 'json',
+						success: function(resInsert){
+							alert(resInsert);
+						},
+						complete: function(){
+
+						}
+					});
 				}
+			});
+
+		},
+		loadAvatar: function(){
+
+			$('#location-upload-img-save').click(function(){
+				var urlImg=$('#url-edit-media').attr('data-img-url');
+
+				if(urlImg == "" || urlImg == 'undefined'){
+					alert('Xin vui lòng chọn hình.');
+					return false;
+				}else{
+					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
+					$(this).removeClass('hidden').fadeIn('fast');
+					$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
+				}
+			});
+
+			$('#location-img-btn-close').click(function(){
+
+				$(this).addClass('hidden').fadeOut('fast');
+				$('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
 			});
 
 		},
@@ -163,9 +186,10 @@ var Location = function () {
 				var timeStart = $('#location-time-start-t'+thu).val();
 				var timeEnd = $('#location-time-end-t'+thu).val();
 				if(this.checked){
-					arrayTime.push({'timeStart':timeStart,'timeEnd':timeEnd});
+					// thoi gian bat dau | thoi gian ket thuc
+					arrayTime.push([timeStart+'|'+timeEnd]);
 				}else{
-					arrayTime.push({'timeStart':"",'timeEnd':""});
+					arrayTime.push(['']);
 				}
 			});
 ;			return arrayTime;
@@ -236,11 +260,11 @@ var Location = function () {
 
 		//load hop hoi thoai
 		loadDialogMap: function(){
-				var html ='<div class="input-group loacation-search-wrapper">';
-					html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
-					html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
-					html +='</div>';
-					html +='<div id="location-gmap"></div>';
+			var html ='<div class="input-group loacation-search-wrapper">';
+				html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+				html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+				html +='</div>';
+				html +='<div id="location-gmap"></div>';
 			bootbox.dialog({
 				message: html,
 				title: "Vị trí địa điểm",
