@@ -274,8 +274,7 @@ var Layout = function () {
         if (!jQuery.fancybox) {
             return;
         }
-        
-        jQuery(".fancybox-fast-view").fancybox();
+
 
         if (jQuery(".fancybox-button").size() > 0) {            
             jQuery(".fancybox-button").fancybox({
@@ -397,7 +396,9 @@ var Layout = function () {
             handleSubMenuExt();
             handleMobiToggler();
             handlePortletTools();
-           */ handleMobiMenu();
+           */
+            handleFancybox();
+            handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
 

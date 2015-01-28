@@ -27,6 +27,8 @@
 <!-- Global styles START -->
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.css')}}">
+
 @if (isset($style_global))
 {{$style_global}}
 @endif

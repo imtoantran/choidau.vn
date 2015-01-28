@@ -27,14 +27,14 @@
 }
 button#location-img-btn-close{
     position: absolute;
-    top: -5px;
-    right: 5px;
+    bottom: -3px;
+    right: 10px;
     z-index: 10;
 }
 img#location-img-url{
     padding: 5px;
     border: 1px solid #d4d4d4;
-    margin-bottom: 5px;
+    margin-top: 10px;
     background: #fff;
     box-shadow: 0 1px 1px #ccc;
     -webkit-box-shadow: 0 1px 1px #ccc;
