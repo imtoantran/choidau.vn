@@ -90,5 +90,10 @@ class LocationController extends BaseController {
     public function saveLocation(){
 //        $province_id = Input::get('province_id');
     }
+    /* imtoantran save location start */
+    public function getView($proviceSlug,$locationSlug,$id){
+        return $id;
+    }
 
+    /* imtoantran save location end */
 }

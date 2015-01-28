@@ -1074,7 +1074,7 @@ steps block and steps block elements
 	padding: 0;
 	line-height: 1;
 }
-/* steps-block-simple – step block without image */
+/* steps-block-simple â€“ step block without image */
 .steps-block-simple h2,
 .ecommerce .steps-block-simple h2 {
 	font-size: 33px;
@@ -2758,7 +2758,7 @@ Demo Utils
   color: #E84D1C;
 }
 .sidebar-categories li a:before {
-    content: "";
+    content: "ï”";
     font-family: FontAwesome !important;
     font-size: 8px;
     padding-right: 10px;
@@ -3209,7 +3209,7 @@ margin-bottom: 0px;
 margin-top:3px;
 }
 .header-middle-right{
-background-color: aqua;
+background-color: #eee;
 padding: 10px;
 
 }

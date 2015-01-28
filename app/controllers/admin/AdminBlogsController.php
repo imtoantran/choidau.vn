@@ -11,9 +11,9 @@ class AdminBlogsController extends AdminController {
 
     /**
      * Inject the models.
-     * @param Post $post
+     * @param Blog $post
      */
-    public function __construct(Post $post)
+    public function __construct(Blog $post)
     {
         parent::__construct();
         $this->post = $post;
@@ -31,7 +31,7 @@ class AdminBlogsController extends AdminController {
 
         // Grab all the blog posts
         $posts = $this->post;
-
+        return $this->blogCategory("an-uong-choi");
         // Show the page
         return View::make('admin/blogs/index', compact('posts', 'title'));
     }
@@ -42,14 +42,15 @@ class AdminBlogsController extends AdminController {
      * @param $categorySlug
      * @return View
      */
-    public function blogCategory($categorySlug)
+    public function blogCategory($slug = "an-uong-choi")
     {
-        $category = Category::whereSlug($categorySlug)->first();
+        $category = Category::whereSlug($slug)->first();
         // Title
         $title = Lang::get('admin/blogs/title.blog_management')." - Danh mục: ".$category->name;
-        $posts = $category->blogs()->get();
+        //$posts = $category->blogs()->get();
+        $categories = Category::whereSlug("danh-muc-bai-viet")->first()->children()->get();
         // Show the page
-        return View::make('admin/blogs/index', compact('posts', 'title'));
+        return View::make('admin/blogs/index', compact('title','slug','categories'));
     }
 
 	/**
@@ -237,13 +238,14 @@ class AdminBlogsController extends AdminController {
      *
      * @return Datatables JSON
      */
-    public function getData($categorySlug = "an-uong-choi")
+    public function getData($slug = "an-uong-choi")
     {
-        $posts = $this->post->select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'));
-
+        $catId = Category::whereSlug($slug)->first()->id;
+        $posts = Blog::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'))
+        ->whereCategory_id($catId);
         return Datatables::of($posts)
 
-        ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'post_id\', \'=\', $id)->count() }}')
+        ->edit_column('comments', '{{ DB::table(\'posts\')->where(\'parent_id\', \'=\', $id)->count() }}')
 
         ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
                 <a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>

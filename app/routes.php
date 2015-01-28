@@ -20,6 +20,7 @@ Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('media', 'Media');
+Route::model('location', 'Location');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -57,7 +58,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
     Route::post('blog/{post}/edit', 'AdminBlogsController@postEdit');
     Route::get('blog/{post}/delete', 'AdminBlogsController@getDelete');
     Route::post('blog/{post}/delete', 'AdminBlogsController@postDelete');
-    Route::get('blog/danh-muc/{categorySlug}/', 'AdminBlogsController@blogCategory');
+    Route::get('blog/danh-muc-{slug?}/', 'AdminBlogsController@blogCategory');
     Route::controller('blog', 'AdminBlogsController');
     /* imtoantran end */
 
@@ -85,6 +86,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 });
 
 /* imtoantran start */
+
 Route::group(array('prefix' => 'post'), function() {
  /* video */
  Route::get('video/{slug}/edit', 'VideoController@getEdit');
@@ -97,7 +99,9 @@ Route::group(array('prefix' => 'post'), function() {
  Route::controller('/', 'PostController');
 });
 
-
+#location start
+Route::get('{provinceSlug}/{locationSlug}','LocationController@getEdit');
+# location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
@@ -144,8 +148,6 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::post('dang-ky.html', 'UserController@postCreate');
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
-    
-
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 
