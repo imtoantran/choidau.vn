@@ -121,15 +121,15 @@ var Location = function () {
 					var dataForm = createLocation_frm.serialize();
 					dataForm += '&location_avatar='+locationAvatar;
 					dataForm += '&location_album='+global_arrayAlbum;
-					dataForm += '&location_timeAction='+self.getTimeAction();
-					dataForm += '&location_food='+global_arrayFood;
-					dataForm += '&location_utility='+global_arrayUtility;
+					//dataForm += '&location_timeAction='+self.getTimeAction();
+					//dataForm += '&location_food='+global_arrayFood;
+					//dataForm += '&location_utility='+global_arrayUtility;
 					console.log(dataForm);
 
 					$.ajax({
 						url: URL+"/location/luu-dia-diem",
 						type: 'post',
-						data: dataForm,
+						data: {'dataform':dataForm,'getTimeAction':'aaaaaaa'},
 						dataType: 'json',
 						success: function(resInsert){
 							alert(resInsert);
