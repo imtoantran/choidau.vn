@@ -86,11 +86,14 @@ class LocationController extends BaseController {
     }
 
     public function saveLocation(){
-//        $province_id = Input::all();
-//        $province_id = Input::get('getTimeAction');
+        $province_id = Input::all();
+
+
+//        $province_id = Input::get('dataForm');
 //        $a = array($province_id['location_timeAction']);
 //        print_r($a); exit;
-//        return json_encode($province_id['']);
+//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
+        return json_encode($province_id);
     }
 
 }

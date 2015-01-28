@@ -96,43 +96,22 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-					//var dataForm = [];
-					//var locationTitle = $('#location_title').val();
-					//var locationAddress = $('#location_address').val();
-					//var locationProvince = province_tag.val();
-					//var locationDistrict = district_tag.val();
-					//var locationArea = $('#location_area').val();
-					//var locationDetailAddress = $('#location_detail-address').val();
-					//var locationPhone = $('#location_phone').val();
-					//var locationEmail = $('#location_email').val();
-					//var locationWebsite = $('#location_website').val();
-                    //
-					//var locationAlbum = global_arrayAlbum;
-					//var locationPosition = $('#location-position').val();
-					//var locationPriceMin = $('#location-price-min').val();
-					//var locationPriceMax = $('#location-price-max').val();
-                    //
-					//var locationTimeAction = self.getTimeAction();
-					//var locationFoodArray = global_arrayFood;
-					//var locationUtilityArray = global_arrayUtility;
-
-					var locationAvatar = $('#location-img-url').attr('data-url');
-
-					var dataForm = createLocation_frm.serialize();
-					dataForm += '&location_avatar='+locationAvatar;
-					dataForm += '&location_album='+global_arrayAlbum;
-					//dataForm += '&location_timeAction='+self.getTimeAction();
-					//dataForm += '&location_food='+global_arrayFood;
-					//dataForm += '&location_utility='+global_arrayUtility;
-					console.log(dataForm);
-
+					
+					var dataPost = {
+						'dataForm'				:createLocation_frm.serializeArray(),
+						'location_avatar'		:$('#location-img-url').attr('data-url'),
+						'location_album'		:global_arrayAlbum,
+						'location_timeAction'	:self.getTimeAction(),
+						'location_food'			:global_arrayFood,
+						'location_utility'		:global_arrayUtility
+					}
 					$.ajax({
 						url: URL+"/location/luu-dia-diem",
 						type: 'post',
-						data: {'dataform':dataForm,'getTimeAction':'aaaaaaa'},
+						data: dataPost,
 						dataType: 'json',
 						success: function(resInsert){
-							alert(resInsert);
+							console.log(resInsert);
 						},
 						complete: function(){
 
@@ -187,9 +166,10 @@ var Location = function () {
 				var timeEnd = $('#location-time-end-t'+thu).val();
 				if(this.checked){
 					// thoi gian bat dau | thoi gian ket thuc
-					arrayTime.push([timeStart+'|'+timeEnd]);
+					//arrayTime.push([timeStart+'|'+timeEnd]);
+					arrayTime.push({'bd':timeStart,'kt':timeEnd});
 				}else{
-					arrayTime.push(['']);
+					arrayTime.push({});
 				}
 			});
 ;			return arrayTime;
