@@ -113,4 +113,8 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->email;
     }
 
+    public function blog() {
+        return $this->hasOne('BlogUser');
+    }
+
 }

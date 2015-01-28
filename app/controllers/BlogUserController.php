@@ -11,7 +11,7 @@ class BlogUserController extends BaseController {
      * Post Model
      * @var Post
      */
-    protected $post;
+    protected $blogUser;
 
     /**
      * User Model
@@ -25,11 +25,11 @@ class BlogUserController extends BaseController {
 	 * @param Blog $post
 	 * @param Category $cat
 	 */
-	public function __construct(User $user,Blog $post,Category $cat)
+	public function __construct(User $user,BlogUser $blogUser,Category $cat)
     {
         parent::__construct();
 		$this->user = $user;
-		$this->post = $post;
+		$this->blogUser = $blogUser;
 		$this->cat = $cat;
     }
 
@@ -42,15 +42,58 @@ class BlogUserController extends BaseController {
 	public function getIndex($user_slug)
 	{
         $user = Auth::user();
+        $blogUser=$user->blog()->first();
+
+        $blogList=array(
+            'name'=>$blogUser->name,
+            'background'=>$blogUser->background,
+            'avatar'=>$user->avatar
+        );
         if(empty($user->id)){
             return Redirect::to('user');
         }
 
+
+        $style_plugin=$this->Style(array(
+            'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
+            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
+            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
+            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
+
+        ));
+        $style_page=$this->Style(array('assets/global/css/plugins.css','assets/global/plugins/image-manager/css/image-manager.min.css'));
+
+
+        $js_plugin=$this->JScript(array(
+            'assets/global/plugins/image-manager/js/image-manager1.js',
+            'assets/global/plugins/image-manager/spaCMS_settings1.js',
+            'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
+            'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
+            'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
+            'assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js',
+            'assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js',
+            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js'
+        ));
+        $js_page=$this->JScript(array('assets/admin/pages/scripts/form-fileupload.js'));
+        $js_script='
+                FormFileUpload.init();
+        ';
+
+
+
+
         if($user->username!=$user_slug){
 
         }
-
-       return View::make('site.user.blog.index',compact('user'));
+        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+       return View::make('site.user.blog.index',compact('user','listStatusPost','blogList','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 
 
@@ -152,4 +195,97 @@ class BlogUserController extends BaseController {
 		// Redirect to this blog post page
 		return Redirect::to($slug)->withInput()->withErrors($validator);
 	}
+
+
+    public function postEditBlogUser(){
+        $user = Auth::user();
+        $this->blogUser=$user->blog()->first();
+
+        $data=Input::all();
+        $type_edit=$data['type_edit'];
+        if(Request::ajax())
+        {
+
+            switch($type_edit){
+                case "change_anh_bia":
+
+                    $this->blogUser->background=$data['background'];
+                    $this->blogUser->save();
+
+                    break;
+                case "change_avatar":
+                    $user->avatar=$data['avatar'];
+                    $user->save();
+
+                    break;
+                case "change_anh_bia_1":
+
+                    break;
+
+            }
+        }
+    }
+
+    public function postStatusBlogUser(){
+        $user = Auth::user();
+        $this->blogUser=$user->blog()->first();
+
+        $data=Input::all();
+      //  $type_edit=$data['type_edit'];
+        if(Request::ajax())
+        {
+            $post =new Post();
+            $post->title="status";
+            $post->content=$data['content'];
+            $post->privacy =$data['privacy'];
+            $post->post_type='status';
+            $post->user_id=$user->id;
+            $post->save();
+
+
+        }
+
+
+    }
+
+    public function getEditBlogUser(){
+      //  $data=Input::all();
+
+      //  $this->blogUser->background=$data['background'];
+    //    $this->blogUser->save();
+echo'ádasdasd';
+
+    }
+
+    public  function loadItemStatus($id_status_slug){
+
+        $post= Post::find($id_status_slug);
+
+      //  echo '<pre>';
+      //  print_r($post);
+      //  echo '</pre>';
+
+        // $user=User::find($post->user_id);
+
+        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+
+         $user=$post->author;
+         $userIn['username']=$user->username;
+         $userIn['avatar']=$user->avatar;
+       //  $userIn['level']=Option::find($user->level_id)->description;
+         $userIn['level']=$post->status;
+
+          $postIn['content']=$post->content;
+          $postIn['privacy']=$post->privacy;
+          $postIn['number_like']='';
+
+
+
+
+        echo View::make('site.partials.itemStatus',compact('userIn','listStatusPost','postIn'));
+
+    }
+
+
+
 }

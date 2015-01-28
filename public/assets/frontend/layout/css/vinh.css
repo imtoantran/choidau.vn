@@ -65,3 +65,22 @@ height:100% !important;
 .infor-media{
     display: none;
 }
+
+.change-img{
+    position: absolute;
+}
+.change-img i{
+    font-size: 28px;
+    cursor: pointer;
+    color: #2ca02c;
+    opacity: 0.8;
+}
+.change-img i:hover{
+   color: yellowgreen;
+    opacity: 1;
+}
+
+
+.save-anh-bia{
+
+}
