@@ -34,9 +34,9 @@ return array(
     ),
 
     'login' => array(
-        'title' => 'Login',
+        'title' => 'Đăng Ký',
         'desc' => 'Enter your credentials',
-        'forgot_password' => '(forgot password)',
+        'forgot_password' => 'quên mật khẩu',
         'remember' => 'Ghi nhớ cho lần sau.',
         'submit' => 'Đăng Nhập',
     ),

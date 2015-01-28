@@ -41,13 +41,15 @@ class MediaController extends BaseController {
         $layout='layout_demo';
 
         /*thêm file style css--start*/
-        $style_global=$this->Style(array('assets/global/plugins/jquery-1.8.3.min.js'
-            ));
+      // $style_global=$this->Style(array('assets/global/plugins/jquery-1.8.3.min.js'
+     //      ));
+      $style_global='';
 
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
-            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css'
+            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
+            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
 
                                          ));
         $style_page=$this->Style(array('assets/global/css/plugins.css','assets/global/plugins/image-manager/css/image-manager.min.css'));
@@ -64,8 +66,8 @@ class MediaController extends BaseController {
         $js_global='';
         // $js_global.=$this->JScript(array('abc.js','nbkk.js'));
         $js_plugin=$this->JScript(array(
-            'assets/global/plugins/image-manager/js/image-manager.js',
-            'assets/global/plugins/image-manager/spaCMS_settings.js',
+            'assets/global/plugins/image-manager/js/image-manager1.js',
+            'assets/global/plugins/image-manager/spaCMS_settings1.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
@@ -81,7 +83,7 @@ class MediaController extends BaseController {
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js'
             ));
         $js_page=$this->JScript(array('assets/admin/pages/scripts/form-fileupload.js'));
-        $js_script=' Layout.init();
+        $js_script='
                 FormFileUpload.init();
         ';
 
@@ -91,6 +93,8 @@ class MediaController extends BaseController {
         $default_page_title='chào mừng bạn đến với trang đăng nhập';
         $default_keyword='choidau,chơi đâu';
         $default_description='choidau,chơi đâu';
+
+
 
         return View::make('media/index',compact('layout',
             'default_page_title',

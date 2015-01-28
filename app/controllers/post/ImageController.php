@@ -158,4 +158,9 @@ class ImageController extends PostController {
 
     }
 
+    public function loadBrowser(){
+
+
+    }
+
 }

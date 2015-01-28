@@ -86,34 +86,29 @@ var FormFileUpload = function () {
                     $('.list-unstyled li').removeClass('media-item-hover');
                     $( this ).addClass( "media-item-hover" );
                     $(".media-edit").attr('style','display:block');
-                  var imgItem=  $(this).find( "img");
-
+                     var imgItem=  $(this).find( "img");
+                     var urlImg = imgItem.attr('url_img');
+                    var url_img_public= urlImg;
                     $("#name_ihinh").html(imgItem.attr('name_image'));
                     $("#size_ihinh").html(imgItem.attr('size_img'));
                     $("#date_ihinh").html(imgItem.attr('date_post'));
 
                     $("#title-edit-media").val(imgItem.attr('title'));
-                    $("#url-edit-media").val(imgItem.attr('url_img'));
+
+                    $("#url-edit-media").val(URL+url_img_public).attr('data-img-url',url_img_public);
                     $("#alt-edit-media").val(imgItem.attr('alt'));
                     $("#content-edit-media").val(imgItem.attr('content_post'));
                     $("#id-edit-media").val(imgItem.attr('id_post'));
-                    $("#media-thumbnail-img").attr('src',imgItem.attr('url_img'));
-
-                  //  alert(imgItem.attr('id_post'));
+                    $("#media-thumbnail-img").attr('src',URL+url_img_public);
 
                 }
             });
 
             $('.media-item').hover(
                 function(){
-
-                        alert('lll');
-
-
-
+                    alert('lll');
                 }
             );
-
 
             /**
              *  them url img
@@ -241,6 +236,14 @@ var FormFileUpload = function () {
     };
 
 }();
+
+var getUrlMedia=function(url){
+    var host=window.location.host;
+    var index_pu= url.indexOf("public")+6;
+    var length=url.length;
+    url=url.substring(index_pu,length);
+    return url;
+}
 var getIdYouTube = function(url, gkey){
     var returned = null;
 

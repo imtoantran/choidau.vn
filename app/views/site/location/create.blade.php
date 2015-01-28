@@ -35,7 +35,7 @@
 						<div class="form-group">
 							<label for="location_title" class="col-sm-3 control-label"><strong>Tên địa điểm </strong><span class="required">*</span></label>
 							<div class="col-sm-9">
-								<input type="text" name="location_title" id="location_title" class="form-control" value="" required data-required="1" title="">
+								<input type="text" name="location_title" id="location_title" class="form-control" value=""  title="">
 							</div>
 						</div>
 
@@ -104,24 +104,41 @@
 							</div>
 						</div>
 
+
+						{{--anh dai dien--}}
+
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
-							<div class="col-sm-4 col-md-3 col-lg-3">
-                                <div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
-                                    <div class="add-picture vertically-centered" style="position: absolute; height: 34px; top: 50%; margin-top: -17px;">
-                                        <div class="icon icons-plus3"></div>
-                                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning">Tải ảnh lên</button>
-
-                                    </div>
-                                </div>
+							<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
+								<button type="button" id="location-img-btn-close" class="no-padding hidden" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
+								<div id="iM_user_slide1" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+									<div class="add-picture vertically-centered" style="">
+										<div class="icon icons-plus3"></div>
+										<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
+									</div>
+									<img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
+								</div>
 							</div>
-
 						</div>
 
+						{{--album anh--}}
+						{{--<div class="form-group">--}}
+							{{--<label class="col-sm-3 control-label"><strong>Album ảnh</strong></label>--}}
+							{{--<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">--}}
+								{{--<div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">--}}
+									{{--<div class="add-picture vertically-centered" style="">--}}
+										{{--<div class="icon icons-plus3"></div>--}}
+										{{--<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-th" style="font-size: 1.3em;"></i> Chọn ảnh</button>--}}
+									{{--</div>--}}
+								{{--</div>--}}
+							{{--</div>--}}
+						{{--</div>--}}
+
+						{{--cap nhat vi tri--}}
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Vị trí</strong></label>
 							<div class="col-sm-4 col-md-3 col-lg-3">
-								<button id="btn-update-position" type="button" class="form-control yellow btn btn-warning">Cập nhật vị trí</button>
+								<button id="btn-update-position" type="button" class="form-control yellow btn btn-warning"> <i class="icon-location pull-left" style="font-size: 1.3em;"></i> Cập nhật vị trí</button>
 							</div>
 						</div>
 					</div>
@@ -138,15 +155,15 @@
 						</div>
 
 						<div class="form-group">
-							<label for="input" class="col-sm-3 control-label"><strong>Giá thấp nhất</strong></label>
+							<label for="location_price_min" class="col-sm-3 control-label"><strong>Giá thấp nhất</strong></label>
 							<div class="col-sm-9">
-								<input type="text" name="" id="input" class="form-control" value=""   title="">
+								<input type="text" name="location_price_min" id="location_price_min" class="form-control" value=""   title="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="input" class="col-sm-3 control-label"><strong>Giá cao nhất</strong></label>
+							<label for="location_price_max" class="col-sm-3 control-label"><strong>Giá cao nhất</strong></label>
 							<div class="col-sm-9">
-								<input type="text" name="" id="input" class="form-control" value=""   title="">
+								<input type="text" name="location_price_max" id="location_price_max" class="form-control" value=""   title="">
 							</div>
 						</div>
 

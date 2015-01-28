@@ -8,6 +8,7 @@ var Location = function () {
 	var global_utility_item ='';
 	var global_arrayFood =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
 	var global_arrayUtility =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
+	var global_arrayAlbum =[1,2,3,4];
 	var dataProvince ='';
 	var markerLocation;
 	var self;
@@ -20,6 +21,7 @@ var Location = function () {
 			jQuery(document).ready(function(){
 				self.loadInitParam();
 				self.loadActionTime();
+				self.loadAvatar();
 
 				$('#location-food-add').on('click', function(){
 					self.addFoodTemp();
@@ -30,7 +32,7 @@ var Location = function () {
 				})
 
 				$('#btn-update-position').on('click', function(){
-					self.loadDialogMap();
+					self.loadDialogMap2();
 					setTimeout(function(){	self.loadGmap(); },300);
 				});
 
@@ -40,10 +42,11 @@ var Location = function () {
 					self.submitForm();
 				})
 				self.submitForm();
-
 			});
 
+
         },
+
 		submitForm: function() {
 			var locationError = $('.alert-danger', createLocation_frm);
 			var locationSuccess = $('.alert-success', createLocation_frm);
@@ -53,22 +56,10 @@ var Location = function () {
 				focusInvalid: true, // do not focus the last invalid input
 				ignore: "", // validate all fields including form hidden input
 				rules: {
-					location_title: {
-						minlength: 4,
-						required: true
-					},
-					location_address: {
-						minlength: 4,
-						required: true
-					},
-					location_province: {
-						required: true
-					},
-
-					location_email: {
-						email:true
-					}
-
+					//location_title: {minlength: 4,required: true},
+					//location_address: {minlength: 4,required: true},
+					//location_province: {required: true},
+					//location_email: {email:true}
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
@@ -105,19 +96,50 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-					//form[0].submit(); // submit the form
+					
+					var dataPost = {
+						'dataForm'				:createLocation_frm.serializeArray(),
+						'location_avatar'		:$('#location-img-url').attr('data-url'),
+						'location_album'		:global_arrayAlbum,
+						'location_timeAction'	:self.getTimeAction(),
+						'location_food'			:global_arrayFood,
+						'location_utility'		:global_arrayUtility
+					}
+					$.ajax({
+						url: URL+"/location/luu-dia-diem",
+						type: 'post',
+						data: dataPost,
+						dataType: 'json',
+						success: function(resInsert){
+							console.log(resInsert);
+						},
+						complete: function(){
 
-
-					var dataForm = createLocation_frm.serialize();
-					//$.each(dataForm,function(k,v){
-					//	console.log(k+'='+v);
-					//});
-
-					//get time action
-					//$('#test-local').on('click',function(){
-					//	console.log(self.getTimeAction());
-					//});
+						}
+					});
 				}
+			});
+
+		},
+		loadAvatar: function(){
+
+			$('#location-upload-img-save').click(function(){
+				var urlImg=$('#url-edit-media').attr('data-img-url');
+
+				if(urlImg == "" || urlImg == 'undefined'){
+					alert('Xin vui lòng chọn hình.');
+					return false;
+				}else{
+					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
+					$(this).removeClass('hidden').fadeIn('fast');
+					$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
+				}
+			});
+
+			$('#location-img-btn-close').click(function(){
+
+				$(this).addClass('hidden').fadeOut('fast');
+				$('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
 			});
 
 		},
@@ -134,6 +156,7 @@ var Location = function () {
 					$('.location-time-'+thu).removeClass('timepicker').prop('readonly', true).prop('disabled', true).val('Nghỉ');
 				}
 			});
+
 		},
 		getTimeAction: function(){
 			var arrayTime=[];
@@ -142,9 +165,11 @@ var Location = function () {
 				var timeStart = $('#location-time-start-t'+thu).val();
 				var timeEnd = $('#location-time-end-t'+thu).val();
 				if(this.checked){
-					arrayTime.push({'timeStart':timeStart,'timeEnd':timeEnd});
+					// thoi gian bat dau | thoi gian ket thuc
+					//arrayTime.push([timeStart+'|'+timeEnd]);
+					arrayTime.push({'bd':timeStart,'kt':timeEnd});
 				}else{
-					arrayTime.push({'timeStart':"",'timeEnd':""});
+					arrayTime.push({});
 				}
 			});
 ;			return arrayTime;
@@ -215,11 +240,11 @@ var Location = function () {
 
 		//load hop hoi thoai
 		loadDialogMap: function(){
-				var html ='<div class="input-group loacation-search-wrapper">';
-					html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
-					html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
-					html +='</div>';
-					html +='<div id="location-gmap"></div>';
+			var html ='<div class="input-group loacation-search-wrapper">';
+				html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+				html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+				html +='</div>';
+				html +='<div id="location-gmap"></div>';
 			bootbox.dialog({
 				message: html,
 				title: "Vị trí địa điểm",
@@ -238,7 +263,30 @@ var Location = function () {
 				}
 			});
 		},
-
+        loadDialogMap2: function(){
+            var html ='<div class="input-group loacation-search-wrapper">';
+            html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+            html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+            html +='</div>';
+            html +='<div id="location-gmap"></div>';
+            bootbox.dialog({
+                message: html,
+                title: "Vị trí địa điểm2",
+                buttons: {
+                    default: {
+                        label: "Đóng",
+                        className: "btn-default"
+                    },
+                    main: {
+                        label: "Hoàn tất",
+                        className: "btn-primary",
+                        callback: function() {
+                            createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                        }
+                    }
+                }
+            });
+        },
 		//load ban do
 		loadGmap: function(){
 			var selected_tag = district_tag.find('option:selected');

@@ -21,8 +21,6 @@ class LocationController extends BaseController {
      */
     public function getCreate()
     {
-
-
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
@@ -88,7 +86,14 @@ class LocationController extends BaseController {
     }
 
     public function saveLocation(){
-//        $province_id = Input::get('province_id');
+        $province_id = Input::all();
+
+
+//        $province_id = Input::get('dataForm');
+//        $a = array($province_id['location_timeAction']);
+//        print_r($a); exit;
+//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
+        return json_encode($province_id);
     }
     /* imtoantran save location start */
     public function getView($proviceSlug,$locationSlug,$id){

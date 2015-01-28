@@ -121,7 +121,9 @@ class UserController extends BaseController {
     {
         $page_title='Đăng ký thành viên choidau.net';
         $seoarray=array('metakey'=>'aasd,asd,asd,','metades'=>'asd ada asd a sdads');
-
+        $js_script='
+        Layout.btnSelection();
+        ';
 
 
              $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
@@ -129,20 +131,45 @@ class UserController extends BaseController {
              $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
 
    //     $listTinh='abc';
-        return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
+        return View::make('site/user/create',compact('page_title','js_script','seoarray','listProvince','listTTHN','listStatusPost'));
 
     }
     public function postCreate(){
-
-        $this->user->username='vinhle';
-        $this->user->email='ád';
-        $this->user->password='ádasd';
-
-        $this->user->save();
-        if($this->user->save())
-        {
-            return View::make('site/user/login',compact('page_title'));
+        $user = Auth::user();
+        if(!empty($user->id)){
+            return Redirect::to('/');
         }
+            $user_singup= $this->userRepo->signup($data);
+        if(!$user_singup){
+            $listProvince=Province::orderBy('name','ASC')->get();
+            $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
+
+            $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+
+            return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
+
+        }else{
+              return View::make('site/user/login',compact('page_title'));
+
+        }
+        //  if($this->user->save())
+       //      {
+        //     return View::make('site/user/login',compact('page_title'));
+         //    }
+
+
+           echo '<pre>';
+            print_r($data);
+           echo '</pre>';
+    //    $this->user->username='vinhle';
+    //    $this->user->email='ád';
+     //   $this->user->password='ádasd';
+
+     //   $this->user->save();
+     //   if($this->user->save())
+    //    {
+         //   return View::make('site/user/login',compact('page_title'));
+    //    }
     //    $listProvince=Province::orderBy('name','ASC')->get();
     //    $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
 
@@ -150,7 +177,7 @@ class UserController extends BaseController {
 
    //     return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
 
-        return View::make('site/user/create',compact('page_title','seoarray'));
+    //    return View::make('site/user/create',compact('page_title','seoarray'));
 
     }
 

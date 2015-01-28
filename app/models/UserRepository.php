@@ -24,26 +24,39 @@ class UserRepository
 	 *
 	 * @return  User User object that may or may not be saved successfully. Check the id to make sure.
 	 */
-	public function signup($input)
+	public function signup($data)
 	{
 		$user = new User;
 
-		$user->username = array_get($input, 'username');
-		$user->email    = array_get($input, 'email');
-		$user->password = array_get($input, 'password');
+	//	$user->username = array_get($input, 'username');
+	//	$user->email    = array_get($input, 'email');
+	//	$user->password = array_get($input, 'password');
+
+
+        $user->username=$data['username'];
+        $user->email=$data['email'];
+        $user->password=$data['password'];
+        $user->province_id=$data['province'];
+        $user->status_marriage_id=$data['status_marriage'];
+        $user->about=$data['about'];
+        $user->gender=$data['gender'];
+        $string=$data['year'].'-'.$data['mon'].'-'.$data['day'];
+        $user->birthday= $string;
 
 		// The password confirmation will be removed from model
 		// before saving. This field will be used in Ardent's
 		// auto validation.
-		$user->password_confirmation = array_get($input, 'password_confirmation');
+		$user->password_confirmation = array_get($data, 'password_confirmation');
 
 		// Generate a random confirmation code
 		$user->confirmation_code     = md5(uniqid(mt_rand(), true));
 
 		// Save if valid. Password field will be hashed before save
-		$this->save($user);
+        if($this->save($user)){
+            return $user;
+        }
+        return false;
 
-		return $user;
 	}
 
 	/**
