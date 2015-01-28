@@ -95,5 +95,10 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
         return json_encode($province_id);
     }
+    /* imtoantran save location start */
+    public function getView($proviceSlug,$locationSlug,$id){
+        return $id;
+    }
 
+    /* imtoantran save location end */
 }

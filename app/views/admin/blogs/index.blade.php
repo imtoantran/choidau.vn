@@ -11,13 +11,24 @@
 
 {{-- Content --}}
 @section('content')
+	<div class="pull-right">
+		<a href="{{{ URL::to('qtri-choidau/blog/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> {{Lang::get("admin/blogs/button.create")}}</a>
+	</div>
+	<div class="pull-right">
+		<div class="form-group">
+			<div class="col-sm-12">
+				<select name="name" id="inputID" class="form-control">
+					<option value=""> -- Danh mục bài viết -- </option>
+					@foreach($categories as $category)
+						<option value="{{$category->slug}}" @if($slug === $category->slug) selected @endif> -- {{$category->name}} </option>
+						@endforeach
+				</select>
+			</div>
+		</div>
+	</div>
 	<div class="page-header">
 		<h3>
 			{{{ $title }}}
-
-			<div class="pull-right">
-				<a href="{{{ URL::to('qtri-choidau/blog/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> {{Lang::get("admin/blogs/button.create")}}</a>
-			</div>
 		</h3>
 	</div>
 
@@ -34,6 +45,10 @@
 		</tbody>
 	</table>
 @stop
+
+
+
+
 @section('styles')
 	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
 	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -59,11 +74,16 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('qtri-choidau/blog/data') }}",
+		        "sAjaxSource": "{{ URL::to('qtri-choidau/blog/data/'.$slug) }}",
 		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+	           		$(".iframe").colorbox({iframe:true, width:"100%", height:"100%"});
 	           		//$(".iframe").fancybox({iframe:true, width:"80%", height:"80%"});
 	     		}
+			});
+			$("#inputID").change(function(e){
+				if($(this).val()){
+					location.href = "{{URL::to("qtri-choidau/blog/danh-muc-")}}"+$(this).val();
+				}
 			});
 		});
 	</script>
