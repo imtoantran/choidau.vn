@@ -93,6 +93,54 @@ var Layout = function () {
         });
     }
 
+
+   var loadDialogMapVinh= function(){
+
+        var html ='<div class="input-group loacation-search-wrapper">';
+        html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+        html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+        html +='</div>';
+        html +='<div id="location-gmap"></div>';
+
+        var content_browser=$("#content-browser").html();
+        var ss= $(content_browser).prop('outerHTML');
+
+
+       console.log(ss);
+
+       bootbox.dialog({
+           message: ss,
+           title: "Vị trí địa điểm2",
+           buttons: {
+               default: {
+                   label: "Đóng",
+                   className: "btn-default"
+               },
+               main: {
+                   label: "Hoàn tất",
+                   className: "btn-primary",
+                   callback: function() {
+                       //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                   }
+               }
+           }
+       });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     // runs callback functions set by App.addResponsiveHandler().
     var runResponsiveHandlers = function () {
         // reinitialize other subscribed elements
@@ -270,14 +318,23 @@ var Layout = function () {
         }
     }
 
-    var handleFancybox = function () {
-        if (!jQuery.fancybox) {
+    var handleFancyboxA = function () {
+
+        $("a.group").fancybox({
+            'transitionIn'	:	'elastic',
+            'transitionOut'	:	'elastic',
+            'speedIn'		:	600,
+            'speedOut'		:	200,
+            'overlayShow'	:	false
+        });
+
+      /*  if (!jQuery.fancybox) {
             return;
         }
         
         jQuery(".fancybox-fast-view").fancybox();
 
-        if (jQuery(".fancybox-button").size() > 0) {            
+        if (jQuery(".fancybox-button").size() > 0) {
             jQuery(".fancybox-button").fancybox({
                 groupAttr: 'data-rel',
                 prevEffect: 'none',
@@ -294,6 +351,8 @@ var Layout = function () {
                 type: 'iframe'
             });
         }
+        */
+
     }
 
     // Handles Bootstrap Accordions.
@@ -372,9 +431,60 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
-        $('#iM_user_slide').click(function(){
-            //$('#imageManager_saveChange').attr('cover_id','user_slide');
+
+
+        var type_insert="";
+        $(".insertMedia").click(function(){
+
+            $(".insertMedia").removeClass('abc');
+            $(this).addClass("abc");
+
+            type_insert=$(this).attr('type_insert');
         });
+
+        $("#insert-media-browser").click(function(){
+
+            var url=$('#url-edit-media').attr('data-img-url');
+            if(url!=''){
+
+                var img='<img src="'+URL+url+'" />';
+
+                switch (type_insert){
+                    case "insert_one_img":
+
+                      $(".abc").html(img);
+                        break;
+                    case "insert_multi_img":
+                        $(".abc").append(img);
+                        break;
+                    case "insert_one_url":
+                        $(".abc").html(url);
+                        break;
+                    default:
+                }
+            }else{
+                bootbox.alert('bạn chưa chọn hình ảnh !');
+                return false;
+            }
+
+            $.fn.exists = function(callback) {
+                var args = [].slice.call(arguments, 1);
+
+                if (this.length) {
+                    callback.call(this, args);
+                }
+
+                return this;
+            };
+
+
+             //   alert(type_insert);
+
+           // return false;
+        });
+      //  $('#iM_user_slide').click(function(){
+            //$('#imageManager_saveChange').attr('cover_id','user_slide');
+     //   });
 
     }
 
@@ -397,9 +507,13 @@ var Layout = function () {
             handleSubMenuExt();
             handleMobiToggler();
             handlePortletTools();
-           */ handleMobiMenu();
+
+           */
+          //  handleFancybox();
+            handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
+         //  handleFancyboxA();
 
         },
         btnSelection:function(){

@@ -807,4 +807,4 @@ var Sercurity = function (){
 //OnlineBooking.init();
 //Sercurity.init();
 
-ImageManager.init();
+//ImageManager.init();

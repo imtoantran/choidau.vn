@@ -149,9 +149,13 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 
-
 /** -------------------End Site User-------------------**/
+/** -------------------Site blog: -------------**/
+Route::group(array('prefix' => 'trang-ca-nhan'), function(){
+    Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
+});
 
+/** -------------------End Site Blog-------------------**/
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
 // User password reset
