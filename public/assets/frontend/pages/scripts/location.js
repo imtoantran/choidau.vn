@@ -32,7 +32,7 @@ var Location = function () {
 				})
 
 				$('#btn-update-position').on('click', function(){
-					self.loadDialogMap();
+					self.loadDialogMap2();
 					setTimeout(function(){	self.loadGmap(); },300);
 				});
 
@@ -283,7 +283,30 @@ var Location = function () {
 				}
 			});
 		},
-
+        loadDialogMap2: function(){
+            var html ='<div class="input-group loacation-search-wrapper">';
+            html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+            html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+            html +='</div>';
+            html +='<div id="location-gmap"></div>';
+            bootbox.dialog({
+                message: html,
+                title: "Vị trí địa điểm2",
+                buttons: {
+                    default: {
+                        label: "Đóng",
+                        className: "btn-default"
+                    },
+                    main: {
+                        label: "Hoàn tất",
+                        className: "btn-primary",
+                        callback: function() {
+                            createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                        }
+                    }
+                }
+            });
+        },
 		//load ban do
 		loadGmap: function(){
 			var selected_tag = district_tag.find('option:selected');

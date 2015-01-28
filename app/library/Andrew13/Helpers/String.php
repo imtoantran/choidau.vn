@@ -59,4 +59,11 @@ class String {
         }
     }
 
+    public  static function get_url_img_public($url){
+        $ii =strpos($url,'public')+6;
+        $nn=strlen($url);
+        $url_2=substr($url,$ii,$nn-$ii);
+        return $url_2;
+    }
+
 }

@@ -1,5 +1,8 @@
 
 <!-- Image Manager Modal -->
+<div id="product-pop-up">
+
+
 <div class=" modal" id="imageManager_modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
 <div class="col-md-11 col-md-offset-1 container modal-dialog">
 		<div class="col-md-12 col-none-padding  modal-content">
@@ -427,7 +430,7 @@
 														<div class="form-group">
 															<label>URL</label>
 															<div class="input-group">
-																<input class="form-control" placeholder="" data-img-url="" type="text" name="url-edit" id="url-edit-media" value="">
+																<input class="form-control" placeholder="" data-img-url="" readonly type="text" name="url-edit" id="url-edit-media" value="">
 															</div>
 														</div>
 														<div class="form-group">
@@ -535,10 +538,11 @@
 			<div class=" col-md-12 col-none-padding modal-footer" style="margin-top: 0px;padding-top: 10px;padding: 5px;">
 				<div class="col-md-9" style="border-right: 1px solid #CCC; margin-bottom: 10px;"></div>
 				<div class="col-md-3">
-					<button type="submit" id="location-upload-img-save" class="btn btn-sm btn-primary" data-dismiss="modal" >Chèn Hình</button>
+					<button type="submit" id="insert-media-browser" class="btn btn-sm btn-primary" data-dismiss="modal" >Chèn Hình</button>
 					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
 				</div>
 			</div>
 		</div>
 </div>
 </div><!--// END Image Manager Modal -->
+</div>
