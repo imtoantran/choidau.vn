@@ -1,59 +1,36 @@
 @extends('site.layouts.default')
 @section('content')
+<div id="choidau-person">
 
-
-
-
-<!-- choidau-person-header -->
-<div class="person-header">
-    <div class="person-header-bg">
-    </div>
-    <div class="row margin-none">
-        <div class="col-md-2 text-right person-header-avatar">
-            <img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" width="150" height="150" alt="">
-        </div>
-        <div class="col-md-10 col-none-padding">
-            <header class="person-header-username"> moonlovesun</header >
-            <nav class="person-header-nav">
-
-                <ul class="">
-                    <li>Hoạt động</li>
-                    <li>Ảnh</li>
-                    <li>Địa điểm yêu thích</li>
-                    <li>Checkin</li>
-                    <li>Bạn bè</li>
-                    <li><i class="icon-cog"></i></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
-<!-- end choidau-person-header -->
+@include('site.user.blog.header')
 
 <div class="person-body">
 <div class="row margin-none">
 <div class="col-md-9 col-none-padding person-body-content">
 <section class="person-content choidau-bg">
-<div class="row person-content-item" style="padding-bottom: 10px;">
+<div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
+
     <div class="action-comment">
         <header class="action-comment-subject text-weight600">Cập nhật trạng thái</header>
         <div class="action-comment-input">
-            <textarea name="" id="" rows="3" style="width: 100%;padding: 0; border: none;"></textarea>
+            <textarea name="content-status" id="content-status" placeholder="bạn đang nghĩ gì ?" rows="3" style="width: 100%;padding: 0; border: none;"></textarea>
+
         </div>
         <div class="text-right action-comment-submit">
             <div class="btn-group person-type-scopy margin-none">
-                <button type="button" class="btn btn-default btn-xs">Công khai</button>
+                <button type="button" id="privacy-status" value_id="18" class="btn btn-default btn-xs">Công khai</button>
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle"
                         data-toggle="dropdown">
                     <i class="icon-down-dir"></i>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li>Công khai</li>
-                    <li>Bạn bè</li>
-                    <li>Nhóm</li>
+                    @foreach($listStatusPost as $item)
+                    <li value_id="{{$item['id']}}">{{$item['description']}}</li>
+                    @endforeach
+
                 </ul>
             </div>
-            <button class="btn choidau-bg-font btn-xs">Đăng</button>
+            <button class="btn choidau-bg-font btn-xs btn-add-status ">Đăng</button>
         </div>
     </div>
 </div>
@@ -451,6 +428,6 @@
 </div>
 </div>
 
-
+</div>
 
 @stop

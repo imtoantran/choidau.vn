@@ -25,8 +25,9 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
-            'assets/global/plugins/image-manager/css/image-manager.min.css',
+
             'assets/global/plugins/uniform/css/uniform.default.css',
+            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
         ));
         $style_page=$this->Style(array(
             'assets/frontend/pages/css/location.css',

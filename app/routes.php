@@ -155,6 +155,12 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
 /** -------------------End Site User-------------------**/
 /** -------------------Site blog: -------------**/
 Route::group(array('prefix' => 'trang-ca-nhan'), function(){
+
+    Route::get('/chinh-sua-thong-tin.html','BlogUserController@getEditBlogUser');
+    Route::post('/chinh-sua-thong-tin.html','BlogUserController@postEditBlogUser');
+    Route::post('/trang-thai.html','BlogUserController@postStatusBlogUser');
+    Route::get('/trang-thai.html','BlogUserController@postStatusBlogUser');
+    Route::get('/load-item-status-{id_status_slug}','BlogUserController@loadItemStatus');
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
 });
 
