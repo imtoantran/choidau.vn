@@ -21,7 +21,6 @@ var Location = function () {
 			jQuery(document).ready(function(){
 				self.loadInitParam();
 				self.loadActionTime();
-				self.loadAvatar();
 
 				$('#location-food-add').on('click', function(){
 					self.addFoodTemp();
@@ -46,7 +45,15 @@ var Location = function () {
 
 
         },
-
+		abc1: function(){
+			alert('abc1');
+		},
+		abc2: function(){
+			alert('abc2');
+		},
+		abc3: function(){
+			alert('abc3');
+		},
 		submitForm: function() {
 			var locationError = $('.alert-danger', createLocation_frm);
 			var locationSuccess = $('.alert-success', createLocation_frm);
@@ -121,28 +128,45 @@ var Location = function () {
 			});
 
 		},
+		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
 		loadAvatar: function(){
+			var urlImg=$('#url-edit-media').attr('data-img-url');
+			if(urlImg == '' || urlImg == 'undefined'){
+				alert('Xin chọn hình.');
+				return false;
+			}
+			$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
+			$(this).removeClass('hidden').fadeIn('fast');
 
-			$('#location-upload-img-save').click(function(){
-				var urlImg=$('#url-edit-media').attr('data-img-url');
-
-				if(urlImg == "" || urlImg == 'undefined'){
-					alert('Xin vui lòng chọn hình.');
-					return false;
-				}else{
-					$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
-					$(this).removeClass('hidden').fadeIn('fast');
-					$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
-				}
-			});
-
+			$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
+			// bat su kien close cho nut bo chon avatar
 			$('#location-img-btn-close').click(function(){
-
 				$(this).addClass('hidden').fadeOut('fast');
 				$('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
 			});
-
 		},
+
+		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
+		loadAlbum: function(){
+			var urlImg=$('#url-edit-media').attr('data-img-url');
+			if(urlImg == '' || urlImg == 'undefined'){
+				alert('Xin chọn hình.');
+				return false;
+			}
+			var strHTML = '';
+				strHTML +='<div class="col-md-3">';
+				strHTML +='<button type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>';
+				strHTML +='<img class="img-responsive" src="'+URL+urlImg+'" alt=""/>';
+				strHTML +='</div>';
+			var tagHtml = $('div',{class:'col-md-3'}).append(strHTML);
+			tagHtml.find('button').click(function(){
+				var test = $(this).attr('data-img');
+				alert(test);
+			});
+
+			$('.location-album-wrapper').append(strHTML);
+		},
+
 		loadActionTime: function(){
 			$("input.location-time-check").uniform();
 			$('.timepicker').timepicker();

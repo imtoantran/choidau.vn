@@ -106,14 +106,12 @@
 
 
 						{{--anh dai dien--}}
-
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
 							<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
-								<button type="button" id="location-img-btn-close" class="no-padding hidden" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
-								<div id="iM_user_slide1" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+								<button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
+								<div id="iM_user_slide1" type_insert="location_load_avatar" class="insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
 									<div class="add-picture vertically-centered" style="">
-										<div class="icon icons-plus3"></div>
 										<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
 									</div>
 									<img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
@@ -122,17 +120,21 @@
 						</div>
 
 						{{--album anh--}}
-						{{--<div class="form-group">--}}
-							{{--<label class="col-sm-3 control-label"><strong>Album ảnh</strong></label>--}}
-							{{--<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">--}}
-								{{--<div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">--}}
-									{{--<div class="add-picture vertically-centered" style="">--}}
-										{{--<div class="icon icons-plus3"></div>--}}
-										{{--<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-th" style="font-size: 1.3em;"></i> Chọn ảnh</button>--}}
-									{{--</div>--}}
-								{{--</div>--}}
-							{{--</div>--}}
-						{{--</div>--}}
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><strong>Album ảnh</strong></label>
+							<div class="col-sm-9 col-md-9 col-lg-9 location-wrapper-img">
+								<div class="row">
+									<div id="iM_user_slide1" type_insert="location_load_album" class=" col-md-4 insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+										<div class="add-picture vertically-centered" style="">
+											<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
+										</div>
+									</div>
+								</div>
+								<div class="row location-album-wrapper">
+								</div>
+							</div>
+						</div>
+
 
 						{{--cap nhat vi tri--}}
 						<div class="form-group">

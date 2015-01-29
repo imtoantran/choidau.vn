@@ -27,11 +27,6 @@
 <!-- Global styles START -->
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.css')}}">
-<<<<<<< HEAD
-
-=======
->>>>>>> master-vinh-27-1(3)
 @if (isset($style_global))
 {{$style_global}}
 @endif

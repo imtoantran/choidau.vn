@@ -1,12 +1,9 @@
+/*luuhoabk-css*/
 .pac-container{z-index: 100555!important;}
 .bootbox .input-group{margin-bottom: 5px;}
 .bootbox input#location-search{
     padding: 5px;
     width: 100%;
-    /*position: absolute;*/
-    /*top: -47px;*/
-    /*right: 49px;*/
-    /*border: 1px solid #e4e4e4;*/
 }
 #location_create .select2-container.select2-container-multi{width: 100%!important;}
 #location_create .select2-container.select2-container-multi>.select2-choices{padding: 3px;background: #fff!important;  border-color: #e5e5e5!important;}
@@ -25,7 +22,9 @@
         width: 900px;
     }
 }
-button#location-img-btn-close{
+.location-album-wrapper{margin:10px 0;}
+.location-album-wrapper img{padding: 5px; border: 1px solid #d4d4d4; margin-top: 10px; background: #fff; box-shadow: 0 1px 1px #ccc;  -webkit-box-shadow: 0 1px 1px #ccc; -moz-box-shadow: 0 1px 1px #ccc;}
+.location-img-btn-close-item{
     position: absolute;
     bottom: -3px;
     right: 10px;

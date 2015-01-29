@@ -538,7 +538,7 @@
 			<div class=" col-md-12 col-none-padding modal-footer" style="margin-top: 0px;padding-top: 10px;padding: 5px;">
 				<div class="col-md-9" style="border-right: 1px solid #CCC; margin-bottom: 10px;"></div>
 				<div class="col-md-3">
-					<button type="submit" id="insert-media-browser" class="btn btn-sm btn-primary" data-dismiss="modal" >Chèn Hình</button>
+					<button type="button" id="insert-media-browser" class="btn btn-sm btn-primary" data-dismiss="modal" >Chèn Hình</button>
 					<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
 				</div>
 			</div>

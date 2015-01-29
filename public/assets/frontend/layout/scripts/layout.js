@@ -421,60 +421,51 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
-
-
         var type_insert="";
-        $(".insertMedia").click(function(){
 
+        $(".insertMedia").click(function(){
             $(".insertMedia").removeClass('abc');
             $(this).addClass("abc");
+         //   $(this).addClass("abc");
 
             type_insert=$(this).attr('type_insert');
         });
 
-        $("#insert-media-browser").click(function(){
 
+
+        $("#insert-media-browser").click(function(){
             var url=$('#url-edit-media').attr('data-img-url');
             if(url!=''){
-
-                var img='<img src="'+URL+url+'" />';
+                //var img='<img src="'+URL+url+'" />';
 
                 switch (type_insert){
-                    case "insert_one_img":
+                    //case "insert_one_img":
+                    //    $(".abc").html(img);
+                    //    break;
+                    //case "insert_multi_img":
+                    //    $(".abc").append(img);
+                    //    break;
+                    //case "insert_one_url":
+                    //    $(".abc").html(url);
+                    //    break;
 
-                      $(".abc").html(img);
+                    //luuhoabk
+                    case "location_load_avatar":
+                        Location.loadAvatar();
                         break;
-                    case "insert_multi_img":
-                        $(".abc").append(img);
+                    case "location_load_album":
+                        Location.loadAlbum();
                         break;
-                    case "insert_one_url":
-                        $(".abc").html(url);
-                        break;
+
                     default:
                 }
             }else{
                 bootbox.alert('bạn chưa chọn hình ảnh !');
                 return false;
             }
-
-            $.fn.exists = function(callback) {
-                var args = [].slice.call(arguments, 1);
-
-                if (this.length) {
-                    callback.call(this, args);
-                }
-
-                return this;
-            };
-
-
-             //   alert(type_insert);
-
-           // return false;
+            //return false;
         });
-      //  $('#iM_user_slide').click(function(){
-            //$('#imageManager_saveChange').attr('cover_id','user_slide');
-     //   });
+
 
     }
 
@@ -510,19 +501,17 @@ var Layout = function () {
                 var item_this=$(this).find("a");
                 var item_button=item.find('.item-btn');
                 item_button.html(item_this.html());
-
             });
-
         },
 
         initUniform: function (els) {
             if (els) {
                 jQuery(els).each(function () {
-                        if ($(this).parents(".checker").size() == 0) {
-                            $(this).show();
-                            $(this).uniform();
-                        }
-                    });
+                    if ($(this).parents(".checker").size() == 0) {
+                        $(this).show();
+                        $(this).uniform();
+                    }
+                });
             } else {
                 handleUniform();
             }

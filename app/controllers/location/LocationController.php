@@ -25,7 +25,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
-            'assets/global/plugins/image-manager/css/image-manager.min.css',
+            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css',
             'assets/global/plugins/uniform/css/uniform.default.css',
         ));
         $style_page=$this->Style(array(
@@ -43,8 +43,6 @@ class LocationController extends BaseController {
         $js_plugin = $this->JScript(array(
             'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
-            'assets/global/plugins/image-manager/js/image-manager.js',
-            'assets/global/plugins/image-manager/spaCMS_settings.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
@@ -68,8 +66,7 @@ class LocationController extends BaseController {
             'assets/admin/pages/scripts/form-fileupload.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
-        $js_script=' Layout.init();
-                FormFileUpload.init();';
+        $js_script='FormFileUpload.init();';
 
         return View::make('site/location/create', compact('$address','style_plugin','style_page',
             'js_plugin','js_script','js_page','js_global')

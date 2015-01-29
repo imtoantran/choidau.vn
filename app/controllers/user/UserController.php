@@ -139,6 +139,7 @@ class UserController extends BaseController {
         if(!empty($user->id)){
             return Redirect::to('/');
         }
+        $data=Input::all();
             $user_singup= $this->userRepo->signup($data);
         if(!$user_singup){
             $listProvince=Province::orderBy('name','ASC')->get();
