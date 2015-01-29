@@ -100,7 +100,7 @@ Route::group(array('prefix' => 'post'), function() {
 });
 
 #location start
-Route::get('{provinceSlug}/{locationSlug}','LocationController@getEdit');
+#Route::get('{provinceSlug}/{locationSlug}','LocationController@getEdit');
 # location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
