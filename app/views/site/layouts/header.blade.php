@@ -25,7 +25,9 @@
     <div class="col-md-12">
 
         <div class="row">
-            <div class="col-md-2" style="position: relative;"> <img class="logo" src="{{asset("assets/frontend/layout/img/logo.png")}}" width="150px" height="60px" /> </div>
+            <div class="col-md-2" style="position: relative;">
+                <a href="/"><img class="logo" src="{{asset("assets/frontend/layout/img/logo.png")}}" width="150px" height="60px" /></a>
+            </div>
             <div class="col-md-10 header-middle-right">
                 <div class="row">
                     <div class="box-search">
