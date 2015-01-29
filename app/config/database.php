@@ -49,13 +49,13 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '107.167.182.195',
+			'host'      => 'superman.servinio.com',
 			//'database'  => 'db_choidau',
-			'database'  => 'choi_dau_01',
+			'database'  => 'choidau_01',
 			//'username'  => 'choidau',
-			'username'  => 'remote_team',
+			'username'  => 'choidau_01',
 			//'password'  => 'suntory',
-			'password'  => 'ADVtxRYP3E4tKaMt',
+			'password'  => 'choidau',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

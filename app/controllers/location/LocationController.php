@@ -27,6 +27,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
             'assets/global/plugins/jquery-file-upload/css/image-manager.min.css',
             'assets/global/plugins/uniform/css/uniform.default.css',
+            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
         ));
         $style_page=$this->Style(array(
             'assets/frontend/pages/css/location.css',
@@ -92,5 +93,10 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
         return json_encode($province_id);
     }
+    /* imtoantran save location start */
+    public function getView($proviceSlug,$locationSlug,$id){
+        return $id;
+    }
 
+    /* imtoantran save location end */
 }

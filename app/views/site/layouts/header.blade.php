@@ -25,15 +25,13 @@
     <div class="col-md-12">
 
         <div class="row">
-            <div class="col-md-2" style="position: relative;"> <img class="logo" src="#" width="150px" height="60px" /> </div>
-
-
+            <div class="col-md-2" style="position: relative;"> <img class="logo" src="{{asset("assets/frontend/layout/img/logo.png")}}" width="150px" height="60px" /> </div>
             <div class="col-md-10 header-middle-right">
                 <div class="row">
                     <div class="box-search">
 
                         <div class="col-md-2 col-xs-12 col-sm-12" style="padding-bottom:5px">
-                            <div class="form-group" style="margin-bottom:0px;">
+                            <div class="form-group margin-bottom-0">
                                 <select class="form-control">
                                     <option>Option 1</option>
                                     <option>Option 2</option>
@@ -62,7 +60,17 @@
 
                     <div class="col-md-3 margin-top-10 box-infor-user" >
                         <i class="icon-user-7"></i>
-                        <span>Nguyễn Thanh Tâm</span>
+
+                        @if (Auth::check())
+                            @if (Auth::user()->hasRole('admin'))
+                                <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
+                            @endif
+                            <a href="{{{ URL::to('user') }}}">{{{ Auth::user()->username }}}</a>
+                            <a href="{{{ URL::to('user/logout') }}}">Đăng xuất</a>
+                        @else
+                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('user/login') }}}">Login</a>
+                            <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('user/create') }}}">{{{ Lang::get('site.sign_up') }}}</a>
+                        @endif
 
                         <a href="#" class="dropdown-toggle icon-badge-number" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <i class="icon-bell"></i>
@@ -84,11 +92,8 @@
 </div>
 <div class="col-md-12 toolbar-top">
     <div class="col-md-1 pull-left" style="margin-top:4px"><a href="#" class="mobi_search"><i class="icon-search-outline icon-circle-radius"></i></a></div>
-    <div class="col-md-2 pull-left" style="margin-top:6px"><a href="#"  ><i class="icon-images"><img width="36px" height="36px" src="../../assets/frontend/layout/img/icons/location_add.png"></i></a></div>
-
+    <div class="col-md-2 pull-left" style="margin-top:6px"><a href="#"  ><i class="icon-images"><img width="36px" height="36px" src="{{asset("assets/frontend/layout/img/icons/location_add.png")}}"></i></a></div>
     <div class="col-md-2 pull-right"><a href="#" class="mobi_menubar" ><i class="icon-menu icon-circle-radius"></i></a></div>
-
-
 </div>
 <div class="header-bottom">
     <div class="">
@@ -98,7 +103,7 @@
                 <li><a href="#">uống <i class="icon-bar"></i></a></li>
                 <li><a href="#">đi <i class="icon-school"></i></a></li>
                 <li><a href="#">video <i class="icon-videocam-3"></i></a></li>
-                <li><a href="{{URL::to("bai-viet.html")}}">blog <i class="icon-cloud-thunder"></i></a></li>
+                <li><a href="{{URL::to("blog.html")}}">blog <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="#">hỏi đáp<i class="icon-wechat"></i></a></li>
                 <li class="nav-li-last" style=""><a href="#">hổ trợ<i class="icon-lifebuoy"></i></a></li>
             </ul>

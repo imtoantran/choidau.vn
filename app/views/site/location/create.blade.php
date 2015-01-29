@@ -116,6 +116,7 @@
 									</div>
 									<img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
 								</div>
+
 							</div>
 						</div>
 

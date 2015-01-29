@@ -48,7 +48,7 @@ class UserController extends BaseController {
     {
         $user = $this->userRepo->signup(Input::all());
 
-        if ($user->id) {
+        if ($user->id&&false) {//imtoantran
             if (Config::get('confide::signup_email')) {
                 Mail::queueOn(
                     Config::get('confide::email_queue'),
