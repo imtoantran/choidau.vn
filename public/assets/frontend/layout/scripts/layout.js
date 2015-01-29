@@ -421,9 +421,12 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
+
+
         var type_insert="";
 
         $(".insertMedia").click(function(){
+
             $(".insertMedia").removeClass('abc');
             $(this).addClass("abc");
          //   $(this).addClass("abc");
@@ -432,9 +435,11 @@ var Layout = function () {
         });
 
         $("#insert-media-browser").click(function(){
+
             var url=$('#url-edit-media').attr('data-img-url');
             if(url!=''){
-                //var img='<img src="'+URL+url+'" />';
+
+                var img='<img src="'+URL+url+'" />';
 
                 switch (type_insert){
                     //case "insert_one_img":
@@ -457,6 +462,7 @@ var Layout = function () {
 
                     case "insert_one_img":
                       $(".abc").html(img);
+
                         break;
 
                     case "insert_multi_img":
@@ -490,16 +496,11 @@ var Layout = function () {
                 return false;
             }
 
-            //return false;
-        });
 
-        $.fn.exists = function(callback) {
-                var args = [].slice.call(arguments, 1);
-                if (this.length) {
-                    callback.call(this, args);
-                }
-                return this;
-            };
+
+
+
+  
 
         $(".btn-save-anh-bia").click(function(){
          var url_img=   $(".person-header-bg").attr('url_img');
@@ -557,33 +558,107 @@ var Layout = function () {
     }
 
     var handleBlog=function(){
+
+
+        /**
+         * Đăng status
+         */
+
         $(".btn-add-status").click(function(){
-
-
           var content_status=$("#content-status").val();
           var  privacy_status=$("#privacy-status").attr("value_id");
-
-           //   alert(privacy_status);
-
             $.ajax({
                 type: "POST",
                 url: URL+"/trang-ca-nhan/trang-thai.html",
                 data: {
                     'content':content_status,
-                    'privacy':privacy_status
+                    'privacy':privacy_status,
+                    'type_edit':'add_status'
 
                 },
                 cache: false,
                 success: function(data){
-                    var html_box_status="<div class='vinhleeel'></div>";
-                    $( html_box_status ).insertAfter( ".form-add-status" );
+                    $.ajax({
+                        type: "POST",
+                        url: URL+"/trang-ca-nhan/load-item-status-"+data,
+                        data: {
+
+                        },
+                        cache: false,
+                        success: function(data_1){
+                            $( data_1 ).insertAfter( ".form-add-status");
+                        }
+                    });
                 }
             });
 
-
-
-
         });
+
+    /*-------------end đang status*/
+
+
+    /***
+     * like status
+     *
+     * */
+
+    $(".btn-blog-post-like").click(function(){
+        var parent_item_element=$(this).parents('div.person-content-item');
+        var input_element=parent_item_element.find('input.item-status-value');
+        var lab_like_element=parent_item_element.find('span.lab-blog-post-like');
+        var btn_like_element=parent_item_element.find('a.btn-blog-post-like');
+        var post_id=input_element.attr('post_id');
+        var user_auth_id=input_element.attr('user_auth_id');
+        var user_author_id=input_element.attr('user_author_id');
+        var type_action_like=$(this).attr('type_action_like');
+
+
+        $.ajax({
+            type: "POST",
+            url: URL+"/trang-ca-nhan/trang-thai.html",
+            dataType: 'JSON',
+
+            data: {
+                'post_id':post_id,
+                'user_auth_id':user_auth_id,
+                'user_author_id':user_author_id,
+                'type_edit':'like_status',
+                'type_action_like':type_action_like
+
+            },
+            cache: false,
+            success: function(data_1){
+
+               // alert(data_1.number_like);
+
+                if(data_1.type_action_like=='type_action_like'){
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_dislike');
+                    btn_like_element.html('Đã thích');
+                }else{
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_like');
+                    btn_like_element.html('Thích');
+                }
+
+             //   alert()
+              // lab_like_element.html(data_1);
+            }
+        });
+
+    });
+   /**------------end dislike*/
+
+
+
+     /**
+      * comment blog
+      * */
+
+
+
+     /*-------------end comment*/
+
 
     }
 
@@ -618,17 +693,19 @@ var Layout = function () {
                 var item_this=$(this).find("a");
                 var item_button=item.find('.item-btn');
                 item_button.html(item_this.html());
+
             });
+
         },
 
         initUniform: function (els) {
             if (els) {
                 jQuery(els).each(function () {
-                    if ($(this).parents(".checker").size() == 0) {
-                        $(this).show();
-                        $(this).uniform();
-                    }
-                });
+                        if ($(this).parents(".checker").size() == 0) {
+                            $(this).show();
+                            $(this).uniform();
+                        }
+                    });
             } else {
                 handleUniform();
             }

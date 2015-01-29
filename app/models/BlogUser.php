@@ -18,4 +18,10 @@ class BlogUser extends Eloquent {
     public function user() {
         return $this->hasOne('User');
     }
+
+
+    public function status(){
+        return $this->hasOne('Post');
+    }
+
 }
