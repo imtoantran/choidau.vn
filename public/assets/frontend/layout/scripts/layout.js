@@ -431,15 +431,12 @@ var Layout = function () {
             type_insert=$(this).attr('type_insert');
         });
 
-
-
         $("#insert-media-browser").click(function(){
             var url=$('#url-edit-media').attr('data-img-url');
             if(url!=''){
                 //var img='<img src="'+URL+url+'" />';
 
                 switch (type_insert){
-<<<<<<< HEAD
                     //case "insert_one_img":
                     //    $(".abc").html(img);
                     //    break;
@@ -456,14 +453,16 @@ var Layout = function () {
                         break;
                     case "location_load_album":
                         Location.loadAlbum();
-=======
+                        break;
+
                     case "insert_one_img":
                       $(".abc").html(img);
-
                         break;
+
                     case "insert_multi_img":
                         $(".abc").append(img);
                         break;
+
                     case "insert_one_url":
                         break;
                     case "insert_one_url_location":
@@ -471,50 +470,36 @@ var Layout = function () {
                      //   Location::abc(url);
                       //  $(".abc").html(url);
                         break;
+
                     case "insert_one_img_anh_bia":
                         $(".person-header-bg").attr('style','background-image: url('+url+')');
                         $(".person-header-bg").attr('url_img',url);
                         $(".btn-save-anh-bia").show();
                         break;
+
                     case "insert_one_img_avatar":
                         $(".avatar-pad2").attr('src',url);
                      //   $(".person-header-bg").attr('url_img',url);
                         $(".btn-save-avatar").show();
->>>>>>> 850f2d2ede446f90f979eb390a842ad3c6a5fdec
                         break;
 
-                    default:
+                    default: break;
                 }
             }else{
                 bootbox.alert('bạn chưa chọn hình ảnh !');
                 return false;
             }
-<<<<<<< HEAD
+
             //return false;
         });
 
-=======
-
-
-
-
-
-            $.fn.exists = function(callback) {
+        $.fn.exists = function(callback) {
                 var args = [].slice.call(arguments, 1);
-
                 if (this.length) {
                     callback.call(this, args);
                 }
-
                 return this;
             };
-
-
-             //   alert(type_insert);
-
-           // return false;
-        });
->>>>>>> 850f2d2ede446f90f979eb390a842ad3c6a5fdec
 
         $(".btn-save-anh-bia").click(function(){
          var url_img=   $(".person-header-bg").attr('url_img');
@@ -590,15 +575,8 @@ var Layout = function () {
                 },
                 cache: false,
                 success: function(data){
-
                     var html_box_status="<div class='vinhleeel'></div>";
-
-
-
                     $( html_box_status ).insertAfter( ".form-add-status" );
-
-
-
                 }
             });
 
