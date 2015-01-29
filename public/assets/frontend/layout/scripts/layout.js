@@ -497,7 +497,7 @@ var Layout = function () {
             }
 
 
-
+        });
 
 
   
@@ -538,9 +538,9 @@ var Layout = function () {
                 }
             });
         });
+        }
 
-
-    }
+    
     var handleComponentLayout=function(){
 
         /**btb select*/
