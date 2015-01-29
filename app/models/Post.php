@@ -156,5 +156,9 @@ class Post extends Eloquent
 		return $this->belongsTo('Category');
 	}
 
+    public  function userAction(){
+        return $this->belongsToMany('User');
+    }
+
 	//imtoantran
 }

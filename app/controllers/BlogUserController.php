@@ -41,16 +41,23 @@ class BlogUserController extends BaseController {
 	 */
 	public function getIndex($user_slug)
 	{
-        $user = Auth::user();
-        $blogUser=$user->blog()->first();
+        $user_auth = Auth::user();
+        $user_blog =User::where('username','=',"$user_slug")->first();
+
+
+        $blogUser=$user_blog->blog()->first();
 
         $blogList=array(
             'name'=>$blogUser->name,
             'background'=>$blogUser->background,
-            'avatar'=>$user->avatar
+            'avatar'=>$user_blog->avatar
         );
-        if(empty($user->id)){
-            return Redirect::to('user');
+
+       if(empty($user_auth->id)){
+           return Redirect::to('user');
+       }
+        if(empty($user_blog->id)){
+            return Redirect::to('/');
         }
 
 
@@ -89,11 +96,26 @@ class BlogUserController extends BaseController {
 
 
 
-        if($user->username!=$user_slug){
+        if($user_auth->username!=$user_slug){
 
         }
+
+        $listStatus=Post::orderBy('updated_at','DESC')->where('user_id','=',$user_blog->id)->where('post_type','=','status')->skip(0)->take(5)->get();
+       // echo '<pre>';
+      //  print_r($listStatus);
+       // echo '</pre>';
+         $html_status='';
+        foreach($listStatus as $item){
+
+          $html_status.= $this->loadItemStatus2($item['id']);
+
+        }
+
+
+
+
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-       return View::make('site.user.blog.index',compact('user','listStatusPost','blogList','style_plugin','style_page','js_plugin','js_page','js_script'));
+       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','blogList','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 
 
@@ -231,16 +253,51 @@ class BlogUserController extends BaseController {
         $this->blogUser=$user->blog()->first();
 
         $data=Input::all();
-      //  $type_edit=$data['type_edit'];
+
+        $type_edit=$data['type_edit'];
         if(Request::ajax())
         {
-            $post =new Post();
-            $post->title="status";
-            $post->content=$data['content'];
-            $post->privacy =$data['privacy'];
-            $post->post_type='status';
-            $post->user_id=$user->id;
-            $post->save();
+            switch($type_edit){
+                case "add_status":
+                    $post =new Post();
+                    $post->title="status";
+                    $post->content=$data['content'];
+                    $post->privacy =$data['privacy'];
+                    $post->post_type='status';
+                    $post->user_id=$user->id;
+                    $post->save();
+                    $date=date_create("now");
+                    $date=  date_format($date,"Y-m-d H:i:s");
+                    $post->userAction()->attach($user,['post_user_type_id'=>33,'created_at'=>$date]);
+                    echo $post->id;
+                    break;
+                case "like_status":
+                  //  $user=Auth::user();
+                    $date=date_create("now");
+                    $date=  date_format($date,"Y-m-d H:i:s");
+
+                    $post_like=Post::where('id','=',$data['post_id'])->first();
+                    $type_action_like=$data['type_action_like'];
+
+                    if($type_action_like=="type_action_like"){
+                        $post_like->userAction()->attach($user,['post_user_type_id'=>31,'created_at'=>$date]);
+
+                    }else{
+                        $post_like->userAction()->detach($user,['post_user_type_id'=>31,'created_at'=>$date]);
+
+                     //  $post_like->userAction()->updateExistingPivot($user,['post_user_type_id'=>31,'created_at'=>$date]);
+
+                    }
+                    $number_like=$post_like->userAction()->where('post_user_type_id','=','31')->count();
+                    $data_1=array(
+                        'type_action_like'=>$type_action_like,
+                        'number_like'=>$number_like
+                    );
+
+                  //  echo $type_action_like.'-'.$number_like;
+                    echo json_encode($data_1);
+                    break;
+            }
 
 
         }
@@ -260,31 +317,100 @@ echo'ádasdasd';
     public  function loadItemStatus($id_status_slug){
 
         $post= Post::find($id_status_slug);
-
-      //  echo '<pre>';
-      //  print_r($post);
-      //  echo '</pre>';
-
-        // $user=User::find($post->user_id);
-
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
 
-         $user=$post->author;
-         $userIn['username']=$user->username;
-         $userIn['avatar']=$user->avatar;
-       //  $userIn['level']=Option::find($user->level_id)->description;
-         $userIn['level']=$post->status;
+        $user_auth = Auth::user();
+        $user=$post->author;
 
-          $postIn['content']=$post->content;
-          $postIn['privacy']=$post->privacy;
-          $postIn['number_like']='';
+        $userIn['username']=$user->username;
+        $userIn['avatar']=$user->avatar;
+        $userIn['level']=Option::find($user->level_id)->description;
+        $userIn['avatar_auth']=$user_auth->avatar;
+        $userIn['id_auth']=$user_auth->id;
+        $userIn['id_author']=$user->id;
+        $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+
+        $userIn['like_content']='Thích';
+        $userIn['type_action_like']='like';
+        if($isLike!=0){
+            $userIn['like_content']='Đã thích';
+            $userIn['type_action_like']='type_action_dislike';
+        }
 
 
+        $postIn['id']=$post->id;
+        $postIn['content']=$post->content;
+        $postIn['privacy']=$post->privacy;
+        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
+        $postIn['privacy_description']=Option::find($post->privacy)->description;
+        $postIn['privacy_id']=$post->privacy;
 
-
+        if($post->updated_at!='0000-00-00 00:00:00'){
+            $postIn['post_date']=date_format($post->updated_at,'H:i d-m-Y');
+            $postIn['post_type_user']='Đã cập nhật trạng thái vào lúc :';
+        }else{
+            $postIn['post_date']=date_format($post->created_at,'H:i d-m-Y');
+            $postIn['post_type_user']='Đã đăng trạng thái vào lúc :';
+        }
         echo View::make('site.partials.itemStatus',compact('userIn','listStatusPost','postIn'));
 
     }
+
+    public  function loadItemStatus2($id_status_slug){
+        $post= Post::find($id_status_slug);
+        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+
+        $user_auth = Auth::user();
+        $user=$post->author;
+
+        $userIn['username']=$user->username;
+        $userIn['avatar']=$user->avatar;
+        $userIn['level']=Option::find($user->level_id)->description;
+        $userIn['avatar_auth']=$user_auth->avatar;
+        $userIn['id_auth']=$user_auth->id;
+        $userIn['id_author']=$user->id;
+        $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+
+        $userIn['like_content']='Thích';
+        $userIn['type_action_like']='type_action_like';
+        if($isLike!=0){
+            $userIn['like_content']='Đã thích';
+            $userIn['type_action_like']='type_action_dislike';
+        }
+
+
+        $postIn['id']=$post->id;
+        $postIn['content']=$post->content;
+        $postIn['privacy']=$post->privacy;
+        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
+        $postIn['privacy_description']=Option::find($post->privacy)->description;
+        $postIn['privacy_id']=$post->privacy;
+
+        if($post->updated_at!='0000-00-00 00:00:00'){
+            $postIn['post_date']=date_format($post->updated_at,'H:i d-m-Y');
+            $postIn['post_type_user']='Đã cập nhật trạng thái vào lúc :';
+        }else{
+            $postIn['post_date']=date_format($post->created_at,'H:i d-m-Y');
+            $postIn['post_type_user']='Đã đăng trạng thái vào lúc :';
+        }
+        return View::make('site.partials.itemStatus',compact('userIn','listStatusPost','postIn'));
+
+    }
+
+    public function ala($id_status_slug){
+        echo $id_status_slug;
+        $post_like=Post::where('id','=',131);
+
+     //   $post= Post::where('id','=',$id_status_slug)->get()->first();
+            echo '<pre>';
+          print_r($post_like);
+        echo '</pre>';
+
+
+    }
+
+
+
 
 
 

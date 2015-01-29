@@ -97,8 +97,8 @@ class LocationController extends BaseController {
         return json_encode($province_id);
     }
     /* imtoantran save location start */
-    public function getView($proviceSlug,$locationSlug,$id){
-        return $id;
+    public function getView($proviceSlug,$locationSlug){
+        return $proviceSlug;
     }
 
     /* imtoantran save location end */
