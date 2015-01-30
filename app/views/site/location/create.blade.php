@@ -12,14 +12,14 @@
 		</div>
 		<form method="POST" name="location_create" id="location_create" class="form-horizontal choidau-form" role="form">
 			<input type="hidden" name="_token" id="token-location" value="{{csrf_token()}}"/>
-			<input type="hidden" name="location-position" id="location-position" value="(10.776111111111112,106.69583333333334)"/>
+			<input type="hidden" name="location_position" id="location_position" value="(10.776111111111112,106.69583333333334)"/>
 
 			<div class="alert alert-danger display-hide">
-				<button class="close" data-close="alert"></button>
+				<button class="close location-alert-close" data-close="alert"></button>
 				You have some form errors. Please check below.
 			</div>
 			<div class="alert alert-success display-hide">
-				<button class="close" data-close="alert"></button>
+				<button class="close location-alert-close" data-close="alert"></button>
 				Your form validation is successful!
 			</div>
 
@@ -33,16 +33,16 @@
 						</div>
 
 						<div class="form-group">
-							<label for="location_title" class="col-sm-3 control-label"><strong>Tên địa điểm </strong><span class="required">*</span></label>
+							<label for="location_name" class="col-sm-3 control-label"><strong>Tên địa điểm </strong><span class="required">*</span></label>
 							<div class="col-sm-9">
-								<input type="text" name="location_title" id="location_title" class="form-control" value=""  title="">
+								<input type="text" name="location_name" id="location_name" class="form-control" value=""  title="">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="location_address" class="col-sm-3 control-label"><strong>Địa chỉ</strong> <span class="required">*</span></label>
+							<label for="location_address_detail" class="col-sm-3 control-label"><strong>Địa chỉ</strong> <span class="required">*</span></label>
 							<div class="col-sm-9">
-								<input type="text" name="location_address" id="location_address" class="form-control" value=""   title="">
+								<input type="text" name="location_address_detail" id="location_address_detail" class="form-control" value=""   title="">
 							</div>
 						</div>
 
@@ -61,18 +61,18 @@
 						</div>
 
 						<div class="form-group">
-							<label for="location_area" class="col-sm-3 control-label"><strong>Gần khu vực</strong></label>
+							<label for="location_address_nearly" class="col-sm-3 control-label"><strong>Gần khu vực</strong></label>
 
 							<div class="col-sm-9">
-								<input type="text" name="location_area" id="location_area" class="form-control" value=""   title="">
+								<input type="text" name="location_address_nearly" id="location_address_nearly" class="form-control" value=""   title="">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="location_detail-address" class="col-sm-3 control-label"><strong>Địa chỉ chi tiết</strong></label>
+							<label for="location_detail_address" class="col-sm-3 control-label"><strong>Địa chỉ chi tiết</strong></label>
 
 							<div class="col-sm-9">
-								<input type="text" name="location_detail-address" id="location_detail-address" class="form-control" value=""   title="">
+								<input type="text" name="location_detail_address" id="location_detail_address" class="form-control" value=""   title="">
 							</div>
 						</div>
 
@@ -98,41 +98,44 @@
 						</div>
 
 						<div class="form-group">
-							<label for="location_describe" class="col-sm-3 control-label"><strong>Mô tả địa điểm</strong></label>
+							<label for="location_description" class="col-sm-3 control-label"><strong>Mô tả địa điểm</strong></label>
 							<div class="col-sm-9">
-								<textarea name="location_describe" id="location_describe" class="form-control" value=""   title=""></textarea>
+								<textarea name="location_description" id="location_description" class="form-control" value=""   title=""></textarea>
 							</div>
 						</div>
 
 
 						{{--anh dai dien--}}
-
 						<div class="form-group">
 							<label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
 							<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
-								<button type="button" id="location-img-btn-close" class="no-padding hidden" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
-								<div id="iM_user_slide1" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+								<button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
+								<div id="iM_user_slide1" type_insert="location_load_avatar" class="insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
 									<div class="add-picture vertically-centered" style="">
-										<div class="icon icons-plus3"></div>
 										<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
 									</div>
 									<img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
 								</div>
+
 							</div>
 						</div>
 
 						{{--album anh--}}
-						{{--<div class="form-group">--}}
-							{{--<label class="col-sm-3 control-label"><strong>Album ảnh</strong></label>--}}
-							{{--<div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">--}}
-								{{--<div id="iM_user_slide" type_insert="get_img_one" class="single-picture-wrapper imageManager_openModal" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">--}}
-									{{--<div class="add-picture vertically-centered" style="">--}}
-										{{--<div class="icon icons-plus3"></div>--}}
-										{{--<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-th" style="font-size: 1.3em;"></i> Chọn ảnh</button>--}}
-									{{--</div>--}}
-								{{--</div>--}}
-							{{--</div>--}}
-						{{--</div>--}}
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><strong>Album ảnh</strong></label>
+							<div class="col-sm-9 col-md-9 col-lg-9 location-wrapper-img">
+								<div class="row">
+									<div id="iM_user_slide1" type_insert="location_load_album" class=" col-md-4 insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+										<div class="add-picture vertically-centered" style="">
+											<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
+										</div>
+									</div>
+								</div>
+								<div class="row location-album-wrapper">
+								</div>
+							</div>
+						</div>
+
 
 						{{--cap nhat vi tri--}}
 						<div class="form-group">
@@ -380,12 +383,13 @@
 												<thead>
 												<tr>
 													<th>Tên món</th>
+													<th>Giá</th>
 													<th>Loại món</th>
 												</tr>
 												</thead>
 												<tbody>
 													<tr>
-														<td class="location-food-empty" colspan="2"><i class="icon-check-empty"> </i> Danh mục đang rỗng.</td>
+														<td class="location-food-empty" colspan="3"><i class="icon-check-empty"> </i> Danh mục đang rỗng.</td>
 													</tr>
 												</tbody>
 											</table>
@@ -431,6 +435,25 @@
 					</div>
 				</div>
 			</div>
+			<!-- THUỘC DANH MUC -->
+			<div class="row margin-top-15">
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 bg-grey-light padding-top-20">
+					<div class="col-md-10 col-md-offset-1">
+						<div class="form-group ">
+							<p class="btn btn-primary col-xs-3"><strong>Thuộc danh mục</strong></p>
+							<div class="col-sm-9">
+								<select name="location_category" id="location_category" class="form-control" value="" title="">
+									<option></option>
+								</select>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- THUỘC DANH MUC -->
 			{{--<!-- THÔNG TIN KHÁC END-->--}}
 
 			<!-- SUBMIT -->

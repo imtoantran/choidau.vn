@@ -93,6 +93,54 @@ var Layout = function () {
         });
     }
 
+
+   var loadDialogMapVinh= function(){
+
+        var html ='<div class="input-group loacation-search-wrapper">';
+        html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
+        html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
+        html +='</div>';
+        html +='<div id="location-gmap"></div>';
+
+        var content_browser=$("#content-browser").html();
+        var ss= $(content_browser).prop('outerHTML');
+
+
+       console.log(ss);
+
+       bootbox.dialog({
+           message: ss,
+           title: "Vị trí địa điểm2",
+           buttons: {
+               default: {
+                   label: "Đóng",
+                   className: "btn-default"
+               },
+               main: {
+                   label: "Hoàn tất",
+                   className: "btn-primary",
+                   callback: function() {
+                       //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                   }
+               }
+           }
+       });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     // runs callback functions set by App.addResponsiveHandler().
     var runResponsiveHandlers = function () {
         // reinitialize other subscribed elements
@@ -270,13 +318,13 @@ var Layout = function () {
         }
     }
 
-    var handleFancybox = function () {
-        if (!jQuery.fancybox) {
+    var handleFancyboxA = function () {
+      /*  if (!jQuery.fancybox) {
             return;
         }
 
 
-        if (jQuery(".fancybox-button").size() > 0) {            
+        if (jQuery(".fancybox-button").size() > 0) {
             jQuery(".fancybox-button").fancybox({
                 groupAttr: 'data-rel',
                 prevEffect: 'none',
@@ -293,6 +341,8 @@ var Layout = function () {
                 type: 'iframe'
             });
         }
+        */
+
     }
 
     // Handles Bootstrap Accordions.
@@ -371,13 +421,162 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
-        $('#iM_user_slide').click(function(){
-            //$('#imageManager_saveChange').attr('cover_id','user_slide');
+        var type_insert="";
+
+        $(".insertMedia").click(function(){
+            $(".insertMedia").removeClass('abc');
+            $(this).addClass("abc");
+         //   $(this).addClass("abc");
+
+            type_insert=$(this).attr('type_insert');
+        });
+
+        $("#insert-media-browser").click(function(){
+            var url=$('#url-edit-media').attr('data-img-url');
+            var result = true;
+            if(url!=''){
+                //var img='<img src="'+URL+url+'" />';
+
+                switch (type_insert){
+                    case "location_load_avatar": //luuhoabk (location/location.js)
+                        Location.loadAvatar();
+                        break;
+                    case "location_load_album": //luuhoabk (location/location.js)
+                        result = Location.loadAlbum();
+                        break;
+
+                    case "insert_one_img":
+                      $(".abc").html(img);
+                        break;
+
+                    case "insert_multi_img":
+                        $(".abc").append(img);
+                        break;
+
+                    case "insert_one_url":
+                        break;
+                    case "insert_one_url_location":
+
+                     //   Location::abc(url);
+                      //  $(".abc").html(url);
+                        break;
+
+                    case "insert_one_img_anh_bia":
+                        $(".person-header-bg").attr('style','background-image: url('+url+')');
+                        $(".person-header-bg").attr('url_img',url);
+                        $(".btn-save-anh-bia").show();
+                        break;
+
+                    case "insert_one_img_avatar":
+                        $(".avatar-pad2").attr('src',url);
+                     //   $(".person-header-bg").attr('url_img',url);
+                        $(".btn-save-avatar").show();
+                        break;
+
+                    default: break;
+                }
+
+            }else{
+                bootbox.alert('bạn chưa chọn hình ảnh !');
+                result = false;
+            }
+
+            return result;
+        });
+
+        $.fn.exists = function(callback) {
+                var args = [].slice.call(arguments, 1);
+                if (this.length) {
+                    callback.call(this, args);
+                }
+                return this;
+            };
+
+        $(".btn-save-anh-bia").click(function(){
+         var url_img=   $(".person-header-bg").attr('url_img');
+          //  alert(url);
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/chinh-sua-thong-tin.html",
+                data: {
+                    'background':url_img,
+                    'type_edit':'change_anh_bia'
+                },
+                cache: false,
+                success: function(data){
+                    $(".btn-save-anh-bia").hide();
+                }
+            });
+        });
+
+
+        $(".btn-save-avatar").click(function(){
+            var url_img=    $(".avatar-pad2").attr('src');
+            //  alert(url);
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/chinh-sua-thong-tin.html",
+                data: {
+                    'avatar':url_img,
+                    'type_edit':'change_avatar'
+                },
+                cache: false,
+                success: function(data){
+                    $(".btn-save-avatar").hide();
+                }
+            });
+        });
+
+
+    }
+    var handleComponentLayout=function(){
+
+        /**btb select*/
+        $("section.person-content .person-content-item .person-type-scopy ul li").click(function(){
+           // alert('ád');
+            var value=$(this).html();
+            var id=$(this).attr('value_id');
+            var item_parend=$(this).parents("section.person-content .person-content-item .person-type-scopy");
+            var item=   item_parend.find("button").first();
+            item.html(value);
+            item.attr('value_id',id);
+         //   alert(item.html());
+        });
+        /***/
+    }
+
+    var handleBlog=function(){
+        $(".btn-add-status").click(function(){
+
+
+          var content_status=$("#content-status").val();
+          var  privacy_status=$("#privacy-status").attr("value_id");
+
+           //   alert(privacy_status);
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/trang-thai.html",
+                data: {
+                    'content':content_status,
+                    'privacy':privacy_status
+
+                },
+                cache: false,
+                success: function(data){
+                    var html_box_status="<div class='vinhleeel'></div>";
+                    $( html_box_status ).insertAfter( ".form-add-status" );
+                }
+            });
+
+
+
+
         });
 
     }
-
-
 
     return {
         init: function () {
@@ -397,11 +596,12 @@ var Layout = function () {
             handleMobiToggler();
             handlePortletTools();
            */
-            handleFancybox();
+      
             handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
-
+            handleComponentLayout();
+            handleBlog();
         },
         btnSelection:function(){
             $(".select-button ul.dropdown-menu li ").click(function(){
@@ -409,19 +609,17 @@ var Layout = function () {
                 var item_this=$(this).find("a");
                 var item_button=item.find('.item-btn');
                 item_button.html(item_this.html());
-
             });
-
         },
 
         initUniform: function (els) {
             if (els) {
                 jQuery(els).each(function () {
-                        if ($(this).parents(".checker").size() == 0) {
-                            $(this).show();
-                            $(this).uniform();
-                        }
-                    });
+                    if ($(this).parents(".checker").size() == 0) {
+                        $(this).show();
+                        $(this).uniform();
+                    }
+                });
             } else {
                 handleUniform();
             }

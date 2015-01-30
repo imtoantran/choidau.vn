@@ -2489,7 +2489,7 @@ right: 0px;
 }
 
 .open{
-    display: block !important;
+    display: inline-block !important;
 }
 .media-tab-content >ul >li div a{
     height: 36px !important;

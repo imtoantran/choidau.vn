@@ -9,4 +9,13 @@ class Category extends Eloquent {
 	public function blogs(){
 		return $this->hasMany('Blog');
 	}
+	public function children(){
+		return$this->hasMany('Category','parent_id');
+	}
+	public function parent(){
+		return$this->belongsTo('Category','parent_id');
+	}
+	public function location(){
+		return$this->hasMany('Location');
+	}
 }

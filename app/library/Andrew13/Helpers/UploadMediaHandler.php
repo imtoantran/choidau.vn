@@ -1145,7 +1145,8 @@ class UploadMediaHandler
 
                         $postMeta=new PostMeta();
                         $postMeta->meta_key='url';
-                        $postMeta->meta_value=$file->url;//'ádasdad';//$data['url'];
+                        $urlPu=String::get_url_img_public($file->url);
+                        $postMeta->meta_value=$urlPu;//'ádasdad';//$data['url'];
 
                         if(  $img->meta()->save($postMeta)){
                         }

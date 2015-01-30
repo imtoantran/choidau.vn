@@ -48,7 +48,7 @@ class UserController extends BaseController {
     {
         $user = $this->userRepo->signup(Input::all());
 
-        if ($user->id) {
+        if ($user->id&&false) {//imtoantran
             if (Config::get('confide::signup_email')) {
                 Mail::queueOn(
                     Config::get('confide::email_queue'),
@@ -139,6 +139,7 @@ class UserController extends BaseController {
         if(!empty($user->id)){
             return Redirect::to('/');
         }
+        $data=Input::all();
             $user_singup= $this->userRepo->signup($data);
         if(!$user_singup){
             $listProvince=Province::orderBy('name','ASC')->get();
