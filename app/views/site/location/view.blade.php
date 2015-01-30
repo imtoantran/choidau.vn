@@ -16,8 +16,6 @@
 @section("topb")
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
 
                 <!-- Loading Screen -->
@@ -98,7 +96,7 @@
                         <span class="icon-tag-1"></span>
                         <span class="text-primary">Nhà hàng</span>
                     </p>
-                    <p><span class="icon-home"></span>{{$location->address_detail}} {{$location->ward->name}} {{$location->district->name}} {{$location->province->name}}</p>
+                    <p><span class="icon-home"></span>{{$location->address_detail}} {{$location->district->name}} {{$location->province->name}}</p>
                     <p class="icon-phone">(+84) {{$location->phone}}</p>
                     <p class="icon-mobile">(+84) {{$location->telphone}}</p>
                     <p><span class="icon-globe"></span> {{$location->website}}</p>
@@ -150,7 +148,7 @@
             </div>
         </div>
     </div>
-    @stop
+@stop
 
 @section("content")
     <div class="row place">
@@ -521,7 +519,7 @@
                     /* load reviews end */
                     /* viet review start*/
                     $(".do-post-review").click(function(){
-                        
+
                     });
                     /* viet review end */
                 }

@@ -164,6 +164,7 @@ class LocationController extends BaseController {
         $location = Location::whereSlug($locationSlug)->first();
         return View::make("site/location/view",compact("location"));
     }
+
     function like(){
         $id = Input::get("id");
         $location = Location::find($id);
