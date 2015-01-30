@@ -56,7 +56,7 @@
 
                     </div>
                     <div class=" col-md-3 margin-top-10 box-add-location" >
-                        + <a href="{{URL::to("location/create")}}">Thêm địa điểm</a><i class="icon-pinterest"></i>
+                        + <a href="{{URL::to("dia-diem/tao-dia-diem")}}">Thêm địa điểm</a><i class="icon-pinterest"></i>
 
                     </div>
 
