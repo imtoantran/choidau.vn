@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\URL;
  * @property mixed meta_keywords
  * @property mixed user_id
  * @property mixed id
+ * @property mixed author
+ * @property mixed thumbnail
  */
 class Post extends Eloquent
 {
@@ -157,8 +159,14 @@ class Post extends Eloquent
 	}
 
     public  function userAction(){
-        return $this->belongsToMany('User');
+		return $this->belongsToMany("User");
     }
 
+	/**
+	 * @return string
+     */
+	public function thumbnail(){
+		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
+	}
 	//imtoantran
 }

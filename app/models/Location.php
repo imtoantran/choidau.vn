@@ -35,6 +35,4 @@ class Location extends Eloquent {
 	public function utility(){
 		return $this->belongsToMany("Utility");
 	}
-
-//end luuhoabk
 }

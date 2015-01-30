@@ -149,4 +149,59 @@ class LocationController extends BaseController {
 
         return $result;
     }
+
+//        $province_id = Input::get('dataForm');
+//        $a = array($province_id['location_timeAction']);
+//        print_r($a); exit;
+//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
+    
+    /* imtoantran save location start */
+    public function getView($provinceSlug,$locationSlug){
+        $location = Location::whereSlug($locationSlug)->first();
+        return View::make("site/location/view",compact("location"));
+    }
+    function like(){
+        $id = Input::get("id");
+        $location = Location::find($id);
+        $user = Auth::user();
+        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
+        $response=[];
+        if($count){
+            $location->userAction()->detach($user,['action_type'=>'like']);
+            $response['canLike'] = true;
+        }
+        else{
+            $location->userAction()->attach($user,['action_type'=>'like']);
+            $response['canLike'] = false;
+        }
+        $response['totalFavourites'] = $location->userAction()->whereAction_type("like")->count();
+        $response['success']=true;
+        return json_encode($response);
+    }
+    function checkin(){
+        $id = Input::get("id");
+        $location = Location::find($id);
+        $user = Auth::user();
+        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('checkin')->count();
+        $response=[];
+        if($count){
+            $response['success']=false;
+            $response['message']="Bạn đã đến đây";
+        }
+        else{
+            $location->userAction()->attach($user,['action_type'=>'checkin']);
+            $response['success']=true;
+        }
+        $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
+
+        return json_encode($response);
+    }
+    private function userAction(){
+
+    }
+    public function loadReviews(){
+        $id = Input::get("id");
+        return json_encode(Location::find($id)->reviews());
+    }
+    /* imtoantran save location end */
 }
