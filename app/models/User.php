@@ -117,4 +117,7 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->hasOne('BlogUser');
     }
 
+    public function locationAction(){
+        return $this->belongsToMany("Location");
+    }
 }

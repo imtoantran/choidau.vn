@@ -30,8 +30,13 @@
       <h1>Ko load dc dữ liệu</h1>
     @show
     <!-- ./ content -->
+    {{-- imtoanran add bottoma and bottomb section start --}}
+        @section('bottoma')
+        @show
+        @section('bottomb')
+        @show
+    {{-- imtoanran add bottoma and bottomb section end --}}
     </div>
-
 </section>
 <!-- ./ container -->
 

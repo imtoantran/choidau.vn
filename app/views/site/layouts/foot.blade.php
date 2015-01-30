@@ -49,11 +49,6 @@
 <!-- START CORE PLUGINS -->
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
 <script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
-<<<<<<< HEAD
-<script src="{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.pack.js')}}"></script>
-=======
-<script src="{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.pack.js')}}" type="text/javascript"></script>
->>>>>>> master-vinh-27-1(3)
 @if (isset($js_plugin))
 {{$js_plugin}}
 @endif

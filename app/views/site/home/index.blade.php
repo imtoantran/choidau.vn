@@ -432,7 +432,7 @@
 								<img  class="img-circle" src="{{asset($reviewer->author->avatar)}}"/>
 							@endforeach
 						@endif
-						<p class="quantity-like">{{$location->userAction()->where("user_location_type","=","0")->count()}} lượt thích</p>
+						<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
 					</div >
 
 					<div class="col-md-4 col-xs-4 col-sm-4 ">

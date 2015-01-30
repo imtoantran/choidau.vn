@@ -97,9 +97,52 @@ class LocationController extends BaseController {
         return json_encode($province_id);
     }
     /* imtoantran save location start */
-    public function getView($proviceSlug,$locationSlug,$id){
-        return $id;
+    public function getView($provinceSlug,$locationSlug){
+        $location = Location::whereSlug($locationSlug)->first();
+        return View::make("site/location/view",compact("location"));
     }
+    function like(){
+        $id = Input::get("id");
+        $location = Location::find($id);
+        $user = Auth::user();
+        $count = $location->userAction()->whereUser_id($user->id)->count();
+        $response=[];
+        if($count){
+            $location->userAction()->detach($user,['action_type'=>'like']);
+            $response['canLike'] = true;
+        }
+        else{
+            $location->userAction()->attach($user,['action_type'=>'like']);
+            $response['canLike'] = false;
+        }
+        $response['totalFavourites'] = $location->userAction()->whereAction_type("like")->count();
+        $response['success']=true;
+        return json_encode($response);
+    }
+    function checkin(){
+        $id = Input::get("id");
+        $location = Location::find($id);
+        $user = Auth::user();
+        $count = $location->userAction()->whereUser_id($user->id)->count();
+        $response=[];
+        if($count){
+            $response['success']=false;
+            $response['message']="Bạn đã đến đây";
+        }
+        else{
+            $location->userAction()->attach($user,['action_type'=>'checkin']);
+            $response['success']=true;
+        }
+        $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
 
+        return json_encode($response);
+    }
+    private function userAction(){
+
+    }
+    public function loadReviews(){
+        $id = Input::get("id");
+        return json_encode(Location::find($id)->reviews());
+    }
     /* imtoantran save location end */
 }
