@@ -1,19 +1,20 @@
 var Location = function () {
-	var createLocation_frm = $('#location_create');
+	var location_create_frm = $('#location_create');
 	var province_tag = $('#location_province');
 	var district_tag = $('#location_district');
-	var token_tag = createLocation_frm.find('#token-location');
-	var global_food_item ='';
-	var global_food_type ='';
+	var token_tag = location_create_frm.find('#token-location');
+	var foodMenu_tag = $('#location-mn-food');
+	var utilityMenu_tag = $('#location-mn-utility');
+
+	var global_food_item =''; // danh dach goi y mon an
+	var global_food_type =''; // loai mon an
 	var global_utility_item ='';
-	var global_arrayFood =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
-	var global_arrayUtility =[];//name,description,type_id  global_arrayFood.push({"id":"1",'ten':'hoa'});
-	var global_arrayAlbum =[1,2,3,4];
+	var catLocation ='';
 	var dataProvince ='';
 	var markerLocation;
 	var self;
 	var map;
-	
+
     return {
         //main function to initiate the module
         init: function () {
@@ -31,42 +32,31 @@ var Location = function () {
 				})
 
 				$('#btn-update-position').on('click', function(){
-					self.loadDialogMap2();
+					self.loadDialogMap();
 					setTimeout(function(){	self.loadGmap(); },300);
 				});
-
-				//submit add location;
-				createLocation_frm.submit(function(e){
-					e.preventDefault();
-					self.submitForm();
-				})
 				self.submitForm();
 			});
 
 
         },
-		abc1: function(){
-			alert('abc1');
-		},
-		abc2: function(){
-			alert('abc2');
-		},
-		abc3: function(){
-			alert('abc3');
-		},
 		submitForm: function() {
-			var locationError = $('.alert-danger', createLocation_frm);
-			var locationSuccess = $('.alert-success', createLocation_frm);
-			createLocation_frm.validate({
+			var locationError = $('.alert-danger', location_create_frm);
+			var locationSuccess = $('.alert-success', location_create_frm);
+			$('.location-alert-close').click(function(){
+				$(this).closest('.alert').fadeOut();
+			});
+			location_create_frm.validate({
 				errorElement: 'span', //default input error message container
 				errorClass: 'help-block help-block-error', // default input error message class
 				focusInvalid: true, // do not focus the last invalid input
 				ignore: "", // validate all fields including form hidden input
 				rules: {
-					//location_title: {minlength: 4,required: true},
-					//location_address: {minlength: 4,required: true},
-					//location_province: {required: true},
-					//location_email: {email:true}
+					location_name: {minlength: 4,required: true},
+					location_address_detail: {minlength: 4,required: true},
+					location_province: {required: true},
+					location_email: {email:true},
+					location_category: {required:true}
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
@@ -89,7 +79,6 @@ var Location = function () {
 				invalidHandler: function (event, validator) { //display error alert on form submit
 					locationSuccess.hide();
 					locationError.show();
-					//Metronic.scrollTo(locationError, -200);
 				},
 				highlight: function (element) { // hightlight error inputs
 					$(element).closest('.form-group').addClass('has-error'); // set error class to the control group
@@ -103,31 +92,87 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-					
+
 					var dataPost = {
-						'dataForm'				:createLocation_frm.serializeArray(),
-						'location_avatar'		:$('#location-img-url').attr('data-url'),
-						'location_album'		:global_arrayAlbum,
-						'location_timeAction'	:self.getTimeAction(),
-						'location_food'			:global_arrayFood,
-						'location_utility'		:global_arrayUtility
-					}
+						'location_name'			    :$('#location_name').val(),
+						'location_address_detail'   :$('#location_address_detail').val(),
+						'location_province'			:$('#location_province').val(),
+						'location_district'			:$('#location_district').val(),
+						'location_address_nearly'	:$('#location_address_nearly').val(), //gan khu vuc
+						'location_detail_address' 	:$('#location_detail_address').val(),
+						'location_phone' 			:$('#location_phone').val(),
+						'location_email' 			:$('#location_email').val(),
+						'location_website' 			:$('#location_website').val(),
+						'location_description' 		:$('#location_description').val(),
+						'location_position' 		:$('#location_position').val(),
+						'location_price_min' 		:$('#location_price_min').val(),
+						'location_price_max' 		:$('#location_price_max').val(),
+						'location_avatar'			:$('#location-img-url').attr('data-url'),
+						'location_category'			:$('#location_category').val(),
+						'location_album'			:self.getAlbum(),
+						'location_timeAction'		:self.getTimeAction(),
+						'location_food'				:self.getFoods(),
+						'location_utility'			:self.getUtility()
+					};
+
+					// submit them dia diem
 					$.ajax({
-						url: URL+"/location/luu-dia-diem",
+						url: URL+"/dia-diem/luu-dia-diem",
 						type: 'post',
 						data: dataPost,
 						dataType: 'json',
 						success: function(resInsert){
 							console.log(resInsert);
+							// resInsert:{result: true/false 'them dia diem thanh cong hay khong', location_id: 'id cua dia diem'}
+							if(!(resInsert.result)){
+								alert('Thêm địa điểm thất bại, xin vui lòng kiểm tra kết nối và thử lại!');
+							}else{
+								//window.location = URL+'/dia-diem/luu-dia-diem-thanh-cong/'+resInsert.location_id;
+								self.loadSuccessInsert(resInsert.username,resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
+							}
 						},
 						complete: function(){
-
 						}
 					});
 				}
 			});
 
 		},
+		//loadSuccessInsert: function(){
+		loadSuccessInsert: function(username,location_id,location_name, slug_province, slug_province_name){
+			var htmlBox = "";
+
+			htmlBox += '<div class="container-fluid"><div class="col-md-12">';
+				htmlBox += '<div class="portlet light bg-inverse">';
+					htmlBox += '<div class="portlet-title">';
+						htmlBox += '<div class="caption font-purple-plum">';
+							htmlBox += '<i class="icon-place font-purple-plum"></i>';
+							htmlBox += '<span class="caption-subject bold font-green"> Choidau thông báo:</span>';
+
+						htmlBox += '</div>';
+						htmlBox += '</div>';
+						htmlBox += '<div class="portlet-body ">';
+							htmlBox += '<p>Xin chào <label class="color-red">'+username+'</label>!</p>';
+							htmlBox += '<p>Bạn vừa thêm địa điểm <label class="label label-success label-sm bold">'+location_name+'</label> thành công</p>';
+							htmlBox += '<div class="margin-top-20">';
+								htmlBox += '<a href="'+URL+'/dia-diem/'+slug_province+'/'+slug_province_name+'" class="btn btn-danger btn-sm">';
+								htmlBox += '<i class="icon-eye color-white"></i> Đi đến địa điểm </a> ';
+								htmlBox += '<a href="'+URL+'/dia-diem/tao-dia-diem" class="btn btn btn-default btn-sm">';
+								htmlBox += '<i class="icon-plus" style="color: #444;"></i> Tạo địa điểm khác </a>';
+							htmlBox += '</div>';
+						htmlBox += '</div>';
+				htmlBox += '</div>';
+			htmlBox += '</div>';
+
+			bootbox.dialog({
+				message: htmlBox,
+				closeButton: true
+			});
+			$('.bootbox button.close').hide();
+			$('.modal-dialog').css({'width':'50%','margin-top':'100px'});
+			$('.modal-content').css('background-color','#f7f7f0');
+		},
+
 		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
 		loadAvatar: function(){
 			var urlImg=$('#url-edit-media').attr('data-img-url');
@@ -149,22 +194,45 @@ var Location = function () {
 		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
 		loadAlbum: function(){
 			var urlImg=$('#url-edit-media').attr('data-img-url');
+			var urlPostId=$('#url-edit-media').attr('data-post-img-id');
+
+			var tag = $('.location-album-wrapper').find('button');
+			var isExist = true;
+			tag.each(function(){
+				var post_id= $(this).attr('data-post-id');
+				//var url_img= $(this).attr('data-img');
+				if(post_id == urlPostId){
+					alert('Hình này đã được chọn.');
+					isExist = false;
+				}
+			});
+			if(!isExist){ return false;}
+
 			if(urlImg == '' || urlImg == 'undefined'){
 				alert('Xin chọn hình.');
 				return false;
 			}
 			var strHTML = '';
-				strHTML +='<div class="col-md-3">';
-				strHTML +='<button type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>';
+				strHTML +='<button data-post-id="'+urlPostId+'" data-img="'+urlImg+'" type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>';
 				strHTML +='<img class="img-responsive" src="'+URL+urlImg+'" alt=""/>';
-				strHTML +='</div>';
-			var tagHtml = $('div',{class:'col-md-3'}).append(strHTML);
-			tagHtml.find('button').click(function(){
-				var test = $(this).attr('data-img');
-				alert(test);
-			});
 
-			$('.location-album-wrapper').append(strHTML);
+			var htmlTag  = $('<div/>',{class:'col-md-3'}).append(strHTML);
+				htmlTag.find('button').on('click',function(){
+					$(this).closest('.col-md-3').fadeOut('slow').remove();
+				});
+			var tagAlbum = $('.location-album-wrapper');
+				tagAlbum.append(htmlTag);
+		},
+
+		getAlbum: function(){
+			var arrayAlbum=[];
+			var tag = $('.location-album-wrapper').find('button');
+			tag.each(function(){
+				var post_id= $(this).attr('data-post-id');
+				//var url_img= $(this).attr('data-img');
+				arrayAlbum.push({'post_id':post_id});
+			});
+			return arrayAlbum;
 		},
 
 		loadActionTime: function(){
@@ -182,8 +250,10 @@ var Location = function () {
 			});
 
 		},
+
 		getTimeAction: function(){
 			var arrayTime=[];
+			var thu = 2;
 			$('.location-time-check').each(function(){
 				var thu = $(this).attr('data-thu');
 				var timeStart = $('#location-time-start-t'+thu).val();
@@ -191,17 +261,19 @@ var Location = function () {
 				if(this.checked){
 					// thoi gian bat dau | thoi gian ket thuc
 					//arrayTime.push([timeStart+'|'+timeEnd]);
-					arrayTime.push({'bd':timeStart,'kt':timeEnd});
+					arrayTime.push({'thu':thu,'bd':timeStart,'kt':timeEnd});
 				}else{
-					arrayTime.push({});
+					arrayTime.push({'thu':thu,'bd':'','kt':''});
 				}
+				thu++;
 			});
 ;			return arrayTime;
 		},
+
 		//load thuc don
 		loadInitParam: function(){
 			$.ajax({
-				url: URL+"/location/loadInitParam",
+				url: URL+"/dia-diem/loadInitParam",
 				type: 'get',
 				dataType: 'json',
 				success: function(dbParam){
@@ -210,6 +282,7 @@ var Location = function () {
 					global_food_type = dbParam.foodType;
 					global_utility_item = dbParam.utility;
 					dataProvince = dbParam.province;
+					catLocation = dbParam.catLocation;
 
 					//load province
 					html += '<option value="" selected >-- Chọn Tỉnh/ Thành phố --</option>';
@@ -221,6 +294,15 @@ var Location = function () {
 						}
 					});
 					province_tag.html(html);
+
+					// load category
+					var htmlcat='';
+					htmlcat += '<option value="" selected >-- Chọn danh mục --</option>';
+					$.each(catLocation, function(key,value){
+						htmlcat += '<option value="'+value.id+'">'+value.name+'</option>';
+					});
+					$('#location_category').html(htmlcat);
+
 				},
 				complete: function(){
 					//if province changed is set district value
@@ -238,7 +320,7 @@ var Location = function () {
 			var html ='';
 			if(province_id !=""){
 				$.ajax({
-					url: URL+"/location/loadDistrict",
+					url: URL+"/dia-diem/loadDistrict",
 					type: 'post',
 					data: {'province_id':province_id,'_token':token},
 					dataType: 'json',
@@ -281,7 +363,7 @@ var Location = function () {
 						label: "Hoàn tất",
 						className: "btn-primary",
 						callback: function() {
-							createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+							location_create_frm.find('#location_position').val(markerLocation.getPosition());
 						}
 					}
 				}
@@ -388,7 +470,7 @@ var Location = function () {
 				htmlBox.find('#location-utility-name').on('change',function(){
 					var txtUtilityName = $(this);
 					$.each(global_utility_item, function(key,val){
-						if((txtUtilityName.val().match(val.name) != null)){
+						if((txtUtilityName.val().toLowerCase().match(val.name.toLowerCase()) != null)){
 							txtUtilityName.attr('data-utility-suggest-id',val.id);
 						}
 					});
@@ -406,14 +488,14 @@ var Location = function () {
 						className: "btn-primary",
 						callback: function(){
 							var utilityName = $('#location-utility-name');
-							var utilityMenu = $('#location-mn-utility');
+							var utilitySuggest = utilityName.attr('data-utility-suggest-id');
 							var html = '<td> <i class="icon-right-dir"> </i>';
 									html += utilityName.val();
-									html += '<button data-utilityName="'+utilityName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-utility-delete">';
+									html += '<button data-suggest="'+utilitySuggest+'" data-utility-name="'+utilityName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-utility-delete">';
 									html += '<i class="icon-trash"></i>';
 									html += '</button>';
 								html += '</td>';
-							var htmlItemUtility  = $('<tr/>').append(html);
+							var htmlItemUtility  = $('<tr/>',{class:'utility-item'}).append(html);
 
 							// kiem tra neu ten tien ich ko hop le
 							if(utilityName.val().length <=2){
@@ -422,17 +504,28 @@ var Location = function () {
 								return false;
 							}
 
-							// them thong tin mon an vao mảng toan cuc
-							global_arrayUtility.push({'utilityName':utilityName.val(),'utilitySuggestId':utilityName.attr('data-utility-suggest-id')});
+							var tag = utilityMenu_tag.find('.utility-item button');
+							var isCheck = true;
+							tag.each(function(){
+								var utilityNameItem= $(this).attr('data-utility-name');
+								if($.trim(utilityName.val().toLowerCase()) == $.trim(utilityNameItem.toLowerCase())){
+									alert('Tên tiện ích đã được chọn');
+									utilityName.focus();
+									isCheck = false;
+								}
+							})
+							if(!isCheck){return false;}
+
 							$('.location-utility-empty').fadeOut('fast');
 							// them thẻ tien ich
-							utilityMenu.find('tbody').append(htmlItemUtility);
+							utilityMenu_tag.find('tbody').append(htmlItemUtility);
 							htmlItemUtility.find('button').on('click', function(){
-								var utilityName = $(this).attr('data-utilityName');
-								self.deleteUtility(utilityName);
-								$(this).closest('tr').hide('slow',function(){$(this).remove()});
-								if(global_arrayUtility.length<=0){	$('.location-utility-empty').fadeIn('fast');}
 
+								$(this).closest('tr').hide('fast',function(){$(this).remove()});
+								var numChild = utilityMenu_tag.find('tbody').children('tr.utility-item').length;
+								if(numChild <= 1){
+									$('.location-utility-empty').fadeIn('fast');
+								}
 							});
 						}
 					}
@@ -457,30 +550,42 @@ var Location = function () {
 			html +='</div>';
 
 			html +='<div class="form-group clearfix">';
-			html +='<label for="input" class="col-sm-2 control-label"><strong>Loại món:</strong></label>';
-			html +='<div class="col-sm-10">';
-			html +='<select name="" id="location-food-type" class="form-control" value="" required="required" title="">';
-			//load type food
-			$.each(global_food_type, function(key,val){
-				html += '<option value="'+val.id+'">'+val.value+'</option>';
-			});
-			//end load type food
-			html +='</select>';
+				html +='<label for="location-food-price" class="col-sm-2 control-label"><strong>Giá:</strong></label>';
+				html +='<div class="col-sm-5">';
+					html +='<input name="location-food-price" id="location-food-price" class="form-control">';
+				html +='</div>';
+				html +='<div class="col-sm-5">';
+					html +='VNĐ';
+				html +='</div>';
 			html +='</div>';
-			html +='</div>';
+
 			html +='<div class="form-group clearfix">';
-			html +='<label for="input" class="col-sm-2 control-label"><strong>Mô tả:</strong></label>';
+			html +='<label for="location-food-typ" class="col-sm-2 control-label"><strong>Loại món:</strong></label>';
 			html +='<div class="col-sm-10">';
-			html +='<textarea name="location-food-description" id="location-food-description" rows="4" style="width: 100%!important;"></textarea>';
+				html +='<select name="location-food-typ" id="location-food-type" class="form-control" value="" required="required" title="">';
+				//load type food
+				$.each(global_food_type, function(key,val){
+					html += '<option value="'+val.id+'">'+val.value+'</option>';
+				});
+				//end load type food
+				html +='</select>';
 			html +='</div>';
 			html +='</div>';
+
+				html +='<div class="form-group clearfix">';
+				html +='<label for="input" class="col-sm-2 control-label"><strong>Mô tả:</strong></label>';
+				html +='<div class="col-sm-10">';
+				html +='<textarea name="location-food-description" id="location-food-description" rows="4" style="width: 100%!important;"></textarea>';
+				html +='</div>';
+			html +='</div>';
+
 			var htmlBox  = $('<div/>',{class:'container-fluid'},{id:'location-food-item-add'}).append(html);
 
 			//set id suggest food cho input food name
 			htmlBox.find('#location-food-name').on('change',function(){
 				var txtFoodName = $(this);
 				$.each(global_food_item, function(key,val){
-					if((txtFoodName.val().match(val.name) != null)){
+					if((txtFoodName.val().toLowerCase().match(val.name.toLowerCase()) != null)){
 						txtFoodName.attr('data-food-suggest-id',val.id);
 					}
 				});
@@ -500,18 +605,10 @@ var Location = function () {
 						callback: function(){
 							var foodName = $('#location-food-name');
 							var foodType = $('#location-food-type').find('option:selected');
+							var foodSuggest = foodName.attr('data-food-suggest-id');
+							var tagFoodPrice = $('#location-food-price');
+							var foodPrice = tagFoodPrice.val();
 							var foodDescribe = $('#location-food-description');
-							var foodMenu = $('#location-mn-food');
-							var html = '<td> <i class="icon-right-dir"> </i>'+foodName.val()+'</td>';
-								html += '<td>';
-									html += foodType.text();
-									html += '<button data-foodName="'+foodName.val()+'" type="button" class="btn btn-default pull-right btn-xs location-food-delete">';
-									html += '<i class="icon-trash"></i>';
-									html += '</button>';
-								html += '</td>';
-
-							var htmlItemFood  = $('<tr/>').append(html);
-
 
 							// kiem tra neu ten mon an ko hop le
 							if(foodName.val().length <=2){
@@ -520,16 +617,57 @@ var Location = function () {
 								return false;
 							}
 
+							var tag = foodMenu_tag.find('.food-item button');
+							var isCheck = true;
+							tag.each(function(){
+								var foodNameItem= $(this).attr('data-food-name');
+								if($.trim(foodName.val().toLowerCase()) == $.trim(foodNameItem.toLowerCase())){
+									alert('Tên món ăn đã có trong thực đơn');
+									foodName.focus();
+									isCheck = false;
+								}
+							})
+							if(!isCheck){return false;}
+
+							var regexSpace = /^([0-9]+)$/;
+							if(foodPrice !="" && !(regexSpace.test(foodPrice))){
+								alert('Giá món ăn chỉ nhập số');
+								tagFoodPrice.focus();
+								return false;
+							}
+
+							if(foodPrice !="" && foodPrice.length <=2){
+								alert('Giá món ăn phải lớn hơn 2 số');
+								tagFoodPrice.focus();
+								return false;
+							}
+							var textFoodPrice =self.converMoney(foodPrice)+' vnđ';
+
+							if(foodPrice ==""){
+								foodPrice =0;
+								textFoodPrice = "Cập nhật";
+							}
+							var html = '<td> <i class="icon-right-dir"> </i>'+foodName.val()+'</td>';
+								html += '<td class="text-right">'+textFoodPrice+'</td>';
+								html += '<td>';
+									html += foodType.text();
+									html += '<button data-food-suggest="'+foodSuggest+'" data-food-name="'+foodName.val()+'" data-food-price="'+foodPrice+'" data-food-type="'+foodType.val()+'" data-food-descript="'+foodDescribe.val()+'"  type="button" class="btn btn-default pull-right btn-xs location-food-delete">';
+									html += '<i class="icon-trash"></i>';
+									html += '</button>';
+								html += '</td>';
+
+							var htmlItemFood  = $('<tr/>',{class:'food-item'}).append(html);
+
 							// them thong tin mon an vao mảng toan cuc
-							global_arrayFood.push({'foodName':foodName.val(), 'foodType':foodType.val(), 'foodDescribe':foodDescribe.val(), 'foodSuggestId':foodName.attr('data-food-suggest-id')});
 							$('.location-food-empty').fadeOut('fast');
 							// them thẻ mon an
-							foodMenu.find('tbody').append(htmlItemFood);
+							foodMenu_tag.find('tbody').append(htmlItemFood);
 							htmlItemFood.find('button').on('click', function(){
-								var foodName = $(this).attr('data-foodName');
-								self.deleteFood(foodName);
 								$(this).closest('tr').hide('slow',function(){$(this).remove()});
-								if(global_arrayFood.length<=0){	$('.location-food-empty').fadeIn('fast');}
+								var numChild = foodMenu_tag.find('tbody').children('tr.food-item').length;
+								if(numChild <= 1){
+									$('.location-food-empty').fadeIn('fast');
+								}
 							});
 						}
 					}
@@ -537,20 +675,38 @@ var Location = function () {
 			});
 		},
 
-		deleteFood: function(foodName){
-			global_arrayFood.forEach(function(object,id){
-				if(object.foodName == foodName){
-					global_arrayFood.splice(id,1);
-				}
+		getFoods: function(){
+			var arrayFood=[];
+			var tag = foodMenu_tag.find('.food-item button');
+			tag.each(function(){
+				var foodName= $(this).attr('data-food-name');
+				var foodPrice= $(this).attr('data-food-price');
+				var foodType= $(this).attr('data-food-type');
+				var foodSuggest= $(this).attr('data-food-suggest');
+				var foodDescript= $(this).attr('data-food-descript');
+				arrayFood.push({'food_name':foodName, 'price':foodPrice, 'type_id':foodType, 'food_id':foodSuggest, 'description':foodDescript});
 			});
+			return arrayFood;
 		},
 
-		deleteUtility: function(utilityName){
-			global_arrayUtility.forEach(function(object,id){
-				if(object.utilityName == utilityName){
-					global_arrayUtility.splice(id,1);
-				}
+		getUtility: function(){
+			var arrayUtility=[];
+			var tag = utilityMenu_tag.find('.utility-item button');
+			tag.each(function(){
+				var utilityName= $(this).attr('data-utility-name');
+				var utilitySuggest= $(this).attr('data-suggest');
+				arrayUtility.push({'utility_id':utilitySuggest,'utility_name':utilityName});
 			});
+			return arrayUtility;
+		},
+
+		converMoney: function(str) {
+			if (str.length > 3) {
+				str = str.split('');
+				for (var i = str.length - 3; i > 0; i -= 3) str.splice(i, 0, ",");
+				return str.join('');
+			}
+			return str;
 		},
 
 		//convert between degrees, minutes, seconds to Decimal coordinates

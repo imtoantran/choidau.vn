@@ -8,19 +8,12 @@ class LocationController extends BaseController {
      */
     protected $location;
 
-    public function __construct()
-    {
+    public function __construct(Location $location) {
         parent::__construct();
-//        $this->location = $user;
+        $this->location = $location;
     }
 
-
-    /**
-     * Displays the form for user creation
-     *
-     */
-    public function getCreate()
-    {
+    public function getCreate() {
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
@@ -79,24 +72,81 @@ class LocationController extends BaseController {
         $province = Province::orderBy('name','ASC')->get();
         $utility = Utility::orderBy('name','ASC')->get();
         $food = Food::orderBy('name','ASC')->get();
-        $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province);
+
+        // Lay danh muc dia diem
+        $catLocation = Category::whereSlug("danh-muc-dia-diem")->first()->children()->get();
+
+        $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province, 'catLocation'=>$catLocation);
         return json_encode($initParam);
     }
 
     public function saveLocation(){
-        $province_id = Input::all();
+        $result = [];
+        $user = Auth::user();
+        $location = $this->location;
+        $locationCreate = Input::all();
+        $isAlbum = Input::has('location_album');
+        $isFood= Input::has('location_food');
+        $isUtilityMenu= Input::has('location_utility');
 
+        $location->name = $locationCreate['location_name'];
+        $location->address_detail = $locationCreate['location_address_detail'];
+        $location->province_id = $locationCreate['location_province'];
+        $location->district_id = $locationCreate['location_district'];
+        $location->address_nearly = $locationCreate['location_address_nearly'];
+        $location->address_detail = $locationCreate['location_address_detail'];
+        $location->phone = $locationCreate['location_phone'];
+        $location->email = $locationCreate['location_email'];
+        $location->website = $locationCreate['location_website'];
+        $location->description = $locationCreate['location_description'];
+        $location->avatar = $locationCreate['location_avatar'];
+        $location->posittion = $locationCreate['location_position'];
+        $location->price_max = $locationCreate['location_price_max'];
+        $location->price_min = $locationCreate['location_price_min'];
+        $location->category_id = $locationCreate['location_category'];
+        $location->slug = Str::slug($locationCreate['location_name']);
+        $location->action_time = json_encode($locationCreate['location_timeAction']);
 
-//        $province_id = Input::get('dataForm');
-//        $a = array($province_id['location_timeAction']);
-//        print_r($a); exit;
-//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
-        return json_encode($province_id);
+        // luu dia diem
+        $isSaveLocation=$location->save();
+
+        // kiem tra neu luu thanh cong
+        if($isSaveLocation){
+            // kiem tra va insert table location_post 'them album'
+            if($isAlbum){
+                foreach($locationCreate['location_album'] as $key=>$value){
+                    $location->album()->attach($value['post_id']);
+                }
+            }
+
+            // kiem tra va insert table location_food 'them mon an'
+            if($isFood){
+                foreach($locationCreate['location_food'] as $key=>$value){
+                    $value['user_id'] = $user->id;
+                    $isSaveL_F = $location->food()->attach($value['food_id'],$value);
+                }
+            }
+
+            // kiem tra va insert table location_utility 'them tien ich'
+            if($isUtilityMenu){
+                foreach($locationCreate['location_utility'] as $key=>$value){
+                    $isSaveL_U= $location->utility()->attach($value['utility_id'],$value);
+                }
+            }
+
+            $province_name = Province::find($location->province_id)->name;
+
+            $result['location_id'] =$location->id;
+            $result['location_name'] = $location->name ;
+            $result['username'] = $user->username ;
+            $result['slug_province'] = Str::slug($province_name) ;
+            $result['slug_location_name'] = Str::slug($location->name) ;
+            $result['result'] = true ;
+
+        }else{
+            $result['result'] = false ;
+        }
+
+        return $result;
     }
-    /* imtoantran save location start */
-    public function getView($proviceSlug,$locationSlug){
-        return $proviceSlug;
-    }
-
-    /* imtoantran save location end */
 }

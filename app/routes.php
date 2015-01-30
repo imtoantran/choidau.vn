@@ -131,11 +131,11 @@ Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
 
 /** -------------------Site location: luuhoabk-------------**/
-Route::group(array('prefix' => 'location'), function(){
+Route::group(array('prefix' => 'dia-diem'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
-    Route::get('create', 'LocationController@getCreate');
+    Route::get('tao-dia-diem', 'LocationController@getCreate');
     Route::post('luu-dia-diem', 'LocationController@saveLocation');
 
 //  Route::controller('/', 'LocationController'); // run contruct function

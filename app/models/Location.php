@@ -21,4 +21,20 @@ class Location extends Eloquent {
 	public function userAction(){
 		return $this->belongsToMany("User");
 	}
+	public function category(){
+		return $this->belongsTo("Category");
+	}
+//	luuhoabk
+	public function album(){
+		return $this->belongsToMany("Post");
+	}
+	public function food(){
+		return $this->belongsToMany("Food","location_food");
+		// location_food: chi dinh lien ket khong theo thu tu a->z
+	}
+	public function utility(){
+		return $this->belongsToMany("Utility");
+	}
+
+//end luuhoabk
 }

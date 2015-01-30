@@ -430,7 +430,9 @@
 														<div class="form-group">
 															<label>URL</label>
 															<div class="input-group">
+
 																<input class="form-control" placeholder="" data-img-url="" readonly type="text" name="url-edit" id="url-edit-media" value="">
+																<input class="form-control" placeholder="" data-post-img-id="" data-img-url="" readonly type="text" name="url-edit" id="url-edit-media" value="">
 															</div>
 														</div>
 														<div class="form-group">

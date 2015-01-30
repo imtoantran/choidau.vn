@@ -15,4 +15,7 @@ class Category extends Eloquent {
 	public function parent(){
 		return$this->belongsTo('Category','parent_id');
 	}
+	public function location(){
+		return$this->hasMany('Location');
+	}
 }

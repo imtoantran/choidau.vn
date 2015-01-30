@@ -39,12 +39,6 @@
 
 
 
-
-
-
-
-
-
 <div class="row person-content-item">
     <div class="col-md-12 col-none-padding">
         <div class="col-md-9 article-img-text col-none-padding">

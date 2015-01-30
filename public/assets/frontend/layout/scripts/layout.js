@@ -1,6 +1,6 @@
 var Layout = function () {
 
-     // IE mode
+    // IE mode
     var isRTL = false;
     var isIE8 = false;
     var isIE9 = false;
@@ -21,7 +21,7 @@ var Layout = function () {
         isIE9 = !! navigator.userAgent.match(/MSIE 9.0/);
         isIE10 = !! navigator.userAgent.match(/MSIE 10.0/);
         isIE11 = !! navigator.userAgent.match(/MSIE 11.0/);
-        
+
         if (isIE10) {
             jQuery('html').addClass('ie10'); // detect IE10 version
         }
@@ -49,8 +49,8 @@ var Layout = function () {
                     cache: false,
                     url: url,
                     dataType: "html",
-                    success: function(res) 
-                    {                        
+                    success: function(res)
+                    {
                         Metronic.unblockUI(el);
                         el.html(res);
                     },
@@ -74,7 +74,7 @@ var Layout = function () {
                 window.setTimeout(function () {
                     Metronic.unblockUI(el);
                 }, 1000);
-            }            
+            }
         });
 
         // load ajax data on page init
@@ -94,7 +94,7 @@ var Layout = function () {
     }
 
 
-   var loadDialogMapVinh= function(){
+    var loadDialogMapVinh= function(){
 
         var html ='<div class="input-group loacation-search-wrapper">';
         html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
@@ -106,25 +106,25 @@ var Layout = function () {
         var ss= $(content_browser).prop('outerHTML');
 
 
-       console.log(ss);
+        console.log(ss);
 
-       bootbox.dialog({
-           message: ss,
-           title: "Vị trí địa điểm2",
-           buttons: {
-               default: {
-                   label: "Đóng",
-                   className: "btn-default"
-               },
-               main: {
-                   label: "Hoàn tất",
-                   className: "btn-primary",
-                   callback: function() {
-                       //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
-                   }
-               }
-           }
-       });
+        bootbox.dialog({
+            message: ss,
+            title: "Vị trí địa điểm2",
+            buttons: {
+                default: {
+                    label: "Đóng",
+                    className: "btn-default"
+                },
+                main: {
+                    label: "Hoàn tất",
+                    className: "btn-primary",
+                    callback: function() {
+                        //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                    }
+                }
+            }
+        });
 
 
     }
@@ -229,8 +229,8 @@ var Layout = function () {
         });
     }
 
-    var handleSearch = function() {    
-        $('.search-btn').click(function () {            
+    var handleSearch = function() {
+        $('.search-btn').click(function () {
             if($('.search-btn').hasClass('show-search-icon')){
                 if ($(window).width()>767) {
                     $('.search-box').fadeOut(300);
@@ -245,8 +245,8 @@ var Layout = function () {
                     $('.search-box').fadeIn(0);
                 }
                 $('.search-btn').addClass('show-search-icon');
-            } 
-        }); 
+            }
+        });
 
         // close search box on body click
         if($('.search-btn').size() != 0) {
@@ -267,10 +267,10 @@ var Layout = function () {
         $(".header .navbar-toggle").click(function () {
             if ($(".header .navbar-collapse").hasClass("open")) {
                 $(".header .navbar-collapse").slideDown(300)
-                .removeClass("open");
-            } else {             
+                    .removeClass("open");
+            } else {
                 $(".header .navbar-collapse").slideDown(300)
-                .addClass("open");
+                    .addClass("open");
             }
         });
     }
@@ -282,7 +282,7 @@ var Layout = function () {
                     $(".header-navigation-description").css("height", $(".header-navigation-content-ext").height()+22);
                 }
             }
-        });        
+        });
     }
 
     var handleSidebarMenu = function () {
@@ -298,7 +298,7 @@ var Layout = function () {
         });
     }
 
-    function handleDifInits() { 
+    function handleDifInits() {
         $(".header .navbar-toggle span:nth-child(2)").addClass("short-icon-bar");
         $(".header .navbar-toggle span:nth-child(4)").addClass("short-icon-bar");
     }
@@ -310,48 +310,48 @@ var Layout = function () {
         var test = $("input[type=checkbox]:not(.toggle), input[type=radio]:not(.toggle, .star)");
         if (test.size() > 0) {
             test.each(function () {
-                    if ($(this).parents(".checker").size() == 0) {
-                        $(this).show();
-                        $(this).uniform();
-                    }
-                });
+                if ($(this).parents(".checker").size() == 0) {
+                    $(this).show();
+                    $(this).uniform();
+                }
+            });
         }
     }
 
     var handleFancyboxA = function () {
-      /*  if (!jQuery.fancybox) {
-            return;
-        }
+        /*  if (!jQuery.fancybox) {
+         return;
+         }
 
 
-        if (jQuery(".fancybox-button").size() > 0) {
-            jQuery(".fancybox-button").fancybox({
-                groupAttr: 'data-rel',
-                prevEffect: 'none',
-                nextEffect: 'none',
-                closeBtn: true,
-                helpers: {
-                    title: {
-                        type: 'inside'
-                    }
-                }
-            });
+         if (jQuery(".fancybox-button").size() > 0) {
+         jQuery(".fancybox-button").fancybox({
+         groupAttr: 'data-rel',
+         prevEffect: 'none',
+         nextEffect: 'none',
+         closeBtn: true,
+         helpers: {
+         title: {
+         type: 'inside'
+         }
+         }
+         });
 
-            $('.fancybox-video').fancybox({
-                type: 'iframe'
-            });
-        }
-        */
+         $('.fancybox-video').fancybox({
+         type: 'iframe'
+         });
+         }
+         */
 
     }
 
     // Handles Bootstrap Accordions.
     var handleAccordions = function () {
-       
+
         jQuery('body').on('shown.bs.collapse', '.accordion.scrollable', function (e) {
             Layout.scrollTo($(e.target), -100);
         });
-        
+
     }
 
     // Handles Bootstrap Tabs.
@@ -371,7 +371,7 @@ var Layout = function () {
     var handleMobiToggler = function () {
         $(".mobi-toggler").on("click", function(event) {
             event.preventDefault();//the default action of the event will not be triggered
-            
+
             $(".header").toggleClass("menuOpened");
             $(".header").find(".header-navigation").toggle(300);
         });
@@ -393,9 +393,9 @@ var Layout = function () {
     }
 
     var handleTheme = function () {
-    
+
         var panel = $('.color-panel');
-    
+
         // handle theme colors
         var setColor = function (color) {
             $('#style-color').attr("href", "../../assets/frontend/layout/css/themes/" + color + ".css");
@@ -421,48 +421,32 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
-
-
         var type_insert="";
 
         $(".insertMedia").click(function(){
-
             $(".insertMedia").removeClass('abc');
             $(this).addClass("abc");
-         //   $(this).addClass("abc");
+            //   $(this).addClass("abc");
 
             type_insert=$(this).attr('type_insert');
         });
 
         $("#insert-media-browser").click(function(){
-
             var url=$('#url-edit-media').attr('data-img-url');
+            var result = true;
             if(url!=''){
-
-                var img='<img src="'+URL+url+'" />';
+                //var img='<img src="'+URL+url+'" />';
 
                 switch (type_insert){
-                    //case "insert_one_img":
-                    //    $(".abc").html(img);
-                    //    break;
-                    //case "insert_multi_img":
-                    //    $(".abc").append(img);
-                    //    break;
-                    //case "insert_one_url":
-                    //    $(".abc").html(url);
-                    //    break;
-
-                    //luuhoabk
-                    case "location_load_avatar":
+                    case "location_load_avatar": //luuhoabk (location/location.js)
                         Location.loadAvatar();
                         break;
-                    case "location_load_album":
-                        Location.loadAlbum();
+                    case "location_load_album": //luuhoabk (location/location.js)
+                        result = Location.loadAlbum();
                         break;
 
                     case "insert_one_img":
-                      $(".abc").html(img);
-
+                        $(".abc").html(img);
                         break;
 
                     case "insert_multi_img":
@@ -473,8 +457,8 @@ var Layout = function () {
                         break;
                     case "insert_one_url_location":
 
-                     //   Location::abc(url);
-                      //  $(".abc").html(url);
+                        //   Location::abc(url);
+                        //  $(".abc").html(url);
                         break;
 
                     case "insert_one_img_anh_bia":
@@ -485,26 +469,32 @@ var Layout = function () {
 
                     case "insert_one_img_avatar":
                         $(".avatar-pad2").attr('src',url);
-                     //   $(".person-header-bg").attr('url_img',url);
+                        //   $(".person-header-bg").attr('url_img',url);
                         $(".btn-save-avatar").show();
                         break;
 
                     default: break;
                 }
+
             }else{
                 bootbox.alert('bạn chưa chọn hình ảnh !');
-                return false;
+                result = false;
             }
 
-
+            return result;
         });
 
-
-  
+        $.fn.exists = function(callback) {
+            var args = [].slice.call(arguments, 1);
+            if (this.length) {
+                callback.call(this, args);
+            }
+            return this;
+        };
 
         $(".btn-save-anh-bia").click(function(){
-         var url_img=   $(".person-header-bg").attr('url_img');
-          //  alert(url);
+            var url_img=   $(".person-header-bg").attr('url_img');
+            //  alert(url);
 
             $.ajax({
                 type: "POST",
@@ -538,149 +528,75 @@ var Layout = function () {
                 }
             });
         });
-        }
 
-    
+
+    }
     var handleComponentLayout=function(){
 
         /**btb select*/
         $("section.person-content .person-content-item .person-type-scopy ul li").click(function(){
-           // alert('ád');
+            // alert('ád');
             var value=$(this).html();
             var id=$(this).attr('value_id');
             var item_parend=$(this).parents("section.person-content .person-content-item .person-type-scopy");
             var item=   item_parend.find("button").first();
             item.html(value);
             item.attr('value_id',id);
-         //   alert(item.html());
+            //   alert(item.html());
         });
         /***/
     }
 
     var handleBlog=function(){
-
-
-        /**
-         * Đăng status
-         */
-
         $(".btn-add-status").click(function(){
-          var content_status=$("#content-status").val();
-          var  privacy_status=$("#privacy-status").attr("value_id");
+
+
+            var content_status=$("#content-status").val();
+            var  privacy_status=$("#privacy-status").attr("value_id");
+
+            //   alert(privacy_status);
+
             $.ajax({
                 type: "POST",
                 url: URL+"/trang-ca-nhan/trang-thai.html",
                 data: {
                     'content':content_status,
-                    'privacy':privacy_status,
-                    'type_edit':'add_status'
+                    'privacy':privacy_status
 
                 },
                 cache: false,
                 success: function(data){
-                    $.ajax({
-                        type: "POST",
-                        url: URL+"/trang-ca-nhan/load-item-status-"+data,
-                        data: {
-
-                        },
-                        cache: false,
-                        success: function(data_1){
-                            $( data_1 ).insertAfter( ".form-add-status");
-                        }
-                    });
+                    var html_box_status="<div class='vinhleeel'></div>";
+                    $( html_box_status ).insertAfter( ".form-add-status" );
                 }
             });
 
+
+
+
         });
-
-    /*-------------end đang status*/
-
-
-    /***
-     * like status
-     *
-     * */
-
-    $(".btn-blog-post-like").click(function(){
-        var parent_item_element=$(this).parents('div.person-content-item');
-        var input_element=parent_item_element.find('input.item-status-value');
-        var lab_like_element=parent_item_element.find('span.lab-blog-post-like');
-        var btn_like_element=parent_item_element.find('a.btn-blog-post-like');
-        var post_id=input_element.attr('post_id');
-        var user_auth_id=input_element.attr('user_auth_id');
-        var user_author_id=input_element.attr('user_author_id');
-        var type_action_like=$(this).attr('type_action_like');
-
-
-        $.ajax({
-            type: "POST",
-            url: URL+"/trang-ca-nhan/trang-thai.html",
-            dataType: 'JSON',
-
-            data: {
-                'post_id':post_id,
-                'user_auth_id':user_auth_id,
-                'user_author_id':user_author_id,
-                'type_edit':'like_status',
-                'type_action_like':type_action_like
-
-            },
-            cache: false,
-            success: function(data_1){
-
-               // alert(data_1.number_like);
-
-                if(data_1.type_action_like=='type_action_like'){
-                    lab_like_element.html(data_1.number_like);
-                    btn_like_element.attr('type_action_like','type_action_dislike');
-                    btn_like_element.html('Đã thích');
-                }else{
-                    lab_like_element.html(data_1.number_like);
-                    btn_like_element.attr('type_action_like','type_action_like');
-                    btn_like_element.html('Thích');
-                }
-
-             //   alert()
-              // lab_like_element.html(data_1);
-            }
-        });
-
-    });
-   /**------------end dislike*/
-
-
-
-     /**
-      * comment blog
-      * */
-
-
-
-     /*-------------end comment*/
-
 
     }
 
     return {
         init: function () {
             // init core variables
-         /*   handleTheme();
-            handleInit();
-            handleResponsiveOnResize();
-            handleIEFixes();
-            handleSearch();
-            handleFancybox();
-            handleDifInits();
-            handleSidebarMenu();
-            handleAccordions();
-            handleMenu();
-            handleScrollers();
-            handleSubMenuExt();
-            handleMobiToggler();
-            handlePortletTools();
-           */
-      
+            /*   handleTheme();
+             handleInit();
+             handleResponsiveOnResize();
+             handleIEFixes();
+             handleSearch();
+             handleFancybox();
+             handleDifInits();
+             handleSidebarMenu();
+             handleAccordions();
+             handleMenu();
+             handleScrollers();
+             handleSubMenuExt();
+             handleMobiToggler();
+             handlePortletTools();
+             */
+
             handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
@@ -693,19 +609,17 @@ var Layout = function () {
                 var item_this=$(this).find("a");
                 var item_button=item.find('.item-btn');
                 item_button.html(item_this.html());
-
             });
-
         },
 
         initUniform: function (els) {
             if (els) {
                 jQuery(els).each(function () {
-                        if ($(this).parents(".checker").size() == 0) {
-                            $(this).show();
-                            $(this).uniform();
-                        }
-                    });
+                    if ($(this).parents(".checker").size() == 0) {
+                        $(this).show();
+                        $(this).uniform();
+                    }
+                });
             } else {
                 handleUniform();
             }
@@ -727,7 +641,7 @@ var Layout = function () {
         },
 
         initFixHeaderWithPreHeader: function () {
-            jQuery(window).scroll(function() {                
+            jQuery(window).scroll(function() {
                 if (jQuery(window).scrollTop()>37){
                     jQuery("body").addClass("page-header-fixed");
                 }
@@ -746,9 +660,9 @@ var Layout = function () {
                     jQuery(".header").removeClass("reduce-header");
                 }
             }
-            
+
             NavScrolling();
-            
+
             jQuery(window).scroll(function() {
                 NavScrolling ();
             });
@@ -769,7 +683,7 @@ var Layout = function () {
                     [1200, 6],
                     [1400, 6],
                     [1600, 6]
-                ],
+                ]
             });
 
             $(".owl-carousel5").owlCarousel({
@@ -789,7 +703,7 @@ var Layout = function () {
                     [1200, 5],
                     [1400, 5],
                     [1600, 5]
-                ],
+                ]
             });
 
             $(".owl-carousel4").owlCarousel({
@@ -814,7 +728,7 @@ var Layout = function () {
                     [1200, 3],
                     [1400, 3],
                     [1600, 3]
-                ],
+                ]
             });
 
             $(".owl-carousel2").owlCarousel({
@@ -831,7 +745,7 @@ var Layout = function () {
                     [1200, 2],
                     [1400, 2],
                     [1600, 2]
-                ],
+                ]
             });
         },
 
@@ -841,13 +755,13 @@ var Layout = function () {
 
         initSliderRange: function () {
             $( "#slider-range" ).slider({
-              range: true,
-              min: 0,
-              max: 500,
-              values: [ 50, 250 ],
-              slide: function( event, ui ) {
-                $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-              }
+                range: true,
+                min: 0,
+                max: 500,
+                values: [ 50, 250 ],
+                slide: function( event, ui ) {
+                    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                }
             });
             $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
             " - $" + $( "#slider-range" ).slider( "values", 1 ) );
@@ -858,8 +772,8 @@ var Layout = function () {
             var pos = (el && el.size() > 0) ? el.offset().top : 0;
             if (el) {
                 if ($('body').hasClass('page-header-fixed')) {
-                    pos = pos - $('.header').height(); 
-                }            
+                    pos = pos - $('.header').height();
+                }
                 pos = pos + (offeset ? offeset : -1 * el.height());
             }
 
@@ -881,7 +795,7 @@ var Layout = function () {
         gridOption1: function () {
             $(function(){
                 $('.grid-v1').mixitup();
-            });    
+            });
         }
 
     };

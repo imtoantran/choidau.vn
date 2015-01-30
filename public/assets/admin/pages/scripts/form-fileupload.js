@@ -79,7 +79,6 @@ var FormFileUpload = function () {
             );
 
             $("ul.files.list-unstyled ").delegate(".media-item","click",function(){
-//alert('abc');
                 if($(this).hasClass('media-item-hover')){
                     $( this ).removeClass( "media-item-hover" )
                 }else{
@@ -88,18 +87,28 @@ var FormFileUpload = function () {
                     $(".media-edit").attr('style','display:block');
                      var imgItem=  $(this).find( "img");
                      var urlImg = imgItem.attr('url_img');
+
                     var url_img_public= urlImg;
+                     var postImgId = imgItem.attr('id_post');
                     $("#name_ihinh").html(imgItem.attr('name_image'));
                     $("#size_ihinh").html(imgItem.attr('size_img'));
                     $("#date_ihinh").html(imgItem.attr('date_post'));
 
                     $("#title-edit-media").val(imgItem.attr('title'));
 
+
                     $("#url-edit-media").val(URL+url_img_public).attr('data-img-url',url_img_public);
                     $("#alt-edit-media").val(imgItem.attr('alt'));
                     $("#content-edit-media").val(imgItem.attr('content_post'));
                     $("#id-edit-media").val(imgItem.attr('id_post'));
                     $("#media-thumbnail-img").attr('src',URL+url_img_public);
+
+                    //luuhoabk
+                    $("#url-edit-media").val(URL+urlImg).attr('data-img-url',urlImg).attr('data-post-img-id',postImgId);
+                    $("#alt-edit-media").val(imgItem.attr('alt'));
+                    $("#content-edit-media").val(imgItem.attr('content_post'));
+                    $("#id-edit-media").val(imgItem.attr('id_post'));
+                    $("#media-thumbnail-img").attr('src',URL+urlImg);
 
                 }
             });
