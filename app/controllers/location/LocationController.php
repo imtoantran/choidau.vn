@@ -105,7 +105,7 @@ class LocationController extends BaseController {
         $id = Input::get("id");
         $location = Location::find($id);
         $user = Auth::user();
-        $count = $location->userAction()->whereUser_id($user->id)->count();
+        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
         $response=[];
         if($count){
             $location->userAction()->detach($user,['action_type'=>'like']);
@@ -123,7 +123,7 @@ class LocationController extends BaseController {
         $id = Input::get("id");
         $location = Location::find($id);
         $user = Auth::user();
-        $count = $location->userAction()->whereUser_id($user->id)->count();
+        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('checkin')->count();
         $response=[];
         if($count){
             $response['success']=false;

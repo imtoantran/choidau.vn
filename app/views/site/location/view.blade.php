@@ -506,7 +506,7 @@
                             data:{id:"{{$location->id}}"},
                             dataType:"json",
                             success:function(response){
-                                if(response['succes']){
+                                if(response['success']){
                                     $(".checkin-count").text(response['totalCheckedIn']);
                                 }else{
                                     alert(response['message']);
