@@ -104,7 +104,7 @@ class LocationController extends BaseController {
         $location->website = $locationCreate['location_website'];
         $location->description = $locationCreate['location_description'];
         $location->avatar = $locationCreate['location_avatar'];
-        $location->posittion = $locationCreate['location_position'];
+        $location->position = $locationCreate['location_position'];
         $location->price_max = $locationCreate['location_price_max'];
         $location->price_min = $locationCreate['location_price_min'];
         $location->category_id = $locationCreate['location_category'];
@@ -160,11 +160,45 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     
     /* imtoantran save location start */
-    public function getView($provinceSlug,$locationSlug){
-        $location = Location::whereSlug($locationSlug)->first();
-        return View::make("site/location/view",compact("location"));
+    public function getView($provinceSlug,$location_id,$locationSlug){
+        $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
+        $location_nearly = $this->getClosePosition($location);
+        $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
+        $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
+        return View::make("site/location/view",compact("location","location_nearly","reviews","options"));
     }
 
+    //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
+    public function getClosePosition($location_one){
+        $arrPosition = explode(',',$location_one->position);
+        $location_province = Location::whereProvince_id($location_one->province_id)->where('id','<>',$location_one->id)->get();
+
+        foreach($location_province as $k=>$v){
+            $arrPosition_v = explode(',',$v->position);
+            $location_province[$k]['distance'] = pow(($arrPosition[0] - $arrPosition_v[0]),2) + pow(($arrPosition[1] - $arrPosition_v[1]),2);
+        }
+        return $this->objectRSort($location_province,"distance");
+    }
+
+    //luuhoabk sap xep mang doi tuong tam thoi
+    function objectRSort(&$object, $key)
+    {
+        for ($i = count($object) - 1; $i >= 0; $i--)
+        {
+            $swapped = false;
+            for ($j = 0; $j < $i; $j++)
+            {
+                if ($object[$j]->$key > $object[$j + 1]->$key)
+                {
+                    $tmp = $object[$j];
+                    $object[$j] = $object[$j + 1];
+                    $object[$j + 1] = $tmp;
+                    $swapped = true;
+                }
+            }
+        }
+        return $object;
+    }
     function like(){
         $id = Input::get("id");
         $location = Location::find($id);
@@ -207,6 +241,27 @@ class LocationController extends BaseController {
     public function loadReviews(){
         $id = Input::get("id");
         return json_encode(Location::find($id)->reviews());
+    }
+    public function getReview(){
+        return View::make("site.location.review");
+    }
+    public function postReview(){
+        $user = Auth::user();
+        $data = Input::all();
+        $review = new Review();
+        $review->title = $data['title'];
+        $review->content = $data['content'];
+        $review->user_id = $user->id;
+        $review->parent_id = $data['id']; // review for this location
+        $review->save();
+        /* review meta star */
+        $meta[] = new PostMeta("review_rating",$data["review_rating"]);
+        $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
+        $meta[] = new PostMeta("review_price",$data["review_price"]);
+        $meta[] = new PostMeta("review_visit_again",$data["review_visit_again"]);
+        $review->meta()->saveMany($meta);
+        /* review meta end */
+
     }
     /* imtoantran save location end */
 }

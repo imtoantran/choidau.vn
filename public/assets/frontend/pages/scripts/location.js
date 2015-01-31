@@ -56,7 +56,9 @@ var Location = function () {
 					location_address_detail: {minlength: 4,required: true},
 					location_province: {required: true},
 					location_email: {email:true},
-					location_category: {required:true}
+					location_category: {required:true},
+					location_price_min: {number:true, minlength: 3},
+					location_price_max: {number:true, minlength: 3}
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
@@ -92,7 +94,9 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-
+					var position = $('#location_position').val();
+						position = position.replace('(',"");
+						position = position.replace(')',"");
 					var dataPost = {
 						'location_name'			    :$('#location_name').val(),
 						'location_address_detail'   :$('#location_address_detail').val(),
@@ -104,7 +108,7 @@ var Location = function () {
 						'location_email' 			:$('#location_email').val(),
 						'location_website' 			:$('#location_website').val(),
 						'location_description' 		:$('#location_description').val(),
-						'location_position' 		:$('#location_position').val(),
+						'location_position' 		:position,
 						'location_price_min' 		:$('#location_price_min').val(),
 						'location_price_max' 		:$('#location_price_max').val(),
 						'location_avatar'			:$('#location-img-url').attr('data-url'),
@@ -128,7 +132,7 @@ var Location = function () {
 								alert('Thêm địa điểm thất bại, xin vui lòng kiểm tra kết nối và thử lại!');
 							}else{
 								//window.location = URL+'/dia-diem/luu-dia-diem-thanh-cong/'+resInsert.location_id;
-								self.loadSuccessInsert(resInsert.username,resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
+								self.loadSuccessInsert(resInsert.username, resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
 							}
 						},
 						complete: function(){
@@ -155,7 +159,7 @@ var Location = function () {
 							htmlBox += '<p>Xin chào <label class="color-red">'+username+'</label>!</p>';
 							htmlBox += '<p>Bạn vừa thêm địa điểm <label class="label label-success label-sm bold">'+location_name+'</label> thành công</p>';
 							htmlBox += '<div class="margin-top-20">';
-								htmlBox += '<a href="'+URL+'/dia-diem/'+slug_province+'/'+slug_province_name+'" class="btn btn-danger btn-sm">';
+								htmlBox += '<a href="'+URL+'/dia-diem/'+slug_province+'/'+location_id+'-'+slug_province_name+'" class="btn btn-danger btn-sm">';
 								htmlBox += '<i class="icon-eye color-white"></i> Đi đến địa điểm </a> ';
 								htmlBox += '<a href="'+URL+'/dia-diem/tao-dia-diem" class="btn btn btn-default btn-sm">';
 								htmlBox += '<i class="icon-plus" style="color: #444;"></i> Tạo địa điểm khác </a>';
@@ -261,9 +265,9 @@ var Location = function () {
 				if(this.checked){
 					// thoi gian bat dau | thoi gian ket thuc
 					//arrayTime.push([timeStart+'|'+timeEnd]);
-					arrayTime.push({'thu':thu,'bd':timeStart,'kt':timeEnd});
+					arrayTime.push({'thu':thu,'time':timeStart+' - '+timeEnd});
 				}else{
-					arrayTime.push({'thu':thu,'bd':'','kt':''});
+					arrayTime.push({'thu':thu,'time':''});
 				}
 				thu++;
 			});

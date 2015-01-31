@@ -99,9 +99,11 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 });
 
 #location start
-Route::get('dia-diem/{provinceSlug}/{locationSlug}','LocationController@getView');
+Route::get('dia-diem/{provinceSlug}/{id}-{locationSlug}','LocationController@getView');
 Route::post("location/like/",'LocationController@like');
 Route::post("location/checkin/",'LocationController@checkin');
+Route::get("location/review/{id}",'LocationController@getReview');
+Route::post("location/review",'LocationController@postReview');
 # location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
@@ -136,10 +138,11 @@ Route::group(array('prefix' => 'dia-diem'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
+
     Route::get('tao-dia-diem', 'LocationController@getCreate');
     Route::post('luu-dia-diem', 'LocationController@saveLocation');
 
-//  Route::controller('/', 'LocationController'); // run contruct function
+//    Route::controller('/', 'LocationController'); // run contruct function
 });
 /** -------------------End Site location-------------------**/
 
