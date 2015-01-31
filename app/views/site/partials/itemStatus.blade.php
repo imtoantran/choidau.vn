@@ -21,7 +21,7 @@
                     @foreach($listStatusPost as $item)
                     <li value_id="{{$item['id']}}">{{$item['description']}}</li>
                     @endforeach
-
+                    <li class="btn-blog-post-status-delete">Xoá</li>
 
 
                 </ul>
@@ -43,7 +43,7 @@
     <div class="row margin-none">
         <div class="person-text-assoc">
             <a class="btn-blog-post-like" type_action_like="{{$userIn['type_action_like']}}">{{$userIn['like_content']}}</a>
-            <a class="btn-blog-post-comment">Bình luận</a>
+            <a class="btn-blog-post-comment">Bình luận(<span class="lab-blog-post-number-comment">{{ $postIn['number_comment']}}</span>)</a>
             <a class="btn-blog-post-share">Chia sẻ</a>
         </div>
     </div>
@@ -54,11 +54,12 @@
             <a href=""><i class="icon-thumbs-up-alt"></i></a>
             <span class="lab-blog-post-like"> {{$postIn['number_like']}}</span> người thích điều này
         </div>
+        {{$postIn['comment']}}
         <div class="col-md-12 article-img-text col-none-padding">
             <div class="row margin-none">
                 <img class="col-md-1 col-ms-1 avatar-pad2"
                      src=" {{ $userIn['avatar_auth']}}" alt="">
-                <input class="col-md-11 col-ms-11 col-xs-11" type="text"
+                <input  class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" type="text"
                        placeholder="Viết bình luận...">
             </div>
         </div>

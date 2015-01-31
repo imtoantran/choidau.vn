@@ -117,6 +117,59 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->hasOne('BlogUser');
     }
 
+    public   function friends(){
+       $friend=Friend::Where('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
+
+
+      // echo '<pre>';
+      //  print_r( $friend);
+      //  echo '</pre>';
+    return $friend;
+     // return  DB::table('friends')
+     //       ->orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
+     // return $this->belongsToMany('User','friends','user_id','friend_id');
+
+
+    }
+
+
+
+    public function friend_common($user_friend){
+    /*    echo '<pre>';
+        print_r( $list_friend_this=$this->friends()->get());
+        echo '</pre> ----------------------------------------';
+  */
+      //  $list_friend_auth=$user_friend->friends()->get();
+
+
+        $list_friend_auth=$user_friend->friends()->get();
+        $list_friend_this=$this->friends()->get();
+
+
+        echo '<pre>';
+       // print_r( $list_friend_this);
+        echo '</pre>';
+
+        $list_friend_common=array();
+
+        foreach($list_friend_this as $item){
+
+
+                foreach($list_friend_auth as $item1){
+                    if($item->id==$item1->id){
+                        $list_friend_common=array($item);
+                    }
+                }
+
+
+        }
+
+      // return count(array_intersect($list_friend_auth, $list_friend_this));
+//
+    return $list_friend_common;
+
+    }
+
     public function postAction() {
         return $this->belongsToMany('Post');
     }

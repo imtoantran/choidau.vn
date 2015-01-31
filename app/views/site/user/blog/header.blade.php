@@ -25,9 +25,9 @@
             </div>
         </div>
         <div class="col-md-10 col-none-padding">
-            <header class="person-header-username"> {{$blogList['name']}}</header >
+            <header class="person-header-username" id_u_blo=" {{$blogList['id']}}"> {{$blogList['name']}}</header >
             <nav class="person-header-nav">
-
+<!--
                 <ul class="">
                     <li>Hoạt động</li>
                     <li>Ảnh</li>
@@ -35,7 +35,28 @@
                     <li>Checkin</li>
                     <li>Bạn bè</li>
                     <li><i class="icon-cog"></i></li>
+                </ul>-->
+                <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false">Hoạt động</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#tag-blog-photo-content" id="btn-tag-blog-photo" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Ảnh</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm yêu thích</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tag-blog-friend-content" id="btn-tag-blog-friend" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
+                    </li>
                 </ul>
+
             </nav>
         </div>
     </div>

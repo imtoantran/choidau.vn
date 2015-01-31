@@ -84,11 +84,12 @@
                     $(this).parent().addClass("on");
             });
         });
-        Layout.init();
+
 
         @if (isset($js_script))
                 {{$js_script}}
         @endif
+        Layout.init();
     });
 </script>
 

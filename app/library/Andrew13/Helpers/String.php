@@ -66,4 +66,57 @@ class String {
         return $url_2;
     }
 
+    public static function date_format_vn($date)
+    {
+        //$date=date_create($date);
+       // $date= date_format($post->created_at,'H:i d-m-Y');
+        return $date;
+    }
+
+    public static function showTimeAgo($date)
+    {
+        if(empty($date))
+        {
+            return "No date provided";
+        }
+
+        $periods = array("giây", "phút", "giờ", "ngày", "tuần", "tháng", "năm", "decade");
+        $lengths = array("60","60","24","7","4.35","12","10");
+
+        $now = time();
+        $unix_date = strtotime($date);
+
+        // check validity of date
+        if(empty($unix_date))
+        {
+            return "Bad date";
+        }
+
+        // is it future date or past date
+        if($now > $unix_date)
+        {
+            $difference     = $now - $unix_date;
+            $tense         = "cách đây";
+        }
+        else
+        {
+            $difference     = $unix_date - $now;
+            $tense         = "vừa xong";
+        }
+
+        for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++)
+        {
+            $difference /= $lengths[$j];
+        }
+
+        $difference = round($difference);
+
+        if($difference != 1)
+        {
+            $periods[$j].= "";
+        }
+
+        return " {$tense} $difference  $periods[$j] ";
+    }
+
 }
