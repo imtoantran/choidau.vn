@@ -548,7 +548,15 @@ var Layout = function () {
     }
 
     var handleBlog=function(){
+        var id_user_blog=$('.person-header-username').attr('id_u_blo');
+        var id_user_auth=$(".item-status-value").attr('user_auth_id');
 
+
+        if(id_user_auth==id_user_blog){
+            $(".insertMedia").show();
+
+        }
+      //  var input_element=parent_item_element.find('input.item-status-value');
 
         /**
          * Đăng status
@@ -883,6 +891,7 @@ var Layout = function () {
 
                 var is_val= $(".person-friends-list").attr('is_val');
               //  alert('asdsad'+element_list_friend);
+
                    if(is_val!='1'){
 
                         $.ajax({
@@ -893,6 +902,7 @@ var Layout = function () {
                             },
                             sync:false,
                             success: function(data_1){
+
                               //  parent_item_element.hide(200);
                                $(".person-friends-list").html(data_1.html);
                                $(".person-friends-list").attr('is_val','1');

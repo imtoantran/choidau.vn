@@ -63,7 +63,7 @@ class BlogUserController extends BaseController {
 
             $list_sus_friend=array();
 
-            $list_friend_my=$this->filterFriends($list_friend);
+            $list_friend_my=$this->filterFriends_byBlog($list_friend,$user_auth->id);
 
 
         //    echo'<pre>';
@@ -79,7 +79,7 @@ class BlogUserController extends BaseController {
                 $list_friend_friend=$user_tam->friends()->get();
 
 
-                $list_id_friend_friend=$this->filterFriends($list_friend_friend);
+                $list_id_friend_friend=$this->filterFriends_byBlog($list_friend_friend,$user_auth->id);
                 $i=0;
                 foreach($list_id_friend_friend as $item1){
 
@@ -124,6 +124,7 @@ class BlogUserController extends BaseController {
          //   echo'</pre>';
 
         }catch (Exception $e){}
+
 
         $blogList=array(
             'name'=>$blogUser->name,
@@ -202,7 +203,6 @@ class BlogUserController extends BaseController {
           $html_status.= $this->loadItemStatus2($item['id']);
 
         }
-
 
 
 
@@ -437,10 +437,12 @@ class BlogUserController extends BaseController {
 
 
     public function  getListFriend(){
+
         $data=Input::all();
         $user_blog=User::where('id','=',$data['id_user_blog'])->first();
         $list_friend=$user_blog->friends()->get();
-        $list_id_friend=$this->filterFriends($list_friend);
+        $list_id_friend=$this->filterFriends_byBlog($list_friend,$user_blog->id);
+
 
         $html_list_friend='';
         foreach($list_id_friend as $item){
@@ -457,8 +459,11 @@ class BlogUserController extends BaseController {
         }
 
               $arrReturn['html']=$html_list_friend;
+              $arrReturn['id']=$list_id_friend;
               $arrReturn['total']=count($list_id_friend);
+
         echo  json_encode($arrReturn);
+
 
 
     }
@@ -690,6 +695,50 @@ echo'ádasdasd';
 
         return $list_id_friend_my2;
         }
+
+    public function filterFriends_byBlog($listFriend,$id){
+//echo $this->blogUser->id;
+        $list_id_friend_my=array();
+        $list_id_friend_my2=array();
+
+        foreach($listFriend as $item){
+            //   echo $item->user_id.'->'.$item->friend_id.'<br>';
+
+
+            if($item->friend_id==$this->blogUser->id){
+                $list_id_friend_my[]=$item->user_id;
+
+            }else{
+                $list_id_friend_my[]=$item->friend_id;
+            }
+
+
+            if($item->user_id==$this->blogUser->id){
+                //  $list_id_friend_my[]=$item->friend_id;
+            }else{
+                $list_id_friend_my[]=$item->user_id;
+            }
+        }
+
+        foreach($list_id_friend_my as $item){
+            if((!in_array($item,$list_id_friend_my2) )){
+
+                if($item!=$id){
+                    $list_id_friend_my2[]=$item;
+                }
+
+            }
+
+
+
+        }
+
+
+
+        return $list_id_friend_my2;
+    }
+
+
         public function filterMutualFriend($user_1,$user_2){
 
             $list_friend_user_1=$user_1->friends()->get();
