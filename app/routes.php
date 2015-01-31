@@ -136,10 +136,11 @@ Route::group(array('prefix' => 'dia-diem'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
+
     Route::get('tao-dia-diem', 'LocationController@getCreate');
     Route::post('luu-dia-diem', 'LocationController@saveLocation');
 
-//  Route::controller('/', 'LocationController'); // run contruct function
+//    Route::controller('/', 'LocationController'); // run contruct function
 });
 /** -------------------End Site location-------------------**/
 

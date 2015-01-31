@@ -56,7 +56,9 @@ var Location = function () {
 					location_address_detail: {minlength: 4,required: true},
 					location_province: {required: true},
 					location_email: {email:true},
-					location_category: {required:true}
+					location_category: {required:true},
+					location_price_min: {number:true, minlength: 3},
+					location_price_max: {number:true, minlength: 3}
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
@@ -92,7 +94,9 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-
+					var position = $('#location_position').val();
+						position = position.replace('(',"");
+						position = position.replace(')',"");
 					var dataPost = {
 						'location_name'			    :$('#location_name').val(),
 						'location_address_detail'   :$('#location_address_detail').val(),
@@ -104,7 +108,7 @@ var Location = function () {
 						'location_email' 			:$('#location_email').val(),
 						'location_website' 			:$('#location_website').val(),
 						'location_description' 		:$('#location_description').val(),
-						'location_position' 		:$('#location_position').val(),
+						'location_position' 		:position,
 						'location_price_min' 		:$('#location_price_min').val(),
 						'location_price_max' 		:$('#location_price_max').val(),
 						'location_avatar'			:$('#location-img-url').attr('data-url'),
@@ -261,9 +265,9 @@ var Location = function () {
 				if(this.checked){
 					// thoi gian bat dau | thoi gian ket thuc
 					//arrayTime.push([timeStart+'|'+timeEnd]);
-					arrayTime.push({'thu':thu,'bd':timeStart,'kt':timeEnd});
+					arrayTime.push({'thu':thu,'time':timeStart+' - '+timeEnd});
 				}else{
-					arrayTime.push({'thu':thu,'bd':'','kt':''});
+					arrayTime.push({'thu':thu,'time':''});
 				}
 				thu++;
 			});

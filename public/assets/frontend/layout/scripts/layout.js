@@ -902,36 +902,6 @@ var Layout = function () {
             //responsive code end
 
 
-        },initMapLocation: function () {
-
-            var map = new GMaps({
-                div: '#gmap_marker',
-                lat: 10.8186952,
-                lng: 106.7006242,
-            });
-            map.addMarker({
-                lat: 10.8186952,
-                lng: 106.7006242,
-                title: 'Lima',
-                details: {
-                    database_id: 42,
-                    author: 'HPNeo'
-                },
-                click: function (e) {
-                    if (console.log) console.log(e);
-                    alert('You clicked in this marker');
-                }
-            });
-            map.addMarker({
-                lat: 10.8186952,
-                lng: 106.7006242,
-                title: 'Marker with InfoWindow',
-                infoWindow: {
-                    content: '<span style="color:#000">Suntory.net</span>'
-                }
-            });
-            map.setZoom(18);
         }
-
     };
 }();

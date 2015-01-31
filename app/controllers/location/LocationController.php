@@ -104,7 +104,7 @@ class LocationController extends BaseController {
         $location->website = $locationCreate['location_website'];
         $location->description = $locationCreate['location_description'];
         $location->avatar = $locationCreate['location_avatar'];
-        $location->posittion = $locationCreate['location_position'];
+        $location->position = $locationCreate['location_position'];
         $location->price_max = $locationCreate['location_price_max'];
         $location->price_min = $locationCreate['location_price_min'];
         $location->category_id = $locationCreate['location_category'];

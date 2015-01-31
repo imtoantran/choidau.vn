@@ -33,6 +33,6 @@ class Location extends Eloquent {
 		// location_food: chi dinh lien ket khong theo thu tu a->z
 	}
 	public function utility(){
-		return $this->belongsToMany("Utility");
+		return $this->hasMany("Location_Utility","location_id");
 	}
 }
