@@ -151,7 +151,9 @@ class Post extends Eloquent
 
 
     public function getMetaKey($meta_key){
-        return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
+		if($this->meta()->whereMeta_key($meta_key)->count())
+        	return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
+		return null;
     }
 
 	public function category(){

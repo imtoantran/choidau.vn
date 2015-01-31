@@ -162,7 +162,10 @@ class LocationController extends BaseController {
     /* imtoantran save location start */
     public function getView($provinceSlug,$locationSlug){
         $location = Location::whereSlug($locationSlug)->first();
-        return View::make("site/location/view",compact("location"));
+        $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
+        $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
+        //$options = json_encode($options);
+        return View::make("site/location/view",compact("location","reviews","options"));
     }
 
     function like(){
@@ -207,6 +210,27 @@ class LocationController extends BaseController {
     public function loadReviews(){
         $id = Input::get("id");
         return json_encode(Location::find($id)->reviews());
+    }
+    public function getReview(){
+        return View::make("site.location.review");
+    }
+    public function postReview(){
+        $user = Auth::user();
+        $data = Input::all();
+        $review = new Review();
+        $review->title = $data['title'];
+        $review->content = $data['content'];
+        $review->user_id = $user->id;
+        $review->parent_id = $data['id']; // review for this location
+        $review->save();
+        /* review meta star */
+        $meta[] = new PostMeta("review_rating",$data["review_rating"]);
+        $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
+        $meta[] = new PostMeta("review_price",$data["review_price"]);
+        $meta[] = new PostMeta("review_visit_again",$data["review_visit_again"]);
+        $review->meta()->saveMany($meta);
+        /* review meta end */
+
     }
     /* imtoantran save location end */
 }

@@ -58,7 +58,7 @@
 								</span>
                 <!-- Arrow Left -->
 								<div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                                    <button class="btn text-primary do-post-review" type="submit">Viết bình luận <i class="icon-edit"></i></button>
+                                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
 								</div>
                 <!-- Arrow Right -->
 								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
@@ -69,9 +69,7 @@
                 <!-- Thumbnail Navigator Skin Begin -->
                 <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
                     <!-- Thumbnail Item Skin Begin -->
-                    <style>
 
-                    </style>
                     <div u="slides" style="cursor: move;">
                         <div u="prototype" class="p" style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
                             <div class=w>
@@ -148,6 +146,7 @@
             </div>
         </div>
     </div>
+    @include("site.location.review")
 @stop
 
 @section("content")
@@ -169,8 +168,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
-
-                        @foreach($location->reviews()->orderBy("created_at","DESC")->get() as $review)
+                        @foreach($reviews as $review)
                         <div class="reviews row">
                             <div class="media">
                                 <a href="#" class="pull-left">
@@ -185,11 +183,13 @@
                                             <div class="pull-right">
 
                                                 <ul class="list-unstyled list-inline ul-list-rating">
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-1"></i></li>
-                                                    <li><i class="icon-star-1"></i></li>
+                                                    @for($i=0;$i<5;$i++)
+                                                        @if($i<$review->getMetaKey("review_rating"))
+                                                            <li><i class="icon-star-filled"></i></li>
+                                                        @else
+                                                            <li><i class="icon-star-1"></i></li>
+                                                        @endif
+                                                    @endfor
                                                 </ul>
                                             </div>
                                         </div>
@@ -197,18 +197,19 @@
                                     <div class="">
                                         <div class="col-lg-6">
                                             <div>Đã đánh giá địa điểm</div>
-                                            <div><small><i>Cách đây 3 giờ</i></small></div>
+                                            <div><small><i>Vào lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i></small></div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <small class="pull-right">Số người 5+ | Chi phí 2.600.000đ+ | Sẽ quay lại có thể</small>
+                                            <small class="pull-right">Số người {{ $review->getMetaKey("review_visitors")}} + | Chi phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else không @endif</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="review-content">
                                 <div>
-                                    <p class="title">Ngon nhưng không rẻ</p>
-                                    <p class="content">Chất lượng từng món ăn rất ngon và hợp khẩu vị, phục vụ tận tình và chu đáo, không gian thoáng và sạch sẽ. Cảm thấy tiện lợi và hài lòng. Tuy nhiên giá cả khá cao và phù hợp một đối tượng khác hàng nhất định
+                                    <p class="title">{{$review->title}}</p>
+                                    <p class="content">
+                                        {{$review->content}}
                                     </p>
                                 </div>
                             </div>
@@ -264,18 +265,8 @@
 
                         </div>
                         @endforeach
+                        <div class="paging">{{$reviews->links()}}</div>
 
-                        <div class="paging">
-                            <ul class="pagination pagination-large">
-                                <li><a href="#">«</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">»</a></li>
-                            </ul>
-                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
@@ -312,7 +303,7 @@
             <!-- right end -->
         </div>
     </div>
-    @stop
+@stop
 
 
 @section("bottoma")
@@ -330,7 +321,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -341,7 +332,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -352,7 +343,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -363,7 +354,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -374,7 +365,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -385,7 +376,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                             <div class="location-info">
                                 <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
+                                    <img class="full-width" src="{{asset("upload/media_user/1/Tulips.jpg")}}" alt="Image">
                                     <section class="location-description">
                                         <strong>Bánh canh, bún mắm Đường Ray</strong>
                                         <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
@@ -436,7 +427,9 @@
 
 @section("styles")
     <!-- imtoantran  -->
-    <link href="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.css")}}" rel="stylesheet">
+    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
+    <link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
     <link href="{{asset("assets/global/css/plugins.css")}}" rel="stylesheet">
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
     <!-- imtoantran -->
@@ -458,7 +451,8 @@
 
     <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
     <!-- imtoantran -->
-{{--    <script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
+    <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
+    <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
     <!-- imtoantran -->
     <!-- pop up -->
     <!-- END LayerSlider -->
@@ -515,11 +509,27 @@
                     });
                     /* do checkin end */
                     /* load reviews start */
-                    $.ajax({url:'',completed:function(){}});
                     /* load reviews end */
                     /* viet review start*/
                     $(".do-post-review").click(function(){
-
+                        $("#reviewModal").modal("show");
+                    });
+                    $(".wysihtml5").wysihtml5();
+                    $("#review-save").click(function(){
+                        var form = $("#review-form").serialize();
+                        $.ajax({
+                            url:"{{URL::to("location/review")}}",
+                            type:"POST",
+                            data:form,
+                            dataType:"JSON",
+                            success:function(response){
+                                $("#review-form")[0].reset();
+                                location.reload();
+                            },
+                            complete:function(){
+                                $('.modal').modal("hide");
+                            }
+                        })
                     });
                     /* viet review end */
                 }
