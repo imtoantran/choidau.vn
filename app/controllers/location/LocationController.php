@@ -163,7 +163,9 @@ class LocationController extends BaseController {
     public function getView($provinceSlug,$location_id,$locationSlug){
         $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
         $location_nearly = $this->getClosePosition($location);
-        return View::make("site/location/view",compact("location","location_nearly"));
+        $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
+        $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
+        return View::make("site/location/view",compact("location","location_nearly","reviews","options"));
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
@@ -197,7 +199,6 @@ class LocationController extends BaseController {
         }
         return $object;
     }
-
     function like(){
         $id = Input::get("id");
         $location = Location::find($id);
@@ -240,6 +241,27 @@ class LocationController extends BaseController {
     public function loadReviews(){
         $id = Input::get("id");
         return json_encode(Location::find($id)->reviews());
+    }
+    public function getReview(){
+        return View::make("site.location.review");
+    }
+    public function postReview(){
+        $user = Auth::user();
+        $data = Input::all();
+        $review = new Review();
+        $review->title = $data['title'];
+        $review->content = $data['content'];
+        $review->user_id = $user->id;
+        $review->parent_id = $data['id']; // review for this location
+        $review->save();
+        /* review meta star */
+        $meta[] = new PostMeta("review_rating",$data["review_rating"]);
+        $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
+        $meta[] = new PostMeta("review_price",$data["review_price"]);
+        $meta[] = new PostMeta("review_visit_again",$data["review_visit_again"]);
+        $review->meta()->saveMany($meta);
+        /* review meta end */
+
     }
     /* imtoantran save location end */
 }

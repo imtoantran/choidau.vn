@@ -58,7 +58,7 @@
 								</span>
                 <!-- Arrow Left -->
 								<div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                                    <button class="btn text-primary do-post-review" type="submit">Viết bình luận <i class="icon-edit"></i></button>
+                                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
 								</div>
                 <!-- Arrow Right -->
 								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
@@ -69,9 +69,7 @@
                 <!-- Thumbnail Navigator Skin Begin -->
                 <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
                     <!-- Thumbnail Item Skin Begin -->
-                    <style>
 
-                    </style>
                     <div u="slides" style="cursor: move;">
                         <div u="prototype" class="p" style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
                             <div class=w>
@@ -196,6 +194,7 @@
             </div>
         </div>
     </div>
+    @include("site.location.review")
 @stop
 
 @section("content")
@@ -217,17 +216,105 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
-                        <div class="paging">
-                            <ul class="pagination pagination-large">
-                                <li><a href="#">«</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">»</a></li>
-                            </ul>
+                        @foreach($reviews as $review)
+                        <div class="reviews row">
+                            <div class="media">
+                                <a href="#" class="pull-left">
+                                    <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt="" class="media-object">
+                                </a>
+                                <div class="media-body">
+                                    <div class="media-heading">
+                                        <div class="col-sm-6">
+                                            <div class="row"><a href="#"><strong>{{$review->author->username}} </strong></a></div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="pull-right">
+
+                                                <ul class="list-unstyled list-inline ul-list-rating">
+                                                    @for($i=0;$i<5;$i++)
+                                                        @if($i<$review->getMetaKey("review_rating"))
+                                                            <li><i class="icon-star-filled"></i></li>
+                                                        @else
+                                                            <li><i class="icon-star-1"></i></li>
+                                                        @endif
+                                                    @endfor
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="col-lg-6">
+                                            <div>Đã đánh giá địa điểm</div>
+                                            <div><small><i>Vào lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i></small></div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <small class="pull-right">Số người {{ $review->getMetaKey("review_visitors")}} + | Chi phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else không @endif</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <div>
+                                    <p class="title">{{$review->title}}</p>
+                                    <p class="content">
+                                        {{$review->content}}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- hinh anh -->
+                            <div class="">
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-sm-4 gallery-item">
+                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
+                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                        <div class="zoomix"><i class="fa fa-search"></i></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- hinh anh -->
+                            <!-- thao luan,like,dislike,report -->
+                            <div class="col-md-12 review-action padding-left-0">
+                                <a href="#"><i class="icon-edit"></i>Thảo luận</a>
+                                <a href="#"><i class="icon-thumbs-up"></i>Thích <span>0</span></a>
+                                <a href="#"><i class="icon-thumbs-down"></i> <span>0</span></a>
+                                <a href="#"><i class="icon-block"></i>Báo tin xấu</a>
+                                <a href="#" class="pull-right"><i>Xem thêm</i></a>
+                            </div>
+                            <!-- thao luan,like,dislike,report end-->
+
                         </div>
+                        @endforeach
+                        <div class="paging">{{$reviews->links()}}</div>
+
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
@@ -264,14 +351,12 @@
             <!-- right end -->
         </div>
     </div>
-    @stop
+@stop
 
 
 @section("bottoma")
     <!-- dia diem lan can -->
-    <?php
-          //print_r($abc);
-    ?>
+    @if($location_nearly->count())
     <div class="row location">
         <div class="col-lg-12">
             <div class="container-fluid bg-primary">
@@ -303,6 +388,7 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- dia diem lan can end -->
     @stop
 
@@ -340,7 +426,9 @@
 
 @section("styles")
     <!-- imtoantran  -->
-    <link href="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.css")}}" rel="stylesheet">
+    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
+    <link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
     <link href="{{asset("assets/global/css/plugins.css")}}" rel="stylesheet">
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
     <!-- imtoantran -->
@@ -357,6 +445,14 @@
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
     <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+    <!-- imtoantran -->
+    <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
+    <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+    <!-- imtoantran -->
+    <!-- pop up -->
+    <!-- END LayerSlider -->
 
     <script src="{{asset("assets/frontend/layout/scripts/layout.js")}}" type="text/javascript"></script>
     <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
@@ -403,17 +499,33 @@
                             }else{
                                 alert(response['message']);
                             }
-                            checkin_btn.attr('disabled',false);
-                        }
+                                checkin_btn.attr('disabled',false);
+                            }
+                        });
                     });
-                });
-                /* do checkin end */
-                /* load reviews start */
-                $.ajax({url:'',completed:function(){}});
-                /* load reviews end */
-                /* viet review start*/
-                $(".do-post-review").click(function(){
-
+                    /* do checkin end */
+                    /* load reviews start */
+                    /* load reviews end */
+                    /* viet review start*/
+                    $(".do-post-review").click(function(){
+                        $("#reviewModal").modal("show");
+                    });
+                    $(".wysihtml5").wysihtml5();
+                    $("#review-save").click(function(){
+                        var form = $("#review-form").serialize();
+                        $.ajax({
+                            url:"{{URL::to("location/review")}}",
+                            type:"POST",
+                            data:form,
+                            dataType:"JSON",
+                            success:function(response){
+                                $("#review-form")[0].reset();
+                                location.reload();
+                            },
+                            complete:function(){
+                                $('.modal').modal("hide");
+                            }
+                        })
                 });
                 /* viet review end */
 
