@@ -38,15 +38,15 @@
                     </div>
                 </header>
 
-                {{--<!-- Slides Container -->--}}
-                {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">--}}
-                    {{--@foreach($location->album()->get() as $image)--}}
-                    {{--<div>--}}
-                        {{--<img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />--}}
-                        {{--<img u="thumb" src="{{asset($image->thumbnail())}}" />--}}
-                    {{--</div>--}}
-                        {{--@endforeach--}}
-                {{--</section>--}}
+                <!-- Slides Container -->
+                <section u="slides" class="slider-location" style="cursor: move; position: absolute; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                    @foreach($location->album()->get() as $image)
+                    <div>
+                        <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
+                        <img u="thumb" src="{{asset($image->thumbnail())}}" />
+                    </div>
+                        @endforeach
+                </section>
 
                 <!-- Arrow Navigator Skin Begin -->
 
