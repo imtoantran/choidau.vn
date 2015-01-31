@@ -132,7 +132,7 @@ var Location = function () {
 								alert('Thêm địa điểm thất bại, xin vui lòng kiểm tra kết nối và thử lại!');
 							}else{
 								//window.location = URL+'/dia-diem/luu-dia-diem-thanh-cong/'+resInsert.location_id;
-								self.loadSuccessInsert(resInsert.username,resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
+								self.loadSuccessInsert(resInsert.username, resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
 							}
 						},
 						complete: function(){
@@ -159,7 +159,7 @@ var Location = function () {
 							htmlBox += '<p>Xin chào <label class="color-red">'+username+'</label>!</p>';
 							htmlBox += '<p>Bạn vừa thêm địa điểm <label class="label label-success label-sm bold">'+location_name+'</label> thành công</p>';
 							htmlBox += '<div class="margin-top-20">';
-								htmlBox += '<a href="'+URL+'/dia-diem/'+slug_province+'/'+slug_province_name+'" class="btn btn-danger btn-sm">';
+								htmlBox += '<a href="'+URL+'/dia-diem/'+slug_province+'/'+location_id+'-'+slug_province_name+'" class="btn btn-danger btn-sm">';
 								htmlBox += '<i class="icon-eye color-white"></i> Đi đến địa điểm </a> ';
 								htmlBox += '<a href="'+URL+'/dia-diem/tao-dia-diem" class="btn btn btn-default btn-sm">';
 								htmlBox += '<i class="icon-plus" style="color: #444;"></i> Tạo địa điểm khác </a>';

@@ -21,7 +21,7 @@
                 <!-- Loading Screen -->
                 <header class="row header-location">
                     <div class="col-md-10 ">
-{{--                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>--}}
+                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
                         <ul class="list-unstyled list-inline ul-list-rating">
                             <li><i class="icon-star-filled"></i></li>
                             <li><i class="icon-star-filled"></i></li>
@@ -237,14 +237,14 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <!-- right -->
-            @if(count($location->utility()->get()) >0)
+            <!-- luuhoabk tien ich right -->
+            @if(count($location->loadUtility()->get()) >0)
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
                             Tiện ích
                         </div>
-                        @foreach($location->utility()->get() as $utility)
+                        @foreach($location->loadUtility()->get() as $utility)
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
                                 <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
                             </div>
@@ -260,10 +260,7 @@
                 <div class="row">
                     <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive" alt="Image">
                 </div>
-
             </div>
-
-
             <!-- right end -->
         </div>
     </div>
@@ -272,6 +269,9 @@
 
 @section("bottoma")
     <!-- dia diem lan can -->
+    <?php
+          //print_r($abc);
+    ?>
     <div class="row location">
         <div class="col-lg-12">
             <div class="container-fluid bg-primary">
@@ -281,74 +281,23 @@
                             <div>Địa điểm lân cận</div>
                             <a href="#" class="show-more">&gt;&gt;&gt;Xem tất cả</a>
                         </div>
-
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
+                        @foreach($location_nearly as $key=>$val)
+                            @if($key < 6)
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
+                                <div class="location-info">
+                                    <a href="{{asset('dia-diem/'.Str::slug($val->province->name).'/'.$val->id.'-'.$val->slug)}}">
+                                        <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
+                                        <section class="location-description">
+                                        <strong>{{$val->name}}</strong>
+                                            <p>
+                                                <small>{{$val->address_detail}}, {{$val->province->name}}, {{$val->district->type.' '.$val->district->name}}.</small>
+                                            </p>
+                                        </section>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -400,9 +349,7 @@
 @section("scripts")
     <!-- imtoantran -->
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-
     <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
-
 
     <!-- imtoantran -->
     <script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
@@ -410,13 +357,6 @@
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
     <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <!-- imtoantran -->
-{{--    <script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
-    <!-- imtoantran -->
-    <!-- pop up -->
-    <!-- END LayerSlider -->
 
     <script src="{{asset("assets/frontend/layout/scripts/layout.js")}}" type="text/javascript"></script>
     <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
