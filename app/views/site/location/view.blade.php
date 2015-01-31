@@ -91,31 +91,80 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-top-15">
             <div class="location-information">
+                {{--//luuhoabk dia diem --}}
                 <div>
-                    <p class="title">
-                        <span class="icon-tag-1"></span>
-                        <span class="text-primary">Nhà hàng</span>
-                    </p>
-                    <p><span class="icon-home"></span>{{$location->address_detail}} {{$location->district->name}} {{$location->province->name}}</p>
-                    <p class="icon-phone">(+84) {{$location->phone}}</p>
-                    <p class="icon-mobile">(+84) {{$location->telphone}}</p>
-                    <p><span class="icon-globe"></span> {{$location->website}}</p>
+                    <?php
+                        $address_detail = (isset($location->address_detail))? $location->address_detail : "";
+                        $district = (isset($location->district->name))? $location->district->name : "";
+                        $province = (isset($location->province->name))? $location->province->name : "";
+                    ?>
+                    @if(!($address_detail =="" && $district =="" && $province==""))
+                        <p class="title">
+                            <span class="icon-tag-1"></span>
+                            <span class="text-primary">Nhà hàng</span>
+                        </p>
+                        <p><span class="icon-home"></span>
+                            {{$address_detail.' '.$district.' '.$province}}
+                        </p>
+                    @endif
+                    @if(isset($location->phone) && $location->phone != "")
+                        <p class="icon-phone">(+84) {{$location->phone}}</p>
+                    @endif
+                    @if(isset($location->telphone) && $location->telphone != "")
+                        <p class="icon-mobile">(+84) {{$location->telphone}}</p>
+                    @endif
+                    @if(isset($location->website) && $location->website != ""))
+                         <p><span class="icon-globe"></span> {{$location->website}}</p>
+                    @endif
                 </div>
-                <div>
-                    <p class="title">
-                        <span class="icon-clock"></span>
-                        <span class="text-primary">Thời gian hoạt động</span>
-                    </p>
-                    <p>- Thứ 2 - thứ 6: 08 AM - 11 PM</p>
-                    <p>- Thứ 7 - CN: 07 AM - 11 PM</p>
-                </div>
-                <div>
-                    <p class="title">
-                        <span class="icon-money"></span>
-                        <span class="text-primary">Giá trung bình</span><small> 75 000đ - 350 000đ </small>
-                    </p>
 
-                </div>
+                {{--//luuhoabk thoi gian hoat dong --}}
+                @if(isset($location->action_time))
+                    <div>
+                        <p class="title">
+                            <span class="icon-clock"></span>
+                            <span class="text-primary">Thời gian hoạt động</span>
+                        </p>
+                        <?php // hien thoi gian hoat dong theo dang dac biet (gom nhom)
+                        $arr = json_decode($location->action_time);
+                        $arr1 = array();
+                        foreach($arr as $k1=>$v1){
+                            array_push($arr1,$v1->time);
+                        }
+                        $arr1 = array_unique($arr1); // loai bo gia tri trung
+                        foreach($arr1 as $k2=>$v2){
+                            $thu1 = "";
+                            foreach($arr as $k3=>$v3){
+                                if($v3->time == $v2){
+                                    $thu3 = $v3->thu;
+                                    if($thu3 == '8'){$thu3= "CN";}
+                                    $thu1 .= $thu3.', ';
+                                }
+                            }
+                            if($v2 == ""){$v2 = "Nghỉ";}
+                            echo '<div><label class="bold" style="width:165px;">- Thứ '.rtrim($thu1,', ').'</label>: '.$v2.'</div>';
+                        }
+                        ?>
+                    </div>
+                @endif
+
+                {{--//luuhoabk giá trung binh --}}
+                @if(isset($location->price_min) && isset($location->price_max))
+                    <div>
+                        <p class="title">
+                            <span class="icon-money"></span>
+                            <span class="text-primary">Giá trung bình</span>
+                            {{--<small> 75 000đ - 350 000đ </small>--}}
+
+                            @if( $location->price_min > 0 && $location->price_max > 0 )
+                                <small> {{number_format($location->price_min,0, ".",",")}}đ - {{number_format($location->price_max,0, ".",",")}}đ </small>
+                            @else
+                                <small> Đang cập nhật. </small>
+                            @endif
+                        </p>
+                    </div>
+                @endif
+
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         Location activities
@@ -133,17 +182,16 @@
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
-
                             <i class="icon-star-filled icon-border-square"></i>
                             <p>15</p>
                         </div>
 
 
                     </div>
-                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
-                        <div id="gmap_marker" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
+                            <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -169,102 +217,6 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
-
-                        @foreach($location->reviews()->orderBy("created_at","DESC")->get() as $review)
-                        <div class="reviews row">
-                            <div class="media">
-                                <a href="#" class="pull-left">
-                                    <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt="" class="media-object">
-                                </a>
-                                <div class="media-body">
-                                    <div class="media-heading">
-                                        <div class="col-sm-6">
-                                            <div class="row"><a href="#"><strong>{{$review->author->username}} </strong></a></div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="pull-right">
-
-                                                <ul class="list-unstyled list-inline ul-list-rating">
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-filled"></i></li>
-                                                    <li><i class="icon-star-1"></i></li>
-                                                    <li><i class="icon-star-1"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <div class="col-lg-6">
-                                            <div>Đã đánh giá địa điểm</div>
-                                            <div><small><i>Cách đây 3 giờ</i></small></div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <small class="pull-right">Số người 5+ | Chi phí 2.600.000đ+ | Sẽ quay lại có thể</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-content">
-                                <div>
-                                    <p class="title">Ngon nhưng không rẻ</p>
-                                    <p class="content">Chất lượng từng món ăn rất ngon và hợp khẩu vị, phục vụ tận tình và chu đáo, không gian thoáng và sạch sẽ. Cảm thấy tiện lợi và hài lòng. Tuy nhiên giá cả khá cao và phù hợp một đối tượng khác hàng nhất định
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- hinh anh -->
-                            <div class="">
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- hinh anh -->
-                            <!-- thao luan,like,dislike,report -->
-                            <div class="col-md-12 review-action padding-left-0">
-                                <a href="#"><i class="icon-edit"></i>Thảo luận</a>
-                                <a href="#"><i class="icon-thumbs-up"></i>Thích <span>0</span></a>
-                                <a href="#"><i class="icon-thumbs-down"></i> <span>0</span></a>
-                                <a href="#"><i class="icon-block"></i>Báo tin xấu</a>
-                                <a href="#" class="pull-right"><i>Xem thêm</i></a>
-                            </div>
-                            <!-- thao luan,like,dislike,report end-->
-
-                        </div>
-                        @endforeach
-
                         <div class="paging">
                             <ul class="pagination pagination-large">
                                 <li><a href="#">«</a></li>
@@ -285,19 +237,22 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <!-- right -->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
-                        Tiện ích
-                    </div>
-                    @foreach($location->utility()->get() as $utility)
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                            <i class="icon-check"></i> <strong>{{$utility->name}}</strong>
+            <!-- luuhoabk tien ich right -->
+            @if(count($location->loadUtility()->get()) >0)
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
+                            Tiện ích
                         </div>
-                    @endforeach
+                        @foreach($location->loadUtility()->get() as $utility)
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                                <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @endif
+
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
                 <div class="row">
                     <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive" alt="Image">
@@ -305,10 +260,7 @@
                 <div class="row">
                     <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive" alt="Image">
                 </div>
-
             </div>
-
-
             <!-- right end -->
         </div>
     </div>
@@ -317,6 +269,9 @@
 
 @section("bottoma")
     <!-- dia diem lan can -->
+    <?php
+          //print_r($abc);
+    ?>
     <div class="row location">
         <div class="col-lg-12">
             <div class="container-fluid bg-primary">
@@ -326,74 +281,23 @@
                             <div>Địa điểm lân cận</div>
                             <a href="#" class="show-more">&gt;&gt;&gt;Xem tất cả</a>
                         </div>
-
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
+                        @foreach($location_nearly as $key=>$val)
+                            @if($key < 6)
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
+                                <div class="location-info">
+                                    <a href="{{asset('dia-diem/'.Str::slug($val->province->name).'/'.$val->id.'-'.$val->slug)}}">
+                                        <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
+                                        <section class="location-description">
+                                        <strong>{{$val->name}}</strong>
+                                            <p>
+                                                <small>{{$val->address_detail}}, {{$val->province->name}}, {{$val->district->type.' '.$val->district->name}}.</small>
+                                            </p>
+                                        </section>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                            <div class="location-info">
-                                <a href="#">
-                                    <img class="full-width" src="img-data-demo/monan-1.jpg" alt="Image">
-                                    <section class="location-description">
-                                        <strong>Bánh canh, bún mắm Đường Ray</strong>
-                                        <p><small>123 Lê Văn Sỹ, P10, Q Tân Bình.</small></p>
-                                    </section>
-                                </a>
-                            </div>
-                        </div>
-
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -445,9 +349,7 @@
 @section("scripts")
     <!-- imtoantran -->
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-
     <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
-
 
     <!-- imtoantran -->
     <script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
@@ -456,13 +358,6 @@
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
     <!-- END CORE PLUGINS -->
 
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <!-- imtoantran -->
-{{--    <script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
-    <!-- imtoantran -->
-    <!-- pop up -->
-    <!-- END LayerSlider -->
-
     <script src="{{asset("assets/frontend/layout/scripts/layout.js")}}" type="text/javascript"></script>
     <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
     <script src="https://apis.google.com/js/platform.js" async defer>
@@ -470,59 +365,84 @@
     </script>
     <script>
         jQuery(document).ready(
-                function(){
-                    setTimeout(function(){
-                        Layout.initMapLocation();
-                        Layout.initSliderLocation();
-                    },1000);
-                    /* imtoantran do like */
-                    $("#do-like").click(function(e){
-                        var like_btn = $(this);
-                        $(this).attr('disabled',true);
-                        $.ajax({
-                            type:"post",
-                            url:"{{URL::to("location/like")}}",
-                            data:{id:"{{$location->id}}"},
-                            dataType:"json",
-                            success:function(response){
-                                $(".like-count").text(response['totalFavourites']);
-                                if(response['canLike']){
+            function(){
+                setTimeout(function(){
+                    Layout.initSliderLocation();
+                },1000);
+                /* imtoantran do like */
+                $("#do-like").click(function(e){
+                    var like_btn = $(this);
+                    $(this).attr('disabled',true);
+                    $.ajax({
+                        type:"post",
+                        url:"{{URL::to("location/like")}}",
+                        data:{id:"{{$location->id}}"},
+                        dataType:"json",
+                        success:function(response){
+                            $(".like-count").text(response['totalFavourites']);
+                            if(response['canLike']){
 
-                                }
-                                like_btn.attr('disabled',false);
                             }
-                        });
+                            like_btn.attr('disabled',false);
+                        }
                     });
-                    /* imtoantran do like */
-                    /* do checkin start */
-                    $("#do-checkin").click(function(e){
-                        var checkin_btn = $(this);
-                        checkin_btn.attr('disabled',true);
-                        $.ajax({
-                            type:"post",
-                            url:"{{URL::to("location/checkin")}}",
-                            data:{id:"{{$location->id}}"},
-                            dataType:"json",
-                            success:function(response){
-                                if(response['success']){
-                                    $(".checkin-count").text(response['totalCheckedIn']);
-                                }else{
-                                    alert(response['message']);
-                                }
-                                checkin_btn.attr('disabled',false);
+                });
+                /* imtoantran do like */
+                /* do checkin start */
+                $("#do-checkin").click(function(e){
+                    var checkin_btn = $(this);
+                    checkin_btn.attr('disabled',true);
+                    $.ajax({
+                        type:"post",
+                        url:"{{URL::to("location/checkin")}}",
+                        data:{id:"{{$location->id}}"},
+                        dataType:"json",
+                        success:function(response){
+                            if(response['success']){
+                                $(".checkin-count").text(response['totalCheckedIn']);
+                            }else{
+                                alert(response['message']);
                             }
-                        });
+                            checkin_btn.attr('disabled',false);
+                        }
                     });
-                    /* do checkin end */
-                    /* load reviews start */
-                    $.ajax({url:'',completed:function(){}});
-                    /* load reviews end */
-                    /* viet review start*/
-                    $(".do-post-review").click(function(){
+                });
+                /* do checkin end */
+                /* load reviews start */
+                $.ajax({url:'',completed:function(){}});
+                /* load reviews end */
+                /* viet review start*/
+                $(".do-post-review").click(function(){
 
-                    });
-                    /* viet review end */
-                }
+                });
+                /* viet review end */
+
+
+                // load gmap
+                var position = $('.gmaps-location').attr('data-position');
+                    position = position.split(",");
+                var position_lat = position[0];
+                var position_lng = position[1];
+                var map = new GMaps({
+                    div: '#gmap_marker',
+                    lat: position_lat,
+                    lng: position_lng
+                });
+                map.addMarker({
+                    lat: position_lat,
+                    lng: position_lng
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
+                });
+                var location_marker = map.addMarker({
+                    lat: position_lat,
+                    lng: position_lng,
+                    title:'Địa điểm: {{$location->category->name}}'
+                });
+                infowindow.open(map,location_marker);
+                map.setZoom(15);
+            }
         );
     </script>
     @stop

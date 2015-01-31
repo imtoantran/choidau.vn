@@ -35,4 +35,9 @@ class Location extends Eloquent {
 	public function utility(){
 		return $this->belongsToMany("Utility");
 	}
+	public function loadUtility(){
+		return $this->hasMany("Location_Utility","location_id");
+	}
+
+
 }
