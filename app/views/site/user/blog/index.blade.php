@@ -347,13 +347,13 @@
                     <div>Ngày sinh: <span>{{$blogList['birthday']}}</div>
                     </span></li>
                 <li>
-                    <div>?ã theo dõi: <span>34 ng??i</span></div>
+                    <div>Đã theo dõi: <span>34 người</span></div>
                 </li>
                 <li>
-                    <div>???c theo dõi: <span>115 ng??i</span></div>
+                    <div>Được theo dõi: <span>115 người</span></div>
                 </li>
                 <li>
-                    <div>S? l??t thích: <span>430</span></div>
+                    <div>Số lượt thích: <span>430</span></div>
                 </li>
             </ul>
         </div>

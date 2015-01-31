@@ -4,7 +4,7 @@
 <div class="person-header">
    <div style="position: relative;">
     <div class="person-header-bg" style="background-image: url('{{$blogList['background']}}')"></div>
-    <div  id="iM_user_slide" type_insert="insert_one_img_anh_bia" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 5px;  left: 38px;">
+    <div  id="iM_user_slide" type_insert="insert_one_img_anh_bia" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 5px;  left: 38px;display: none;">
 
         <i class="icon-camera"></i><span></span>
     </div>
@@ -18,14 +18,14 @@
 
             <img class="avatar-pad2" src=" {{$blogList['avatar']}}" width="150" height="150" alt="">
 
-            <div  id="iM_user_slide" type_insert="insert_one_img_avatar" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 5px;  left: 38px;"> <i class="icon-camera"></i></div>
+            <div  id="iM_user_slide" type_insert="insert_one_img_avatar" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="display: none;top: 5px;  left: 38px;"> <i class="icon-camera"></i></div>
             <div class="change-img btn-save-avatar"  data-toggle="modal"  style="top: 5px;  left: 78px;display: none">
 
                 <i class="icon-ok-circle-1"></i>
             </div>
         </div>
         <div class="col-md-10 col-none-padding">
-            <header class="person-header-username" id_u_blo=" {{$blogList['id']}}"> {{$blogList['name']}}</header >
+            <header class="person-header-username" id_u_blo="{{$blogList['id']}}"> {{$blogList['name']}}</header >
             <nav class="person-header-nav">
 <!--
                 <ul class="">
