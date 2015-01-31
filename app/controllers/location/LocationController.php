@@ -229,7 +229,7 @@ class LocationController extends BaseController {
         }
         else{
             $location->userAction()->attach($user,['action_type'=>'checkin']);
-            $response['success']=true;
+            $response['success'] = true;
         }
         $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
 
