@@ -84,3 +84,43 @@ height:100% !important;
 .save-anh-bia{
 
 }
+.lab-blog-post-item-comment .btn-blog-post-comment-delete{
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    cursor: pointer;
+    display: none;
+}
+.lab-blog-post-item-comment:hover {
+    background: aqua;
+}
+.lab-blog-post-item-comment:hover .btn-blog-post-comment-delete{
+   display: inline-block;
+}
+.col-none-padding{
+    padding: 0px;
+}
+
+
+.person-header-nav ul.location-navigation{
+
+
+}
+
+.person-header-nav ul.location-navigation li{
+
+    padding: 0px 0px;
+    margin: 0px 2px;
+    background: transparent;
+    border-right-width: 0px;
+}
+
+.person-header-nav ul.location-navigation li a{
+    background: transparent;
+    color: green;
+
+}
+.blog-item-photo{
+    width: 100%;
+    height: 100%;
+}
