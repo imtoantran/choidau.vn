@@ -362,7 +362,7 @@
         <div class="aside-list">
             <header class="choidau-bg-font">
                 <i class="icon-user-add"></i>
-                G?i ý k?t b?n
+                Gơi ý kết bạn
             </header>
             <!--goi y ket ban-->
             <ul class="list-unstyled aside-items">

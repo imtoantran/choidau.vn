@@ -44,7 +44,15 @@ class BlogUserController extends BaseController {
 	public function getIndex($user_slug)
 	{
         $user_auth = Auth::user();
+        echo''.$user_slug;
+        try{
         $user_blog =User::where('username','=',"$user_slug")->first();
+        }catch (Exception $e){}
+
+        if(!empty($user_blog->id)){
+            return Redirect::to('/'.$user_auth->username);
+            
+        }
         $this->user = $user_auth;
 
         $blogUser=$user_blog->blog()->first();
