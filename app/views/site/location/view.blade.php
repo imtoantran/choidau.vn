@@ -167,13 +167,13 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square" id="do-like"></span>
+                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-location icon-border-square" id="do-checkin"></span>
-                            <p class="chekin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
+                            <span class="icon-location icon-border-square" style="cursor:pointer;" id="do-checkin"></span>
+                            <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
                             <span class="icon-star icon-border-square"></span>

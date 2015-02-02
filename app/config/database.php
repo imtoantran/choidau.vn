@@ -49,15 +49,13 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
+//			'host'      => 'localhost',
 			'host'      => '107.167.182.195',
+//			'database'  => 'db_choidau',
 			'database'  => 'choi_dau_02',
-			//'database'  => 'db_choidau',
-			//'database'  => 'choidau_01',
-			'username'  => 'choidau_suntory',
 			//'username'  => 'choidau',
-			//'username'  => 'choidau_01',
+			'username'  => 'choidau_suntory',
 			'password'  => 'MeHxCmaRfExKVqfZ',
-			//'password'  => 'suntory',
 			//'password'  => 'choidau',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
