@@ -60,7 +60,7 @@ return array(
 //			'database'  => 'db_choidau',
 //			'username'  => 'choidau',
 //			'password'  => 'suntory',
-//
+		
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
