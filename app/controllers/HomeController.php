@@ -37,8 +37,9 @@ class HomeController extends BaseController {
 		// Show the page
         $page_title='Địa điểm ăn uống chơi';
 //		$locations = Location::with("category")->get();
-		$locations = Location::get();
-		return View::make('site/home/index',compact('page_title','locations'));
+		$categories = Category::whereIn("slug",["an","uong","di"])->get();
+
+		return View::make('site/home/index',compact('page_title','categories'));
 	}
 
 	/**

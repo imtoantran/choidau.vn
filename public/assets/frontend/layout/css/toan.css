@@ -61,6 +61,9 @@
 	left:10%;
 	color:#fff;
 }
+.location-description p{
+	margin:0;
+}
 .location .show-more{
 	display:block;
 	color: #fff;

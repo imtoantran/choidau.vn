@@ -3273,22 +3273,24 @@ font-size: 19px !important;
 /* text-align: center; */
 width: 100%;
  }
- .box-product-img-content span{
-position: absolute;
-top: 144px;
-right: 32px;
-text-transform: capitalize;
-color: white;
-font-size: 13px;
-text-align: center;
-width: 100%;;
- }
-  .box-product-img-content h2{
- font-size: 13px  !important;
+/*  .box-product-img-content span{ */
+/* position: absolute; */
+/* top: 144px; */
+/* right: 32px; */
+/* text-transform: capitalize; */
+/* color: white; */
+/* font-size: 13px; */
+/* text-align: center; */
+/* width: 100%;; */
+/*  } */
+/*
+imtoantran deleted not use
+.box-product-img-content h2{
+font-size: 13px  !important;
 text-align: left;
 text-transform: none  !important;
  }
- 
+  */
 .box-product-comment {
 padding: 3px 0px;
 height: 100%;
