@@ -427,6 +427,10 @@
 								@endfor
 							</ul>
 						</div>
+						<div class="review-action bg-primary">
+							<a href="#" class="like-action" data-id="{{$location->id}}"><i class="icon-heart"></i></a>
+							<i class="icon-export"></i>
+						</div>
 					</div>
 				</a>
 				<p>{{String::tidy(Str::limit($location->description, 100))}}</p>
