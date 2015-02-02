@@ -177,4 +177,10 @@ class User extends Eloquent implements ConfideUserInterface {
     public function locationAction(){
         return $this->belongsToMany("Location");
     }
+
+    /* imtoantran user link start */
+    public function url(){
+        return URL::to("trang-ca-nhan/$this->username.html");
+    }
+    /* imtoantran user link end */
 }

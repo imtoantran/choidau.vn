@@ -384,20 +384,21 @@
 
 	{{-- Content --}}
 @section('content')
+	@foreach($categories as $category)
 	<div class="margin-bottom-10">
 		<img src="">
 	</div>
 	<div class="margin-bottom-10">
 		<div class="row quote-v1">
 			<div class="col-md-9">
-				<span>Ăn gì ngon ?</span>
+				<span>{{$category->description}}</span>
 			</div>
 			<div class="col-md-3 text-right">
 			</div>
 		</div>	
 	</div>
 	<div class="col-md-12 margin-bottom-10 col-no-padding">
-		@foreach($locations as $location)
+			@foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)
 			<?php
 			$reviews = null;
 			$review = null;
@@ -407,29 +408,54 @@
 			}
 			?>
 			<div class="col-md-4 col-xs-12 col-sm-6  col-no-padding-left">
-				<div class="box-product-img-content">
-					<img src="{{asset("$location->thumbnail")}}" width="317px" height="180px" />
-					<h1>{{$location->name}}</h1>
-					<span></span>
-					<h2>{{String::tidy(Str::limit($location->description, 100))}}</h2>
-				</div>
+				<a href="{{$location->url()}}">
+					<div class="box-product-img-content">
+						<img src="{{asset("$location->avatar")}}" width="317px" height="180px" />
+						<div class="location-description">
+							<p><strong class="title">{{$location->name}}</strong></p>
+							<small>{{$location->address_detail}}</small>
+						</div>
+						<div class="review-rating">
+							<ul class="list-unstyled list-inline ul-list-rating">
+								{{--*/ $rCount = $location->rating() /*--}}
+								@for($i=0;$i<5;$i++)
+									@if($i<$rCount)
+										<li><i class="icon-star-filled"></i></li>
+									@else
+										<li><i class="icon-star-1"></i></li>
+									@endif
+								@endfor
+							</ul>
+						</div>
+						<div class="review-action bg-primary">
+							<a href="#" class="like-action" data-id="{{$location->id}}"><i class="icon-heart"></i></a>
+							<i class="icon-export"></i>
+						</div>
+					</div>
+				</a>
+				<p>{{String::tidy(Str::limit($location->description, 100))}}</p>
 				<div class="row box-product-comment">
 					<div class=" col-md-8 pull-left" style="">
-						<img  class="img-circle" src="@if($hasReview) {{$review->author->avatar}} @else anonimous @endif"/>
-						<h5> @if($hasReview) {{$review->author->username}} @else anonimous @endif</h5>
-						<p>Vừa đánh giá địa điểm</p>
-
+						<img  class="img-circle" src="@if($hasReview) {{asset($review->author->avatar)}} @else {{asset("assets/global/img/no-image.png")}} @endif"/>
+							@if($hasReview)
+							<a href="{{URL::to($review->author->url())}}">
+							{{$review->author->username}}
+							</a>
+								<p>Vừa đánh giá địa điểm</p>
+							@else
+								Chưa có bình luận nào.
+							@endif
 					</div>
 					<div class="col-md-4 " style="padding-top:11px">
-						@if($hasReview) {{date_format($review->created_at,"d-m-Y")}} @endif <i class="icon-clock-6"></i>
+						@if($hasReview) {{date_format($review->created_at,"d-m-Y")}} <i class="icon-clock-6"></i> @endif
 					</div>
 				</div>
 
 				<div class="row box-product-like">
 					<div class="col-md-8 col-xs-8 col-sm-8 pull-left">
-						@if($hasReview)
-							@foreach($reviews->get() as $reviewer)
-								<img  class="img-circle" src="{{asset($reviewer->author->avatar)}}"/>
+						@if($location->userAction()->count())
+							@foreach($location->userAction()->get() as $userLiked)
+								<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
 							@endforeach
 						@endif
 						<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
@@ -451,5 +477,6 @@
 			</div>
 			@endforeach
 	</div>
+	@endforeach
 
 @stop

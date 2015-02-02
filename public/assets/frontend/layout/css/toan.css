@@ -61,6 +61,26 @@
 	left:10%;
 	color:#fff;
 }
+.location-description p{
+	margin:0;
+}
+.review-rating{
+	position:absolute;
+	top:0;
+	left:0px;
+	background:rgba(221,221,221,.7);
+	padding:3px 8px 6px 8px;	
+}
+.review-rating i{ color:yellow}
+.review-rating ul{
+	margin-bottom:0;
+}
+.review-action{
+	position:absolute;
+	top:0;
+	right:0;
+	padding:4px;
+}
 .location .show-more{
 	display:block;
 	color: #fff;

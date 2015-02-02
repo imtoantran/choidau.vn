@@ -38,6 +38,14 @@ class Location extends Eloquent {
 	public function loadUtility(){
 		return $this->hasMany("Location_Utility","location_id");
 	}
-
+	/* imtoantran url start */
+	public function url(){
+		return URL::to("dia-diem/".Str::Slug($this->province->name)."/$this->id-$this->slug");
+	}
+	public function rating(){
+		$ratings = $this->hasManyThrough("PostMeta","Review","parent_id","post_id")->whereMetaKey("review_rating");
+		return $ratings->count()?ceil($ratings->sum("meta_value")/$ratings->count()):0;
+	}
+	/* imtoantran url end */
 
 }
