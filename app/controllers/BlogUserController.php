@@ -45,14 +45,14 @@ class BlogUserController extends BaseController {
 	{
         $user_auth = Auth::user();
         echo''.$user_slug;
-        try{
+       // try{
         $user_blog =User::where('username','=',"$user_slug")->first();
-        }catch (Exception $e){}
+      //  }catch (Exception $e){}
 
-        if(!empty($user_blog->id)){
-            return Redirect::to('/'.$user_auth->username);
-            
-        }
+     //   if(!empty($user_blog->id)){
+         //   return Redirect::to('/trang-ca-nhan/'.$user_auth->username.'.html');
+
+      //  }
         $this->user = $user_auth;
 
         $blogUser=$user_blog->blog()->first();
