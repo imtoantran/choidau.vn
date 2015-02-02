@@ -12,7 +12,8 @@
 		</div>
 		<form method="POST" name="location_create" id="location_create" class="form-horizontal choidau-form" role="form">
 			<input type="hidden" name="_token" id="token-location" value="{{csrf_token()}}"/>
-			<input type="hidden" name="location_position" id="location_position" value="(10.776111111111112,106.69583333333334)"/>
+			{{--<input type="hidden" name="location_position" id="location_position" value="(10.776111111111112,106.69583333333334)"/>--}}
+			<input type="hidden" name="location_position" id="location_position" value="" data-lat="" data-lng=""/>
 
 			<div class="alert alert-danger display-hide">
 				<button class="close location-alert-close" data-close="alert"></button>

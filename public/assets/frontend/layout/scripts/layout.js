@@ -483,9 +483,9 @@ var Layout = function () {
                 }
             }else{
                 bootbox.alert('bạn chưa chọn hình ảnh !');
-                return false;
+                result = false;
             }
-
+            return result;
 
         });
 
