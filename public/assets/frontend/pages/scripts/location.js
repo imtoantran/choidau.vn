@@ -1,7 +1,8 @@
 var Location = function () {
 	var location_create_frm = $('#location_create');
-	var province_tag = $('#location_province');
-	var district_tag = $('#location_district');
+	var province_tag = location_create_frm.find('#location_province');
+	var district_tag = location_create_frm.find('#location_district');
+	var input_map = location_create_frm.find('#location_position');
 	var token_tag = location_create_frm.find('#token-location');
 	var foodMenu_tag = $('#location-mn-food');
 	var utilityMenu_tag = $('#location-mn-utility');
@@ -94,9 +95,6 @@ var Location = function () {
 				submitHandler: function (form) {
 					locationSuccess.show();
 					locationError.hide();
-					var position = $('#location_position').val();
-						position = position.replace('(',"");
-						position = position.replace(')',"");
 					var dataPost = {
 						'location_name'			    :$('#location_name').val(),
 						'location_address_detail'   :$('#location_address_detail').val(),
@@ -108,7 +106,7 @@ var Location = function () {
 						'location_email' 			:$('#location_email').val(),
 						'location_website' 			:$('#location_website').val(),
 						'location_description' 		:$('#location_description').val(),
-						'location_position' 		:position,
+						'location_position' 		:input_map.val(),
 						'location_price_min' 		:$('#location_price_min').val(),
 						'location_price_max' 		:$('#location_price_max').val(),
 						'location_avatar'			:$('#location-img-url').attr('data-url'),
@@ -337,6 +335,9 @@ var Location = function () {
 								location = location.split(", ");
 								lat = self.convertDegree(location[0]);
 								lng = self.convertDegree(location[1]);
+								input_map.attr('data-lat',lat);
+								input_map.attr('data-lng',lng);
+								input_map.val(lat+','+lng);
 							}
 							html += '<option data-lat="'+lat+'" data-lng ="'+lng+'" value="'+value.id+'">'+value.type+' '+value.name+'</option>';
 						});
@@ -367,44 +368,29 @@ var Location = function () {
 						label: "Hoàn tất",
 						className: "btn-primary",
 						callback: function() {
-							location_create_frm.find('#location_position').val(markerLocation.getPosition());
+							var position = markerLocation.getPosition();
+							input_map.attr('data-lat',position.k);
+							input_map.attr('data-lng',position.D);
+							input_map.val(position.k+','+position.D);
 						}
 					}
 				}
 			});
 		},
-        loadDialogMap2: function(){
-            var html ='<div class="input-group loacation-search-wrapper">';
-            html +='<span class="input-group-btn bg-grey"><i class="icon-search"></i></span>';
-            html +='<input id="location-search" type="text" placeholder=" Tìm địa điểm..." class="form-control">';
-            html +='</div>';
-            html +='<div id="location-gmap"></div>';
-            bootbox.dialog({
-                message: html,
-                title: "Vị trí địa điểm2",
-                buttons: {
-                    default: {
-                        label: "Đóng",
-                        className: "btn-default"
-                    },
-                    main: {
-                        label: "Hoàn tất",
-                        className: "btn-primary",
-                        callback: function() {
-                            createLocation_frm.find('#location-position').val(markerLocation.getPosition());
-                        }
-                    }
-                }
-            });
-        },
+
 		//load ban do
 		loadGmap: function(){
 			var selected_tag = district_tag.find('option:selected');
-			var lat = selected_tag.attr('data-lat');
-				lat = (lat == "")? '10.822894625766558': lat;
-			var lng = selected_tag.attr('data-lng');
-				lng = (lng == "")? '106.62956714630127': lng;
-
+			var val_map = input_map.val();
+			var lat = "";
+			var lng = "";
+			if(val_map == "") {
+				lat = (selected_tag.attr('data-lat') == "") ? '10.822894625766558' : lat;
+				lng = (selected_tag.attr('data-lng') == "") ? '106.62956714630127' : lng;
+			}else{
+				lat = input_map.attr('data-lat');
+				lng = input_map.attr('data-lng');
+			}
 			var searchBox = new google.maps.places.SearchBox(document.getElementById('location-search'));
 
 			map = new GMaps({
@@ -420,6 +406,7 @@ var Location = function () {
 				draggable: true,
 				animation: google.maps.Animation.DROP
 			});
+
 			map.addMarker(markerLocation);
 
 			google.maps.event.addListener(searchBox, 'places_changed', function(){
