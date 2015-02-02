@@ -106,25 +106,25 @@ var Layout = function () {
         var ss= $(content_browser).prop('outerHTML');
 
 
-        console.log(ss);
+       console.log(ss);
 
-        bootbox.dialog({
-            message: ss,
-            title: "Vị trí địa điểm2",
-            buttons: {
-                default: {
-                    label: "Đóng",
-                    className: "btn-default"
-                },
-                main: {
-                    label: "Hoàn tất",
-                    className: "btn-primary",
-                    callback: function() {
-                        //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
-                    }
-                }
-            }
-        });
+       bootbox.dialog({
+           message: ss,
+           title: "Vị trí địa điểm2",
+           buttons: {
+               default: {
+                   label: "Đóng",
+                   className: "btn-default"
+               },
+               main: {
+                   label: "Hoàn tất",
+                   className: "btn-primary",
+                   callback: function() {
+                       //   createLocation_frm.find('#location-position').val(markerLocation.getPosition());
+                   }
+               }
+           }
+       });
 
 
     }
@@ -421,21 +421,26 @@ var Layout = function () {
         });
     }
     var handleMediaBrowser = function () {
+
+
         var type_insert="";
 
         $(".insertMedia").click(function(){
+
             $(".insertMedia").removeClass('abc');
             $(this).addClass("abc");
-            //   $(this).addClass("abc");
+         //   $(this).addClass("abc");
 
             type_insert=$(this).attr('type_insert');
         });
 
         $("#insert-media-browser").click(function(){
+
             var url=$('#url-edit-media').attr('data-img-url');
             var result = true;
             if(url!=''){
-                //var img='<img src="'+URL+url+'" />';
+
+                var img='<img src="'+URL+url+'" />';
 
                 switch (type_insert){
                     case "location_load_avatar": //luuhoabk (location/location.js)
@@ -446,7 +451,8 @@ var Layout = function () {
                         break;
 
                     case "insert_one_img":
-                        $(".abc").html(img);
+                      $(".abc").html(img);
+
                         break;
 
                     case "insert_multi_img":
@@ -457,8 +463,8 @@ var Layout = function () {
                         break;
                     case "insert_one_url_location":
 
-                        //   Location::abc(url);
-                        //  $(".abc").html(url);
+                     //   Location::abc(url);
+                      //  $(".abc").html(url);
                         break;
 
                     case "insert_one_img_anh_bia":
@@ -469,32 +475,26 @@ var Layout = function () {
 
                     case "insert_one_img_avatar":
                         $(".avatar-pad2").attr('src',url);
-                        //   $(".person-header-bg").attr('url_img',url);
+                     //   $(".person-header-bg").attr('url_img',url);
                         $(".btn-save-avatar").show();
                         break;
 
                     default: break;
                 }
-
             }else{
                 bootbox.alert('bạn chưa chọn hình ảnh !');
-                result = false;
+                return false;
             }
 
-            return result;
+
         });
 
-        $.fn.exists = function(callback) {
-            var args = [].slice.call(arguments, 1);
-            if (this.length) {
-                callback.call(this, args);
-            }
-            return this;
-        };
+
+  
 
         $(".btn-save-anh-bia").click(function(){
-            var url_img=   $(".person-header-bg").attr('url_img');
-            //  alert(url);
+         var url_img=   $(".person-header-bg").attr('url_img');
+          //  alert(url);
 
             $.ajax({
                 type: "POST",
@@ -528,9 +528,9 @@ var Layout = function () {
                 }
             });
         });
+        }
 
-
-    }
+    
     var handleComponentLayout=function(){
 
         /**btb select*/
@@ -548,33 +548,461 @@ var Layout = function () {
     }
 
     var handleBlog=function(){
+        var id_user_blog=$('.person-header-username').attr('id_u_blo');
+        var id_user_auth=$(".item-status-value").attr('user_auth_id');
+
+
+        if(id_user_auth==id_user_blog){
+            $(".insertMedia").show();
+
+        }
+      //  var input_element=parent_item_element.find('input.item-status-value');
+
+        /**
+         * Đăng status
+         */
+
         $(".btn-add-status").click(function(){
-
-
-            var content_status=$("#content-status").val();
-            var  privacy_status=$("#privacy-status").attr("value_id");
-
-            //   alert(privacy_status);
-
+          var content_status=$("#content-status").val();
+          var  privacy_status=$("#privacy-status").attr("value_id");
             $.ajax({
                 type: "POST",
                 url: URL+"/trang-ca-nhan/trang-thai.html",
                 data: {
                     'content':content_status,
-                    'privacy':privacy_status
+                    'privacy':privacy_status,
+                    'type_edit':'add_status'
 
                 },
-                cache: false,
+                sync:true,
                 success: function(data){
-                    var html_box_status="<div class='vinhleeel'></div>";
-                    $( html_box_status ).insertAfter( ".form-add-status" );
+                    $.ajax({
+                        type: "POST",
+                        url: URL+"/trang-ca-nhan/load-item-status-"+data,
+                        data: {
+
+                        },
+                        sync:true,
+                        success: function(data_1){
+                           // $( data_1 ).insertAfter( ".form-add-status");
+                            $("#feed-blog-post-top").append(data_1);
+
+                        }
+                    });
+                }
+            });
+            $("#content-status").val('');
+
+        });
+
+
+
+    /*-------------end đang status*/
+
+        $(document).on("click","a.btn-blog-post-like", function () {
+            var parent_item_element=$(this).parents('div.person-content-item');
+            var input_element=parent_item_element.find('input.item-status-value');
+            var lab_like_element=parent_item_element.find('span.lab-blog-post-like');
+            var btn_like_element=parent_item_element.find('a.btn-blog-post-like');
+            var post_id=input_element.attr('post_id');
+            var user_auth_id=input_element.attr('user_auth_id');
+            var user_author_id=input_element.attr('user_author_id');
+            var type_action_like=$(this).attr('type_action_like');
+
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/trang-thai.html",
+                dataType: 'JSON',
+
+                data: {
+                    'post_id':post_id,
+                    'user_auth_id':user_auth_id,
+                    'user_author_id':user_author_id,
+                    'type_edit':'like_status',
+                    'type_action_like':type_action_like
+
+                },
+                sync:false,
+                success: function(data_1){
+                    if(data_1.type_action_like=='type_action_like'){
+                        lab_like_element.html(data_1.number_like);
+                        btn_like_element.attr('type_action_like','type_action_dislike');
+                        btn_like_element.html('Đã thích');
+                    }else{
+                        lab_like_element.html(data_1.number_like);
+                        btn_like_element.attr('type_action_like','type_action_like');
+                        btn_like_element.html('Thích');
+                    }
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+    /***
+     * like status
+     *
+     * */
+
+
+    $(document).on("click","a.btn-blog-post-like", function () {
+        var parent_item_element=$(this).parents('div.person-content-item');
+        var input_element=parent_item_element.find('input.item-status-value');
+        var lab_like_element=parent_item_element.find('span.lab-blog-post-like');
+        var btn_like_element=parent_item_element.find('a.btn-blog-post-like');
+        var post_id=input_element.attr('post_id');
+        var user_auth_id=input_element.attr('user_auth_id');
+        var user_author_id=input_element.attr('user_author_id');
+        var type_action_like=$(this).attr('type_action_like');
+
+
+        $.ajax({
+            type: "POST",
+            url: URL+"/trang-ca-nhan/trang-thai.html",
+            dataType: 'JSON',
+
+            data: {
+                'post_id':post_id,
+                'user_auth_id':user_auth_id,
+                'user_author_id':user_author_id,
+                'type_edit':'like_status',
+                'type_action_like':type_action_like
+
+            },
+            sync:false,
+            success: function(data_1){
+                if(data_1.type_action_like=='type_action_like'){
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_dislike');
+                    btn_like_element.html('Đã thích');
+                }else{
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_like');
+                    btn_like_element.html('Thích');
+                }
+            }
+        });
+    });
+
+
+
+        $(".btn-blog-post-like1").click(function(){
+        var parent_item_element=$(this).parents('div.person-content-item');
+        var input_element=parent_item_element.find('input.item-status-value');
+        var lab_like_element=parent_item_element.find('span.lab-blog-post-like');
+        var btn_like_element=parent_item_element.find('a.btn-blog-post-like');
+        var post_id=input_element.attr('post_id');
+        var user_auth_id=input_element.attr('user_auth_id');
+        var user_author_id=input_element.attr('user_author_id');
+        var type_action_like=$(this).attr('type_action_like');
+
+
+        $.ajax({
+            type: "POST",
+            url: URL+"/trang-ca-nhan/trang-thai.html",
+            dataType: 'JSON',
+
+            data: {
+                'post_id':post_id,
+                'user_auth_id':user_auth_id,
+                'user_author_id':user_author_id,
+                'type_edit':'like_status',
+                'type_action_like':type_action_like
+
+            },
+           sync:false,
+            success: function(data_1){
+
+               // alert(data_1.number_like);
+
+                if(data_1.type_action_like=='type_action_like'){
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_dislike');
+                    btn_like_element.html('Đã thích');
+                }else{
+                    lab_like_element.html(data_1.number_like);
+                    btn_like_element.attr('type_action_like','type_action_like');
+                    btn_like_element.html('Thích');
+                }
+
+             //   alert()
+              // lab_like_element.html(data_1);
+            }
+        });
+
+    });
+   /**------------end dislike*/
+
+
+
+     /**
+      * comment blog
+      * */
+
+
+     $(document).on("click","a.btn-blog-post-comment", function () {
+         var parent_item_element=$(this).parents('div.person-content-item');
+         var input_comment_element=parent_item_element.find('input.txt-blog-post-comment');
+         input_comment_element.focus();
+     });
+
+     $(document).on("keyup","input.txt-blog-post-comment", function (e) {
+
+            if (e.keyCode == 13) {
+                var parent_item_element=$(this).parents('div.person-content-item');
+                var input_element=parent_item_element.find('input.item-status-value');
+                var parent_vt_element=parent_item_element.find("div.list-blog-post-comment");
+
+                var post_id=input_element.attr('post_id');
+                var content_comment=$(this).val();
+                //    alert(parent_vt_element.html());
+                $.ajax({
+                    type: "POST",
+                    url: URL+"/trang-ca-nhan/trang-thai.html",
+                    data: {
+                        'post_id':post_id,
+                        'type_edit':'comment_post',
+                        'content_comment':content_comment
+
+                    },
+                    dataType:'JSON',
+                    success: function(data_1){
+                        //    alert(data_1.date_at);
+                        var html_item_comment='   <div  class="col-md-12 article-img-text lab-blog-post-item-comment col-none-padding" i_user="'+data_1.id_user+'" i_comment="'+data_1.id_comment+'">';
+                        html_item_comment+='     <div class="row margin-none">';
+                        html_item_comment+='       <img class="col-md-1 col-ms-1 avatar-pad2" src="'+data_1.avatar_user+'" alt="">';
+                        html_item_comment+='           <a style="font-size: 16px" class="lab-blog-post-content-comment" >'+data_1.username+'</a>'+data_1.date_at;
+                        html_item_comment+='             <span class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" value="" >'+data_1.content+'</span>';
+                        html_item_comment+='       </div><div class="btn-blog-post-comment-delete"><i class="icon-pencil-3"></i></div> </div>';
+                        //  alert(data_1);
+
+                        parent_item_element.find("span.lab-blog-post-number-comment").html(data_1.number_comment);
+
+                        parent_vt_element.append(html_item_comment);
+                    }
+                });
+                $(this).val('');
+            }
+
+        });
+
+
+
+
+        $(document).on("click","div.btn-blog-post-comment-delete",function(){
+            var parent_post_element=$(this).parents("div.person-content-item");
+            var parent_item_element=$(this).parents("div.lab-blog-post-item-comment");
+            var id_comment=parent_item_element.attr('i_comment');
+            var id_user=parent_item_element.attr('i_user');
+            var id_parent_comment=parent_post_element.find("input.item-status-value").attr('post_id');
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/trang-thai.html",
+                data: {
+                    'id_comment':id_comment,
+                    'id_user':id_user,
+                    'id_parent_comment':id_parent_comment,
+                    'type_edit':'comment_delete'
+
+                },
+                sync:true,
+                success: function(data_1){
+                    //   $( data_1 ).insertAfter( ".form-add-status");
+                    parent_post_element.find("span.lab-blog-post-number-comment").html(data_1);
+                    parent_item_element.hide();
+                }
+            });
+
+        });
+        $(document).on("click","li.btn-blog-post-status-delete",function(){
+            var parent_item_element=$(this).parents('div.person-content-item');
+            var input_element=parent_item_element.find('input.item-status-value');
+            var id_status=input_element.attr('post_id');
+
+
+            bootbox.confirm("Bạn chắc chắn muốn xoá trạng thái này ?", function(result) {
+                if(result){
+                    $.ajax({
+                        type: "POST",
+                        url: URL+"/trang-ca-nhan/trang-thai.html",
+                        data: {
+                            'id_status':id_status,
+                            'type_edit':'status_delete'
+                        },
+                        sync:true,
+                        success: function(data_1){
+                            // $( data_1 ).insertAfter( ".form-add-status");
+                          //  $("#feed-blog-post-top").append(data_1);
+
+                            parent_item_element.hide();
+                        }
+                    });
+                }
+            });
+          /*  */
+
+        });
+
+        /**
+         * Gửi lời mới kết bạn
+         * */
+        $(document).on("click","button.btn-aside-add-friend",function(){
+            var id_friend=$(this).attr('i_u');
+            var parent_item_element= $(this).parents("li.lab-btn-item-blog-friend");
+            //alert(id_friend);
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/trang-ca-nhan/ban-be.html",
+                data: {
+                   'id_friend':id_friend,
+                   'type_edit':'request_add_friend'
+                },
+                sync:false,
+                success: function(data_1){
+                   parent_item_element.hide(200);
                 }
             });
 
 
 
-
         });
+
+
+
+        /****
+         *
+         *TagMenu Bạn Bè Blog
+         *
+         *
+         * ------------------------------------------------------------------*/
+
+            $("#btn-tag-blog-friend").click(function(){
+                var element_list_friend= $(".person-friends-list").html();
+                var id_user_blog=$(".person-header-username").attr("id_u_blo");
+
+                var is_val= $(".person-friends-list").attr('is_val');
+              //  alert('asdsad'+element_list_friend);
+
+                   if(is_val!='1'){
+
+                        $.ajax({
+                            type: "POST",
+                            url: URL+"/trang-ca-nhan/list-ban-be.html",
+                            data: {
+                                'id_user_blog':id_user_blog
+                            },
+                            sync:false,
+                            success: function(data_1){
+
+                              //  parent_item_element.hide(200);
+                               $(".person-friends-list").html(data_1.html);
+                               $(".person-friends-list").attr('is_val','1');
+                               $("span.person-friends-list-total").html(data_1.total);
+                            },
+                            dataType:'JSON'
+                        });
+                   }
+            });
+
+            $("#btn-tag-blog-photo").click(function(){
+                var element_list_friend= $(".blog-photo-list-content").html();
+                var id_user_blog=$(".person-header-username").attr("id_u_blo");
+
+                var is_val= $(".blog-photo-list-content").attr('is_val');
+                if(is_val!='1'){
+
+                    $.ajax({
+                        type: "POST",
+                        url: URL+"/trang-ca-nhan/list-hinh-anh.html",
+                        data: {
+                            'id_user_blog':id_user_blog
+                        },
+                        sync:false,
+                        success: function(data_1){
+                            $(".blog-photo-list-content").html(data_1.html);
+                            $(".blog-photo-list-content").attr('is_val','1');
+                         //   $("span.person-friends-list-total").html(data_1.total);
+                        },
+                        dataType:'JSON'
+                    });
+
+                }
+
+
+            });
+
+
+
+
+
+         /****
+          *
+          *End Tag Bạn Bè Blog
+          *
+          *--------------------------------------------------------------------*/
+
+/*
+       $(".btn-blog-post-comment").click(function(){
+           var parent_item_element=$(this).parents('div.person-content-item');
+           var input_comment_element=parent_item_element.find('input.txt-blog-post-comment');
+              input_comment_element.focus();
+
+
+       });
+
+
+
+        $('.txt-blog-post-comment').keyup(function(e) {
+            if (e.keyCode == 13) {
+            var parent_item_element=$(this).parents('div.person-content-item');
+            var input_element=parent_item_element.find('input.item-status-value');
+            var parent_vt_element=parent_item_element.find("div.list-blog-post-comment");
+
+            var post_id=input_element.attr('post_id');
+            var content_comment=$(this).val();
+            //    alert(parent_vt_element.html());
+                $.ajax({
+                    type: "POST",
+                    url: URL+"/trang-ca-nhan/trang-thai.html",
+                    data: {
+                        'post_id':post_id,
+                        'type_edit':'comment_post',
+                        'content_comment':content_comment
+
+                    },
+                    dataType:'JSON',
+                    success: function(data_1){
+                    //    alert(data_1.date_at);
+                     var html_item_comment='   <div class="col-md-12 article-img-text col-none-padding">';
+                         html_item_comment+='     <div class="row margin-none">';
+                         html_item_comment+='       <img class="col-md-1 col-ms-1 avatar-pad2" src="'+data_1.avatar_user+'" alt="">';
+                         html_item_comment+='           <a style="font-size: 16px" class="lab-blog-post-content-comment" >'+data_1.username+'</a>'+data_1.date_at;
+                         html_item_comment+='             <span class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" value="" >'+data_1.content+'</span>';
+                         html_item_comment+='       </div> </div>';
+                           //  alert(data_1);
+                          parent_vt_element.append(html_item_comment);
+                    }
+                });
+
+
+
+            }
+        });*/
+
+
+
+
+     /*-------------end comment*/
+
 
     }
 

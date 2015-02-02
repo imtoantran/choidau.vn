@@ -17,4 +17,7 @@ class Review extends Post {
 	{
 		return parent::newQuery()->wherePost_type("review");
 	}
+	public function location(){
+		return $this->belongsTo("Location","parent_id");
+	}
 }

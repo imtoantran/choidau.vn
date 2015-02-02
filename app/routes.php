@@ -102,6 +102,8 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 Route::get('dia-diem/{provinceSlug}/{id}-{locationSlug}','LocationController@getView');
 Route::post("location/like/",'LocationController@like');
 Route::post("location/checkin/",'LocationController@checkin');
+Route::get("location/review/{id}",'LocationController@getReview');
+Route::post("location/review",'LocationController@postReview');
 # location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
@@ -162,8 +164,13 @@ Route::group(array('prefix' => 'trang-ca-nhan'), function(){
     Route::post('/chinh-sua-thong-tin.html','BlogUserController@postEditBlogUser');
     Route::post('/trang-thai.html','BlogUserController@postStatusBlogUser');
     Route::get('/trang-thai.html','BlogUserController@postStatusBlogUser');
-    Route::any('/load-item-status-{id_status_slug}','BlogUserController@loadItemStatus');
+    Route::any('/load-item-status-{id_status_slug}','BlogUserController@loadItemStatus2');
+    Route::any('/load-item-comment-{id_comment_post_slug}','BlogUserController@loadComment');
     Route::any('/load-item-statusz-{id_status_slug}','BlogUserController@ala');
+   // Route::get('/ban-be.html','BlogUserController@getListFriend');
+    Route::post('/list-ban-be.html','BlogUserController@getListFriend');
+    Route::post('/list-hinh-anh.html','BlogUserController@getListPhoto');
+    Route::post('/ban-be.html','BlogUserController@postFriend');
 
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
 });

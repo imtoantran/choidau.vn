@@ -7,6 +7,7 @@
 </script>
 
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
@@ -83,11 +84,12 @@
                     $(this).parent().addClass("on");
             });
         });
-        Layout.init();
+
 
         @if (isset($js_script))
                 {{$js_script}}
         @endif
+        Layout.init();
     });
 </script>
 
