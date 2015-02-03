@@ -277,97 +277,195 @@
 
 @section('topb')
 	<section class="row margin-bottom-10">
-        <div class="col-md-9 col-none-padding" >
-		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
-			<header>
-				<h1>TOP REVIEW</h1>
-			</header>
-			<article>
-				<img src="{{URL::to($topReview->location->avatar)}}" height="100px" width="100px" />
-				<div class="col-none-padding lab-user-post">
-					<h1>{{$topReview->location->name}}</h1>
-					<h2>{{$topReview->author->username}}</h2><span>bình luận</span>
-					<time> {{String::showTimeAgo($topReview->updated_at)}}</time>
-
-				</div>
-				<div class="clearfix"></div>
+		<div class="col-md-9 col-none-padding" >
+			<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
 				<header>
-					<h2> {{$topReview->title}}</h2>
-								  <span>
-									  {{String::tidy($topReview->content,200)}}
-								  </span>
-					<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+					<h1>TOP REVIEW</h1>
 				</header>
-			</article>
+				<article>
+					<img src="{{URL::to($topReview->location->avatar)}}" height="100px" width="100px" />
+					<div class="col-none-padding lab-user-post">
+						<h1>{{$topReview->location->name}}</h1>
+						<h2>{{$topReview->author->username}}</h2><span>bình luận</span>
+						<time> {{String::showTimeAgo($topReview->updated_at)}}</time>
 
-		</section>
-		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
-			<header>
-				<h1>TOP ĐỊA ĐIỂM</h1>
-			</header>
-			<article>
-				<img src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px" />
-                <div class="col-none-padding lab-user-post">
-                    <h1>{{$topLocation->name}}</h1>
-                    <h2>{{$topLocation->author()->username}}</h2><span>Đã đăng </span>
-                    <time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
+					</div>
+					<div class="clearfix"></div>
+					<header>
+						<h2> {{$topReview->title}}</h2>
+								  <span>
+									  {{String::tidy(Str::limit($topReview->content,100))}}
+								  </span>
+						<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+					</header>
+				</article>
 
-                </div>
-                <div class="clearfix"></div>
-                <header>
-                    <h2>  {{String::tidy($topLocation->name,200)}} </h2>
+			</section>
+			<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
+				<header>
+					<h1>TOP ĐỊA ĐIỂM</h1>
+				</header>
+				<article>
+					<img src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px" />
+					<div class="col-none-padding lab-user-post">
+						<h1>{{$topLocation->name}}</h1>
+						<h2>{{$topLocation->author()->username}}</h2><span>Đã đăng </span>
+						<time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
+
+					</div>
+					<div class="clearfix"></div>
+					<header>
+						<h2>  {{String::tidy($topLocation->name,200)}} </h2>
 								  <span>
                                         {{String::tidy($topLocation->description,200)}}
 
 								  </span>
-                    <p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
-                </header>
+						<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+					</header>
 
 
-			</article>
+				</article>
 
-		</section>
-
-		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
-			<header>
-				<h1>Admin Giới thiệu</h1>
-			</header>
-			<article>
-				<img src="{{$topBlog->thumbnail}}" height="100px" width="100px" />
-				<div class="col-none-padding lab-user-post">
-					<h1>{{String::tidy($topBlog->title,50)}}</h1>
-					<h2>{{$topBlog->author->username}}</h2><span>Đã đăng </span>
-					<time> {{String::showTimeAgo($topBlog->updated_at)}}</time>
-
-				</div>
-				<div class="clearfix"></div>
+			</section>
+			<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
 				<header>
-					<h2>    {{String::tidy($topBlog->title,200)}}</h2>
+					<h1>Admin Giới thiệu</h1>
+				</header>
+				<article>
+					<img src="{{$topBlog->thumbnail}}" height="100px" width="100px" />
+					<div class="col-none-padding lab-user-post">
+						<h1>{{String::tidy($topBlog->title,50)}}</h1>
+						<h2>{{$topBlog->author->username}}</h2><span>Đã đăng </span>
+						<time> {{String::showTimeAgo($topBlog->updated_at)}}</time>
+
+					</div>
+					<div class="clearfix"></div>
+					<header>
+						<h2>    {{String::tidy($topBlog->title,200)}}</h2>
 								  <span>
                                         {{String::tidy($topBlog->content,200)}}
 
                                   </span>
-					<p><a href="#">xem thêm</a></p>
-				</header>
+						<p><a href="#">xem thêm</a></p>
+					</header>
 
 
-			</article>
+				</article>
 
-		</section>
-        <div class="col-md-12" style="border-bottom: 2px solid green;margin-top: 5px;"></div>
+			</section>
+			<div class="col-md-12" style="border-bottom: 2px solid green;margin-top: 5px;"></div>
 
-        </div>
+		</div>
 		<section class="col-md-3 col-xs-12 col-sm-6  box-face-hot">
 			<header>
 				<h1>Choidau.net <i class="icon-facebook-squared"></i></h1>
 			</header>
 			<article class="col-md-12 col-none-padding">
 
-                <div class="fb-like-box" data-href="https://www.facebook.com/suntorydesign" data-width="263" data-height="200" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
-            </article>
+				<div class="fb-like-box" data-href="https://www.facebook.com/suntorydesign" data-width="263" data-height="200" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+			</article>
 
 		</section>
 	</section>
+@stop
+
+	{{-- Content --}}
+@section('content')
+	@foreach($categories as $category)
+		<div class="margin-bottom-10">
+			<img src="">
+		</div>
+		<div class="margin-bottom-10">
+			<div class="row quote-v1">
+				<div class="col-md-9">
+					<span>{{$category->description}}</span>
+				</div>
+				<div class="col-md-3 text-right">
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 margin-bottom-10 col-no-padding">
+			@foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)
+				<?php
+				$reviews = null;
+				$review = null;
+				if($hasReview = $location->reviews()->count()){
+					$reviews = $location->reviews()->orderBy("created_at","desc");
+					$review = $reviews->first();
+				}
+				?>
+				<div class="col-md-4 col-xs-12 col-sm-6  col-no-padding-left">
+					<a href="{{$location->url()}}">
+						<div class="box-product-img-content">
+							<img src="{{asset("$location->avatar")}}" width="317px" height="180px" />
+							<div class="location-description">
+								<p><strong class="title">{{$location->name}}</strong></p>
+								<small>{{$location->address_detail}}</small>
+							</div>
+							<div class="review-rating">
+								<ul class="list-unstyled list-inline ul-list-rating">
+									{{--*/ $rCount = $location->rating() /*--}}
+									@for($i=0;$i<5;$i++)
+										@if($i<$rCount)
+											<li><i class="icon-star-filled"></i></li>
+										@else
+											<li><i class="icon-star-1"></i></li>
+										@endif
+									@endfor
+								</ul>
+							</div>
+							<div class="absolute-top-right bg-primary">
+								<span href="#" class="like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-id="{{$location->id}}"><i class="icon-heart"></i></span>
+								<i class="icon-export"></i>
+							</div>
+						</div>
+					</a>
+					<p>{{String::tidy(Str::limit($location->description, 100))}}</p>
+					<div class="row box-product-comment">
+						<div class=" col-md-8 pull-left" style="">
+							<img  class="img-circle" src="@if($hasReview) {{asset($review->author->avatar)}} @else {{asset("assets/global/img/no-image.png")}} @endif"/>
+							@if($hasReview)
+								<a href="{{URL::to($review->author->url())}}">
+									{{$review->author->username}}
+								</a>
+								<p>Vừa đánh giá địa điểm</p>
+							@else
+								Chưa có bình luận nào.
+							@endif
+						</div>
+						<div class="col-md-4 " style="padding-top:11px">
+							@if($hasReview) {{date_format($review->created_at,"d-m-Y")}} <i class="icon-clock-6"></i> @endif
+						</div>
+					</div>
+
+					<div class="row box-product-like">
+						<div class="col-md-8 col-xs-8 col-sm-8 pull-left">
+							@if($location->userAction()->count())
+								@foreach($location->userAction()->get() as $userLiked)
+									<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
+								@endforeach
+							@endif
+							<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
+						</div >
+
+						<div class="col-md-4 col-xs-4 col-sm-4 ">
+							<i class="icon-comment-empty icon-comment">
+								<p class="quantity-comment">
+									@if($hasReview)
+										{{$reviews->count()}}
+									@else
+										0
+									@endif
+								</p>
+							</i>
+
+						</div>
+					</div>
+				</div>
+			@endforeach
+		</div>
+	@endforeach
+
 @stop
 
 @section('scripts')
@@ -408,103 +506,4 @@
 
 @section('styles')
 	<link href="{{asset("assets/global/plugins/slider-revolution-slider/rs-plugin/css/settings.css")}}" rel="stylesheet">
-@stop
-
-	{{-- Content --}}
-@section('content')
-	@foreach($categories as $category)
-	<div class="margin-bottom-10">
-		<img src="">
-	</div>
-	<div class="margin-bottom-10">
-		<div class="row quote-v1">
-			<div class="col-md-9">
-				<span>{{$category->description}}</span>
-			</div>
-			<div class="col-md-3 text-right">
-			</div>
-		</div>
-	</div>
-	<div class="col-md-12 margin-bottom-10 col-no-padding">
-			@foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)
-			<?php
-			$reviews = null;
-			$review = null;
-			if($hasReview = $location->reviews()->count()){
-				$reviews = $location->reviews()->orderBy("created_at","desc");
-				$review = $reviews->first();
-			}
-			?>
-			<div class="col-md-4 col-xs-12 col-sm-6  col-no-padding-left">
-				<a href="{{$location->url()}}">
-					<div class="box-product-img-content">
-						<img src="{{asset("$location->avatar")}}" width="317px" height="180px" />
-						<div class="location-description">
-							<p><strong class="title">{{$location->name}}</strong></p>
-							<small>{{$location->address_detail}}</small>
-						</div>
-						<div class="review-rating">
-							<ul class="list-unstyled list-inline ul-list-rating">
-								{{--*/ $rCount = $location->rating() /*--}}
-								@for($i=0;$i<5;$i++)
-									@if($i<$rCount)
-										<li><i class="icon-star-filled"></i></li>
-									@else
-										<li><i class="icon-star-1"></i></li>
-									@endif
-								@endfor
-							</ul>
-						</div>
-						<div class="absolute-top-right bg-primary">
-							<span href="#" class="like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-id="{{$location->id}}"><i class="icon-heart"></i></span>
-							<i class="icon-export"></i>
-						</div>
-					</div>
-				</a>
-				<p>{{String::tidy(Str::limit($location->description, 100))}}</p>
-				<div class="row box-product-comment">
-					<div class=" col-md-8 pull-left" style="">
-						<img  class="img-circle" src="@if($hasReview) {{asset($review->author->avatar)}} @else {{asset("assets/global/img/no-image.png")}} @endif"/>
-							@if($hasReview)
-							<a href="{{URL::to($review->author->url())}}">
-							{{$review->author->username}}
-							</a>
-								<p>Vừa đánh giá địa điểm</p>
-							@else
-								Chưa có bình luận nào.
-							@endif
-					</div>
-					<div class="col-md-4 " style="padding-top:11px">
-						@if($hasReview) {{date_format($review->created_at,"d-m-Y")}} <i class="icon-clock-6"></i> @endif
-					</div>
-				</div>
-
-				<div class="row box-product-like">
-					<div class="col-md-8 col-xs-8 col-sm-8 pull-left">
-						@if($location->userAction()->count())
-							@foreach($location->userAction()->get() as $userLiked)
-								<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
-							@endforeach
-						@endif
-						<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
-					</div >
-
-					<div class="col-md-4 col-xs-4 col-sm-4 ">
-						<i class="icon-comment-empty icon-comment">
-							<p class="quantity-comment">
-								@if($hasReview)
-									{{$reviews->count()}}
-								@else
-									0
-								@endif
-							</p>
-						</i>
-
-					</div>
-				</div>
-			</div>
-			@endforeach
-	</div>
-	@endforeach
-
 @stop
