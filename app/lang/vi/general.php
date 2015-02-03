@@ -2,8 +2,8 @@
 
 return array(
 
-	'yes' => 'Yes',
-	'no'  => 'No',
-    'must_login' => 'Must be logged in.'
+	'yes' => 'Có',
+	'no'  => 'Không',
+    'must_login' => 'Phải đăng nhập.'
 
 );

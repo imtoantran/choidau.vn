@@ -166,7 +166,8 @@ class LocationController extends BaseController {
         $location_nearly = $this->getClosePosition($location);
         $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
         $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
-        return View::make("site/location/view",compact("location","location_nearly","reviews","options"));
+        $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
+        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
