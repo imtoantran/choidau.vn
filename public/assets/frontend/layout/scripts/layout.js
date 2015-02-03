@@ -1018,7 +1018,7 @@ var Layout = function () {
 
             $.ajax({
                 type: "POST",
-                url: URL+"/post/like-post",
+                url: URL+"/post/action-click-post",
                 data: {
                     'id_user_like':id_user,
                     'id_post':id_post,
@@ -1054,7 +1054,7 @@ var Layout = function () {
 
             $.ajax({
                 type: "POST",
-                url: URL+"/post/like-post",
+                url: URL+"/post/action-click-post",
                 data: {
                     'id_user_like':id_user,
                     'id_post':id_post,
@@ -1075,6 +1075,41 @@ var Layout = function () {
         });
 
         /*----end dislike post-----------*/
+
+
+        /*----spam post-----------*/
+        $(".btn-post-spam").click(function(){
+
+            var element_parent=$(this).parents('.item-post-element-parent');
+            var element_data=element_parent.find('.input-data-value-post');
+            var id_post=element_data.attr('i_p');
+            var id_user=element_data.attr('i_u');
+            var type_action=$(this).attr('type_action');
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/post/action-click-post",
+                data: {
+                    'id_user_like':id_user,
+                    'id_post':id_post,
+                    'type_action':type_action
+                },
+                sync:false,
+                success: function(data_1){
+
+                    element_parent.find(".lab_num_dislike").html(data_1.number_like);
+                    if(data_1.is_like=='0'){
+                        element_parent.find(".lab_text_dislike").html('Báo cáo xấu ');
+                    }else{
+                        element_parent.find(".lab_text_dislike").html('Đã Báo cáo xấu ');
+
+                    }
+                },dataType:'JSON'
+            });
+        });
+
+        /*----end spam post-----------*/
+
 
 
 

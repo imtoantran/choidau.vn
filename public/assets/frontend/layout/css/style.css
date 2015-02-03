@@ -3525,7 +3525,7 @@ background: rgb(150, 189, 228);
 margin-bottom: -3px !important;
 color: white !important;
 text-transform: capitalize !important;
-text-align: center
+text-align: center;
 }
 .box-face-hot  >article {
 border: 2px solid rgb(84, 206, 234) !important;

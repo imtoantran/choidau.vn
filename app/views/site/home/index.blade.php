@@ -277,16 +277,17 @@
 
 @section('topb')
 	<section class="row margin-bottom-10">
-		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
+        <div class="col-md-9 col-none-padding" >
+		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
 			<header>
 				<h1>TOP REVIEW</h1>
 			</header>
 			<article>
 				<img src="{{URL::to($topReview->location->avatar)}}" height="100px" width="100px" />
-				<div class="col-none-padding">
+				<div class="col-none-padding lab-user-post">
 					<h1>{{$topReview->location->name}}</h1>
 					<h2>{{$topReview->author->username}}</h2><span>bình luận</span>
-					<time> cách đây 20 giờ</time>
+					<time> {{String::showTimeAgo($topReview->updated_at)}}</time>
 
 				</div>
 				<div class="clearfix"></div>
@@ -300,64 +301,52 @@
 			</article>
 
 		</section>
-		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
+		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
 			<header>
 				<h1>TOP ĐỊA ĐIỂM</h1>
 			</header>
 			<article>
 				<img src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px" />
-				<h1>{{$topLocation->name}}</h1>
-				@if($topLocation->hasReview())
-				<div class="col-none-padding">
+                <div class="col-none-padding lab-user-post">
+                    <h1>{{$topLocation->name}}</h1>
+                    <h2>{{$topLocation->author()->username}}</h2><span>Đã đăng </span>
+                    <time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
 
-
-						<h2>{{$topLocation->reviews()->first()->username}}</h2> <span>bình luận</span>
-						<time> cách đây 20 giờ</time>
-
-				</div>
-				<div class="clearfix"></div>
-				<header>
-					<h2> Món ăn ngon, phục vụ tốt !!!</h2>
+                </div>
+                <div class="clearfix"></div>
+                <header>
+                    <h2>  {{String::tidy($topLocation->name,200)}} </h2>
 								  <span>
+                                        {{String::tidy($topLocation->description,200)}}
 
 								  </span>
-					<p><a href="#">xem thêm</a></p>
-				</header>
-				@else
-					<div class="col-none-padding">
-						<time> cách đây 20 giờ</time>
-					</div>
-					<div class="clearfix"></div>
-					<header>
-						<h2> {{$topLocation->name}}</h2>
-								  <span>
-									{{String::tidy($topLocation->description)}}
-								  </span>
-						<p><a href="#">xem thêm</a></p>
-					</header>
-				@endif
+                    <p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+                </header>
+
+
 			</article>
 
 		</section>
 
-		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
+		<section class="col-md-4 col-xs-12 col-sm-6 box-post-hot">
 			<header>
-				<h1>TOP REVIEW</h1>
+				<h1>Admin Giới thiệu</h1>
 			</header>
 			<article>
-				<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />
-				<div class="col-none-padding">
-					<h1>Beer tô 08- Nguyễn Trãi, Q 10</h1>
-					<h2>meomatxi</h2><span>bình luận</span>
-					<time> cách đây 20 giờ</time>
+				<img src="{{$topBlog->thumbnail}}" height="100px" width="100px" />
+				<div class="col-none-padding lab-user-post">
+					<h1>{{String::tidy($topBlog->title,50)}}</h1>
+					<h2>{{$topBlog->author->username}}</h2><span>Đã đăng </span>
+					<time> {{String::showTimeAgo($topBlog->updated_at)}}</time>
 
 				</div>
 				<div class="clearfix"></div>
 				<header>
-					<h2> Món ăn ngon, phục vụ tốt !!!</h2>
+					<h2>    {{String::tidy($topBlog->title,200)}}</h2>
 								  <span>
-									Quán nằm ở vị trí đẹp , rất yên tĩnh, Phong cách phục vụ chuyên nghiệp với thực đơn phong phú, nhiều món ăn lại miệng.
-								  </span>
+                                        {{String::tidy($topBlog->content,200)}}
+
+                                  </span>
 					<p><a href="#">xem thêm</a></p>
 				</header>
 
@@ -365,14 +354,17 @@
 			</article>
 
 		</section>
+        <div class="col-md-12" style="border-bottom: 2px solid green;margin-top: 5px;"></div>
+
+        </div>
 		<section class="col-md-3 col-xs-12 col-sm-6  box-face-hot">
 			<header>
 				<h1>Choidau.net <i class="icon-facebook-squared"></i></h1>
 			</header>
-			<article class="col-md-12">
-				<div class="fb-like-box" data-href="https://www.facebook.com/FacebookDevelopers" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+			<article class="col-md-12 col-none-padding">
 
-			</article>
+                <div class="fb-like-box" data-href="https://www.facebook.com/suntorydesign" data-width="263" data-height="200" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+            </article>
 
 		</section>
 	</section>

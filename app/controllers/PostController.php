@@ -243,8 +243,10 @@ class PostController extends BaseController {
         echo $img->getMetaKey('url');
     }
 
-
-    public function likePost(){
+    /**
+     *
+     * chức năng like dislike spam**/
+    public function userActionClickPost(){
         $data=Input::all();
         $user=Auth::user();
         $date=date_create("now");

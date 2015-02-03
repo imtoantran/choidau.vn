@@ -306,14 +306,24 @@
                                 $lab_dislike='không Thích ';
 
                             }
+
+
+                            if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('37')->count()){
+
+                                $lab_spam='Đã báo cáo xấu';
+
+                            }else{
+                                $lab_spam='Báo cáo xấu ';
+
+                            }
                             ?>
 
                             <div class="col-md-12 review-action padding-left-0">
                                 <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
                                 <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
                                 <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="32"><i class="icon-block"></i>Báo tin xấu</a>
-                                <a class="btn-post-view_more" class="pull-right"><i>Xem thêm</i></a>
+                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_dislike">{{$lab_spam}}</span></a>
+                                <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
                             </div>
                             <!-- thao luan,like,dislike,report end-->
 

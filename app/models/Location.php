@@ -18,7 +18,15 @@ class Location extends Eloquent {
 	public function reviews(){
 		return $this->hasMany('Review','parent_id');
 	}
-	public function userAction(){
+
+    public function author(){
+
+        return     $user=User::find($this->user_id);
+      //  return $user;
+    }
+
+
+    public function userAction(){
 		return $this->belongsToMany("User");
 	}
 	public function category(){
@@ -40,7 +48,7 @@ class Location extends Eloquent {
 	}
 	/* imtoantran url start */
 	public function url(){
-		return (isset($this->province->name)?URL::to("dia-diem/".Str::Slug($this->province->name)."/$this->id-$this->slug"):"");
+		//return URL::to("dia-diem/".Str::Slug($this->province->name)."/$this->id-$this->slug");
 	}
 	public function rating(){
 		$ratings = $this->hasManyThrough("PostMeta","Review","parent_id","post_id")->whereMetaKey("review_rating");
