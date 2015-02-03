@@ -505,11 +505,12 @@ body.page-header-fixed {
 	list-style: none;
 }
 .header-navigation > ul > li {
-border-right: 1px solid;
-/* float: left; */
-display: inline-block;
-width: 14%;
-margin-left: -2px;
+	border-right: 1px solid rgba(0, 128 , 0, 0.3)!important;
+	border-right: 1px solid;
+	/* float: left; */
+	display: inline-block;
+	width: 14.4%;
+	margin-left: -5px;
 
 }
 
@@ -520,7 +521,7 @@ margin-left: -2px;
 
 .header-navigation > ul > li > a {
 display: block;
-padding: 2px 18px;
+padding: 5px 18px;
 text-transform: uppercase;
 font-weight: bold;
 text-align: center;

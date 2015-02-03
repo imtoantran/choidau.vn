@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="box-search">
 
-                        <div class="col-md-2 col-xs-12 col-sm-12" style="padding-bottom:5px">
+                        <div class="col-md-2 col-xs-12 col-sm-12">
                             <div class="form-group margin-bottom-0">
                                 <select class="form-control">
 
@@ -68,7 +68,7 @@
 
                     </div>
                     <div class=" col-md-3 margin-top-10 box-add-location" >
-                       <a href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>
+                       <a style="font-weight: bold;font-size: 0.9em;" href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>
                     </div>
 
                     <div class="col-md-3 margin-top-10 box-infor-user" >
@@ -78,22 +78,16 @@
                             @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                             @endif
-                            <a href="{{{ URL::to('thanh-vien') }}}">{{{ Auth::user()->username }}}</a>
-                            <a href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
+                            <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">{{{ Auth::user()->username }}}</a>
+                            <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
                             <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="dropdown-toggle icon-badge-number" >
                                 <i class="icon-bell"></i>
-                                        <span class="badge badge-default">
-                                            7 </span>
+                                <span class="badge badge-default"> 7 </span>
                             </a>
                         @else
                             <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Login</a>
                             <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
                         @endif
-
-
-
-
-
                     </div>
 
                 </div>
@@ -105,21 +99,21 @@
 
 </div>
 <div class="col-md-12 toolbar-top">
-    <div class="col-md-1 pull-left" style="margin-top:4px"><a href="#" class="mobi_search"><i class="icon-search-outline icon-circle-radius"></i></a></div>
-    <div class="col-md-2 pull-left" style="margin-top:6px"><a href="#"  ><i class="icon-images"><img width="36px" height="36px" src="{{asset("assets/frontend/layout/img/icons/location_add.png")}}"></i></a></div>
-    <div class="col-md-2 pull-right"><a href="#" class="mobi_menubar" ><i class="icon-menu icon-circle-radius"></i></a></div>
+    <div class="col-md-1 pull-left padding-left-0" style="margin-top:4px"><a href="#" class="mobi_search"><i class="icon-search-outline icon-circle-radius"></i></a></div>
+    <div class="col-md-2 pull-left padding-left-0" style="margin-top:6px"><a href="#"  ><i class="icon-images"><img width="36px" height="36px" src="{{asset("assets/frontend/layout/img/icons/location_add.png")}}"></i></a></div>
+    <div class="col-md-2 pull-right padding-right-0"><a href="#" class="mobi_menubar" ><i class="icon-menu icon-circle-radius"></i></a></div>
 </div>
 <div class="header-bottom">
     <div class="">
         <nav class="header-navigation font-transform-inherit">
             <ul>
-                <li><a href="#">ăn <i class="icon-food"></i></a></li>
-                <li><a href="#">uống <i class="icon-bar"></i></a></li>
-                <li><a href="#">đi <i class="icon-school"></i></a></li>
-                <li><a href="#">video <i class="icon-videocam-3"></i></a></li>
-                <li><a href="{{URL::to("blog.html")}}">blog <i class="icon-cloud-thunder"></i></a></li>
-                <li><a href="#">hỏi đáp<i class="icon-wechat"></i></a></li>
-                <li class="nav-li-last" style=""><a href="#">hổ trợ<i class="icon-lifebuoy"></i></a></li>
+                <li><a href="#"><span> ăn </span> <i class="icon-food"></i></a></li>
+                <li><a href="#"><span> uống </span> <i class="icon-bar"></i></a></li>
+                <li><a href="#"><span>đi </span> <i class="icon-school"></i></a></li>
+                <li><a href="#"><span>video </span> <i class="icon-videocam-3"></i></a></li>
+                <li><a href="{{URL::to("blog.html")}}"><span>blog </span> <i class="icon-cloud-thunder"></i></a></li>
+                <li><a href="#"><span>hỏi đáp</span> <i class="icon-wechat"></i></a></li>
+                <li class="nav-li-last" style=""><a href="#"><span>hổ trợ</span> <i class="icon-lifebuoy"></i></a></li>
             </ul>
         </nav>
     </div>
