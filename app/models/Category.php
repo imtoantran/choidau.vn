@@ -7,7 +7,10 @@ class Category extends Eloquent {
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
 	public function blogs(){
-		return $this->hasMany('Blog');
+		return $this->hasMany("Blog","parent_id");
+	}
+	public function allBlogs(){
+		return $this->hasManyThrough('Blog','Category','parent_id');
 	}
 	public function children(){
 		return$this->hasMany('Category','parent_id');
