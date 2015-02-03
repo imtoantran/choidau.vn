@@ -372,18 +372,9 @@
 	{{-- Content --}}
 @section('content')
 	@foreach($categories as $category)
-		<div class="margin-bottom-10">
-			<img src="">
-		</div>
-		<div class="margin-bottom-10">
-			<div class="row quote-v1">
-				<div class="col-md-9">
-					<span>{{$category->description}}</span>
-				</div>
-				<div class="col-md-3 text-right">
-				</div>
-			</div>
-		</div>
+		<p class="title">
+			<a href="#"><strong class="text-primary">{{$category->description}}?</strong></a>
+		</p>
 		<div class="col-md-12 margin-bottom-10 col-no-padding">
 			@foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)
 				<?php
