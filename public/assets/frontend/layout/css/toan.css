@@ -76,10 +76,10 @@
 	margin-bottom:0;
 }
 .review-action{
-	position:absolute;
+/* 	position:absolute; */
 	top:0;
 	right:0;
-	padding:4px;
+/* 	padding:4px; */
 }
 .location .show-more{
 	display:block;
@@ -161,3 +161,17 @@
 	border-bottom: 1px solid #0a7c05;
 	margin-bottom:10px;
 }
+.like-action.active i{
+	color: yellow !important;
+}
+.absolute-top-right i:hover {
+	color: yellow;
+}
+.absolute-top-right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px;
+	cursor: pointer;
+}
+.absolute-top-right *{color: #ccc;}
