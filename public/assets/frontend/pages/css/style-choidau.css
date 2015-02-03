@@ -58,23 +58,32 @@ Header and header elements
 
 /* Navigation */
 .choidau .header-navigation {
-	font: 19px "PT Sans Narrow", sans-serif;
+	/*font: 19px "PT Sans Narrow", sans-serif;*/
+	font-size: 1.3em;
+	font-weight: 600;
 	letter-spacing: 1px;
-	margin: 0;
+	margin: 10px 0px;
 	width: 100%;
 }
-.choidau .header-navigation > ul > li > a {
-	//color: #767f88;
-	//padding: 34px 12px 32px;
+.choidau .header-navigation > ul > li > a,
+.choidau .header-navigation > ul > li > a i{
+	color: #444;
 }
+.choidau .header-navigation ul > li > a:hover{ background-color: #eee;}
 .choidau .header-navigation ul > li.active > a,
+.choidau .header-navigation ul > li.active > a >i,
+.choidau .header-navigation > ul > li:hover a>i,
 .choidau .header-navigation ul > li > a:hover,
 .choidau .header-navigation ul > li > a:focus,
 .choidau .header-navigation ul > li.open > a,
 .choidau .header-navigation ul > li.open > a:hover,
 .choidau .header-navigation ul > li.open > a:focus {
-	color: #e02222;
+	color: green;
 }
+.choidau .header-navigation > ul > li.nav-li-last {
+	border-right: 0px!important;
+}
+
 .choidau .header-navigation .dropdown-menu > li > a:hover,
 .choidau .header-navigation .dropdown-menu > li.active > a,
 .choidau .header-navigation .header-navigation-content .header-navigation-col li > a:hover,
@@ -94,6 +103,7 @@ Header and header elements
 }
 .choidau .reduce-header .header-navigation > ul > li.dropdown:hover > a:after { 
   bottom: 0;
+	background-color: green;
 }
 
 /* nav brands */

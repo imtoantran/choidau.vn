@@ -52,7 +52,7 @@
                 <h2>COUNTER</h2>
                 <ul class="list-unstyled">
                     <li><i class="icon-location-outline"></i>&nbsp; {{number_format(Location::count(),0, ".",".")}} địa điểm</li>
-                    <li><i class="icon-users-2"></i>&nbsp; {{number_format(User::count(),0, ".",".")}} user</li>
+                    <li><i class="icon-group"></i>&nbsp; {{number_format(User::count(),0, ".",".")}} user</li>
                     <li><i class="icon-picture"></i>&nbsp; {{number_format(Post::count(),0, ".",".")}} hình ảnh</li>
                     <li><i class="icon-check"></i>&nbsp; {{number_format(DB::table("location_user")->whereActionType("checkin")->count(),0, ".",".")}} check in</li>
 
