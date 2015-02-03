@@ -441,11 +441,11 @@
 
 @section('style_plugin')
 
-<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css">
-<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css">
-<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css">
-<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/image-manager.min.css">
-<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/frontend/pages/css/location.css">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
 
 
 @stop
@@ -464,19 +464,19 @@
 
 @section('js_plugin')
 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
-<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
 
 <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
@@ -496,8 +496,8 @@
 
 
 @section('js_page')
-<script src="http://choidau.net/assets/admin/pages/scripts/form-fileupload.js"></script>
-<script src="http://choidau.net/assets/frontend/pages/scripts/location.js"></script>
+<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+<script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
 
 @stop
 @section("scripts")
