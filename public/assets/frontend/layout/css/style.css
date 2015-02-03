@@ -475,7 +475,7 @@ body.page-header-fixed {
   color: #D8D8D8;
   border: 1px solid #D8D8D8;
   border-radius: 100% !important;
-  width: 32px;
+	  width: 32px;
   height: 32px;
   display: none;
   margin: 25px 0 0 30px;
@@ -3261,16 +3261,16 @@ font-size: 23px;
 
 
 .pre-footer-col2 h2{color: #0c9506 !important;}
-.pre-footer-col2 ul li{border-bottom: 2px solid #d0d0d0!important; padding-bottom: 15px; padding-top: 5px;}
+.pre-footer-col2 ul li{border-bottom: 2px solid #d0d0d0!important; padding-bottom: 12px; padding-top: 5px;}
 .pre-footer-col2 ul a,.pre-footer-col2 ul i{color: #d0d0d0;}
 .pre-footer-col2 ul li:hover{border-bottom-color: #fff!important;}
 .pre-footer-col2 ul li:hover a{color: #fff; text-decoration: none;}
 .pre-footer-col2 ul li:hover i{color: #fff;}
 
 .pre-footer-col3 ul {padding-top: 10px;}
-.pre-footer-col3 ul li{padding-bottom: 20px;}
+.pre-footer-col3 ul li{padding-bottom: 15px;}
 
-.pre-footer-col4 ul li{ padding-bottom: 23px; padding-top: 5px;}
+.pre-footer-col4 ul li{ padding-bottom: 20px; padding-top: 5px;}
 .pre-footer-col4 ul a{color: #fff;}
 .pre-footer-col4 ul i{font-size: 1.2em;}
 
