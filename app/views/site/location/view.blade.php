@@ -14,6 +14,8 @@
 
 
 @section("topb")
+
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
@@ -205,7 +207,7 @@
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
+                    <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
                     <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
                     <li role="presentation" class=""><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
                     <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
@@ -215,7 +217,7 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">
+                    <div role="tabpanel" class="tab-pane active" id="review">
                         @foreach($reviews as $review)
                         <div class="reviews row">
                             <div class="media">
@@ -262,43 +264,25 @@
                                 </div>
                             </div>
                             <!-- hinh anh -->
+                            <?php $list_album=PostMeta::where('post_id','=',$review->id)->where('meta_key','=','review_image')->get();
+                           // print_r($list_album);
+                            ?>
+
+
                             <div class="">
+                                @foreach($list_album as $img)
+                                <?php $img=Post::find($img->meta_value);
+                                      $img_link=$img->getMetaKey('url');
+
+                                ?>
                                 <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                    <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}" class="fancybox-button">
+                                        <img alt="" src="{{$img_link}}" class="img-responsive">
                                         <div class="zoomix"><i class="fa fa-search"></i></div>
                                     </a>
                                 </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="fancybox-button">
-                                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
+                                @endforeach
+
                             </div>
                             <!-- hinh anh -->
                             <!-- thao luan,like,dislike,report -->
@@ -423,6 +407,17 @@
     <!-- bai viet noi bat end -->
 @stop
 
+@section('style_plugin')
+
+<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css">
+<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css">
+<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css">
+<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/global/plugins/jquery-file-upload/css/image-manager.min.css">
+<link media="all" type="text/css" rel="stylesheet" href="http://choidau.net/assets/frontend/pages/css/location.css">
+
+
+@stop
+
 
 @section("styles")
     <!-- imtoantran  -->
@@ -434,37 +429,67 @@
     <!-- imtoantran -->
 @stop
 
+
+@section('js_plugin')
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+<script src="http://choidau.net/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+
+<script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+
+<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
+<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
+
+
+<script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
+
+
+<script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
+<script src="https://apis.google.com/js/platform.js" async defer>
+    {lang: 'vi'}
+</script>
+@stop
+
+
+@section('js_page')
+<script src="http://choidau.net/assets/admin/pages/scripts/form-fileupload.js"></script>
+<script src="http://choidau.net/assets/frontend/pages/scripts/location.js"></script>
+
+@stop
 @section("scripts")
     <!-- imtoantran -->
-    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-    <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
 
     <!-- imtoantran -->
-    <script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
-    <script src="{{asset("assets/frontend/layout/scripts/back-to-top.js")}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
-    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
+
     <!-- END CORE PLUGINS -->
 
     <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
     <!-- imtoantran -->
-    <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
-    <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+
     <!-- imtoantran -->
     <!-- pop up -->
     <!-- END LayerSlider -->
 
-    <script src="{{asset("assets/frontend/layout/scripts/layout.js")}}" type="text/javascript"></script>
-    <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer>
-        {lang: 'vi'}
-    </script>
+
     <script>
         jQuery(document).ready(
             function(){
                 setTimeout(function(){
                     Layout.initSliderLocation();
                 },1000);
+
                 /* imtoantran do like */
                 $("#do-like").click(function(e){
                     var like_btn = $(this);
@@ -511,16 +536,27 @@
                         $("#reviewModal").modal("show");
                     });
                     $(".wysihtml5").wysihtml5();
+
                     $("#review-save").click(function(){
+
+                        var listAlbum=Location.getAlbum();
+                        $("#review_album").val(listAlbum);
+                        var listalbum='';
+
+                        listAlbum.forEach(function (item) {
+                           listalbum+=item['post_id']+",";
+                        })
+                        $("#list-album").val(listalbum);
                         var form = $("#review-form").serialize();
+
                         $.ajax({
                             url:"{{URL::to("location/review")}}",
                             type:"POST",
                             data:form,
-                            dataType:"JSON",
+
                             success:function(response){
                                 $("#review-form")[0].reset();
-                                location.reload();
+                                 location.reload();
                             },
                             complete:function(){
                                 $('.modal').modal("hide");
@@ -528,6 +564,14 @@
                         })
                 });
                 /* viet review end */
+
+
+             /**/
+
+
+
+
+
 
 
                 // load gmap
@@ -558,4 +602,5 @@
         );
     </script>
     @stop
+
     {{--imtoantran--}}

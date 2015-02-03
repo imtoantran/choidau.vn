@@ -893,7 +893,7 @@ var Layout = function () {
               //  alert('asdsad'+element_list_friend);
 
                    if(is_val!='1'){
-
+                       $('.person-friends-list').html('<i class="icon-spin4 animate-spin"></i> loading...');
                         $.ajax({
                             type: "POST",
                             url: URL+"/trang-ca-nhan/list-ban-be.html",
@@ -919,7 +919,7 @@ var Layout = function () {
 
                 var is_val= $(".blog-photo-list-content").attr('is_val');
                 if(is_val!='1'){
-
+                    $('.blog-photo-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
                     $.ajax({
                         type: "POST",
                         url: URL+"/trang-ca-nhan/list-hinh-anh.html",

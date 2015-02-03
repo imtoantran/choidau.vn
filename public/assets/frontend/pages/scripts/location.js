@@ -295,7 +295,7 @@ var Location = function () {
 							html += '<option value="'+value.id+'">'+value.name+'</option>';
 						}
 					});
-					province_tag.html(html);
+//					province_tag.html(html);
 
 					// load category
 					var htmlcat='';

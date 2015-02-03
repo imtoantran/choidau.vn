@@ -84,7 +84,7 @@ class MediaController extends BaseController {
             ));
         $js_page=$this->JScript(array('assets/admin/pages/scripts/form-fileupload.js'));
         $js_script='
-                FormFileUpload.init();
+
         ';
 
 

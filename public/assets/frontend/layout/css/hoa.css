@@ -115,7 +115,7 @@ section.person-content .person-text-assoc a{margin-right:20px; font-weight: 600;
 section.person-content .person-command{background-color: #ddd; padding:5px 8px;}
 section.person-content .person-command>div{font-weight: 600; font-size: 0.9em;}
 section.person-content .person-command img{width: 36px; height: 36px;}
-section.person-content .person-command .article-img-text div input{height: 32px; padding-left: 5px; border: 1px solid #ccc; margin-top: 2px; width: 94.666667%;}
+section.person-content .person-command .article-img-text div input{height: 32px; padding-left: 5px; border: 1px solid #ccc; margin-top: 2px;/*width: 94.6%;/* width: 94.666667%;*/}
 /*pesonal - content - wrapper*/
 
 

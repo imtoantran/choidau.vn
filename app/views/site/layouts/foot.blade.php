@@ -2,26 +2,10 @@
 @if (isset($js_variable))
 {{$js_variable}}
 @endif
-<script>
-    URL = '{{URL::to('/')}}';
-</script>
-
-<script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js')}}" type="text/javascript"></script>
 
 
 <script type="text/javascript">
-  //  $.ajaxSetup({
- //       data:{"_token":"{{Session::getToken()}}"}
- //   });
-    // Active menu
-    var URL_IMAGE_MANAGER = "/";
-    var URL_IMAGE_MANAGER_PLUGINS="assets/global/plugins/image-manager/";
-    var user_id = '2'; // USER ID = GET SESSION['user_id']
+    URL = '{{URL::to('/')}}';
 
 
 </script>
@@ -42,24 +26,45 @@
 @if (isset($js_global))
 {{$js_global}}
 @endif
+
+@section('js_global')
+@show
+
 <!-- END CORE GLOBAL -->
 
 
 
 
 <!-- START CORE PLUGINS -->
+<script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
-<script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js')}}" type="text/javascript"></script>
+
+
 @if (isset($js_plugin))
 {{$js_plugin}}
 @endif
+
+@section('js_plugin')
+@show
+
 <!-- END CORE PLUGINS -->
 
 
+
 <!-- START CORE PAGE -->
+<script src="{{asset('assets/frontend/layout/scripts/back-to-top.js')}}"></script>
 @if (isset($js_page))
 {{$js_page}}
 @endif
+
+@section("js_page")
+@show
 <!-- START CORE PAGE -->
 
 
@@ -85,11 +90,17 @@
             });
         });
 
-
+        Layout.init();
+        FormFileUpload.init();
         @if (isset($js_script))
                 {{$js_script}}
         @endif
-        Layout.init();
+
+        @section("js_script")
+        @show
+
+
+
     });
 </script>
 

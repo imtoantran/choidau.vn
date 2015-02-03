@@ -30,6 +30,9 @@
 @if (isset($style_global))
 {{$style_global}}
 @endif
+
+@section('style_global')
+@show
 <!-- Global styles END -->
 
 
@@ -38,6 +41,9 @@
 @if (isset($style_plugin))
 {{$style_plugin}}
 @endif
+
+@section('style_plugin')
+@show
 <!-- Page level plugin styles END -->
 
 
@@ -53,6 +59,9 @@
 @if (isset($style_page))
 {{$style_page}}
 @endif
+
+@section('style_page')
+@show
 <!-- Theme styles END -->
 
 

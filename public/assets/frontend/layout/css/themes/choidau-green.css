@@ -445,6 +445,7 @@ font-size: 29px;
 
 .header-middle-right .input-group-addon{
 padding: 0px;
+    cursor: pointer;
 }
 
 .header-middle-right  select.form-control{

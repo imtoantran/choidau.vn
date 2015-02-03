@@ -93,7 +93,7 @@ class UserController extends BaseController {
             if ($password != $passwordConfirmation) {
                 // Redirect to the new user page
                 $error = Lang::get('admin/users/messages.password_does_not_match');
-                return Redirect::to('user')
+                return Redirect::to('thanh-vien')
                     ->with('error', $error);
             } else {
                 $user->password = $password;
@@ -102,11 +102,11 @@ class UserController extends BaseController {
         }
 
         if ($this->userRepo->save($user)) {
-            return Redirect::to('user')
+            return Redirect::to('thanh-vien')
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
             $error = $user->errors()->all(':message');
-            return Redirect::to('user')
+            return Redirect::to('thanh-vien')
                 ->withInput(Input::except('password', 'password_confirmation'))
                 ->with('error', $error);
         }
@@ -160,7 +160,7 @@ class UserController extends BaseController {
 
 
            echo '<pre>';
-            print_r($data);
+         //   print_r($data);
            echo '</pre>';
     //    $this->user->username='vinhle';
     //    $this->user->email='ád';

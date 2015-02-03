@@ -52,6 +52,21 @@
 							<div class="col-sm-5">
 								<select name="location_province" id="location_province" class="form-control"  title="">
 									<option value="">-- Chọn Tỉnh/ Thành phố --</option>
+                                    @if (Cache::has('listProvince'))
+
+                                    <?php   $listProvince = Cache::get('listProvince');?>
+
+                                    @else
+                                    <?php $listProvince=Province::all();?>
+
+                                    <?php Cache::forever('listProvince', $listProvince);?>
+
+                                    @endif
+
+                                    @foreach($listProvince as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+
 								</select>
 							</div>
 							<div class="col-sm-4">

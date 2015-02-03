@@ -443,7 +443,7 @@
 														</div>
 														<div class="form-group">
 															<label>Giới thiệu</label>
-															<textarea class="form-control full-width wysihtml5" placeholder="hãy nhập đoạn giới thiệu ...." name="content-edit" id="content-edit-media" value="content" rows="3"></textarea>
+															<textarea class="form-control full-width " placeholder="hãy nhập đoạn giới thiệu ...." name="content-edit" id="content-edit-media" value="content" rows="3"></textarea>
 
 
 
