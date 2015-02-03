@@ -131,3 +131,22 @@ height:100% !important;
 .header-top-content ul >li> i{
     color: white;
 }
+
+.box-post-hot .lab-user-post{
+    float: left;
+    width: 60%;
+}
+
+#fb-root {
+    display: none;
+}
+
+/* To fill the container and nothing else */
+
+.fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] {
+    width: 100% !important;
+}
+
+._s0:only-child{
+    display: none !important;
+}

@@ -39,7 +39,8 @@ class HomeController extends BaseController {
 //		$locations = Location::with("category")->get();
 		$categories = Category::whereIn("slug",["an","uong","di"])->get();
 		/* top review start */
-		$topReview = Review::orderBy("created_at","desc")->first();
+        $topReview='';
+		$topReview = Review::where('status','=','2')->orderBy("created_at","desc")->first();
 		/* top review start */
 		/* top location start */
 		$topLocation = Location::orderBy("created_at","desc")->first();
