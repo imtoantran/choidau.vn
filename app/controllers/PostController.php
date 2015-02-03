@@ -244,4 +244,31 @@ class PostController extends BaseController {
     }
 
 
+    public function likePost(){
+        $data=Input::all();
+        $user=Auth::user();
+        $date=date_create("now");
+        $date=  date_format($date,"Y-m-d H:i:s");
+        $type_action=$data['type_action'];
+        $post_like=Post::where('id','=',$data['id_post'])->first();
+        $count = $post_like->userAction()->whereUser_id($user->id)->wherePost_user_type_id($type_action)->count();
+
+
+        $isLike=0;
+        if($count){
+            $post_like->userAction()->detach($user,['post_user_type_id'=>$type_action]);
+
+        }else{
+            $isLike=1;
+            $post_like->userAction()->attach($user,['post_user_type_id'=>$type_action,'created_at'=>$date]);
+        }
+
+        $number_like=$post_like->userAction()->wherePost_user_type_id($type_action)->count();
+        echo json_encode(array('is_like'=>$isLike,'number_like'=>$number_like));
+
+    }
+
+
+
+
 }

@@ -36,7 +36,7 @@
 
 
 <!-- START CORE PLUGINS -->
-<script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
@@ -72,6 +72,8 @@
 
 <!-- START CORE JS SCRIPT -->
 <script src="{{asset('assets/frontend/layout/scripts/layout.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+
 <script type="text/javascript">
     jQuery(document).ready(function() {
         $.ajaxSetup({
@@ -91,7 +93,11 @@
         });
 
         Layout.init();
-        FormFileUpload.init();
+        try {
+            FormFileUpload.init();
+        }
+        catch(err) {}
+
         @if (isset($js_script))
                 {{$js_script}}
         @endif

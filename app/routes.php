@@ -87,6 +87,8 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 
 /* imtoantran start */
  Route::group(array('prefix' => 'post'), function() {
+ /* action */
+ Route::post('like-post','PostController@likePost');
  /* video */
  Route::get('video/{slug}/edit', 'VideoController@getEdit');
  Route::post('video/{slug}/edit', 'VideoController@postEdit');
@@ -96,6 +98,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
  Route::post('image/{slug}/edit', 'ImageController@postEdit');
  Route::controller('image', 'ImageController');
  Route::controller('/', 'PostController');
+
 });
 
 #location start

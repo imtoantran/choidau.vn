@@ -215,11 +215,13 @@
                     <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
 
-                <!-- Tab panes -->
+                <!<!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @foreach($reviews as $review)
-                        <div class="reviews row">
+                        <div class="reviews row item-post-element-parent">
+
+                            <input type="hidden" i_p="{{$review->id}}" i_u="{{$review->user_id}}" class="input-data-value-post"/>
                             <div class="media">
                                 <a href="#" class="pull-left">
                                     <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt="" class="media-object">
@@ -286,12 +288,32 @@
                             </div>
                             <!-- hinh anh -->
                             <!-- thao luan,like,dislike,report -->
+                            <?php
+                            if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('31')->count()){
+
+                                $lab_like='Đã thích ';
+
+                            }else{
+                                $lab_like='Thích ';
+
+                            }
+
+                            if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('32')->count()){
+
+                                $lab_dislike='Đã không thích ';
+
+                            }else{
+                                $lab_dislike='không Thích ';
+
+                            }
+                            ?>
+
                             <div class="col-md-12 review-action padding-left-0">
-                                <a href="#"><i class="icon-edit"></i>Thảo luận</a>
-                                <a href="#"><i class="icon-thumbs-up"></i>Thích <span>0</span></a>
-                                <a href="#"><i class="icon-thumbs-down"></i> <span>0</span></a>
-                                <a href="#"><i class="icon-block"></i>Báo tin xấu</a>
-                                <a href="#" class="pull-right"><i>Xem thêm</i></a>
+                                <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
+                                <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
+                                <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
+                                <a class="btn-post-spam" type_action="32"><i class="icon-block"></i>Báo tin xấu</a>
+                                <a class="btn-post-view_more" class="pull-right"><i>Xem thêm</i></a>
                             </div>
                             <!-- thao luan,like,dislike,report end-->
 
@@ -566,8 +588,11 @@
                 /* viet review end */
 
 
-             /**/
+              /*------------like review-*/
 
+               $("")
+
+              /*------------end like review*/
 
 
 

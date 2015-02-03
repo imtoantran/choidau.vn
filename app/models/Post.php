@@ -161,7 +161,7 @@ class Post extends Eloquent
 	}
 
     public  function userAction(){
-		return $this->belongsToMany("User");
+		return $this->belongsToMany("User",'post_user','post_id','user_id');
     }
 
 	/**
@@ -171,4 +171,11 @@ class Post extends Eloquent
 		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
 	}
 	//imtoantran
+
+    public function countLike(){
+        return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','31')->count();
+    }
+    public function countDisLike(){
+        return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','32')->count();
+    }
 }

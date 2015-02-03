@@ -1006,6 +1006,81 @@ var Layout = function () {
 
     }
 
+    var handlePostAction=function(){
+        /*----like post-----------*/
+        $(".btn-post-like").click(function(){
+
+         var element_parent=$(this).parents('.item-post-element-parent');
+         var element_data=element_parent.find('.input-data-value-post');
+            var id_post=element_data.attr('i_p');
+            var id_user=element_data.attr('i_u');
+            var type_action=$(this).attr('type_action');
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/post/like-post",
+                data: {
+                    'id_user_like':id_user,
+                    'id_post':id_post,
+                    'type_action':type_action
+                },
+                sync:false,
+                success: function(data_1){
+
+                //    console.log(data_1);
+
+                      element_parent.find(".lab_num_like").html(data_1.number_like);
+                    if(data_1.is_like=='0'){
+                        element_parent.find(".lab_text_like").html('Thích ');
+                    }else{
+                        element_parent.find(".lab_text_like").html('Đã thích ');
+
+                    }
+                },dataType:'JSON'
+            });
+        });
+
+        /*----end like post-----------*/
+
+
+        /*----dislike post-----------*/
+        $(".btn-post-dislike").click(function(){
+
+            var element_parent=$(this).parents('.item-post-element-parent');
+            var element_data=element_parent.find('.input-data-value-post');
+            var id_post=element_data.attr('i_p');
+            var id_user=element_data.attr('i_u');
+            var type_action=$(this).attr('type_action');
+
+            $.ajax({
+                type: "POST",
+                url: URL+"/post/like-post",
+                data: {
+                    'id_user_like':id_user,
+                    'id_post':id_post,
+                    'type_action':type_action
+                },
+                sync:false,
+                success: function(data_1){
+
+                    element_parent.find(".lab_num_dislike").html(data_1.number_like);
+                    if(data_1.is_like=='0'){
+                        element_parent.find(".lab_text_dislike").html('Không Thích ');
+                    }else{
+                        element_parent.find(".lab_text_dislike").html('Đã không thích ');
+
+                    }
+                },dataType:'JSON'
+            });
+        });
+
+        /*----end dislike post-----------*/
+
+
+
+
+    }
+
     return {
         init: function () {
             // init core variables
@@ -1030,6 +1105,7 @@ var Layout = function () {
             handleMediaBrowser();
             handleComponentLayout();
             handleBlog();
+            handlePostAction();
         },
         btnSelection:function(){
             $(".select-button ul.dropdown-menu li ").click(function(){
