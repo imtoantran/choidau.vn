@@ -128,9 +128,6 @@ Route::controller('blog.html','BlogController');
  *  ------------------------------------------
  */
 
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
-Route::get('dang-ky-thanh-vien.html','UserController@getCreate');
 
 
 /** -------------------Site location: luuhoabk-------------**/
@@ -153,6 +150,8 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::post('dang-ky.html', 'UserController@postCreate');
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
+    Route::get('dang-xuat.html', 'UserController@getLogout');
+    Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
 

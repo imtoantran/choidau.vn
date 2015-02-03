@@ -63,7 +63,7 @@ class LocationController extends BaseController {
                 'assets/admin/pages/scripts/form-fileupload.js',
                 'assets/admin/pages/scripts/maps-google.js',
                 'assets/frontend/pages/scripts/location.js'));
-            $js_script='FormFileUpload.init();';
+            $js_script='';
 
             return View::make('site/location/create', compact('$address','style_plugin','style_page',
                     'js_plugin','js_script','js_page','js_global')
@@ -161,6 +161,7 @@ class LocationController extends BaseController {
     
     /* imtoantran save location start */
     public function getView($provinceSlug,$location_id,$locationSlug){
+
         $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
         $location_nearly = $this->getClosePosition($location);
         $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
@@ -248,18 +249,28 @@ class LocationController extends BaseController {
     public function postReview(){
         $user = Auth::user();
         $data = Input::all();
+
+
         $review = new Review();
         $review->title = $data['title'];
         $review->content = $data['content'];
         $review->user_id = $user->id;
         $review->parent_id = $data['id']; // review for this location
         $review->save();
+
         /* review meta star */
         $meta[] = new PostMeta("review_rating",$data["review_rating"]);
         $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
         $meta[] = new PostMeta("review_price",$data["review_price"]);
         $meta[] = new PostMeta("review_visit_again",$data["review_visit_again"]);
+        $list_album=explode(",",$data['list-album']);
+
+        for($i=0 ;$i<count($list_album)-1;$i++){
+            $meta[] =new PostMeta("review_image",$list_album[$i]);
+        }
+
         $review->meta()->saveMany($meta);
+
         /* review meta end */
 
     }

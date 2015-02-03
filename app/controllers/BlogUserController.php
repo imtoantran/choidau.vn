@@ -44,7 +44,7 @@ class BlogUserController extends BaseController {
 	public function getIndex($user_slug)
 	{
         $user_auth = Auth::user();
-        echo''.$user_slug;
+      //  echo''.$user_slug;
        // try{
         $user_blog =User::where('username','=',"$user_slug")->first();
       //  }catch (Exception $e){}
@@ -59,7 +59,7 @@ class BlogUserController extends BaseController {
         $this->blogUser=$user_blog;
         $date =new DateTime($user_blog->birthday);
         $date=date_format($date,'d/m/Y');
-        $tp=Province::where('id','=',$user_blog->province_id)->first()->name;
+        $tp=Province::getName($user_blog->province_id);//Province::find($user_blog->province_id)->name;
         $html_sus_friend='';
         try{
 

@@ -35,18 +35,30 @@
                         <div class="col-md-2 col-xs-12 col-sm-12" style="padding-bottom:5px">
                             <div class="form-group margin-bottom-0">
                                 <select class="form-control">
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
-                                    <option>Option 3</option>
-                                    <option>Option 4</option>
-                                    <option>Option 5</option>
+
+
+                                    @if (Cache::has('listProvince'))
+
+                                    <?php   $listProvince = Cache::get('listProvince');?>
+
+                                    @else
+                                    <?php $listProvince=Province::all();?>
+
+                                    <?php Cache::forever('listProvince', $listProvince);?>
+
+                                    @endif
+
+                                    @foreach($listProvince as $item)
+                                    <option>{{$item->name}}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-md-4  col-xs-12 col-sm-12" >
                             <div class="input-group">
-                                <input type="text" class="form-control" style="border:none;" id="exampleInputPassword1" placeholder="Password">
+                                <input type="text" class="form-control" style="border:none;" id="header-input-string-search" placeholder="Hãy nhập từ khoá bạn cần tìm ?">
 										<span class="input-group-addon">
 											<i class="icon-menu-1"></i>
 										</span>
@@ -56,7 +68,7 @@
 
                     </div>
                     <div class=" col-md-3 margin-top-10 box-add-location" >
-                        + <a href="{{URL::to("dia-diem/tao-dia-diem")}}">Thêm địa điểm</a><i class="icon-pinterest"></i>
+                       <a href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>
                     </div>
 
                     <div class="col-md-3 margin-top-10 box-infor-user" >
@@ -66,18 +78,19 @@
                             @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                             @endif
-                            <a href="{{{ URL::to('user') }}}">{{{ Auth::user()->username }}}</a>
-                            <a href="{{{ URL::to('user/logout') }}}">Đăng xuất</a>
+                            <a href="{{{ URL::to('thanh-vien') }}}">{{{ Auth::user()->username }}}</a>
+                            <a href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
+                            <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="dropdown-toggle icon-badge-number" >
+                                <i class="icon-bell"></i>
+                                        <span class="badge badge-default">
+                                            7 </span>
+                            </a>
                         @else
-                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('user/login') }}}">Login</a>
-                            <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('user/create') }}}">{{{ Lang::get('site.sign_up') }}}</a>
+                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Login</a>
+                            <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
                         @endif
 
-                        <a href="#" class="dropdown-toggle icon-badge-number" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <i class="icon-bell"></i>
-									<span class="badge badge-default">
-										7 </span>
-                        </a>
+
 
 
 

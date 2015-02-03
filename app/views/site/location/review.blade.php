@@ -68,9 +68,20 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn text-primary review-upload-image" type="button">Đăng hình <i class="icon-camera"></i></button>
+
+                            <div id="iM_user_slide1" type_insert="location_load_album" class=" col-md-4 insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+                                <div class="add-picture vertically-centered" style="">
+                                    <button id="btn-upgrade-imgs" type="button" class=" btn text-primary review-upload-image"> Đăng hình <i class="icon-camera"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="row location-album-wrapper">
+                            </div>
                         </div>
                     </div>
+
+                    <input type="hidden" id="list-album" name="list-album"/>
+
                 </form>
 			</div>
 			<div class="modal-footer">

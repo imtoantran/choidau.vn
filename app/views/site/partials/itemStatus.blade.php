@@ -57,7 +57,7 @@
         {{$postIn['comment']}}
         <div class="col-md-12 article-img-text col-none-padding">
             <div class="row margin-none">
-                <img class="col-md-1 col-ms-1 avatar-pad2"
+                <img class="col-md-1 col-ms-1 col-xs-1 avatar-pad2"
 
                      src=" {{ $userIn['avatar_auth']}}" alt="">
                 <input  class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" type="text"
