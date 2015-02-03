@@ -431,7 +431,7 @@
 			</div>
 			<div class="col-md-3 text-right">
 			</div>
-		</div>	
+		</div>
 	</div>
 	<div class="col-md-12 margin-bottom-10 col-no-padding">
 			@foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)
@@ -464,7 +464,7 @@
 							</ul>
 						</div>
 						<div class="absolute-top-right bg-primary">
-							<a href="#" class="like-action @if($location->isLiked(Auth::user()->id)) active @endif " data-id="{{$location->id}}"><i class="icon-heart"></i></a>
+							<span href="#" class="like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-id="{{$location->id}}"><i class="icon-heart"></i></span>
 							<i class="icon-export"></i>
 						</div>
 					</div>
