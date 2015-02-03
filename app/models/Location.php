@@ -46,6 +46,12 @@ class Location extends Eloquent {
 		$ratings = $this->hasManyThrough("PostMeta","Review","parent_id","post_id")->whereMetaKey("review_rating");
 		return $ratings->count()?ceil($ratings->sum("meta_value")/$ratings->count()):0;
 	}
+	public function isLiked($userId){
+		return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
+	}
 	/* imtoantran url end */
+	public function hasReview(){
+		return $this->reviews()->count();
+	}
 
 }

@@ -277,91 +277,104 @@
 
 @section('topb')
 	<section class="row margin-bottom-10">
-	<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
-		<header>
-			<h1>TOP REVIEW</h1>
-		</header>
-		<article>
-			<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />
-			<div class="col-none-padding">
-				<h1>Beer tô 08- Nguyễn Trãi, Q 10</h1>
-				<h2>meomatxi</h2><span>bình luận</span>
-				<time> cách đây 20 giờ</time>
-
-			</div>
-			<div class="clearfix"></div>
+		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
 			<header>
-				<h2> Món ăn ngon, phục vụ tốt !!!</h2>
-							  <span>
-								Quán nằm ở vị trí đẹp , rất yên tĩnh, Phong cách phục vụ chuyên nghiệp với thực đơn phong phú, nhiều món ăn lại miệng.
-							  </span>
-				<p><a href="#">xem thêm</a></p>
+				<h1>TOP REVIEW</h1>
 			</header>
+			<article>
+				<img src="{{URL::to($topReview->location->avatar)}}" height="100px" width="100px" />
+				<div class="col-none-padding">
+					<h1>{{$topReview->location->name}}</h1>
+					<h2>{{$topReview->author->username}}</h2><span>bình luận</span>
+					<time> cách đây 20 giờ</time>
 
+				</div>
+				<div class="clearfix"></div>
+				<header>
+					<h2> {{$topReview->title}}</h2>
+								  <span>
+									  {{String::tidy($topReview->content,200)}}
+								  </span>
+					<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+				</header>
+			</article>
 
-		</article>
-
-	</section>
-	<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
-		<header>
-			<h1>TOP REVIEW</h1>
-		</header>
-		<article>
-			<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />
-			<div class="col-none-padding">
-				<h1>Beer tô 08- Nguyễn Trãi, Q 10</h1>
-				<h2>meomatxi</h2><span>bình luận</span>
-				<time> cách đây 20 giờ</time>
-
-			</div>
-			<div class="clearfix"></div>
+		</section>
+		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
 			<header>
-				<h2> Món ăn ngon, phục vụ tốt !!!</h2>
-							  <span>
-								Quán nằm ở vị trí đẹp , rất yên tĩnh, Phong cách phục vụ chuyên nghiệp với thực đơn phong phú, nhiều món ăn lại miệng.
-							  </span>
-				<p><a href="#">xem thêm</a></p>
+				<h1>TOP ĐỊA ĐIỂM</h1>
 			</header>
+			<article>
+				<img src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px" />
+				<h1>{{$topLocation->name}}</h1>
+				@if($topLocation->hasReview())
+				<div class="col-none-padding">
 
 
-		</article>
+						<h2>{{$topLocation->reviews()->first()->username}}</h2> <span>bình luận</span>
+						<time> cách đây 20 giờ</time>
 
-	</section>
-	<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
-		<header>
-			<h1>TOP REVIEW</h1>
-		</header>
-		<article>
-			<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />
-			<div class="col-none-padding">
-				<h1>Beer tô 08- Nguyễn Trãi, Q 10</h1>
-				<h2>meomatxi</h2><span>bình luận</span>
-				<time> cách đây 20 giờ</time>
+				</div>
+				<div class="clearfix"></div>
+				<header>
+					<h2> Món ăn ngon, phục vụ tốt !!!</h2>
+								  <span>
 
-			</div>
-			<div class="clearfix"></div>
+								  </span>
+					<p><a href="#">xem thêm</a></p>
+				</header>
+				@else
+					<div class="col-none-padding">
+						<time> cách đây 20 giờ</time>
+					</div>
+					<div class="clearfix"></div>
+					<header>
+						<h2> {{$topLocation->name}}</h2>
+								  <span>
+									{{String::tidy($topLocation->description)}}
+								  </span>
+						<p><a href="#">xem thêm</a></p>
+					</header>
+				@endif
+			</article>
+
+		</section>
+
+		<section class="col-md-3 col-xs-12 col-sm-6 box-post-hot">
 			<header>
-				<h2> Món ăn ngon, phục vụ tốt !!!</h2>
-							  <span>
-								Quán nằm ở vị trí đẹp , rất yên tĩnh, Phong cách phục vụ chuyên nghiệp với thực đơn phong phú, nhiều món ăn lại miệng.
-							  </span>
-				<p><a href="#">xem thêm</a></p>
+				<h1>TOP REVIEW</h1>
 			</header>
+			<article>
+				<img src="img-data-demo/avatar-1.jpg" height="100px" width="100px" />
+				<div class="col-none-padding">
+					<h1>Beer tô 08- Nguyễn Trãi, Q 10</h1>
+					<h2>meomatxi</h2><span>bình luận</span>
+					<time> cách đây 20 giờ</time>
+
+				</div>
+				<div class="clearfix"></div>
+				<header>
+					<h2> Món ăn ngon, phục vụ tốt !!!</h2>
+								  <span>
+									Quán nằm ở vị trí đẹp , rất yên tĩnh, Phong cách phục vụ chuyên nghiệp với thực đơn phong phú, nhiều món ăn lại miệng.
+								  </span>
+					<p><a href="#">xem thêm</a></p>
+				</header>
 
 
-		</article>
+			</article>
 
-	</section>
-	<section class="col-md-3 col-xs-12 col-sm-6  box-face-hot">
-		<header>
-			<h1>Choidau.net <i class="icon-facebook-squared"></i></h1>
-		</header>
-		<article class="col-md-12">
-			<div class="fb-like-box" data-href="https://www.facebook.com/FacebookDevelopers" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+		</section>
+		<section class="col-md-3 col-xs-12 col-sm-6  box-face-hot">
+			<header>
+				<h1>Choidau.net <i class="icon-facebook-squared"></i></h1>
+			</header>
+			<article class="col-md-12">
+				<div class="fb-like-box" data-href="https://www.facebook.com/FacebookDevelopers" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
 
-		</article>
+			</article>
 
-	</section>
+		</section>
 	</section>
 @stop
 
@@ -374,6 +387,29 @@
 		jQuery(document).ready(function() {
 			RevosliderInit.initRevoSlider();
 		});
+
+		/* imtoatran like button start */
+		$(".like-action").click(function(e){
+			var el = $(this);
+			el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
+			$.ajax({
+				url:URL + "/location/like",
+				data:{id:$(this).attr("data-id")},
+				dataType:"json",
+				type:"post",
+				success:function(response){
+					if(response.success){
+						el.toggleClass("active");
+					}
+				},
+				complete:function(){
+					el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
+				}
+			});
+			e.preventDefault();
+		});
+		/* imtoatran like button end */
+
 	</script>
 	<!-- END RevolutionSlider -->
 @stop
@@ -427,8 +463,8 @@
 								@endfor
 							</ul>
 						</div>
-						<div class="review-action bg-primary">
-							<a href="#" class="like-action" data-id="{{$location->id}}"><i class="icon-heart"></i></a>
+						<div class="absolute-top-right bg-primary">
+							<a href="#" class="like-action @if($location->isLiked(Auth::user()->id)) active @endif " data-id="{{$location->id}}"><i class="icon-heart"></i></a>
 							<i class="icon-export"></i>
 						</div>
 					</div>
