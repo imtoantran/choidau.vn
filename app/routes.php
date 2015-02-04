@@ -217,3 +217,7 @@ Route::get('language/{lang}',
         'uses' => 'LanguageController@select'
     )
 );
+
+/* imtoantran start */
+Route::get("{provinceSlug}/{slug}","LocationController@getView");
+/* imtoantran end */

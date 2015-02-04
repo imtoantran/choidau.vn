@@ -166,15 +166,26 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     
     /* imtoantran save location start */
-    public function getView($provinceSlug,$location_id,$locationSlug){
-        $js_plugin = $this->js_plugin;
-        $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
-        $location_nearly = $this->getClosePosition($location);
-        $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
-        $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
-        $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
-            'js_plugin'));
+    public function getView($provinceSlug,$slug){
+        
+        if(Category::whereSlug($slug)->count()) {
+            if (Category::whereSlug($slug)->first()->parent->slug == "danh-muc-dia-diem") {
+                $category = Category::whereSlug($slug)->first();
+                $categoryTitle = $category->description;
+                $locations = $category->location()->paginate(9);
+                return View::make("site.location.index", compact("locations","categoryTitle"));
+            }
+        }
+        if(Location::whereSlug($slug)->count()){
+            $js_plugin = $this->js_plugin;
+            $location = Location::whereSlug($slug)->first();
+            $location_nearly = $this->getClosePosition($location);
+            $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
+            $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
+            $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
+            return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
+                'js_plugin'));
+        }
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
