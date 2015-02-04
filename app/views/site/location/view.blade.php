@@ -387,12 +387,12 @@
                             @if($key < 6)
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                                 <div class="location-info">
-                                    <a href="{{asset('dia-diem/'.Str::slug($val->province->name).'/'.$val->id.'-'.$val->slug)}}">
+                                    <a href="{{$val->url()}}">
                                         <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
                                         <section class="location-description">
                                         <strong>{{$val->name}}</strong>
                                             <p>
-                                                <small>{{$val->address_detail}}, {{$val->province->name}}, {{$val->district->type.' '.$val->district->name}}.</small>
+                                                <small>{{$val->address()}}</small>
                                             </p>
                                         </section>
                                     </a>

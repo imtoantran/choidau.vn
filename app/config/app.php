@@ -119,6 +119,7 @@ return array(
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
+		'Barryvdh\Debugbar\ServiceProvider',
 
     ),
 

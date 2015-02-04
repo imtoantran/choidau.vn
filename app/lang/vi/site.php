@@ -15,5 +15,6 @@ return array(
 
 	'contact_us' => 'Liên hệ',
         'sign_up' => 'Đăng ký',
+        'login' => 'Đăng nhập',
 
 );

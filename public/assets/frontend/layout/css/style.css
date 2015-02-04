@@ -3318,7 +3318,8 @@ border-bottom: 1px solid;
  }
  
  .box-product-comment img{
- width: 25%;
+ width: 30px;
+ height: 30px;
  float:left;
  margin-right: 5px;
  }
@@ -3337,7 +3338,8 @@ margin-left: -13px;
  margin: 0px;
  }
   .box-product-like img{
-width: 15%;
+width: 30px;
+		height: 30px;
  float:left;
  margin-right: 5px;
   }
