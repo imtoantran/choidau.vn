@@ -1134,7 +1134,9 @@ var Layout = function () {
              handleMobiToggler();
              handlePortletTools();
              */
-
+            $( ".tooltips" ).tooltip({
+                disabled: true
+            });
             handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();

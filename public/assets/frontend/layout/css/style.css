@@ -914,7 +914,7 @@ Sidebar
 	color: #E02222;
 }
 .sidebar .dropup.open > .dropdown-toggle, .dropdown.open > .dropdown-toggle {
-    border-color: none !important;
+    border-color: transparent !important;
 }
 
 .sidebar .dropdown-menu {
@@ -3725,3 +3725,9 @@ background-color: #f9f9f9;
 	background-color: #0a7a05;
 	border-color: #fff; color: #fff;}
 #topcontrol:hover i{color: #fff;}
+
+
+/*luuhoabk */
+.img-border-grey{border: 1px solid #e1e1e1;}
+.padding-3{padding: 3px;}
+.padding-5{padding: 5px;}
