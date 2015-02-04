@@ -4,8 +4,8 @@
     <!-- banner -->
     <div class="row margin-top-10 margin-bottom-10">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="banner-top">
-                <img src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive" alt="Image">
+            <div class="banner-top text-center">
+                <img width="100%" src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive" alt="Image">
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
 @section("topb")
 
 
-    <div class="row">
+    <div class="row margin-bottom-10">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
 
@@ -41,13 +41,14 @@
                 </header>
 
                 <!-- Slides Container -->
-                <section u="slides" class="slider-location" style="cursor: move; position: absolute; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
                     @foreach($location->album()->get() as $image)
-                    <div>
-                        <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
-                        <img u="thumb" src="{{asset($image->thumbnail())}}" />
-                    </div>
-                        @endforeach
+                        <div>
+                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
+                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
+                        </div>
+                    @endforeach
                 </section>
 
                 <!-- Arrow Navigator Skin Begin -->
@@ -89,7 +90,7 @@
             </div>
 
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-top-15">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
             <div class="location-information">
                 {{--//luuhoabk dia diem --}}
                 <div>
@@ -167,29 +168,29 @@
 
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
-                        Location activities
+                        <div class="location-activitie-title">LOCATION ACTIVITIES</div>
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
+                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-location icon-border-square" style="cursor:pointer;" id="do-checkin"></span>
+                            <span class="icon-universal-access icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
                             <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <span class="icon-star icon-border-square"></span>
+                            <span class="icon-location-1 icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square"></i>
+                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
                             <p>15</p>
                         </div>
 
 
                     </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
-                            <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 portlet-body padding-5">
+                            <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 col-no-padding margin-none gmaps-location">
                             </div>
                         </div>
                 </div>
@@ -358,10 +359,10 @@
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
             </div>
             <!-- right end -->
@@ -413,7 +414,7 @@
     <div class="row">
     @if($blogs->count())
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2>Bài viết nổi bật</h2>   
+            <h2 class="margin-bottom-0 margin-top-10 text-primary"><i class="icon-tag"></i> Bài viết nổi bật</h2>
         </div>
         @foreach($blogs as $blog)
                 <div class="col-xs-12 col-sm-6 col-lg-3 gallery-item">

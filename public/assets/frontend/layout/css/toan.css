@@ -146,7 +146,8 @@
 	/*background: transparent !important;*/
 }
 .location-information{
-
+	padding: 10px;
+	border: 1px solid #e5e5e5;
 }
 .location-information .title .text-primary{
 	font-weight: bold;
@@ -156,11 +157,14 @@
 	background: #0a7c05;
 	line-height: 21px;
 	color: #fff;
+	margin-right: 5px;
 }
 .location-information>div{
 	border-bottom: 1px solid #0a7c05;
-	margin-bottom:10px;
+	margin-bottom: 10px;
 }
+.location-information>div:last-child{border-bottom: 0px;	margin-bottom: 0px;}
+
 .like-action.active i{
 	color: yellow !important;
 }
@@ -175,3 +179,11 @@
 	cursor: pointer;
 }
 .absolute-top-right *{color: #ccc;}
+.location-activitie .location-activitie-title{padding: 15px 5px 23px 5px; font-size: 0.9em;}
+#do-like:hover, #do-checkin:hover{
+	background-color: #fff;
+	color: green;
+}
+.slider1_container{
+	/*position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;*/
+}
