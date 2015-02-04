@@ -713,5 +713,8 @@ var Location = function () {
     };
 }();
 
+jQuery(document).ready(function(){
+
+});
 
 

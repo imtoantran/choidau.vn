@@ -129,46 +129,57 @@ class User extends Eloquent implements ConfideUserInterface {
      //       ->orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
      // return $this->belongsToMany('User','friends','user_id','friend_id');
 
+ //  return $this->belongsToMany('User','friends')->orWherePivot('user_id','=',$this->id)
+           //                                     ->orWherePivot('friend_id','=',$this->id);
 
     }
+
+    public function friends_(){
+      //    $list= $this->belongsToMany('User','friends')->orWherePivot('user_id','=',$this->id)
+       //                                      ->orWherePivot('friend_id','=',$this->id)->get();
+
+        $list=Friend::orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id)->get();
+          $key=array();
+          $value=array();
+
+          foreach($list as $item){
+              if($item->user_id!=$this->id){
+                  $key[]=$item->user_id;
+              }
+              if($item->friend_id!=$this->id){
+                  $value[]=$item->friend_id;
+              }
+          }
+
+        $array_list=array_merge($key,$value);
+        $list_friend=array();
+        foreach($array_list as $item){
+            $user_item=User::where('id','=',$item)->first();
+            $list_friend[]=$user_item;
+        }
+        return $array_list;
+    }
+
+
 
 
 
     public function friend_common($user_friend){
-    /*    echo '<pre>';
-        print_r( $list_friend_this=$this->friends()->get());
-        echo '</pre> ----------------------------------------';
-  */
-      //  $list_friend_auth=$user_friend->friends()->get();
+        $list_friend_auth=$user_friend->friends_();
+        $list_friend_this=$this->friends_();
 
-
-        $list_friend_auth=$user_friend->friends()->get();
-        $list_friend_this=$this->friends()->get();
-
-
-        echo '<pre>';
-       // print_r( $list_friend_this);
-        echo '</pre>';
-
-        $list_friend_common=array();
-
+        print_r($list_friend_auth);
         foreach($list_friend_this as $item){
-
-
                 foreach($list_friend_auth as $item1){
-                    if($item->id==$item1->id){
-                        $list_friend_common=array($item);
+                    if($item1->id==$item->id){
+                        $list_friend_common[]=$item;
                     }
                 }
-
-
         }
-
-      // return count(array_intersect($list_friend_auth, $list_friend_this));
-//
     return $list_friend_common;
-
     }
+
+
 
     public function postAction() {
         return $this->belongsToMany('Post');

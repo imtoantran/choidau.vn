@@ -11,69 +11,65 @@ class LocationController extends BaseController {
     public function __construct(Location $location) {
         parent::__construct();
         $this->location = $location;
-        $this->style_plugin = $this->Style(array(
-            'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
-            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
-            'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
-            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css',
-            'assets/global/plugins/uniform/css/uniform.default.css',
-            'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
-        ));
-        $this->style_page = $this->Style(array(
-            'assets/frontend/pages/css/location.css',
-            'assets/global/css/plugins.css',
-            'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
-
-        ));
-
-        /*thêm javascript*/
-        $this->js_global = $this->JScript(array(
-            'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
-            'assets/admin/pages/scripts/maps-google.js',
-        ));
-        $this->js_plugin = $this->JScript(array(
-            'assets/global/plugins/bootbox/bootbox.min.js',
-            'assets/global/plugins/gmaps/gmaps.min.js',
-            'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
-            'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
-            'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
-            'assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js',
-            'assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js',
-            'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js',
-
-            'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
-            'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
-            'assets/global/plugins/uniform/jquery.uniform.min.js',
-            'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'
-        ));
-        $this->js_page = $this->JScript(array(
-            'assets/admin/pages/scripts/form-fileupload.js',
-            'assets/admin/pages/scripts/maps-google.js',
-            'assets/frontend/pages/scripts/location.js'));
-        $this->js_script='';
     }
 
     public function getCreate() {
         if(!Auth::user()){
             return Redirect::to('/');
         }
-        $style_plugin = $this->style_plugin;
-        $style_page = $this->style_page;
-        $js_plugin = $this->js_plugin;
-        $js_script = $this->js_script;
-        $js_page = $this->js_page;
-        $js_global = $this->js_global;
+            $style_plugin=$this->Style(array(
+                'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
+                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
+                'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
+                'assets/global/plugins/jquery-file-upload/css/image-manager.min.css',
+                'assets/global/plugins/uniform/css/uniform.default.css',
+                'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
+            ));
+            $style_page=$this->Style(array(
+                'assets/frontend/pages/css/location.css',
+                'assets/global/css/plugins.css',
+                'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
 
-        return View::make('site/location/create', compact('$address','style_plugin','style_page',
-                'js_plugin','js_script','js_page','js_global')
-        );
+            ));
+
+            /*thêm javascript*/
+            $js_global = $this->JScript(array(
+                'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
+                'assets/admin/pages/scripts/maps-google.js',
+            ));
+            $js_plugin = $this->JScript(array(
+                'assets/global/plugins/bootbox/bootbox.min.js',
+                'assets/global/plugins/gmaps/gmaps.min.js',
+                'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
+                'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
+                'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
+                'assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js',
+                'assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js',
+                'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js',
+
+                'assets/global/plugins/jquery-validation/js/jquery.validate.min.js',
+                'assets/global/plugins/jquery-validation/js/localization/messages_vi.min.js',
+                'assets/global/plugins/uniform/jquery.uniform.min.js',
+                'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'
+            ));
+            $js_page = $this->JScript(array(
+                'assets/admin/pages/scripts/form-fileupload.js',
+                'assets/admin/pages/scripts/maps-google.js',
+                'assets/frontend/pages/scripts/location.js'));
+            $js_script='
+
+            ';
+
+            return View::make('site/location/create', compact('$address','style_plugin','style_page',
+                    'js_plugin','js_script','js_page','js_global')
+            );
 
     }
 
@@ -167,14 +163,15 @@ class LocationController extends BaseController {
     
     /* imtoantran save location start */
     public function getView($provinceSlug,$location_id,$locationSlug){
-        $js_plugin = $this->js_plugin;
+
         $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
         $location_nearly = $this->getClosePosition($location);
         $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
         $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
-        $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
-            'js_plugin'));
+      //  $listMember=Location::find($location_id)->members()->get();
+     //   $html_listMember=$this->loadMember($location_id);
+        $html_listMember='';
+        return View::make("site/location/view",compact("location","location_nearly","reviews","options","html_listMember"));
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
@@ -283,4 +280,114 @@ class LocationController extends BaseController {
 
     }
     /* imtoantran save location end */
+
+    /*-------load  member*/
+    public function loadMember(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+       // $list= $user->friends_();
+      //  echo'<pre>';
+      //  print_r($list);
+      //  echo'</pre>';
+
+        $listMember=Location::find($location_id)->members()->get();
+
+        foreach($listMember as $member){
+         //   $item_friend=$user->friend_common($member);
+            $ban_chung=2;// count($item_friend);
+            $html.=' <article class="person-friends-item col-md-4 col-sm-6 col-xs-12"> <div class="media"> <a href="#" class="pull-left">';
+            $html.='<img src="'.$member->avatar.'" alt="" class="media-object"> </a>';
+            $html.='<div class="media-body"><header>';
+            $html.='<a class="media-heading text-1em2">'.$member->username.'</a></header><p>'. $ban_chung.' bạn chung</p></div></div></article>';
+
+        }
+        echo $html;
+    }
+    /*------------end*/
+
+    /*-------load  member*/
+    public function loadEvent(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+        $location=Location::find($location_id);
+        $listEvent=$location->events()->get();
+
+        foreach($listEvent as $event){
+         $html.=$this->loadEventItem($event);
+        }
+        echo $html;
+    }
+    public function loadEventItem($event){
+            $user_author=$event->author;
+            return View::make('site.location.item_event',compact('event','user_author'));
+    }
+
+    /*------------end*/
+
+
+    /*---------load photo*/
+    public function loadPhoto1(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+        $location=Location::find($location_id);
+        $listPhoto=$location->photos()->get();
+
+        foreach($listPhoto as $photo){
+            $html.=$this->loadEventItem($photo);
+        }
+        echo $html;
+    }
+
+    public function  loadPhoto(){
+
+        $data=Input::all();
+      //  $user_blog=User::where('id','=',$data['id_user_blog'])->first();
+        $location=Location::find('id','=',$data['location_id']);
+
+        //$list_photo=Post::where('user_id','=',$user_blog->id)->where('post_type','=','image')->get();
+        $list_photo=$location->photos()->get();
+
+
+
+        $html_photo='';
+
+        foreach($list_photo as $item){
+            $category='';
+            $url='';
+
+            $url=$item->getMetaKey('url');
+
+            $category='category_'.$item->getMetaKey('type_use');
+
+
+
+            $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
+
+            $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
+            $html_photo.='<div class="mix-details choidau-bg-light-a9">';
+            $html_photo.='<h4 class="choidau-font-fff"></h4>';
+            $html_photo.='<p></p>';
+            $html_photo.='<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
+            $html_photo.='<a data-rel="fancybox-button" title="Project Name" href="'.$url.'" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
+            $html_photo.=' </div> </div></div>';
+
+            $a=4;
+        }
+
+        $arrReturn['html']=$html_photo;
+        // $arrReturn['total']=count($list_id_friend);
+
+        echo  json_encode($arrReturn);
+
+    }
+
+
+
+    /*---------end load photo*/
 }
