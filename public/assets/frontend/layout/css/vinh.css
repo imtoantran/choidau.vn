@@ -147,7 +147,6 @@ height:100% !important;
     width: 100% !important;
 }
 
-.item-post-element-parent .gallery-item img{
-    height: 110px;
-    width: 110px;
+._s0:only-child{
+    display: none !important;
 }
