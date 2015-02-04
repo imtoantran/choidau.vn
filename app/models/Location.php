@@ -24,8 +24,6 @@ class Location extends Eloquent {
         return     $user=User::find($this->user_id);
       //  return $user;
     }
-
-
     public function userAction(){
 		return $this->belongsToMany("User");
 	}
@@ -61,5 +59,18 @@ class Location extends Eloquent {
 	public function hasReview(){
 		return $this->reviews()->count();
 	}
+    public function members(){
+        return $this->belongsToMany('User','location_user')->wherePivot('action_type','=','checkin');
+    }
+    public function events(){
+        return $this->belongsToMany('EventLocation','location_post','location_id','post_id');
+    }
+
+    public function photos(){
+        return $this->belongsToMany('Image','location_post','location_id','post_id')->wherePivot('location_post_type_id','=','39');
+    }
+
+
+
 
 }
