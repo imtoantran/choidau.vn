@@ -85,7 +85,7 @@
                                 <span class="badge badge-default"> 7 </span>
                             </a>
                         @else
-                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Login</a>
+                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
                             <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
                         @endif
                     </div>

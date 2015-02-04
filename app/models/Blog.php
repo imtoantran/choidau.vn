@@ -21,7 +21,7 @@ class Blog extends Post {
 	}
 
 	public function url(){
-		return Url::to("bai-viet/".$this->slug.".html");
+		return Url::to("blog/".$this->slug.".html");
 	}
 
 	public function category(){

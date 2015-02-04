@@ -294,7 +294,7 @@
 					<header>
 						<h2> {{$topReview->title}}</h2>
 								  <span>
-									  {{String::tidy(Str::limit($topReview->content,100))}}
+									  {{String::tidy(Str::limit($topReview->content,50))}}
 								  </span>
 						<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
 					</header>
@@ -309,7 +309,7 @@
 					<img src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px" />
 					<div class="col-none-padding lab-user-post">
 						<h1>{{$topLocation->name}}</h1>
-						<h2>{{$topLocation->author()->username}}</h2><span>Đã đăng </span>
+						<h2> @if($topLocation->author){{$topLocation->author->username}}@endif </h2><span>Đã đăng </span>
 						<time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
 
 					</div>
@@ -343,7 +343,7 @@
 					<header>
 						<h2>    {{String::tidy($topBlog->title,200)}}</h2>
 								  <span>
-                                        {{String::tidy($topBlog->content,200)}}
+                                        {{String::tidy(Str::limit($topBlog->content,100))}}
 
                                   </span>
 						<p><a href="#">xem thêm</a></p>
@@ -413,43 +413,52 @@
 					</a>
 					<p>{{String::tidy(Str::limit($location->description, 100))}}</p>
 					<div class="row box-product-comment">
-						<div class=" col-md-8 pull-left" style="">
-							<img  class="img-circle" src="@if($hasReview) {{asset($review->author->avatar)}} @else {{asset("assets/global/img/no-image.png")}} @endif"/>
-							@if($hasReview)
-								<a href="{{URL::to($review->author->url())}}">
-									{{$review->author->username}}
-								</a>
-								<p>Vừa đánh giá địa điểm</p>
-							@else
-								Chưa có bình luận nào.
-							@endif
+						<div class="col-md-8">
+							<div class="row">
+								<img  class="img-circle" src="@if($hasReview) {{asset($review->author->avatar)}} @else {{asset("assets/global/img/no-image.png")}} @endif"/>
+								@if($hasReview)
+									<a href="{{URL::to($review->author->url())}}">
+										{{$review->author->username}}
+									</a>
+									<p>Vừa đánh giá địa điểm</p>
+								@else
+									Chưa có bình luận nào.
+								@endif
+
+							</div>
 						</div>
-						<div class="col-md-4 " style="padding-top:11px">
-							@if($hasReview) {{date_format($review->created_at,"d-m-Y")}} <i class="icon-clock-6"></i> @endif
+						<div class="col-md-4 ">
+							<div class="row">
+								@if($hasReview) <span>{{date_format($review->created_at,"d-m-Y")}}</span> <i class="icon-clock-6"></i> @endif
+							</div>
 						</div>
 					</div>
 
 					<div class="row box-product-like">
-						<div class="col-md-8 col-xs-8 col-sm-8 pull-left">
-							@if($location->userAction()->count())
-								@foreach($location->userAction()->get() as $userLiked)
-									<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
-								@endforeach
-							@endif
-							<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
+						<div class="col-md-10 col-xs-10 col-sm-10">
+							<div class="row">
+								@if($location->whoLiked()->count())
+									@foreach($location->whoLiked()->get() as $userLiked)
+										<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
+									@endforeach
+								@endif
+								<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
+
+							</div>
 						</div >
 
-						<div class="col-md-4 col-xs-4 col-sm-4 ">
-							<i class="icon-comment-empty icon-comment">
-								<p class="quantity-comment">
-									@if($hasReview)
-										{{$reviews->count()}}
-									@else
-										0
-									@endif
-								</p>
-							</i>
-
+						<div class="col-md-2 col-xs-2 col-sm-2 ">
+							<div class="row">
+								<i class="icon-comment-empty icon-comment">
+									<p class="quantity-comment">
+										@if($hasReview)
+											{{$reviews->count()}}
+										@else
+											0
+										@endif
+									</p>
+								</i>
+							</div>
 						</div>
 					</div>
 				</div>

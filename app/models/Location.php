@@ -20,8 +20,7 @@ class Location extends Eloquent {
 	}
 
     public function author(){
-
-        return     $user=User::find($this->user_id);
+        return $this->belongsTo("User");
       //  return $user;
     }
 
@@ -57,6 +56,17 @@ class Location extends Eloquent {
 	public function isLiked($userId){
 		return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
 	}
+	public function whoLiked(){
+		return $this->userAction()->whereActionType("like");
+	}
+	public function address(){
+		$address = isset($this->address_detail)?$this->address_detail:"";
+		$address .= isset($this->province->name )?$this->province->name :"";
+		$address .= isset($this->district->type )?$this->district->type :"";
+		$address .= isset($this->district->name )?$this->district->name :"";
+		return $address;
+	}
+
 	/* imtoantran url end */
 	public function hasReview(){
 		return $this->reviews()->count();
