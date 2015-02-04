@@ -57,7 +57,7 @@ return array(
 //			'password'  => 'MeHxCmaRfExKVqfZ',
 //
 			'host'      => 'localhost',
-			'database'  => 'db_choidau',
+			'database'  => 'choi_dau_02',
 			'username'  => 'choidau',
 			'password'  => 'suntory',
 		

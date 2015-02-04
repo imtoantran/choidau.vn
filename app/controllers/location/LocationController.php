@@ -11,7 +11,13 @@ class LocationController extends BaseController {
     public function __construct(Location $location) {
         parent::__construct();
         $this->location = $location;
-        $this->style_plugin = $this->Style(array(
+    }
+
+    public function getCreate() {
+        if(!Auth::user()){
+            return Redirect::to('/');
+        }
+        $style_plugin = $this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
@@ -19,7 +25,7 @@ class LocationController extends BaseController {
             'assets/global/plugins/uniform/css/uniform.default.css',
             'assets/global/plugins/jquery-file-upload/css/image-manager.min.css'
         ));
-        $this->style_page = $this->Style(array(
+        $style_page = $this->Style(array(
             'assets/frontend/pages/css/location.css',
             'assets/global/css/plugins.css',
             'assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'
@@ -27,11 +33,11 @@ class LocationController extends BaseController {
         ));
 
         /*thêm javascript*/
-        $this->js_global = $this->JScript(array(
+        $js_global = $this->JScript(array(
             'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places',
             'assets/admin/pages/scripts/maps-google.js',
         ));
-        $this->js_plugin = $this->JScript(array(
+        $js_plugin = $this->JScript(array(
             'assets/global/plugins/bootbox/bootbox.min.js',
             'assets/global/plugins/gmaps/gmaps.min.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
@@ -53,23 +59,11 @@ class LocationController extends BaseController {
             'assets/global/plugins/uniform/jquery.uniform.min.js',
             'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'
         ));
-        $this->js_page = $this->JScript(array(
+        $js_page = $this->JScript(array(
             'assets/admin/pages/scripts/form-fileupload.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
-        $this->js_script='';
-    }
-
-    public function getCreate() {
-        if(!Auth::user()){
-            return Redirect::to('/');
-        }
-        $style_plugin = $this->style_plugin;
-        $style_page = $this->style_page;
-        $js_plugin = $this->js_plugin;
-        $js_script = $this->js_script;
-        $js_page = $this->js_page;
-        $js_global = $this->js_global;
+        $js_script='';
 
         return View::make('site/location/create', compact('$address','style_plugin','style_page',
                 'js_plugin','js_script','js_page','js_global')
@@ -167,14 +161,12 @@ class LocationController extends BaseController {
     
     /* imtoantran save location start */
     public function getView($provinceSlug,$location_id,$locationSlug){
-        $js_plugin = $this->js_plugin;
         $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
         $location_nearly = $this->getClosePosition($location);
         $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
         $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
         $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
-            'js_plugin'));
+        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
