@@ -189,7 +189,7 @@ class BlogUserController extends BaseController {
                                       'assets/frontend/pages/scripts/portfolio.js'));
         $js_script='
                 var id_blo='.$this->blogUser->id.';
-                FormFileUpload.init();
+
                  Portfolio.init();
 
         ';
