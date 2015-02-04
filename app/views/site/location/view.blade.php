@@ -21,35 +21,40 @@
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
 
                 <!-- Loading Screen -->
-                <header class="row header-location">
-                    <div class="col-md-10 ">
-                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
-                        <ul class="list-unstyled list-inline ul-list-rating">
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-1"></i></li>
-                            <li><i class="icon-star-1"></i></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="g-plusone" data-size="medium"></div>
-                        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
+                <div class="row">
+                    <header class="row header-location">
+                        <div class="col-md-10 ">
+                            <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
+                            <ul class="list-unstyled list-inline ul-list-rating">
+                                <li><i class="icon-star-filled"></i></li>
+                                <li><i class="icon-star-filled"></i></li>
+                                <li><i class="icon-star-filled"></i></li>
+                                <li><i class="icon-star-1"></i></li>
+                                <li><i class="icon-star-1"></i></li>
+                            </ul>
                         </div>
+                        <div class="col-md-2">
+                            <div class="g-plusone" data-size="medium"></div>
+                            <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
+                            </div>
 
-                    </div>
-                </header>
-
-                <!-- Slides Container -->
-                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
-                {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
-                    @foreach($location->album()->get() as $image)
-                        <div>
-                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
-                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
                         </div>
-                    @endforeach
-                </section>
+                    </header>
+                </div>
+
+                <div class="row-fluid">
+                    <!-- Slides Container -->
+                    <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                        {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
+                        @foreach($location->album()->get() as $image)
+                            <div>
+                                <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
+                                <img u="thumb" src="{{asset($image->thumbnail())}}" />
+                            </div>
+                        @endforeach
+                    </section>
+                </div>
+
 
                 <!-- Arrow Navigator Skin Begin -->
 
