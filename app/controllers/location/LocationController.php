@@ -109,6 +109,7 @@ class LocationController extends BaseController {
         $location->category_id = $locationCreate['location_category'];
         $location->slug = Str::slug($locationCreate['location_name']);
         $location->action_time = json_encode($locationCreate['location_timeAction']);
+        $location->user_id=$user->id;
 
         // luu dia diem
         $isSaveLocation=$location->save();
