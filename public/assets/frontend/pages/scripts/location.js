@@ -47,9 +47,10 @@ var Location = function () {
 		},
 
 		reviewLoadImage: function(){
-			$('#uploadImageModal').modal("show");
+			//$('#uploadImageModal').modal("show");
 			$('.do-upload-image').on('click',function(){
 				$('#uploadImageModal').modal("show");
+				//console.log('hello');
 			});
 		},
 

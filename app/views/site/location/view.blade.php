@@ -205,7 +205,6 @@
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
             <!-- left -->
             <div role="tabpanel">
-
                 <!-- Nav tabs -->
 
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
@@ -551,6 +550,7 @@
     <script>
         jQuery(document).ready(
             function(){
+                Location.initLocationItem();
                 setTimeout(function(){
                     Layout.initSliderLocation();
                 },1000);
