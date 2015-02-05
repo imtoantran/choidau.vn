@@ -154,6 +154,7 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
     Route::get('dang-xuat.html', 'UserController@getLogout');
+    Route::post('check-login','UserController@checkLogin');
     Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });

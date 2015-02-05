@@ -105,6 +105,7 @@
 
         @section("js_script")
         @show
+       var a=Auth.check();
 
 
 

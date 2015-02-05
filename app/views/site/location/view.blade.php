@@ -578,14 +578,90 @@
                 /* viet review end */
 
 
-              /*------------like review-*/
+              /*------------Tag Thanh vien Loacation-*/
+               $(".btn-member-location").click(function(){
 
-               $("")
+                var element_input_data_location=$("#input-data-value-location");
+                var location_id=element_input_data_location.attr('i_l');
+                var is_val = $(".lab-location-list-member").attr('is_val');
+                if(is_val!='1'){
+                        $.ajax({
+                            url:"{{URL::to("location/load-member")}}",
+                            type:"POST",
+                            data:{
+                            'location_id':location_id
+                        },
 
-              /*------------end like review*/
+                        success:function(response){
+                            $(".lab-location-list-member").html(response);
+                            $(".lab-location-list-member").attr('is_val','1');
+
+                        },
+                        complete:function(){
+                            $('.modal').modal("hide");
+                        }
+                    });
+                }
+            });
 
 
+              /*------------Tag Thanh vien Loacation*/
 
+              /*-------------Tag Sự kiện*/
+                $(".btn-event-location").click(function(){
+
+                    var element_input_data_location=$("#input-data-value-location");
+                    var location_id=element_input_data_location.attr('i_l');
+                    var is_val = $(".lab-location-list-event").attr('is_val');
+                    if(is_val!='1'){
+                        $.ajax({
+                            url:"{{URL::to("location/load-event")}}",
+                            type:"POST",
+                            data:{
+                            'location_id':location_id
+                        },
+
+                        success:function(response){
+                            $(".lab-location-list-event").html(response);
+                            $(".lab-location-list-event").attr('is_val','1');
+
+                        },
+                        complete:function(){
+                            $('.modal').modal("hide");
+                        }
+                    });
+                }
+                });
+              /*--------------Tag Sự Kiện end*/
+
+        /*-------------Tag Hình ảnh*/
+        $(".btn-photo-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var is_val = $(".lab-location-list-photo").attr('is_val');
+           // alert(location_id);
+            if(is_val!='1'){
+                $.ajax({
+                    url:"{{URL::to("location/load-photo")}}",
+                    type:"POST",
+                    data:{
+                    'location_id':location_id
+                },
+
+                success:function(response){
+                    $(".lab-location-list-photo").html(response);
+                    $(".lab-location-list-photo").attr('is_val','1');
+
+                },
+
+                complete:function(){
+                    $('.modal').modal("hide");
+                }
+            });
+        }
+        });
+        /*--------------Tag Sự Kiện end*/
 
 
 
