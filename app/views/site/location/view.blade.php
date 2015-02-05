@@ -270,13 +270,12 @@
                            // print_r($list_album);
                             ?>
 
-
                             <div class="">
                                 @foreach($list_album as $img)
                                 <?php $img=Post::find($img->meta_value);
                                       $img_link=$img->getMetaKey('url');
-
                                 ?>
+
                                 <div class="col-md-2 col-sm-4 gallery-item">
                                     <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}" class="fancybox-button">
                                         <img alt="" src="{{$img_link}}" class="img-responsive">
@@ -290,31 +289,21 @@
                             <!-- thao luan,like,dislike,report -->
                             <?php
                             if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('31')->count()){
-
                                 $lab_like='Đã thích ';
-
                             }else{
                                 $lab_like='Thích ';
-
                             }
 
                             if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('32')->count()){
-
                                 $lab_dislike='Đã không thích ';
-
                             }else{
                                 $lab_dislike='không Thích ';
-
                             }
 
-
                             if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('37')->count()){
-
                                 $lab_spam='Đã báo cáo xấu';
-
                             }else{
                                 $lab_spam='Báo cáo xấu ';
-
                             }
                             ?>
 
