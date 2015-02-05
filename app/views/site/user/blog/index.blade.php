@@ -49,11 +49,6 @@
 
 
 
-
-
-
-
-
     <div class="row person-content-item">
         <div class="col-md-12 col-none-padding">
             <div class="col-md-9 article-img-text col-none-padding">
@@ -313,7 +308,7 @@
                 Tất cả bạn bè <span class="person-friends-list-total"></span>
             </header>
             <div class="row person-friends-list margin-none">
-                {{$blogList['html_list_friend']}}
+
 
             </div>
         </section>
@@ -357,7 +352,7 @@
                 </li>
             </ul>
         </div>
-
+        @if(isset($blogList['friend_sus']))
         <!-- add friend -->
         <div class="aside-list">
             <header class="choidau-bg-font">
@@ -366,55 +361,9 @@
             </header>
             <!--goi y ket ban-->
             <ul class="list-unstyled aside-items">
-                {{$blogList['friend_sus']}}
-              <!--  <li>
-                    <div class="row margin-none">
-                        <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                            <img class="avatar-pad2" src="./img-data-demo/avatar-1.JPG" alt="">
-                            <div class="aside-items-text">
-                                <b>meoconxauxi</b>
-                                <p>12 b?n chung</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                            <button class="btn btn-default btn-aside-add-friend">
-                                <i class="icon-user-add"> </i> K?t b?n
-                            </button>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row margin-none">
-                        <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                            <img class="avatar-pad2" src="./img-data-demo/avatar-2.JPG" alt="">
-                            <div class="aside-items-text">
-                                <b>cobelolem</b>
-                                <p>12 b?n chung</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                            <button class="btn btn-default btn-aside-add-friend">
-                                <i class="icon-user-add"> </i> K?t b?n
-                            </button>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row margin-none">
-                        <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                            <img class="avatar-pad2" src="./img-data-demo/avatar-3.JPG" alt="">
-                            <div class="aside-items-text">
-                                <b>emxinhtuoi</b>
-                                <p>12 b?n chung</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                            <button class="btn btn-default btn-aside-add-friend">
-                                <i class="icon-user-add"> </i> K?t b?n
-                            </button>
-                        </div>
-                    </div>
-                </li>-->
+
+                 {{$blogList['friend_sus']}}
+
             </ul>
 
             <div class="aside-item-viewmore">
@@ -423,7 +372,7 @@
                 </button>
             </div>
         </div>
-
+        @endif
         <!-- online friend -->
         <div class="aside-list">
             <header class="choidau-bg-font">

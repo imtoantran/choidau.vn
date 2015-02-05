@@ -215,4 +215,10 @@ class User extends Eloquent implements ConfideUserInterface {
         return URL::to("trang-ca-nhan/$this->username.html");
     }
     /* imtoantran user link end */
+
+
+    public  function status(){
+        return $this->belongsToMany('Post','post_user')->orWherePivot('post_type','=','review')
+                                                       ->orWherePivot('post_type','=','status');
+    }
 }
