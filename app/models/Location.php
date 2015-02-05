@@ -33,7 +33,7 @@ class Location extends Eloquent {
 	}
 //	luuhoabk
 	public function album(){
-		return $this->belongsToMany("Post");
+		return $this->belongsToMany("Post")->whereLocationPostTypeId(Option::whereName('location_post_type')->whereValue('image')->first()->id);
 	}
 	public function food(){
 		return $this->belongsToMany("Food","location_food");

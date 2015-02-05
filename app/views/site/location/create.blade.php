@@ -487,5 +487,5 @@
 </section>
 @stop
 @section('js_script')
-	Location.init();
+	Location.initLocationCreate();
 @stop

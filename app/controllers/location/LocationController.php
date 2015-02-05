@@ -60,7 +60,6 @@ class LocationController extends BaseController {
             'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'
         ));
         $js_page = $this->JScript(array(
-            'assets/admin/pages/scripts/form-fileupload.js',
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
         $js_script='';
