@@ -177,14 +177,12 @@ class LocationController extends BaseController {
             }
             // neu khong co danh muc thi hien thi dia diem
             if(Location::whereSlug($slug)->count()){
-                $js_plugin = $this->js_plugin;
                 $location = Location::whereSlug($slug)->first();
                 $location_nearly = $this->getClosePosition($location);
                 $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
-                    'js_plugin'));
+                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
             }
 
         }
