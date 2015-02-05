@@ -27,13 +27,13 @@ bottom: 0px !important;
 height: 90% !important;
 }
 .header-location{
-
+    padding: 10px 0px;
 }
 
 .header-location >div >h1{
-font-size: 14px;
+font-size: 1.4em;
 color: white;
-font-weight: bold;
+font-weight: 600;
 margin: 0px;
 text-transform: capitalize;
 }

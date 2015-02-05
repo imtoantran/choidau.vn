@@ -15,46 +15,40 @@
 
 @section("topb")
 
-
-    <div class="row margin-bottom-10">
+    <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
 
                 <!-- Loading Screen -->
-                <div class="row">
-                    <header class="row header-location">
-                        <div class="col-md-10 ">
-                            <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
-                            <ul class="list-unstyled list-inline ul-list-rating">
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-1"></i></li>
-                                <li><i class="icon-star-1"></i></li>
-                            </ul>
+                <header class="row header-location">
+                    <div class="col-md-10 ">
+                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
+                        <ul class="list-unstyled list-inline ul-list-rating">
+                            <li><i class="icon-star-filled"></i></li>
+                            <li><i class="icon-star-filled"></i></li>
+                            <li><i class="icon-star-filled"></i></li>
+                            <li><i class="icon-star-1"></i></li>
+                            <li><i class="icon-star-1"></i></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="g-plusone" data-size="medium"></div>
+                        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
                         </div>
-                        <div class="col-md-2">
-                            <div class="g-plusone" data-size="medium"></div>
-                            <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
-                            </div>
 
+                    </div>
+                </header>
+
+                <!-- Slides Container -->
+                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                    {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
+                    @foreach($location->album()->get() as $image)
+                        <div>
+                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
+                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
                         </div>
-                    </header>
-                </div>
-
-                <div class="row-fluid">
-                    <!-- Slides Container -->
-                    <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
-                        {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
-                        @foreach($location->album()->get() as $image)
-                            <div>
-                                <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
-                                <img u="thumb" src="{{asset($image->thumbnail())}}" />
-                            </div>
-                        @endforeach
-                    </section>
-                </div>
-
+                    @endforeach
+                </section>
 
                 <!-- Arrow Navigator Skin Begin -->
 
@@ -65,9 +59,9 @@
 								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
 								</span>
                 <!-- Arrow Left -->
-								<div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
-								</div>
+                <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
+                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
+                </div>
                 <!-- Arrow Right -->
 								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
                                     <button class="btn text-primary do-upload-image" type="submit">Đăng hình <i class="icon-camera"></i></button>
@@ -100,9 +94,9 @@
                 {{--//luuhoabk dia diem --}}
                 <div>
                     <?php
-                        $address_detail = (isset($location->address_detail))? $location->address_detail : "";
-                        $district = (isset($location->district->name))? $location->district->name : "";
-                        $province = (isset($location->province->name))? $location->province->name : "";
+                    $address_detail = (isset($location->address_detail))? $location->address_detail : "";
+                    $district = (isset($location->district->name))? $location->district->name : "";
+                    $province = (isset($location->province->name))? $location->province->name : "";
                     ?>
                     @if(!($address_detail =="" && $district =="" && $province==""))
                         <p class="title">
@@ -120,7 +114,7 @@
                         <p class="icon-mobile">(+84) {{$location->telphone}}</p>
                     @endif
                     @if(isset($location->website) && $location->website != ""))
-                         <p><span class="icon-globe"></span> {{$location->website}}</p>
+                    <p><span class="icon-globe"></span> {{$location->website}}</p>
                     @endif
                 </div>
 
@@ -173,31 +167,31 @@
 
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
-                        <div class="location-activitie-title">LOCATION ACTIVITIES</div>
+                        Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
+                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-universal-access icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
+                            <span class="icon-location icon-border-square" style="cursor:pointer;" id="do-checkin"></span>
                             <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <span class="icon-location-1 icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
+                            <span class="icon-star icon-border-square"></span>
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
+                            <i class="icon-star-filled icon-border-square"></i>
                             <p>15</p>
                         </div>
 
 
                     </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 portlet-body padding-5">
-                            <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 col-no-padding margin-none gmaps-location">
-                            </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
+                        <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
