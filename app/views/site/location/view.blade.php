@@ -22,6 +22,7 @@
                 <!-- Loading Screen -->
                 <header class="row header-location">
                     <div class="col-md-10 ">
+                        <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
                         <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
                         <ul class="list-unstyled list-inline ul-list-rating">
                             <li><i class="icon-star-filled"></i></li>
@@ -204,19 +205,18 @@
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
             <!-- left -->
             <div role="tabpanel">
-
                 <!-- Nav tabs -->
+
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
                     <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
                     <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
-                    <li role="presentation" class=""><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
+                    <li role="presentation" class=""><a href="#tag-member-location-content"  class="btn-member-location" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
+                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
+                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
                     <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
-
                 <!<!-- Tab panes -->
-                <div class="tab-content">
+                <div class="tab-content" id="choidau-person">
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @foreach($reviews as $review)
                         <div class="reviews row item-post-element-parent">
@@ -300,7 +300,9 @@
                                 $lab_dislike='không Thích ';
                             }
 
-                            if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('37')->count()){
+
+                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('37')->count()){
+
                                 $lab_spam='Đã báo cáo xấu';
                             }else{
                                 $lab_spam='Báo cáo xấu ';
@@ -311,7 +313,7 @@
                                 <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
                                 <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
                                 <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_dislike">{{$lab_spam}}</span></a>
+                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_spam">{{$lab_spam}}</span></a>
                                 <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
                             </div>
                             <!-- thao luan,like,dislike,report end-->
@@ -324,6 +326,58 @@
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
                     <div role="tabpanel" class="tab-pane" id="settings"></div>
+                    <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
+
+                        <section class="person-friends choidau-bg">
+                            <header class="">
+                                Tất cả bạn bè <span class="person-friends-list-total">2</span>
+                            </header>
+
+                            <div class="row person-friends-list lab-location-list-member margin-none" is_val="0">
+
+                            </div>
+
+
+                        </section>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="tag-event-location-content">
+
+                        <div class="lab-location-list-event">
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
+
+
+                        <section class="person-images choidau-bg">
+                            <header>
+                                <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
+                                <i class="icon-camera" style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
+                                <div class="text-1em2">Album ảnh</div>
+                            </header>
+                            <nav>
+                                <ul class="mix-filter">
+                                    <li data-filter="all" class="filter">Tất cả</li>
+                                    <li data-filter="category_avatar active" class="filter">Ảnh đại diện</li>
+                                    <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
+                                </ul>
+                            </nav>
+                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo" >
+
+
+
+                            </div>
+                        </section>
+
+
+                    </div>
+
                 </div>
 
             </div>
@@ -406,23 +460,7 @@
 
 @section("bottomb")
     <!-- bai viet noi bat -->
-    <div class="row">
-    @if($blogs->count())
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2 class="margin-bottom-0 margin-top-10 text-primary"><i class="icon-tag"></i> Bài viết nổi bật</h2>
-        </div>
-        @foreach($blogs as $blog)
-                <div class="col-xs-12 col-sm-6 col-lg-3 gallery-item">
-                    <a data-rel="fancybox-button" title="Project Name" href="{{$blog->url()}}" class="fancybox-button">
-                        <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
-                        <div class="zoomix"><i class="icon-cancel-circled2"></i></div>
-                    </a>
-                    <a href="{{$blog->url()}}"><strong>{{$blog->title}}</strong></a>
-                    <p>{{String::tidy(Str::limit($blog->content,50))}}</p>
-                </div>
-            @endforeach
-        @endif
-    </div>
+    @include("site.blog.featured")
     <!-- bai viet noi bat end -->
 @stop
 
@@ -433,6 +471,7 @@
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
 
 
 @stop
@@ -442,6 +481,8 @@
     <!-- imtoantran  -->
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
+
+
     <link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
     <link href="{{asset("assets/global/css/plugins.css")}}" rel="stylesheet">
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
@@ -464,6 +505,7 @@
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
+<script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
 
 <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
@@ -483,118 +525,222 @@
 
 
 @section('js_page')
-    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
-    <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
+<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+<script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
+<script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
+
+
 @stop
 
 @section("scripts")
-<script>
-    jQuery(document).ready(
-        function(){
-            Location.initLocationItem();
-            setTimeout(function(){
-                Layout.initSliderLocation();
-            },1000);
+    <!-- imtoantran -->
 
-            /* imtoantran do like */
-            $("#do-like").click(function(e){
-                var like_btn = $(this);
-                $(this).attr('disabled',true);
-                $.ajax({
-                    type:"post",
-                    url:"{{URL::to("location/like")}}",
-                    data:{id:"{{$location->id}}"},
-                    dataType:"json",
-                    success:function(response){
-                        $(".like-count").text(response['totalFavourites']);
-                        if(response['canLike']){
-                        }
-                        like_btn.attr('disabled',false);
-                    }
-                });
-            });
-            /* imtoantran do like */
-            /* do checkin start */
-            $("#do-checkin").click(function(e){
-                var checkin_btn = $(this);
-                checkin_btn.attr('disabled',true);
-                $.ajax({
-                    type:"post",
-                    url:"{{URL::to("location/checkin")}}",
-                    data:{id:"{{$location->id}}"},
-                    dataType:"json",
-                    success:function(response){
-                        if(response['success']){
-                            $(".checkin-count").text(response['totalCheckedIn']);
-                        }else{
-                            alert(response['message']);
-                        }
-                            checkin_btn.attr('disabled',false);
+    <!-- imtoantran -->
+
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+    <!-- imtoantran -->
+
+    <!-- imtoantran -->
+    <!-- pop up -->
+    <!-- END LayerSlider -->
+
+
+    <script>
+        jQuery(document).ready(
+            function(){
+                Location.initLocationItem();
+                setTimeout(function(){
+                    Layout.initSliderLocation();
+                },1000);
+                Portfolio.init();
+                /* imtoantran do like */
+                $("#do-like").click(function(e){
+                    var like_btn = $(this);
+                    $(this).attr('disabled',true);
+                    $.ajax({
+                        type:"post",
+                        url:"{{URL::to("location/like")}}",
+                        data:{id:"{{$location->id}}"},
+                        dataType:"json",
+                        success:function(response){
+                            $(".like-count").text(response['totalFavourites']);
+                            if(response['canLike']){
+
+                            }
+                            like_btn.attr('disabled',false);
                         }
                     });
                 });
-                /* do checkin end */
-                /* load reviews start */
-                /* load reviews end */
-                /* viet review start*/
-                $(".do-post-review").click(function(){
-                    $("#reviewModal").modal("show");
-                });
-                $(".wysihtml5").wysihtml5();
-
-                $("#review-save").click(function(){
-
-                    var listAlbum=Location.getAlbum();
-                    $("#review_album").val(listAlbum);
-                    var listalbum='';
-
-                    listAlbum.forEach(function (item) {
-                       listalbum+=item['post_id']+",";
-                    })
-                    $("#list-album").val(listalbum);
-                    var form = $("#review-form").serialize();
-
+                /* imtoantran do like */
+                /* do checkin start */
+                $("#do-checkin").click(function(e){
+                    var checkin_btn = $(this);
+                    checkin_btn.attr('disabled',true);
                     $.ajax({
-                        url:"{{URL::to("location/review")}}",
-                        type:"POST",
-                        data:form,
-
+                        type:"post",
+                        url:"{{URL::to("location/checkin")}}",
+                        data:{id:"{{$location->id}}"},
+                        dataType:"json",
                         success:function(response){
-                            $("#review-form")[0].reset();
-                             location.reload();
-                        },
-                        complete:function(){
-                            $('.modal').modal("hide");
-                        }
-                    })
-            });
-            /* viet review end */
+                            if(response['success']){
+                                $(".checkin-count").text(response['totalCheckedIn']);
+                            }else{
+                                alert(response['message']);
+                            }
+                                checkin_btn.attr('disabled',false);
+                            }
+                        });
+                    });
+                    /* do checkin end */
+                    /* load reviews start */
+                    /* load reviews end */
+                    /* viet review start*/
+                    $(".do-post-review").click(function(){
+                        $("#reviewModal").modal("show");
+                    });
+                    $(".wysihtml5").wysihtml5();
 
-            // load gmap
-            var position = $('.gmaps-location').attr('data-position');
-                position = position.split(",");
-            var position_lat = position[0];
-            var position_lng = position[1];
-            var map = new GMaps({
-                div: '#gmap_marker',
-                lat: position_lat,
-                lng: position_lng
+                    $("#review-save").click(function(){
+
+                        var listAlbum=Location.getAlbum();
+                        $("#review_album").val(listAlbum);
+                        var listalbum='';
+
+                        listAlbum.forEach(function (item) {
+                           listalbum+=item['post_id']+",";
+                        })
+                        $("#list-album").val(listalbum);
+                        var form = $("#review-form").serialize();
+
+                        $.ajax({
+                            url:"{{URL::to("location/review")}}",
+                            type:"POST",
+                            data:form,
+
+                            success:function(response){
+                                $("#review-form")[0].reset();
+                                 location.reload();
+                            },
+                            complete:function(){
+                                $('.modal').modal("hide");
+                            }
+                        })
+                });
+                /* viet review end */
+
+
+        /*------------Tag Thanh vien Loacation-*/
+        $(".btn-member-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var is_val = $(".lab-location-list-member").attr('is_val');
+            if(is_val!='1'){
+                $.ajax({
+                    url:"{{URL::to("location/load-member")}}",
+                    type:"POST",
+                    data:{
+                    'location_id':location_id
+                },
+
+                success:function(response){
+                    $(".lab-location-list-member").html(response);
+                    $(".lab-location-list-member").attr('is_val','1');
+
+                },
+                complete:function(){
+                    $('.modal').modal("hide");
+                }
             });
-            map.addMarker({
-                lat: position_lat,
-                lng: position_lng
-            });
-            var infowindow = new google.maps.InfoWindow({
-                content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
-            });
-            var location_marker = map.addMarker({
-                lat: position_lat,
-                lng: position_lng,
-                title:'Địa điểm: {{$location->category->name}}'
-            });
-            infowindow.open(map,location_marker);
-            map.setZoom(15);
         }
-    );
-</script>
-@stop
+        });
+
+
+        /*------------Tag Thanh vien Loacation*/
+
+        /*-------------Tag Sự kiện*/
+        $(".btn-event-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var is_val = $(".lab-location-list-event").attr('is_val');
+            if(is_val!='1'){
+                $.ajax({
+                    url:"{{URL::to("location/load-event")}}",
+                    type:"POST",
+                    data:{
+                    'location_id':location_id
+                },
+
+                success:function(response){
+                    $(".lab-location-list-event").html(response);
+                    $(".lab-location-list-event").attr('is_val','1');
+
+                },
+                complete:function(){
+                    $('.modal').modal("hide");
+                }
+            });
+        }
+        });
+        /*--------------Tag Sự Kiện end*/
+
+        /*-------------Tag Hình ảnh*/
+        $(".btn-photo-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var is_val = $(".lab-location-list-photo").attr('is_val');
+           // alert(location_id);
+            if(is_val!='1'){
+                $.ajax({
+                    url:"{{URL::to("location/load-photo")}}",
+                    type:"POST",
+
+                    data:{
+                    'location_id':location_id
+                },
+
+                success:function(response){
+                    $(".lab-location-list-photo").html(response);
+                    $(".lab-location-list-photo").attr('is_val','1');
+
+                },
+                complete:function(){
+                    $('.modal').modal("hide");
+                }
+            });
+        }
+        });
+        /*--------------Tag hình ảnh end*/
+
+                // load gmap
+                var position = $('.gmaps-location').attr('data-position');
+                    position = position.split(",");
+                var position_lat = position[0];
+                var position_lng = position[1];
+                var map = new GMaps({
+                    div: '#gmap_marker',
+                    lat: position_lat,
+                    lng: position_lng
+                });
+                map.addMarker({
+                    lat: position_lat,
+                    lng: position_lng
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
+                });
+                var location_marker = map.addMarker({
+                    lat: position_lat,
+                    lng: position_lng,
+                    title:'Địa điểm: {{$location->category->name}}'
+                });
+                infowindow.open(map,location_marker);
+                map.setZoom(15);
+            }
+        );
+    </script>
+    @stop

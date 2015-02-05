@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -32,7 +31,11 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
 
-
+/* imtoantran set province */
+Route::post("changePorvince",function(){
+   Session::put("province",Province::find(Input::get("id")));
+})->where("id","[0-9]");
+/* imtoantran set province */
 /** ------------------------------------------
  *  Admin Routes
  *  ------------------------------------------
@@ -107,6 +110,9 @@ Route::post("location/like/",'LocationController@like');
 Route::post("location/checkin/",'LocationController@checkin');
 Route::get("location/review/{id}",'LocationController@getReview');
 Route::post("location/review",'LocationController@postReview');
+Route::post("location/load-member",'LocationController@loadMember');
+Route::post("location/load-event",'LocationController@loadEvent');
+Route::post("location/load-photo",'LocationController@loadPhoto');
 # location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
@@ -134,7 +140,7 @@ Route::controller('blog.html','BlogController');
 
 
 /** -------------------Site location: luuhoabk-------------**/
-Route::group(array('prefix' => 'dia-diem'), function(){
+Route::group(array('prefix' => 'dia-diem','before' => 'auth'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
@@ -154,6 +160,7 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
     Route::get('dang-xuat.html', 'UserController@getLogout');
+    Route::post('check-login','UserController@checkLogin');
     Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });
@@ -217,3 +224,18 @@ Route::get('language/{lang}',
         'uses' => 'LanguageController@select'
     )
 );
+/* imtoantran start */
+Route::get("{provinceSlug}/{slug}","LocationController@getView");
+/* imtoantran end */
+/* imtoantran filter start */
+Route::filter("checkLogin",function(){
+
+});
+Route::filter("session",function(){
+    if(!Session::has("province"))
+        Session::put("province",Province::find(79));
+    if (!Cache::has('provinces'))
+        Cache::forever('provinces', Province::all());
+});
+Route::when("*","session");
+/* imtoantran filter end */

@@ -23,8 +23,6 @@ class Location extends Eloquent {
         return $this->belongsTo("User");
       //  return $user;
     }
-
-
     public function userAction(){
 		return $this->belongsToMany("User");
 	}
@@ -47,7 +45,7 @@ class Location extends Eloquent {
 	}
 	/* imtoantran url start */
 	public function url(){
-		return isset($this->province->name)? URL::to("dia-diem/".Str::Slug($this->province->name)."/$this->id-$this->slug"):"";
+		return isset($this->province->name)? URL::to(Str::Slug($this->province->name)."/$this->slug"):"";
 	}
 	public function rating(){
 		$ratings = $this->hasManyThrough("PostMeta","Review","parent_id","post_id")->whereMetaKey("review_rating");
@@ -56,9 +54,6 @@ class Location extends Eloquent {
 	public function isLiked($userId){
 		return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
 	}
-	public function whoLiked(){
-		return $this->userAction()->whereActionType("like");
-	}
 	public function address(){
 		$address = isset($this->address_detail)?$this->address_detail:"";
 		$address .= isset($this->province->name )?$this->province->name :"";
@@ -66,10 +61,31 @@ class Location extends Eloquent {
 		$address .= isset($this->district->name )?$this->district->name :"";
 		return $address;
 	}
-
+	public function whoLiked(){
+		return $this->userAction()->whereActionType("like")->orderBy("location_user.created_at","desc");
+	}
+	public function totalLike(){
+		return $this->whoLiked()->count()?$this->whoLiked()->count():0;
+	}
 	/* imtoantran url end */
 	public function hasReview(){
 		return $this->reviews()->count();
 	}
+
+    public function members(){
+        return $this->belongsToMany('User','location_user')->wherePivot('action_type','=','checkin');
+    }
+    public function events(){
+        return $this->belongsToMany('EventLocation','location_post','location_id','post_id');
+    }
+
+    public function photos(){
+        return $this->belongsToMany('Image','location_post','location_id','post_id');
+
+    }
+
+
+
+
 
 }

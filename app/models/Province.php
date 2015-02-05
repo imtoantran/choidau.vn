@@ -8,11 +8,15 @@ class Province extends Eloquent {
 
     public static  function getName($id){
 
-        if($name=DB::table('provinces')
-            ->find($id)){
-            return $name->name;
+        if(Province::find($id)){
+            return Province::find($id)->name;
         };
 
     }
-
+    public function location(){
+        return $this->hasMany("Location");
+    }
+    public function slug(){
+        return isset($this->name)? Str::slug($this->name):"";
+    }
 }

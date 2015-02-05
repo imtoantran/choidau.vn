@@ -39,9 +39,10 @@
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+
 <script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js')}}" type="text/javascript"></script>
@@ -99,12 +100,24 @@
         }
         catch(err) {}
 
+        $("#provinceList").change(function(){
+            $.ajax({
+                url:"{{URL::to("changePorvince")}}",
+                type:"post",
+                data:{id:$(this).val()},
+                success:function(){
+                    location.reload();
+                }
+            });
+        });
+
         @if (isset($js_script))
                 {{$js_script}}
         @endif
 
         @section("js_script")
         @show
+       var a=Auth.check();
 
 
 
