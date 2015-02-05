@@ -311,7 +311,7 @@
                                 <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
                                 <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
                                 <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_dislike">{{$lab_spam}}</span></a>
+                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_spam">{{$lab_spam}}</span></a>
                                 <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
                             </div>
                             <!-- thao luan,like,dislike,report end-->

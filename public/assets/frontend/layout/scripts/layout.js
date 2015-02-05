@@ -1124,11 +1124,11 @@ var Layout = function () {
                 sync:false,
                 success: function(data_1){
 
-                    element_parent.find(".lab_num_dislike").html(data_1.number_like);
+                    element_parent.find(".lab_num_spam").html(data_1.number_like);
                     if(data_1.is_like=='0'){
-                        element_parent.find(".lab_text_dislike").html('Báo cáo xấu ');
+                        element_parent.find(".lab_text_spam").html('Báo cáo xấu ');
                     }else{
-                        element_parent.find(".lab_text_dislike").html('Đã Báo cáo xấu ');
+                        element_parent.find(".lab_text_spam").html('Đã Báo cáo xấu ');
 
                     }
                 },dataType:'JSON'
