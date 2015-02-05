@@ -283,26 +283,29 @@ class UploadMediaHandler
 
 
 
-            $img=Image::where('thumbnail','=',$file->name)->first();
-
-            $imgUrl=$img->getMetaKey('url');
-
-           // $file->name = $file->name;
-            $file->thumbnail_img=$this->get_thumbnail_url_($file->name);
-            $file->id_post=$img->id;
-            $file->title_post=$img->title;
-            $file->content_post=$img->description;
-            $file->alt_post=$img->title;
-            $file->date_post=date("H:i  d-m-Y", strtotime($img->created_at)).'';
-            $file->url_img=$imgUrl;
 
 
+        try{
+
+            if(Image::whereThumbnail($file->name)->count()){
+                $img=Image::whereThumbnail($file->name)->first();
+                $imgUrl=$img->getMetaKey('url');
+                $file->thumbnail_img=$this->get_thumbnail_url_($file->name);
+                $file->id_post=$img->id;
+                $file->title_post=$img->title;
+                $file->content_post=$img->description;
+                $file->alt_post=$img->title;
+                $file->date_post=date("H:i  d-m-Y", strtotime($img->created_at)).'';
+                $file->url_img=$imgUrl;
+
+            }else{
+                unlink($file);
+            }
 
 
-      //  $file->type = $type;
-      //  $file->title = $title;
-      //  $file->description = $description;
+        }catch (Exception $e){
 
+        }
 
 
     }

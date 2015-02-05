@@ -343,14 +343,8 @@ class LocationController extends BaseController {
     public function  loadPhoto(){
 
         $data=Input::all();
-      //  $user_blog=User::where('id','=',$data['id_user_blog'])->first();
         $location=Location::find($data['location_id']);
-
-        //$list_photo=Post::where('user_id','=',$user_blog->id)->where('post_type','=','image')->get();
         $list_photo=$location->photos()->get();
-
-
-
         $html_photo='';
 
         foreach($list_photo as $item){
