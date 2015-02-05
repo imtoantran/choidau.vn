@@ -1,3 +1,30 @@
+var Auth=function(){
+
+    return {
+        check : function () {
+         //   alert('kk');
+            var data_kq='0';
+            $.ajax({
+                type: "POST",
+                url: URL+"/thanh-vien/check-login",
+                async: false,
+                success: function(data){
+                    if(data=='1'){
+                       data_kq= data;
+                    }else{
+
+                        $('#popup-login').modal('show')
+                    }
+                }
+            });
+           return data_kq;
+        },
+        check_2 : function () {
+          //  alert('chào nha 2');
+        }
+    };
+
+}();
 var Layout = function () {
 
     // IE mode
