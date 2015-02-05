@@ -119,7 +119,7 @@ class LocationController extends BaseController {
             // kiem tra va insert table location_post 'them album'
             if($isAlbum){
                 foreach($locationCreate['location_album'] as $key=>$value){
-                    $location->album()->attach($value['post_id']);
+                    $location->saveAlbum($value['post_id']);
                 }
             }
 

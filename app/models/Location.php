@@ -30,6 +30,9 @@ class Location extends Eloquent {
 		return $this->belongsTo("Category");
 	}
 //	luuhoabk
+	public function saveAlbum($image){
+		return $this->belongsToMany("Post")->attach($image,["location_post_type_id"=>Option::whereName('location_post_type')->whereValue('image')->first()->id]);
+	}
 	public function album(){
 		return $this->belongsToMany("Post")->whereLocationPostTypeId(Option::whereName('location_post_type')->whereValue('image')->first()->id);
 	}
