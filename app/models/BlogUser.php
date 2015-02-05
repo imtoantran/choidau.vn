@@ -21,7 +21,9 @@ class BlogUser extends Eloquent {
 
 
     public function status(){
-        return $this->hasOne('Post');
+        return $this->belongsToMany('User','blog_post','user_id','blog_id');
     }
+
+
 
 }

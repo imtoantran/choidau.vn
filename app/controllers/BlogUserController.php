@@ -43,42 +43,26 @@ class BlogUserController extends BaseController {
 	 */
 	public function getIndex($user_slug)
 	{
-        $user_auth = Auth::user();
-      //  echo''.$user_slug;
-       // try{
         $user_blog =User::where('username','=',"$user_slug")->first();
-      //  }catch (Exception $e){}
-
-     //   if(!empty($user_blog->id)){
-         //   return Redirect::to('/trang-ca-nhan/'.$user_auth->username.'.html');
-
-      //  }
-        $this->user = $user_auth;
-
         $blogUser=$user_blog->blog()->first();
-        $this->blogUser=$user_blog;
         $date =new DateTime($user_blog->birthday);
         $date=date_format($date,'d/m/Y');
-        $tp=Province::getName($user_blog->province_id);//Province::find($user_blog->province_id)->name;
-        $html_sus_friend='';
+        $tp=Province::getName($user_blog->province_id);
+
         try{
 
+            $user_auth = Auth::user();
+
+            $this->user = $user_auth;
+            $this->blogUser=$user_blog;
+
+
+            $html_sus_friend='';
+
             $list_friend=$user_blog->friends()->get();
-
-         //   echo '<pre>';
-            //print_r($list_friend);
-        //    echo '</pre>';
-
             $list_sus_friend=array();
 
             $list_friend_my=$this->filterFriends_byBlog($list_friend,$user_auth->id);
-
-
-        //    echo'<pre>';
-            //  print_r($list_friend_my);
-         //   echo'</pre>';
-
-
 
             foreach($list_friend_my as $item){
 
@@ -105,9 +89,7 @@ class BlogUserController extends BaseController {
                 }
 
             }
-          //  echo'<pre>';
-        //    print_r($list_sus_friend);
-         //   echo'</pre>';
+
             $list_sus_friend2=array();
 
             foreach($list_sus_friend as $item){
@@ -142,19 +124,11 @@ class BlogUserController extends BaseController {
             'level'=> Option::find($user_blog->level_id)->description,
             'birthday'=>$date,
             'tp'=>$tp,
+            'id_user_blog'=>$user_blog->id,
+
             'friend_sus'=>$html_sus_friend,
             'html_list_friend'=>''//$this->getListFriend()
-
-
         );
-
-       if(empty($user_auth->id)){
-           return Redirect::to('user');
-       }
-        if(empty($user_blog->id)){
-            return Redirect::to('/');
-        }
-
 
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
@@ -195,16 +169,9 @@ class BlogUserController extends BaseController {
         ';
 
 
-
-
-        if($user_auth->username!=$user_slug){
-
-        }
-
         $listStatus=Post::orderBy('updated_at','DESC')->where('user_id','=',$user_blog->id)->where('post_type','=','status')->skip(0)->take(5)->get();
-       // echo '<pre>';
-      //  print_r($listStatus);
-       // echo '</pre>';
+     //   $listStatus=$blogUser->status();
+      //    $listStatus=$blogUser->status();
          $html_status='';
         foreach($listStatus as $item){
 
@@ -213,18 +180,9 @@ class BlogUserController extends BaseController {
         }
 
 
-
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+       $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
        return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','blogList','style_plugin','style_page','js_plugin','js_page','js_script'));
 
-
-
-		//$user_ = $this->user->whereSlug($user_slug)->first();
-		// Get all the blog posts
-	//	$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
-
-		// Show the page
-	//	return View::make('site/blog/index', compact('posts'));
 	}
 	public function getEvent(){
 		return $this->getIndex('su-kien');
@@ -349,11 +307,12 @@ class BlogUserController extends BaseController {
     }
 
     public function postStatusBlogUser(){
-        $user = Auth::user();
+        $data=Input::all();
+        $user =  Auth::user();
         $this->blogUser=$user->blog()->first();
 
-        $data=Input::all();
-
+        $user_blog=User::find($data['id_user_blog']);
+        $blog_user=$user_blog->blog()->first();
 
         $type_edit=$data['type_edit'];
         if(Request::ajax())
@@ -370,6 +329,7 @@ class BlogUserController extends BaseController {
                     $date=date_create("now");
                     $date=  date_format($date,"Y-m-d H:i:s");
                     $post->userAction()->attach($user,['post_user_type_id'=>33,'created_at'=>$date]);
+                    $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id,'created_at'=>$date]);
                     echo $post->id;
                     break;
                 case "like_status":
@@ -431,6 +391,7 @@ class BlogUserController extends BaseController {
                 case "status_delete":
                     $post=Post::where('id','=',$data['id_status'])->where('post_type','=','status')->first();
                     $listComment=$post->comments()->delete();
+                    $blog_user->status()->detach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id]);
 
                     $post->delete();
                     break;
@@ -567,21 +528,24 @@ echo'ádasdasd';
 
         $user_auth = Auth::user();
         $user=$post->author;
+        try{
+            $userIn['username']=$user->username;
+            $userIn['avatar']=$user->avatar;
+            $userIn['level']=Option::find($user->level_id)->description;
+            $userIn['avatar_auth']=$user_auth->avatar;
+            $userIn['id_auth']=$user_auth->id;
+            $userIn['id_author']=$user->id;
+            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
 
-        $userIn['username']=$user->username;
-        $userIn['avatar']=$user->avatar;
-        $userIn['level']=Option::find($user->level_id)->description;
-        $userIn['avatar_auth']=$user_auth->avatar;
-        $userIn['id_auth']=$user_auth->id;
-        $userIn['id_author']=$user->id;
-        $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+            $userIn['like_content']='Thích';
+            $userIn['type_action_like']='type_action_like';
+            if($isLike!=0){
+                $userIn['like_content']='Đã thích';
+                $userIn['type_action_like']='type_action_dislike';
+            }
 
-        $userIn['like_content']='Thích';
-        $userIn['type_action_like']='type_action_like';
-        if($isLike!=0){
-            $userIn['like_content']='Đã thích';
-            $userIn['type_action_like']='type_action_dislike';
-        }
+
+        }catch (Exception $e){}
 
 
         $postIn['id']=$post->id;
@@ -606,25 +570,28 @@ echo'ádasdasd';
     public  function loadItemStatus2($id_status_slug){
         $post= Post::find($id_status_slug);
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+        $user_author=$post->author;
+        $userAuth=array();
+        if(Auth::check()){
+            $user_auth = Auth::user();
+            $userAuth['id']=$user_auth->id;
 
-        $user_auth = Auth::user();
-        $user=$post->author;
+            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
 
-        $userIn['username']=$user->username;
-        $userIn['avatar']=$user->avatar;
-        $userIn['level']=Option::find($user->level_id)->description;
-        $userIn['avatar_auth']=$user_auth->avatar;
-        $userIn['id_auth']=$user_auth->id;
-        $userIn['id_author']=$user->id;
-        $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+            $userAuth['like_content']='Thích';
+            $userAuth['avatar']=$user_auth->avatar;
+            $userAuth['type_action_like']='type_action_like';
+            if($isLike!=0){
+                $userAuth['like_content']='Đã thích';
+                $userAuth['type_action_like']='type_action_dislike';
+            }
 
-        $userIn['like_content']='Thích';
-        $userIn['type_action_like']='type_action_like';
-        if($isLike!=0){
-            $userIn['like_content']='Đã thích';
-            $userIn['type_action_like']='type_action_dislike';
         }
 
+        $userAuthor['username']=$user_author->username;
+        $userAuthor['avatar']=$user_author->avatar;
+        $userAuthor['level']=Option::find($user_author->level_id)->description;
+        $userAuthor['id']=$user_author->id;
 
         $postIn['id']=$post->id;
         $postIn['content']=$post->content;
@@ -643,15 +610,14 @@ echo'ádasdasd';
             $postIn['post_date']=String::showTimeAgo($post->created_at());
             $postIn['post_type_user']='Đã đăng trạng thái  :';
         }
-
-        return View::make('site.partials.itemStatus',compact('userIn','listStatusPost','postIn'));
-
+            return View::make('site.partials.itemStatus',compact('userAuthor','userAuth','listStatusPost','postIn'));
     }
 
 
     public function loadComment($id_comment_post_slug){
-
-        $listCommentPost=Post::where('parent_id','=',$id_comment_post_slug)->where('post_type','=','comment')->get();
+      //  $listCommentPost=Post::where('parent_id','=',$id_comment_post_slug)->where('post_type','=','comment')->get();
+        $post=Post::find($id_comment_post_slug);
+        $listCommentPost=$post->comments()->get();
         $listCommentPost_ok=array();
         foreach($listCommentPost as $item){
             $user_item=$item->author()->get()->first();
@@ -661,15 +627,10 @@ echo'ádasdasd';
             $item['updated_at_2']= String::showTimeAgo($item->created_at());//date_format($date,'H:i d-m-Y');
             $item['id_comment']=$item->id;
             $item['id_user']=$user_item->id;
-            $listCommentPost_ok = array($item);
-
-
+            $item['content']=$item->content;
+            $listCommentPost_ok []= $item;
         }
-
-        return View::make('site.partials.itemComment',compact('userIn','listCommentPost','postIn'));
-
-
-
+        return View::make('site.partials.itemComment',compact('listCommentPost_ok'));
     }
 
     public function filterFriends($listFriend){

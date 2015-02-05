@@ -1,14 +1,6 @@
 <div class="row person-content-item">
-    <input type="hidden" class="item-status-value" user_auth_id="@if(isset($userAuth['id'])) {{$userAuth['id']}} @endif" user_author_id="{{ $userAuthor['id']}}" post_id="{{$postIn['id']}}"/>
     <div class="col-md-12 col-none-padding">
-        <div class="col-md-9 article-img-text col-none-padding">
-            <img class="avatar-pad2" src="{{$userAuthor['avatar']}}" alt="">
-            <div class="person-content-info">
-                <div><a>{{ $userAuthor['username']}}</a><span> - {{$userAuthor['level']}}</span></div>
-                <span> {{$postIn['post_type_user']}}</span><br>
-                <span>{{$postIn['post_date']}}</span>
-            </div>
-        </div>
+
         <div class="col-md-3 col-none-padding text-right">
             <div class="btn-group person-type-scopy">
 
@@ -42,7 +34,7 @@
     <!-- comment - like - share -->
     <div class="row margin-none">
         <div class="person-text-assoc">
-            <a class="btn-blog-post-like" @if(isset($userAuth['type_action_like']))type_action_like="{{$userAuth['type_action_like']}}" @else type_action_like="type_action_like" @endif">@if(isset($userAuth['like_content'])){{$userAuth['like_content']}} @else Thích @endif</a>
+            <a class="btn-blog-post-like" type_action_like="{{$userIn['type_action_like']}}">{{$userIn['like_content']}}</a>
             <a class="btn-blog-post-comment">Bình luận(<span class="lab-blog-post-number-comment">{{ $postIn['number_comment']}}</span>)</a>
             <a class="btn-blog-post-share">Chia sẻ</a>
         </div>
@@ -55,17 +47,6 @@
             <span class="lab-blog-post-like"> {{$postIn['number_like']}}</span> người thích điều này
         </div>
         {{$postIn['comment']}}
-        @if(isset($userAuth['avatar']))
-        <div class="col-md-12 article-img-text col-none-padding">
-            <div class="row margin-none">
-                <img class="col-md-1 col-ms-1 col-xs-1 avatar-pad2"
-
-                     src=" {{ $userAuth['avatar']}}" alt="">
-                <input  class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" type="text"
-                       placeholder="Viết bình luận...">
-            </div>
-        </div>
-        @endif
 
     </div>
 </div>
