@@ -104,10 +104,7 @@
             $.ajax({
                 url:"{{URL::to("changePorvince")}}",
                 type:"post",
-                data:{id:$(this).val()},
-                success:function(){
-                    location.reload();
-                }
+                data:{id:$(this).val()}
             });
         });
 

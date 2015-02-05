@@ -58,7 +58,7 @@
 .location-description{
 	position: absolute;
 	bottom:0;
-	left:10%;
+	left:10px;
 	color:#fff;
 }
 .location-description p{

@@ -13,7 +13,7 @@ var Auth=function(){
                        data_kq= data;
                     }else{
 
-                        $('#popup-login').modal('show')
+                        //$('#popup-login').modal('show')
                     }
                 }
             });

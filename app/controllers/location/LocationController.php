@@ -14,9 +14,6 @@ class LocationController extends BaseController {
     }
 
     public function getCreate() {
-        if(!Auth::user()){
-            return Redirect::to('/');
-        }
         $style_plugin = $this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
@@ -239,21 +236,21 @@ class LocationController extends BaseController {
         $response['success']=true;
         return json_encode($response);
     }
+
     function checkin(){
         $id = Input::get("id");
         $location = Location::find($id);
         $user = Auth::user();
-        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('checkin')->count();
         $response=[];
-        if($count){
-            $response['success']=false;
-            $response['message']="Bạn đã đến đây";
+        if($location->totalCheckIn()){
+            $response['success'] = false;
+            $response['message'] = "Bạn đã đến đây";
         }
         else{
             $location->userAction()->attach($user,['action_type'=>'checkin']);
             $response['success'] = true;
         }
-        $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
+        $response['totalCheckedIn'] = $location->totalCheckIn();
 
         return json_encode($response);
     }
