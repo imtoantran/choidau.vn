@@ -274,4 +274,109 @@ class LocationController extends BaseController {
 
     }
     /* imtoantran save location end */
+
+
+    /*-------load  member*/
+    public function loadMember(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+       // $list= $user->friends_();
+      //  echo'<pre>';
+      //  print_r($list);
+      //  echo'</pre>';
+
+        $listMember=Location::find($location_id)->members()->get();
+
+        foreach($listMember as $member){
+         //   $item_friend=$user->friend_common($member);
+            $ban_chung=2;// count($item_friend);
+            $html.=' <article class="person-friends-item col-md-4 col-sm-6 col-xs-12"> <div class="media"> <a href="#" class="pull-left">';
+            $html.='<img src="'.$member->avatar.'" alt="" class="media-object"> </a>';
+            $html.='<div class="media-body"><header>';
+            $html.='<a class="media-heading text-1em2">'.$member->username.'</a></header><p>'. $ban_chung.' bạn chung</p></div></div></article>';
+
+        }
+        echo $html;
+    }
+    /*------------end*/
+
+    /*-------load  member*/
+    public function loadEvent(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+        $location=Location::find($location_id);
+        $listEvent=$location->events()->get();
+
+        foreach($listEvent as $event){
+         $html.=$this->loadEventItem($event);
+        }
+        echo $html;
+    }
+    public function loadEventItem($event){
+            $user_author=$event->author;
+            return View::make('site.location.item_event',compact('event','user_author'));
+    }
+
+    /*------------end*/
+
+
+    /*---------load photo*/
+    public function loadPhoto1(){
+        $html='';
+        $data=Input::all();
+        $location_id=$data['location_id'];
+        $user=Auth::user();
+        $location=Location::find($location_id);
+        $listPhoto=$location->photos()->get();
+
+        foreach($listPhoto as $photo){
+            $html.=$this->loadEventItem($photo);
+        }
+        echo $html;
+    }
+
+    public function  loadPhoto(){
+
+        $data=Input::all();
+        $location=Location::find($data['location_id']);
+        $list_photo=$location->photos()->get();
+        $html_photo='';
+
+        foreach($list_photo as $item){
+            $category='';
+            $url='';
+            $url=$item->getMetaKey('url');
+
+            $category='category_'.$item->getMetaKey('type_use');
+
+
+
+            $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
+
+            $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
+            $html_photo.='<div class="mix-details choidau-bg-light-a9">';
+            $html_photo.='<h4 class="choidau-font-fff"></h4>';
+            $html_photo.='<p></p>';
+            $html_photo.='<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
+            $html_photo.='<a data-rel="fancybox-button" title="Project Name" href="'.$url.'" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
+            $html_photo.=' </div> </div></div>';
+
+            $a=4;
+        }
+
+      //  $arrReturn['html']=$html_photo;
+        // $arrReturn['total']=count($list_id_friend);
+
+        echo $html_photo;// json_encode($arrReturn);
+
+    }
+
+
+
+    /*---------end load photo*/
+
 }

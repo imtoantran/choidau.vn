@@ -367,4 +367,9 @@ class UserController extends BaseController {
         }
         return $redirect;
     }
+
+    public function checkLogin(){
+        if(Auth::check()){ echo '1';}
+        else {echo '0';}
+    }
 }

@@ -107,6 +107,9 @@ Route::post("location/like/",'LocationController@like');
 Route::post("location/checkin/",'LocationController@checkin');
 Route::get("location/review/{id}",'LocationController@getReview');
 Route::post("location/review",'LocationController@postReview');
+Route::post("location/load-member",'LocationController@loadMember');
+Route::post("location/load-event",'LocationController@loadEvent');
+Route::post("location/load-photo",'LocationController@loadPhoto');
 # location end
 Route::get('images/{post}/edit','ImageController@getEdit');
 Route::get('images/{slug}','ImageController@getView');
@@ -154,6 +157,7 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::get('dang-nhap.html', 'UserController@getLogin');
     Route::post('dang-nhap.html', 'UserController@postLogin');
     Route::get('dang-xuat.html', 'UserController@getLogout');
+    Route::post('check-login','UserController@checkLogin');
     Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });

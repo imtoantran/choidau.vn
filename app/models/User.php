@@ -133,6 +133,35 @@ class User extends Eloquent implements ConfideUserInterface {
     }
 
 
+    public function friends_(){
+        //    $list= $this->belongsToMany('User','friends')->orWherePivot('user_id','=',$this->id)
+        //                                      ->orWherePivot('friend_id','=',$this->id)->get();
+
+        $list=Friend::orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id)->get();
+        $key=array();
+        $value=array();
+
+        foreach($list as $item){
+            if($item->user_id!=$this->id){
+                $key[]=$item->user_id;
+            }
+            if($item->friend_id!=$this->id){
+                $value[]=$item->friend_id;
+            }
+        }
+
+        $array_list=array_merge($key,$value);
+        $list_friend=array();
+        foreach($array_list as $item){
+            $user_item=User::where('id','=',$item)->first();
+            $list_friend[]=$user_item;
+        }
+        return $array_list;
+    }
+
+
+
+
 
     public function friend_common($user_friend){
     /*    echo '<pre>';
@@ -169,6 +198,9 @@ class User extends Eloquent implements ConfideUserInterface {
     return $list_friend_common;
 
     }
+
+
+
 
     public function postAction() {
         return $this->belongsToMany('Post');
