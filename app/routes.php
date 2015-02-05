@@ -237,5 +237,5 @@ Route::filter("session",function(){
     if (!Cache::has('provinces'))
         Cache::forever('provinces', Province::all());
 });
-Route::when("*","sessions");
+Route::when("*","session");
 /* imtoantran filter end */
