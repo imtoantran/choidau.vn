@@ -1435,7 +1435,7 @@ var Layout = function () {
                 else
                     window.setTimeout(ScaleSlider, 30);
             }
-            ScaleSlider();
+            //ScaleSlider();
 
             $(window).bind("load", ScaleSlider);
             $(window).bind("resize", ScaleSlider);

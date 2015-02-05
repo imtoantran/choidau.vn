@@ -38,6 +38,16 @@
                         <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
                         </div>
 
+                    </div>
+                </header>
+
+                <!-- Slides Container -->
+                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                    {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
+                    @foreach($location->album()->get() as $image)
+                        <div>
+                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
+                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
                         </div>
 
                     </div>
@@ -65,9 +75,9 @@
 								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
 								</span>
                 <!-- Arrow Left -->
-								<div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
-								</div>
+                <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
+                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
+                </div>
                 <!-- Arrow Right -->
 								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
                                     <button class="btn text-primary do-upload-image" type="submit">Đăng hình <i class="icon-camera"></i></button>
@@ -100,9 +110,9 @@
                 {{--//luuhoabk dia diem --}}
                 <div>
                     <?php
-                        $address_detail = (isset($location->address_detail))? $location->address_detail : "";
-                        $district = (isset($location->district->name))? $location->district->name : "";
-                        $province = (isset($location->province->name))? $location->province->name : "";
+                    $address_detail = (isset($location->address_detail))? $location->address_detail : "";
+                    $district = (isset($location->district->name))? $location->district->name : "";
+                    $province = (isset($location->province->name))? $location->province->name : "";
                     ?>
                     @if(!($address_detail =="" && $district =="" && $province==""))
                         <p class="title">
@@ -120,7 +130,7 @@
                         <p class="icon-mobile">(+84) {{$location->telphone}}</p>
                     @endif
                     @if(isset($location->website) && $location->website != ""))
-                         <p><span class="icon-globe"></span> {{$location->website}}</p>
+                    <p><span class="icon-globe"></span> {{$location->website}}</p>
                     @endif
                 </div>
 
@@ -175,7 +185,7 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         <div class="location-activitie-title">LOCATION ACTIVITIES</div>
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
+                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
@@ -348,7 +358,7 @@
 
                             <div class="row person-friends-list lab-location-list-member margin-none" is_val="0">
                                 {{$html_listMember}}
-                             </div>
+                    </div>
 
 
                         </section>
