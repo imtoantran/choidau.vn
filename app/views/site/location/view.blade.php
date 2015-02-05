@@ -41,7 +41,6 @@
 
                 <!-- Slides Container -->
                 <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
-                    {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
                     @foreach($location->album()->get() as $image)
                         <div>
                             <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
@@ -63,9 +62,9 @@
                     <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
                 </div>
                 <!-- Arrow Right -->
-								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
-                                    <button class="btn text-primary do-upload-image" type="submit">Đăng hình <i class="icon-camera"></i></button>
-								</span>
+                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
+                    <button class="btn text-primary do-upload-image" data-toggle="modal" href="uploadImageModal" type="button">Đăng hình <i class="icon-camera"></i></button>
+                </span>
                 <!-- Arrow Navigator Skin End -->
 
                 <!-- Thumbnail Navigator Skin Begin -->
@@ -197,6 +196,7 @@
         </div>
     </div>
     @include("site.location.review")
+    @include("site.location.edit")
 @stop
 
 @section("content")
@@ -330,20 +330,27 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <!-- luuhoabk tien ich right -->
-            @if(count($location->loadUtility()->get()) >0)
+
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
+                            <icon class="icon-layout font-16px"></icon>
                             Tiện ích
                         </div>
-                        @foreach($location->loadUtility()->get() as $utility)
+                        @if(count($location->loadUtility()->get()) >0)
+                            @foreach($location->loadUtility()->get() as $utility)
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                                    <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
+                                </div>
+                            @endforeach
+                        @else
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                                <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
+                                <span class="utility-empty font-12px">- Đang cập nhật.</span>
                             </div>
-                        @endforeach
+                        @endif
                     </div>
                 </div>
-            @endif
+
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
                 <div class="row">
@@ -476,146 +483,118 @@
 
 
 @section('js_page')
-<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
-
+    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+    <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
 @stop
+
 @section("scripts")
-    <!-- imtoantran -->
+<script>
+    jQuery(document).ready(
+        function(){
+            Location.initLocationItem();
+            setTimeout(function(){
+                Layout.initSliderLocation();
+            },1000);
 
-    <!-- imtoantran -->
-
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <!-- imtoantran -->
-
-    <!-- imtoantran -->
-    <!-- pop up -->
-    <!-- END LayerSlider -->
-
-
-    <script>
-        jQuery(document).ready(
-            function(){
-                setTimeout(function(){
-                    Layout.initSliderLocation();
-                },1000);
-
-                /* imtoantran do like */
-                $("#do-like").click(function(e){
-                    var like_btn = $(this);
-                    $(this).attr('disabled',true);
-                    $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/like")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
-                        success:function(response){
-                            $(".like-count").text(response['totalFavourites']);
-                            if(response['canLike']){
-
-                            }
-                            like_btn.attr('disabled',false);
+            /* imtoantran do like */
+            $("#do-like").click(function(e){
+                var like_btn = $(this);
+                $(this).attr('disabled',true);
+                $.ajax({
+                    type:"post",
+                    url:"{{URL::to("location/like")}}",
+                    data:{id:"{{$location->id}}"},
+                    dataType:"json",
+                    success:function(response){
+                        $(".like-count").text(response['totalFavourites']);
+                        if(response['canLike']){
+                        }
+                        like_btn.attr('disabled',false);
+                    }
+                });
+            });
+            /* imtoantran do like */
+            /* do checkin start */
+            $("#do-checkin").click(function(e){
+                var checkin_btn = $(this);
+                checkin_btn.attr('disabled',true);
+                $.ajax({
+                    type:"post",
+                    url:"{{URL::to("location/checkin")}}",
+                    data:{id:"{{$location->id}}"},
+                    dataType:"json",
+                    success:function(response){
+                        if(response['success']){
+                            $(".checkin-count").text(response['totalCheckedIn']);
+                        }else{
+                            alert(response['message']);
+                        }
+                            checkin_btn.attr('disabled',false);
                         }
                     });
                 });
-                /* imtoantran do like */
-                /* do checkin start */
-                $("#do-checkin").click(function(e){
-                    var checkin_btn = $(this);
-                    checkin_btn.attr('disabled',true);
+                /* do checkin end */
+                /* load reviews start */
+                /* load reviews end */
+                /* viet review start*/
+                $(".do-post-review").click(function(){
+                    $("#reviewModal").modal("show");
+                });
+                $(".wysihtml5").wysihtml5();
+
+                $("#review-save").click(function(){
+
+                    var listAlbum=Location.getAlbum();
+                    $("#review_album").val(listAlbum);
+                    var listalbum='';
+
+                    listAlbum.forEach(function (item) {
+                       listalbum+=item['post_id']+",";
+                    })
+                    $("#list-album").val(listalbum);
+                    var form = $("#review-form").serialize();
+
                     $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/checkin")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
+                        url:"{{URL::to("location/review")}}",
+                        type:"POST",
+                        data:form,
+
                         success:function(response){
-                            if(response['success']){
-                                $(".checkin-count").text(response['totalCheckedIn']);
-                            }else{
-                                alert(response['message']);
-                            }
-                                checkin_btn.attr('disabled',false);
-                            }
-                        });
-                    });
-                    /* do checkin end */
-                    /* load reviews start */
-                    /* load reviews end */
-                    /* viet review start*/
-                    $(".do-post-review").click(function(){
-                        $("#reviewModal").modal("show");
-                    });
-                    $(".wysihtml5").wysihtml5();
+                            $("#review-form")[0].reset();
+                             location.reload();
+                        },
+                        complete:function(){
+                            $('.modal').modal("hide");
+                        }
+                    })
+            });
+            /* viet review end */
 
-                    $("#review-save").click(function(){
-
-                        var listAlbum=Location.getAlbum();
-                        $("#review_album").val(listAlbum);
-                        var listalbum='';
-
-                        listAlbum.forEach(function (item) {
-                           listalbum+=item['post_id']+",";
-                        })
-                        $("#list-album").val(listalbum);
-                        var form = $("#review-form").serialize();
-
-                        $.ajax({
-                            url:"{{URL::to("location/review")}}",
-                            type:"POST",
-                            data:form,
-
-                            success:function(response){
-                                $("#review-form")[0].reset();
-                                 location.reload();
-                            },
-                            complete:function(){
-                                $('.modal').modal("hide");
-                            }
-                        })
-                });
-                /* viet review end */
-
-
-              /*------------like review-*/
-
-               $("")
-
-              /*------------end like review*/
-
-
-
-
-
-
-                // load gmap
-                var position = $('.gmaps-location').attr('data-position');
-                    position = position.split(",");
-                var position_lat = position[0];
-                var position_lng = position[1];
-                var map = new GMaps({
-                    div: '#gmap_marker',
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
-                });
-                var location_marker = map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng,
-                    title:'Địa điểm: {{$location->category->name}}'
-                });
-                infowindow.open(map,location_marker);
-                map.setZoom(15);
-            }
-        );
-    </script>
-    @stop
-
-    {{--imtoantran--}}
+            // load gmap
+            var position = $('.gmaps-location').attr('data-position');
+                position = position.split(",");
+            var position_lat = position[0];
+            var position_lng = position[1];
+            var map = new GMaps({
+                div: '#gmap_marker',
+                lat: position_lat,
+                lng: position_lng
+            });
+            map.addMarker({
+                lat: position_lat,
+                lng: position_lng
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
+            });
+            var location_marker = map.addMarker({
+                lat: position_lat,
+                lng: position_lng,
+                title:'Địa điểm: {{$location->category->name}}'
+            });
+            infowindow.open(map,location_marker);
+            map.setZoom(15);
+        }
+    );
+</script>
+@stop

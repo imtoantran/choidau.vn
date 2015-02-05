@@ -50,12 +50,12 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 
-
+//
 //			'host'      => '107.167.182.195',
 //			'database'  => 'choi_dau_02',
 //			'username'  => 'choidau_suntory',
 //			'password'  => 'MeHxCmaRfExKVqfZ',
-//
+
 			'host'      => 'localhost',
 			'database'  => 'choi_dau_02',
 			'username'  => 'choidau',

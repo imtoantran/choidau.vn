@@ -18,7 +18,7 @@ var Location = function () {
 
     return {
         //main function to initiate the module
-        init: function () {
+		initLocationCreate: function () {
 			self = this;
 			jQuery(document).ready(function(){
 				self.loadInitParam();
@@ -41,6 +41,18 @@ var Location = function () {
 
 
         },
+		initLocationItem: function() { // location/view.blade.php
+			self = this;
+			self.reviewLoadImage();
+		},
+
+		reviewLoadImage: function(){
+			$('#uploadImageModal').modal("show");
+			$('.do-upload-image').on('click',function(){
+				$('#uploadImageModal').modal("show");
+			});
+		},
+
 		submitForm: function() {
 			var locationError = $('.alert-danger', location_create_frm);
 			var locationSuccess = $('.alert-success', location_create_frm);
