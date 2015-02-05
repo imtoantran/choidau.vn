@@ -555,6 +555,7 @@
                 setTimeout(function(){
                     Layout.initSliderLocation();
                 },1000);
+
                 Portfolio.init();
                 /* imtoantran do like */
                 $("#do-like").click(function(e){

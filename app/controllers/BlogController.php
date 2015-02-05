@@ -41,12 +41,13 @@ class BlogController extends BaseController {
 	 */
 	public function getIndex($catSlug = 'an-uong-choi')
 	{
+		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
 		$cat = $this->cat->whereSlug($catSlug)->first();
 		// Get all the blog posts
 		$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 		// Show the page
-		return View::make('site/blog/index', compact('posts'));
+		return View::make('site/blog/index', compact('posts','blogs','cat'));
 	}
 	public function getEvent(){
 		return $this->getIndex('su-kien');
