@@ -315,12 +315,12 @@
 					</div>
 					<div class="clearfix"></div>
 					<header>
-						<h2>  {{String::tidy($topLocation->name,200)}} </h2>
+						<h2>  {{String::tidy(Str::limit($topLocation->name,20))}} </h2>
 								  <span>
-                                        {{String::tidy($topLocation->description,200)}}
+                                        {{String::tidy(Str::limit($topLocation->description,150))}}
 
 								  </span>
-						<p><a href="{{$topReview->location->url()}}">xem thêm</a></p>
+						<p><a href="{{$topLocation->url()}}">xem thêm</a></p>
 					</header>
 
 
