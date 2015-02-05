@@ -34,22 +34,10 @@
 
                         <div class="col-md-2 col-xs-12 col-sm-12">
                             <div class="form-group margin-bottom-0">
-                                <select class="form-control">
+                                <select class="form-control" id="provinceList">
 
-
-                                    @if (Cache::has('listProvince'))
-
-                                    <?php   $listProvince = Cache::get('listProvince');?>
-
-                                    @else
-                                    <?php $listProvince=Province::all();?>
-
-                                    <?php Cache::forever('listProvince', $listProvince);?>
-
-                                    @endif
-
-                                    @foreach($listProvince as $item)
-                                    <option>{{$item->name}}</option>
+                                    @foreach(Cache::get("provinces") as $province)
+                                        <option @if($province->id) value="{{$province->id}}" @endif @if($province->id == Session::get("province")->id) selected @endif>{{$province->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -105,9 +93,9 @@
     <div class="">
         <nav class="header-navigation font-transform-inherit">
             <ul>
-                <li><a href="#"><span> ăn </span> <i class="icon-food"></i></a></li>
-                <li><a href="#"><span> uống </span> <i class="icon-bar"></i></a></li>
-                <li><a href="#"><span>đi </span> <i class="icon-school"></i></a></li>
+                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/an")}}"><span> ăn </span> <i class="icon-food"></i></a></li>
+                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/uong")}}"><span> uống </span> <i class="icon-bar"></i></a></li>
+                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/di")}}"><span>đi </span> <i class="icon-school"></i></a></li>
                 <li><a href="#"><span>video </span> <i class="icon-videocam-3"></i></a></li>
                 <li><a href="{{URL::to("blog.html")}}"><span>blog </span> <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="#"><span>hỏi đáp</span> <i class="icon-wechat"></i></a></li>

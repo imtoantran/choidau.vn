@@ -159,13 +159,36 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     
     /* imtoantran save location start */
-    public function getView($provinceSlug,$location_id,$locationSlug){
-        $location = Location::whereSlug($locationSlug)->whereId($location_id)->first();
-        $location_nearly = $this->getClosePosition($location);
-        $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
-        $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
-        $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-        return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
+    public function getView($provinceSlug,$slug){
+        // kiem tra thanh pho ton tai hay khng
+        if(Province::whereSlug($provinceSlug)->count()){
+            $province = Province::whereSlug($provinceSlug)->first();
+            // kiem tra danh muc co ton tai hay khong va hien thi danh sach dia diem theo danh muc nay neu co
+            if(Category::whereSlug($slug)->count()) {
+                if (Category::whereSlug($slug)->first()->parent->slug == "danh-muc-dia-diem") {
+                    $category = Category::whereSlug($slug)->first();
+                    $categoryTitle = $category->description;
+                    // kiem tra co dia diem trong danh muc hay khong
+                    if(Location::whereCategoryId($category->id)->count()){
+                        $locations = Location::whereCategoryId($category->id)->whereProvinceId($province->id)->paginate(9);
+                        return View::make("site.location.index", compact("locations","categoryTitle"));
+                    }
+                }
+            }
+            // neu khong co danh muc thi hien thi dia diem
+            if(Location::whereSlug($slug)->count()){
+                $js_plugin = $this->js_plugin;
+                $location = Location::whereSlug($slug)->first();
+                $location_nearly = $this->getClosePosition($location);
+                $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
+                $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
+                $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
+                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs",
+                    'js_plugin'));
+            }
+
+        }
+        return View::make("site.location.404");
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
@@ -210,10 +233,10 @@ class LocationController extends BaseController {
             $response['canLike'] = true;
         }
         else{
-            $location->userAction()->attach($user,['action_type'=>'like']);
+            $location->userAction()->attach($user,['action_type'=>'like','created_at'=>date_format(new DateTime(),"Y-m-d H:i:s")]);
             $response['canLike'] = false;
         }
-        $response['totalFavourites'] = $location->userAction()->whereAction_type("like")->count();
+        $response['totalFavourites'] = $location->totalLike();
         $response['success']=true;
         return json_encode($response);
     }

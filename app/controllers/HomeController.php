@@ -48,7 +48,8 @@ class HomeController extends BaseController {
 		/* top post start */
 		$topBlog = BLog::orderBy("created_at","desc")->first();
 		/* top post end */
-		return View::make('site/home/index',compact('page_title','categories','topReview','topLocation','topBlog'));
+		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
+		return View::make('site/home/index',compact('page_title','categories','topReview','topLocation','topBlog','blogs'));
 	}
 
 	/**
