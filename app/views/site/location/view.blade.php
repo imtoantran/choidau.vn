@@ -681,12 +681,13 @@
                 },
 
                 success:function(response){
+                    if(response!=null){
                     $(".lab-location-list-event").html(response);
                     $(".lab-location-list-event").attr('is_val','1');
-
+                    }
                 },
                 complete:function(){
-                    $('.modal').modal("hide");
+                  //  $('.modal').modal("hide");
                 }
             });
         }
@@ -704,17 +705,22 @@
                 $.ajax({
                     url:"{{URL::to("location/load-photo")}}",
                     type:"POST",
+
                     data:{
                     'location_id':location_id
                 },
-
                 success:function(response){
-                    $(".lab-location-list-photo").html(response);
-                    $(".lab-location-list-photo").attr('is_val','1');
+
+                    if(response!=null){
+                        var i=  $(".lab-location-list-photo").html(response);
+                        $(".lab-location-list-photo").attr('is_val','1');
+                    }
+
+
 
                 },
-                complete:function(){
-                    $('.modal').modal("hide");
+                complete:function(response){
+                   // $('.modal').modal("hide");
                 }
             });
         }
