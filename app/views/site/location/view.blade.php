@@ -14,6 +14,7 @@
 
 
 @section("topb")
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
@@ -88,8 +89,6 @@
             </div>
 
         </div>
-
-
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
             <div class="location-information">
                 {{--//luuhoabk dia diem --}}
@@ -168,31 +167,31 @@
 
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
-                        <div class="location-activitie-title">LOCATION ACTIVITIES</div>
+                        Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
+                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-universal-access icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
+                            <span class="icon-location icon-border-square" style="cursor:pointer;" id="do-checkin"></span>
                             <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <span class="icon-location-1 icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
+                            <span class="icon-star icon-border-square"></span>
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
+                            <i class="icon-star-filled icon-border-square"></i>
                             <p>15</p>
                         </div>
 
 
                     </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 portlet-body padding-5">
-                            <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 col-no-padding margin-none gmaps-location">
-                            </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
+                        <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -210,14 +209,14 @@
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
                     <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
                     <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
-                    <li role="presentation" class=""><a href="#tag-member-location-content"  class="btn-member-location" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
-                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
-                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
+                    <li role="presentation" class=""><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
+                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
+                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
                     <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
 
                 <!<!-- Tab panes -->
-                <div class="tab-content" id="choidau-person">
+                <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @foreach($reviews as $review)
                         <div class="reviews row item-post-element-parent">
@@ -271,13 +270,12 @@
                            // print_r($list_album);
                             ?>
 
-
                             <div class="">
                                 @foreach($list_album as $img)
                                 <?php $img=Post::find($img->meta_value);
                                       $img_link=$img->getMetaKey('url');
-
                                 ?>
+
                                 <div class="col-md-2 col-sm-4 gallery-item">
                                     <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}" class="fancybox-button">
                                         <img alt="" src="{{$img_link}}" class="img-responsive">
@@ -291,31 +289,21 @@
                             <!-- thao luan,like,dislike,report -->
                             <?php
                             if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('31')->count()){
-
                                 $lab_like='Đã thích ';
-
                             }else{
                                 $lab_like='Thích ';
-
                             }
 
                             if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('32')->count()){
-
                                 $lab_dislike='Đã không thích ';
-
                             }else{
                                 $lab_dislike='không Thích ';
-
                             }
 
-
                             if($review->userAction()->whereUser_id(Auth::user()->id)->wherePost_user_type_id('37')->count()){
-
                                 $lab_spam='Đã báo cáo xấu';
-
                             }else{
                                 $lab_spam='Báo cáo xấu ';
-
                             }
                             ?>
 
@@ -323,7 +311,7 @@
                                 <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
                                 <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
                                 <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_spam">{{$lab_spam}}</span></a>
+                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_dislike">{{$lab_spam}}</span></a>
                                 <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
                             </div>
                             <!-- thao luan,like,dislike,report end-->
@@ -334,58 +322,8 @@
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
-                    <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
-
-                        <section class="person-friends choidau-bg">
-                            <header class="">
-                                Tất cả bạn bè <span class="person-friends-list-total">2</span>
-                            </header>
-
-                            <div class="row person-friends-list lab-location-list-member margin-none" is_val="0">
-
-                    </div>
-
-
-                        </section>
-
-
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tag-event-location-content">
-
-                        <div class="lab-location-list-event">
-
-                        </div>
-
-
-
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
-
-
-                        <section class="person-images choidau-bg">
-                            <header>
-                                <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
-                                <i class="icon-camera" style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
-                                <div class="text-1em2">Album ảnh</div>
-                            </header>
-                            <nav>
-                                <ul class="mix-filter">
-                                    <li data-filter="all" class="filter">Tất cả</li>
-                                    <li data-filter="category_avatar active" class="filter">Ảnh đại diện</li>
-                                    <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
-                                </ul>
-                            </nav>
-                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo" >
-
-
-
-                            </div>
-                        </section>
-
-
-                    </div>
-
+                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                    <div role="tabpanel" class="tab-pane" id="settings"></div>
                 </div>
 
             </div>
@@ -482,13 +420,12 @@
 @stop
 
 @section('style_plugin')
+
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
-
 
 
 @stop
@@ -520,7 +457,6 @@
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
 
 <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
@@ -542,8 +478,6 @@
 @section('js_page')
 <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
 <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
-
 
 @stop
 @section("scripts")
@@ -566,9 +500,7 @@
             function(){
                 setTimeout(function(){
                     Layout.initSliderLocation();
-
                 },1000);
-                Portfolio.init();
 
                 /* imtoantran do like */
                 $("#do-like").click(function(e){
@@ -641,94 +573,20 @@
                             complete:function(){
                                 $('.modal').modal("hide");
                             }
-                        });
+                        })
                 });
                 /* viet review end */
 
 
-              /*------------Tag Thanh vien Loacation-*/
-               $(".btn-member-location").click(function(){
+              /*------------like review-*/
 
-                var element_input_data_location=$("#input-data-value-location");
-                var location_id=element_input_data_location.attr('i_l');
-                var is_val = $(".lab-location-list-member").attr('is_val');
-                if(is_val!='1'){
-                        $.ajax({
-                            url:"{{URL::to("location/load-member")}}",
-                            type:"POST",
-                            data:{
-                            'location_id':location_id
-                        },
+               $("")
 
-                        success:function(response){
-                            $(".lab-location-list-member").html(response);
-                            $(".lab-location-list-member").attr('is_val','1');
-
-                        },
-                        complete:function(){
-                            $('.modal').modal("hide");
-                        }
-                    });
-                }
-            });
+              /*------------end like review*/
 
 
-              /*------------Tag Thanh vien Loacation*/
 
-              /*-------------Tag Sự kiện*/
-                $(".btn-event-location").click(function(){
 
-                    var element_input_data_location=$("#input-data-value-location");
-                    var location_id=element_input_data_location.attr('i_l');
-                    var is_val = $(".lab-location-list-event").attr('is_val');
-                    if(is_val!='1'){
-                        $.ajax({
-                            url:"{{URL::to("location/load-event")}}",
-                            type:"POST",
-                            data:{
-                            'location_id':location_id
-                        },
-
-                        success:function(response){
-                            $(".lab-location-list-event").html(response);
-                            $(".lab-location-list-event").attr('is_val','1');
-
-                        },
-                        complete:function(){
-                            $('.modal').modal("hide");
-                        }
-                    });
-                }
-                });
-              /*--------------Tag Sự Kiện end*/
-
-        /*-------------Tag Hình ảnh*/
-        $(".btn-photo-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-photo").attr('is_val');
-           // alert(location_id);
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-photo")}}",
-                    type:"POST",
-                    data:{
-                    'location_id':location_id
-                },
-
-                success:function(response){
-                    $(".lab-location-list-photo").html(response.html);
-                    $(".lab-location-list-photo").attr('is_val','1');
-
-                },
-                complete:function(){
-                    $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-        /*--------------Tag Sự Kiện end*/
 
 
                 // load gmap
