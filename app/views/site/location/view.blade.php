@@ -17,10 +17,10 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
+
                 <!-- Loading Screen -->
                 <header class="row header-location">
                     <div class="col-md-10 ">
-                        <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
                         <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
                         <ul class="list-unstyled list-inline ul-list-rating">
                             <li><i class="icon-star-filled"></i></li>
@@ -32,12 +32,15 @@
                     </div>
                     <div class="col-md-2">
                         <div class="g-plusone" data-size="medium"></div>
-                        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"> </div>
+                        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
+                        </div>
+
                     </div>
                 </header>
 
-               <!-- Slides Container -->
-                <section u="slides" class="slider-location" style="cursor: move; position: absolute; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                <!-- Slides Container -->
+                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
+                    {{--<section u="slides" class="slider-location" style="cursor: move; position: absolute; top: 0px; overflow: hidden;">--}}
                     @foreach($location->album()->get() as $image)
                         <div>
                             <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
@@ -45,16 +48,23 @@
                         </div>
                     @endforeach
                 </section>
-            </div>
 
-                <span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 158px; left: 15px;"> </span>
-                <span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">   </span>
+                <!-- Arrow Navigator Skin Begin -->
+
+                <!-- Arrow Left -->
+								<span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 158px; left: 15px;">
+								</span>
+                <!-- Arrow Right -->
+								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
+								</span>
+                <!-- Arrow Left -->
                 <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
                     <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
                 </div>
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
-                    <button class="btn text-primary do-upload-image" type="submit">Đăng hình <i class="icon-camera"></i></button>
-                </span>
+                <!-- Arrow Right -->
+								<span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
+                                    <button class="btn text-primary do-upload-image" type="submit">Đăng hình <i class="icon-camera"></i></button>
+								</span>
                 <!-- Arrow Navigator Skin End -->
 
                 <!-- Thumbnail Navigator Skin Begin -->
@@ -74,7 +84,12 @@
                     <!-- Thumbnail Item Skin End -->
                 </div>
                 <!-- Thumbnail Navigator Skin End -->
+
             </div>
+
+        </div>
+
+
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
             <div class="location-information">
                 {{--//luuhoabk dia diem --}}
