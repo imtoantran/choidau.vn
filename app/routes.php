@@ -236,7 +236,6 @@ Route::filter("session",function(){
         Session::put("province",Province::find(79));
     if (!Cache::has('provinces'))
         Cache::forever('provinces', Province::all());
-    echo "sdfs";
 });
 Route::when("*","sessions");
 /* imtoantran filter end */
