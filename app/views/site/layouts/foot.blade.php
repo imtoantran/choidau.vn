@@ -99,6 +99,17 @@
         }
         catch(err) {}
 
+        $("#provinceList").change(function(){
+            $.ajax({
+                url:"{{URL::to("changePorvince")}}",
+                type:"post",
+                data:{id:$(this).val()},
+                success:function(){
+                    location.reload();
+                }
+            });
+        });
+
         @if (isset($js_script))
                 {{$js_script}}
         @endif

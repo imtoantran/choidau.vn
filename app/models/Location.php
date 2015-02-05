@@ -56,9 +56,6 @@ class Location extends Eloquent {
 	public function isLiked($userId){
 		return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
 	}
-	public function whoLiked(){
-		return $this->userAction()->whereActionType("like");
-	}
 	public function address(){
 		$address = isset($this->address_detail)?$this->address_detail:"";
 		$address .= isset($this->province->name )?$this->province->name :"";
@@ -66,7 +63,12 @@ class Location extends Eloquent {
 		$address .= isset($this->district->name )?$this->district->name :"";
 		return $address;
 	}
-
+	public function whoLiked(){
+		return $this->userAction()->whereActionType("like")->orderBy("location_user.created_at","desc");
+	}
+	public function totalLike(){
+		return $this->whoLiked()->count()?$this->whoLiked()->count():0;
+	}
 	/* imtoantran url end */
 	public function hasReview(){
 		return $this->reviews()->count();

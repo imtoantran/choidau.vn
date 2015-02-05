@@ -380,12 +380,12 @@
 				<?php
 				$reviews = null;
 				$review = null;
-				if($hasReview = $location->reviews()->count()){
+				if($hasReview = $location->hasReview()){
 					$reviews = $location->reviews()->orderBy("created_at","desc");
 					$review = $reviews->first();
 				}
 				?>
-				<div class="col-md-4 col-xs-12 col-sm-6  col-no-padding-left">
+				<div class="col-md-4 col-xs-12 col-sm-6  col-no-padding-left location-item">
 					<a href="{{$location->url()}}">
 						<div class="box-product-img-content">
 							<img src="{{asset("$location->avatar")}}" width="317px" height="180px" />
@@ -422,7 +422,8 @@
 									</a>
 									<p>Vừa đánh giá địa điểm</p>
 								@else
-									Chưa có bình luận nào.
+									<span> ... </span>
+									<p>Chưa có bình luận nào.</p>
 								@endif
 
 							</div>
@@ -437,12 +438,12 @@
 					<div class="row box-product-like">
 						<div class="col-md-10 col-xs-10 col-sm-10">
 							<div class="row">
-								@if($location->whoLiked()->count())
-									@foreach($location->whoLiked()->get() as $userLiked)
+								@if($location->totalLike())
+									@foreach($location->whoLiked()->take(3)->get() as $userLiked)
 										<img  class="img-circle" src="{{asset($userLiked->avatar)}}"/>
 									@endforeach
 								@endif
-								<p class="quantity-like">{{$location->userAction()->whereAction_type("like")->count()}} lượt thích</p>
+								<p class="quantity-like"><span>{{$location->totalLike()}}</span> lượt thích</p>
 
 							</div>
 						</div >
@@ -468,6 +469,13 @@
 
 @stop
 
+
+@section("bottomb")
+	<!-- bai viet noi bat -->
+	@include("site.blog.featured")
+	<!-- bai viet noi bat end -->
+@stop
+
 @section('scripts')
 	<!-- BEGIN RevolutionSlider -->
 	<script src="{{asset("assets/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js")}}" type="text/javascript"></script>
@@ -490,6 +498,7 @@
 				success:function(response){
 					if(response.success){
 						el.toggleClass("active");
+						el.closest(".location-item").find(".quantity-like span").text(response.totalFavourites);
 					}
 				},
 				complete:function(){

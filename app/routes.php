@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -32,7 +31,11 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
 
-
+/* imtoantran set province */
+Route::post("changePorvince",function(){
+   Session::put("province",Province::find(Input::get("id")));
+})->where("id","[0-9]");
+/* imtoantran set province */
 /** ------------------------------------------
  *  Admin Routes
  *  ------------------------------------------
@@ -134,7 +137,7 @@ Route::controller('blog.html','BlogController');
 
 
 /** -------------------Site location: luuhoabk-------------**/
-Route::group(array('prefix' => 'dia-diem'), function(){
+Route::group(array('prefix' => 'dia-diem','before' => 'auth'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
@@ -217,7 +220,19 @@ Route::get('language/{lang}',
         'uses' => 'LanguageController@select'
     )
 );
-
 /* imtoantran start */
 Route::get("{provinceSlug}/{slug}","LocationController@getView");
 /* imtoantran end */
+/* imtoantran filter start */
+Route::filter("checkLogin",function(){
+
+});
+Route::filter("session",function(){
+    if(!Session::has("province"))
+        Session::put("province",Province::find(79));
+    if (!Cache::has('provinces'))
+        Cache::forever('provinces', Province::all());
+    echo "sdfs";
+});
+Route::when("*","sessions");
+/* imtoantran filter end */
