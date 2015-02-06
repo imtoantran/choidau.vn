@@ -583,26 +583,29 @@ var Layout = function () {
         var id_user_auth=$(".item-status-value").attr('user_auth_id');
 
 
-        if(id_user_auth==id_user_blog){
-            $(".insertMedia").show();
 
-        }
+       // if(id_user_auth!=null &&id_user_auth==id_user_blog){
+         //   $(".insertMedia").show();
+
+     //   }
       //  var input_element=parent_item_element.find('input.item-status-value');
 
         /**
          * Đăng status
          */
 
-        $(".btn-add-status").click(function(){
+        $(document).on("click",".btn-add-status", function () {
           var content_status=$("#content-status").val();
           var  privacy_status=$("#privacy-status").attr("value_id");
+
             $.ajax({
                 type: "POST",
                 url: URL+"/trang-ca-nhan/trang-thai.html",
                 data: {
                     'content':content_status,
                     'privacy':privacy_status,
-                    'type_edit':'add_status'
+                    'type_edit':'add_status',
+                    'id_user_blog':id_user_blog
 
                 },
                 sync:true,
@@ -616,7 +619,7 @@ var Layout = function () {
                         sync:true,
                         success: function(data_1){
                            // $( data_1 ).insertAfter( ".form-add-status");
-                            $("#feed-blog-post-top").append(data_1);
+                            $(data_1).prependTo("#feed-blog-post-top");
 
                         }
                     });
@@ -651,7 +654,8 @@ var Layout = function () {
                     'user_auth_id':user_auth_id,
                     'user_author_id':user_author_id,
                     'type_edit':'like_status',
-                    'type_action_like':type_action_like
+                    'type_action_like':type_action_like,
+                    'id_user_blog':id_user_blog
 
                 },
                 sync:false,
@@ -704,7 +708,8 @@ var Layout = function () {
                 'user_auth_id':user_auth_id,
                 'user_author_id':user_author_id,
                 'type_edit':'like_status',
-                'type_action_like':type_action_like
+                'type_action_like':type_action_like,
+                'id_user_blog':id_user_blog
 
             },
             sync:false,
@@ -745,7 +750,8 @@ var Layout = function () {
                 'user_auth_id':user_auth_id,
                 'user_author_id':user_author_id,
                 'type_edit':'like_status',
-                'type_action_like':type_action_like
+                'type_action_like':type_action_like,
+                'id_user_blog':id_user_blog
 
             },
            sync:false,
@@ -800,7 +806,8 @@ var Layout = function () {
                     data: {
                         'post_id':post_id,
                         'type_edit':'comment_post',
-                        'content_comment':content_comment
+                        'content_comment':content_comment,
+                        'id_user_blog':id_user_blog
 
                     },
                     dataType:'JSON',
@@ -841,7 +848,8 @@ var Layout = function () {
                     'id_comment':id_comment,
                     'id_user':id_user,
                     'id_parent_comment':id_parent_comment,
-                    'type_edit':'comment_delete'
+                    'type_edit':'comment_delete',
+                    'id_user_blog':id_user_blog
 
                 },
                 sync:true,
@@ -866,7 +874,8 @@ var Layout = function () {
                         url: URL+"/trang-ca-nhan/trang-thai.html",
                         data: {
                             'id_status':id_status,
-                            'type_edit':'status_delete'
+                            'type_edit':'status_delete',
+                            'id_user_blog':id_user_blog
                         },
                         sync:true,
                         success: function(data_1){
@@ -895,7 +904,8 @@ var Layout = function () {
                 url: URL+"/trang-ca-nhan/ban-be.html",
                 data: {
                    'id_friend':id_friend,
-                   'type_edit':'request_add_friend'
+                   'type_edit':'request_add_friend',
+                    'id_user_blog':id_user_blog
                 },
                 sync:false,
                 success: function(data_1){
