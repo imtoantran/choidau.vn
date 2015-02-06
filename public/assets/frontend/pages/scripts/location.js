@@ -41,18 +41,122 @@ var Location = function () {
 
 
         },
+		//------VIEW LOCATION----------------------------------------------------------------------------------------
 		initLocationItem: function() { // location/view.blade.php
 			self = this;
 			self.reviewLoadImage();
+			self.deleteImgAlbum();
+
+		},
+
+		loading: function(element, className, action){ // action : show/hide
+			switch(action){
+				case 'show':
+					element.removeClass(className).addClass('animate-spin icon-spin3');
+					break;
+				case 'hide':
+					element.addClass(className).removeClass('animate-spin icon-spin3');
+					break;
+				default: break;
+			}
 		},
 
 		reviewLoadImage: function(){
 			//$('#uploadImageModal').modal("show");
 			$('.do-upload-image').on('click',function(){
 				$('#uploadImageModal').modal("show");
-				//console.log('hello');
 			});
 		},
+		deleteImgAlbum: function(){
+			var wrapperAlbum = $('.wrapper-img');
+			var location_id=$('#input-data-value-location').attr('i_l');
+			wrapperAlbum.find('button').each(function(){
+				var button = $(this);
+				var post_id = $(this).attr('data-img-album');
+				$(this).on('click', function(){
+					self.loading(button.find('i'),'icon-cancel-circled','show');
+					$.ajax({
+						url: URL+"/dia-diem/xoa-image-album",
+						type: 'post',
+						data: {'location_id': location_id, 'post_id': post_id},
+						//dataType: 'json',
+						success: function(resAlbum){
+							wrapperAlbum.find('.item-img').each(function(){
+								if($(this).attr('data-img-id') == post_id){
+									$(this).remove();
+								}
+							})
+						},
+						complete: function(){
+							if($('.wrapper-img .item-img').length<=0){
+								$('.album-empty').fadeIn();
+							}
+							self.loading(button.find('i'),'icon-cancel-circled','hide');
+						}
+					});
+				});
+			});
+		},
+		insertAlbum: function(){
+			var urlImg=$('#url-edit-media').attr('data-img-url');
+			var urlPostId=$('#url-edit-media').attr('data-post-img-id');
+
+			var location_id=$('#input-data-value-location').attr('i_l');
+			var isExist = true;
+
+			if(urlImg == '' || urlImg == 'undefined'){
+				alert('Xin chọn hình.');
+				return false;
+			}
+			self.loading($('#btn-upgrade-imgs i'),'icon-file-image','show');
+			// kiem tra hinh da chon hay chua
+			$.ajax({
+				url: URL+"/dia-diem/load-album",
+				type: 'post',
+				data: {'location_id': location_id},
+				dataType: 'json',
+				success: function(resAlbum){
+					$.each(resAlbum, function(k,val){
+						if(val.id == urlPostId){
+							isExist = false;
+						}
+					});
+					if(!isExist){
+						alert('Hình này đã được chọn.');
+						self.loading($('#btn-upgrade-imgs i'),'icon-file-image','hide');
+						return false;
+					}else{
+						if($('.wrapper-img .item-img').length>0){
+							$('.album-empty').fadeOut();
+						}
+						// insert image in album
+						$.ajax({
+							url: URL+"/dia-diem/save-image-album",
+							type: 'post',
+							data: {'location_id': location_id, 'post_id': urlPostId},
+							dataType: 'json',
+							success: function(resSaveAlbum){
+								var wrapperAlbum = $('.wrapper-img');
+								var htmlTag  = $('<div/>',{class:'col-xs-3 item-img','data-img-id':urlPostId});
+								var html = '';
+									html += '<button type="button" data-img-album="'+urlPostId+'" class="no-padding location-img-btn-close-item" title="Xóa hình">';
+									html += '<i class="icon-cancel-circled"></i>';
+									html += '</button>';
+									html += '<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="'+urlImg+'" alt=""/>';
+									html += '</div>';
+								htmlTag.append(html);
+								wrapperAlbum.append(htmlTag);
+							},
+							complete: function(){
+								self.deleteImgAlbum();
+								self.loading($('#btn-upgrade-imgs i'),'icon-file-image','hide');
+							}
+						});
+					}
+				}
+			});
+		},
+        //-----END VIEW LOCATION----------------------------------------------------------------------------------------------
 
 		submitForm: function() {
 			var locationError = $('.alert-danger', location_create_frm);
