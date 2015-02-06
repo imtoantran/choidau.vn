@@ -30,11 +30,30 @@ class Location extends Eloquent {
 		return $this->belongsTo("Category");
 	}
 //	luuhoabk
-	public function saveAlbum($image){
-		return $this->belongsToMany("Post")->attach($image,["location_post_type_id"=>Option::whereName('location_post_type')->whereValue('image')->first()->id]);
+	public function getValuePostType($textColum){
+		return Option::whereName('location_post_type')->whereValue($textColum)->first()->id;
+	}
+	public function relationPost(){
+		return $this->belongsToMany("Post");
+	}
+
+	public function saveAlbum($post_id){
+		if($this->relationPost()->wherePivot("post_id","=",$post_id)->count()){
+			return 0;
+		}
+		$this->belongsToMany("Post")->attach($post_id,["location_post_type_id"=>$this->getValuePostType('image')]);
+		return 1;
+	}
+
+	public function deleteImageAlbum($post_id){
+		if($this->relationPost()->wherePivot("post_id","=",$post_id)->count()){
+			$this->belongsToMany("Post")->detach($post_id);
+			return 1;
+		}
+		return 0;
 	}
 	public function album(){
-		return $this->belongsToMany("Post")->whereLocationPostTypeId(Option::whereName('location_post_type')->whereValue('image')->first()->id);
+		return $this->belongsToMany("Post")->whereLocationPostTypeId($this->getValuePostType('image'));
 	}
 	public function food(){
 		return $this->belongsToMany("Food","location_food");

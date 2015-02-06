@@ -477,6 +477,10 @@ var Layout = function () {
                         result = Location.loadAlbum();
                         break;
 
+                    case "location_insert_album": //luuhoabk (location/location.js)
+                        result = Location.insertAlbum();
+                        break;
+
                     case "insert_one_img":
                       $(".abc").html(img);
 

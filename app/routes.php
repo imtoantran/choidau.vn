@@ -144,9 +144,11 @@ Route::group(array('prefix' => 'dia-diem','before' => 'auth'), function(){
     Route::get('loadInitParam', 'LocationController@loadInitParam');
     Route::get('loadProvince', 'AddressController@loadProvince');
     Route::post('loadDistrict', 'AddressController@loadDistrict');
-
     Route::get('tao-dia-diem', 'LocationController@getCreate');
     Route::post('luu-dia-diem', 'LocationController@saveLocation');
+    Route::post('load-album', 'LocationController@loadAlbum');
+    Route::post('save-image-album', 'LocationController@saveImageAlbum');
+    Route::post('xoa-image-album', 'LocationController@deleteImageAlbum');
 
 //    Route::controller('/', 'LocationController'); // run contruct function
 });

@@ -9,20 +9,31 @@
 			<div class="modal-body">
 				<session>
 					<div class="row wrapper-img">
-						@foreach($location->album()->get() as $image)
-							<div class="col-xs-3 item-img">
-								<button type="button" class="no-padding location-img-btn-close-item" title="Xóa hình">
-									<i class="icon-cancel-circled"></i>
-								</button>
-								<img width="100%" height="100%" class="img-responsive" src="{{$image->getMetaKey("url")}}" alt=""/>
+						@if($location->album()->count())
+							@foreach($location->album()->get() as $image)
+								<div class="col-xs-3 item-img"  data-img-id="{{$image->id}}">
+									<button type="button" data-img-album="{{$image->id}}" class="no-padding location-img-btn-close-item" title="Xóa hình">
+										<i class="icon-cancel-circled"></i>
+									</button>
+									<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="{{$image->getMetaKey("url")}}" alt=""/>
+								</div>
+							@endforeach
+						@else
+							<div class="album-empty padding-left-20" style="font-style: italic; color: #ccc;">
+								<i class="icon-folder-empty"></i>
+								Thư mục rỗng.
 							</div>
-						@endforeach
+						@endif
 					</div>
 				</session>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-				<div class="btn btn-primary">Thêm hình</div>
+				<div id="iM_user_slide1" type_insert="location_insert_album" class=" col-md-4 insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+					<div class="add-picture vertically-centered" style="">
+						<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
+					</div>
+				</div>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

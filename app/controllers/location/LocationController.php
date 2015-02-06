@@ -83,6 +83,7 @@ class LocationController extends BaseController {
         return json_encode($initParam);
     }
 
+    //luuhoabk - save location
     public function saveLocation(){
         $result = [];
         $user = Auth::user();
@@ -152,6 +153,24 @@ class LocationController extends BaseController {
         }
 
         return $result;
+    }
+
+    //luuhoabk - get image album of location
+    public function loadAlbum(){
+        $location_id = Input::get('location_id');
+        return json_encode(Location::find($location_id)->album()->get());
+    }
+
+    public function saveImageAlbum(){
+        $location_id = Input::get('location_id');
+        $post_id = Input::get('post_id');
+        return Location::find($location_id)->saveAlbum($post_id);
+    }
+
+    public function deleteImageAlbum(){
+        $location_id = Input::get('location_id');
+        $post_id = Input::get('post_id');
+        return Location::find($location_id)->deleteImageAlbum($post_id);
     }
 
 //        $province_id = Input::get('dataForm');
@@ -371,12 +390,9 @@ class LocationController extends BaseController {
         foreach($list_photo as $item){
             $category='';
             $url='';
-            $url=$item->getMetaKey('url');
+            $url=$item->loadAlbum('url');
 
             $category='category_'.$item->getMetaKey('type_use');
-
-
-
             $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
 
             $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
