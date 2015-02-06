@@ -12,7 +12,7 @@
 						@if($location->album()->count())
 							@foreach($location->album()->get() as $image)
 								<div class="col-xs-3 item-img"  data-img-id="{{$image->id}}">
-									<button type="button" data-img-album="{{$image->id}}" class="no-padding location-img-btn-close-item" title="Xóa hình">
+									<button type="button" data-img-album="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips" data-original-title="Xóa">
 										<i class="icon-cancel-circled"></i>
 									</button>
 									<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="{{$image->getMetaKey("url")}}" alt=""/>

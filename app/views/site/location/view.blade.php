@@ -169,20 +169,20 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square" style="cursor:pointer;" id="do-like"></span>
+                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-location icon-border-square" style="cursor:pointer;" id="do-checkin"></span>
+                            <span class="icon-location icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
                             <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <span class="icon-star icon-border-square"></span>
+                            <span class="icon-star icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square"></i>
+                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
                             <p>15</p>
                         </div>
 
