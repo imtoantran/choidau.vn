@@ -403,7 +403,7 @@ class LocationController extends BaseController {
         foreach($list_photo as $item){
             $category='';
             $url='';
-            $url=$item->loadAlbum('url');
+            $url=$item->getMetaKey('url');
 
             $category='category_'.$item->getMetaKey('type_use');
             $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
