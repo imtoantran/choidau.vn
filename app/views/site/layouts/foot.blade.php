@@ -104,7 +104,12 @@
             $.ajax({
                 url:"{{URL::to("changePorvince")}}",
                 type:"post",
-                data:{id:$(this).val()}
+                dataType:"json",
+                data:{id:$(this).val()},
+                success:function(data){
+                    //if(data.success)
+                        //location.href = data.url;
+                }
             });
         });
 
@@ -114,10 +119,6 @@
 
         @section("js_script")
         @show
-       var a=Auth.check();
-
-
-
     });
 </script>
 

@@ -157,7 +157,7 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     
     /* imtoantran save location start */
-    public function getView($provinceSlug,$slug){
+    public function getView($provinceSlug,$slug = ''){
         // kiem tra thanh pho ton tai hay khng
         if(Province::whereSlug($provinceSlug)->count()){
             $province = Province::whereSlug($provinceSlug)->first();

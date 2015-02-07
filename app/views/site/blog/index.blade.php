@@ -5,25 +5,7 @@
     <!-- bai viet noi bat end -->
 @stop
 @section('sidebar')
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-12 col-lg-12">
-                <div class="row">
-                    <img src="{{asset("upload/files/banner01.png")}}" class="img-responsive" alt="Image">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-12 col-lg-12">
-                <div class="row">
-                    <img src="{{asset("upload/files/banner02.png")}}" class="img-responsive" alt="Image">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-12 col-lg-12">
-                <div class="row">
-                    <img src="{{asset("upload/files/banner03.png")}}" class="img-responsive" alt="Image">
-                </div>
-            </div>
-        </div>
-    </div>
+    @include("site.layouts.sidebar")
 @stop
 
 {{-- Content --}}
@@ -56,15 +38,20 @@
                                 <p><strong><a href="{{{ $post->url() }}}">{{ String::title($post->title) }}</a></strong>
                                 </p>
 
-                                <p>{{{ $post->date() }}} <span class="glyphicon glyphicon-comment"></span> <a
-                                            href="{{{ $post->url() }}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
+                                <p>
+                                    {{ date_format($post->created_at,"d/m/Y - H:m:i") }}
+                                    <i class = "icon-smile"></i>{{$post->totalView()}} lượt xem
+                                    <i class = "icon-comment-empty"></i>{{$post->totalComment()}} thảo luận
+                                    <i class = "icon-heart-empty"></i>{{$post->totalLike()}} thích
+
                                 </p>
 
                                 <p class="margin-bottom-10">{{ String::tidy(Str::limit($post->content, 200)) }}</p>
 
-                                <p><a class="more" href="#">Read more <i class="icon-angle-right"></i></a></p>
+                                <p><a class="more" href="#">Xem thêm<i class="icon-angle-right"></i></a></p>
                             </div>
                             <div class="clearfix"></div>
+                            <hr>
                         </div>
                     @endforeach
                     {{ $posts->links() }}

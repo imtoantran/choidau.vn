@@ -170,6 +170,9 @@ class Post extends Eloquent
 	public function thumbnail(){
 		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
 	}
+	public function totalView(){
+		return $this->meta()->whereMetaKey("blog_view")->count();
+	}
 	//imtoantran
 
     public function countLike(){
