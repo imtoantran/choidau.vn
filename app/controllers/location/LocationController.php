@@ -270,6 +270,12 @@ class LocationController extends BaseController {
         }
         else{
             $location->userAction()->attach($user,['action_type'=>'checkin']);
+            $date=date_create("now");
+            $date=  date_format($date,"Y-m-d H:i:s");
+            $blog_user=$user->blog()->first();
+            $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>41,'user_id'=>$user->id,'obj_id'=>$location->id,'created_at'=>$date]);
+
+
             $response['success'] = true;
         }
         $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
@@ -298,6 +304,11 @@ class LocationController extends BaseController {
         $review->parent_id = $data['id']; // review for this location
         $review->save();
 
+        $date=date_create("now");
+        $date=  date_format($date,"Y-m-d H:i:s");
+        $blog_user=$user->blog()->first();
+        $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>42,'user_id'=>$user->id,'obj_id'=>$review->id,'created_at'=>$date]);
+
         /* review meta star */
         $meta[] = new PostMeta("review_rating",$data["review_rating"]);
         $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
@@ -309,7 +320,9 @@ class LocationController extends BaseController {
             $meta[] =new PostMeta("review_image",$list_album[$i]);
         }
 
+
         $review->meta()->saveMany($meta);
+
 
         /* review meta end */
 
