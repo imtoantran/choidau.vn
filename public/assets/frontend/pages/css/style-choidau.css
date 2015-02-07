@@ -7,7 +7,8 @@ body.choidau {
 	text-transform: uppercase;
 }
 .choidau h1 {
-	font-size: 23px;
+	font-size: 18px;
+	padding: 2px 5px;
 }
 .choidau h2 {
 	font-size: 16px;
