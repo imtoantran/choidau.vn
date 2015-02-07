@@ -621,7 +621,7 @@
 
                             success:function(response){
                                 $("#review-form")[0].reset();
-                                 location.reload();
+                               //  location.reload();
                             },
                             complete:function(){
                                 $('.modal').modal("hide");
