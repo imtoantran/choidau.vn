@@ -2,7 +2,7 @@
 <div class="header-top">
     <div class="row ">
         <div style="" class="header-top-content">
-            <div class="col-xs-12 col-sm-12 col-md-3">Hotline : 1900 59 59 59 </div>
+            <div class="col-xs-12 col-sm-12 col-md-3">&nbsp; Hotline : 1900 59 59 59 </div>
             <div class="col-md-6 col-xs-12 col-sm-12"> Email :hotrokhachhang@choidau.net</div>
             <div class="col-md-3 col-xs-12 col-sm-12 text-right padding-right-20">
                 <ul class="list-unstyled list-inline">
@@ -32,12 +32,15 @@
                 <div class="row margin-none">
                     <div class="box-search">
 
-                        <div class="col-md-2 col-xs-12 col-sm-12">
+                        <div class="col-md-2 col-xs-12 col-sm-12 col-none-padding">
                             <div class="form-group margin-bottom-0">
                                 <select class="form-control" id="provinceList">
-
                                     @foreach(Cache::get("provinces") as $province)
-                                        <option @if($province->id) value="{{$province->id}}" @endif @if($province->id == Session::get("province")->id) selected @endif>{{$province->name}}</option>
+                                        @if($province->id == 79)
+                                            <option class="province-mark" value="{{$province->id}}" @if($province->id == Session::get("province")->id) selected @endif>{{$province->name}}</option>
+                                        @else
+                                            <option value="{{$province->id}}" @if($province->id == Session::get("province")->id) selected @endif>{{$province->name}}</option>
+                                        @endif
                                     @endforeach
 
                                 </select>
@@ -53,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class=" col-md-3 margin-top-10 box-add-location" >
+                    <div class=" col-md-3 margin-top-5 box-add-location" >
                        <a style="font-weight: bold;font-size: 0.9em;" href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>
                     </div>
 
