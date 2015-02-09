@@ -316,6 +316,38 @@
 
 
     </div>
+
+    <div role="tabpanel" class="tab-pane" id="tag-blog-checkin-content">
+
+
+        <section class="person-content  blog-checkin-list-content choidau-bg">
+            <!--main content-->
+
+
+        </section>
+        <div class="person-advertise text-center">
+            <img class="img-responsive" src="./img-data-demo/advertise.jpg" alt="">
+        </div>
+    </div>
+
+
+    <div role="tabpanel" class="tab-pane" id="tag-blog-location-like-content">
+
+
+        <section class="person-location choidau-bg">
+            <div class="row person-location-list  blog-location-like-list-content margin-none">
+
+
+
+
+
+            </div>
+        </section>
+
+
+    </div>
+
+
 </div>
 
 

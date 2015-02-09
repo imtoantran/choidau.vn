@@ -53,10 +53,10 @@
                         <a href="#tag-blog-photo-content" id="btn-tag-blog-photo" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Ảnh</a>
                     </li>
                     <li role="presentation" class="">
-                        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm yêu thích</a>
+                        <a href="#tag-blog-location-like-content" aria-controls="messages" id="btn-tag-blog-location-like" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm yêu thích</a>
                     </li>
                     <li role="presentation" class="">
-                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
+                        <a href="#tag-blog-checkin-content" aria-controls="settings" id="btn-tag-blog-checkin" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
                     </li>
                     <li role="presentation">
                         <a href="#tag-blog-friend-content" id="btn-tag-blog-friend" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>

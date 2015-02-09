@@ -221,4 +221,13 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->belongsToMany('Post','post_user')->orWherePivot('post_type','=','review')
                                                        ->orWherePivot('post_type','=','status');
     }
+
+
+    public function checkin(){
+        return $this->belongsToMany("Location")->wherePivot('action_type','=','checkin');
+    }
+
+    public function location_like(){
+        return $this->belongsToMany("Location")->wherePivot('action_type','=','like');
+    }
 }
