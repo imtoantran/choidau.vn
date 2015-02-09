@@ -984,7 +984,7 @@ var Layout = function () {
              var is_val= $(".blog-checkin-list-content").attr('is_val');
 
              if(is_val!='1'){
-                 $('.blog-photo-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
+                 $('.blog-checkin-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
                  $.ajax({
                      type: "POST",
                      url: URL+"/trang-ca-nhan/list-check-in.html",
