@@ -583,13 +583,6 @@ var Layout = function () {
         var id_user_auth=$(".item-status-value").attr('user_auth_id');
 
 
-
-       // if(id_user_auth!=null &&id_user_auth==id_user_blog){
-         //   $(".insertMedia").show();
-
-     //   }
-      //  var input_element=parent_item_element.find('input.item-status-value');
-
         /**
          * Đăng status
          */
@@ -981,6 +974,71 @@ var Layout = function () {
 
             });
 
+         /**Tag check in*/
+
+         $("#btn-tag-blog-checkin").click(function(){
+
+             var element_list_friend= $(".blog-checkin-list-content").html();
+             var id_user_blog=$(".person-header-username").attr("id_u_blo");
+
+             var is_val= $(".blog-checkin-list-content").attr('is_val');
+
+             if(is_val!='1'){
+                 $('.blog-photo-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
+                 $.ajax({
+                     type: "POST",
+                     url: URL+"/trang-ca-nhan/list-check-in.html",
+                     data: {
+                         'id_user_blog':id_user_blog
+                     },
+                     sync:false,
+                     success: function(data_1){
+                         $(".blog-checkin-list-content").html(data_1.html);
+                         $(".blog-checkin-list-content").attr('is_val','1');
+
+                     },
+                     dataType:'JSON'
+                 });
+
+             }
+
+
+         });
+
+        /**end Tab check in*/
+
+
+        /**Tab location like*/
+        $("#btn-tag-blog-location-like").click(function(){
+
+            var element_list_friend= $(".blog-photo-list-content").html();
+            var id_user_blog=$(".person-header-username").attr("id_u_blo");
+
+            var is_val= $(".blog-location-like-list-content").attr('is_val');
+
+            if(is_val!='1'){
+                $('.blog-location-like-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
+                $.ajax({
+                    type: "POST",
+                    url: URL+"/trang-ca-nhan/list-location-like.html",
+                    data: {
+                        'id_user_blog':id_user_blog
+                    },
+                    sync:false,
+                    success: function(data_1){
+                        $(".blog-location-like-list-content").html(data_1.html);
+                        $(".blog-location-like-list-content").attr('is_val','1');
+
+                    },
+                    dataType:'JSON'
+                });
+
+            }
+
+
+        });
+
+        /**end Tab location like*/
 
 
 

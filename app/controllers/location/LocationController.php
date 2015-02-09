@@ -244,14 +244,32 @@ class LocationController extends BaseController {
         $id = Input::get("id");
         $location = Location::find($id);
         $user = Auth::user();
+        $blog_user=$user->blog()->first();
         $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
         $response=[];
         if($count){
             $location->userAction()->detach($user,['action_type'=>'like']);
+            $post_like=Status::where('parent_id','=',$location->id)->where('user_id','=',$user->id)->first();
+            $blog_post=BlogPost::where('post_id','=',$post_like->id)->where('user_id','=',$user->id)
+                                    ->where('blog_post_type_id','=','44')->where('blog_id','=',$blog_user->id);
+
+            $blog_post->delete();
+//            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
+            $post_like->delete();
             $response['canLike'] = true;
         }
         else{
             $location->userAction()->attach($user,['action_type'=>'like','created_at'=>date_format(new DateTime(),"Y-m-d H:i:s")]);
+            $date=date_create("now");
+            $date=  date_format($date,"Y-m-d H:i:s");
+
+
+            $post_like=new Status();
+            $post_like->user_id=$user->id;
+            $post_like->parent_id=$location->id;
+            $post_like->save();
+            $blog_user->status()->attach($user,['blog_post_type_id'=>44,'post_id'=>$post_like->id,'blog_id'=>$blog_user->id,'created_at'=>$date,'updated_at'=>$date]);
+
             $response['canLike'] = false;
         }
         $response['totalFavourites'] = $location->totalLike();
@@ -269,11 +287,19 @@ class LocationController extends BaseController {
             $response['message']="Bạn đã đến đây";
         }
         else{
-            $location->userAction()->attach($user,['action_type'=>'checkin']);
             $date=date_create("now");
             $date=  date_format($date,"Y-m-d H:i:s");
+
+            $location->userAction()->attach($user,['action_type'=>'checkin','created_at'=>$date,'updated_at'=>$date]);
+
             $blog_user=$user->blog()->first();
-            $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>41,'user_id'=>$user->id,'obj_id'=>$location->id,'created_at'=>$date]);
+
+            $post_check_in=new Checkin();
+            $post_check_in->user_id=$user->id;
+            $post_check_in->parent_id=$location->id;
+            $post_check_in->save();
+
+            $blog_user->status()->attach($user,['blog_post_type_id'=>41,'blog_id'=>$blog_user->id,'post_id'=>$post_check_in->id,'created_at'=>$date,'updated_at'=>$date]);
 
 
             $response['success'] = true;
@@ -307,7 +333,7 @@ class LocationController extends BaseController {
         $date=date_create("now");
         $date=  date_format($date,"Y-m-d H:i:s");
         $blog_user=$user->blog()->first();
-        $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>42,'user_id'=>$user->id,'obj_id'=>$review->id,'created_at'=>$date]);
+        $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>42,'user_id'=>$user->id,'obj_id'=>$review->id,'created_at'=>$date,'updated_at'=>$date]);
 
         /* review meta star */
         $meta[] = new PostMeta("review_rating",$data["review_rating"]);
@@ -429,5 +455,11 @@ class LocationController extends BaseController {
 
 
     /*---------end load photo*/
+
+
+    public static  function loadItemReview($id){
+        $review=Review::find($id);
+        return    View::make('site.location.item_review',compact('review'));
+    }
 
 }

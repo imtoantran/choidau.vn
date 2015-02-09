@@ -16,4 +16,9 @@ class Checkin extends Post {
 	{
 		return parent::newQuery()->wherePost_type("checkin");
 	}
+
+    public function location(){
+
+        return Location::find($this->parent_id);
+    }
 }

@@ -181,8 +181,10 @@ Route::group(array('prefix' => 'trang-ca-nhan'), function(){
    // Route::get('/ban-be.html','BlogUserController@getListFriend');
     Route::post('/list-ban-be.html','BlogUserController@getListFriend');
     Route::post('/list-hinh-anh.html','BlogUserController@getListPhoto');
+    Route::post('/list-check-in.html','BlogUserController@getListCheckIn');
+    Route::post('/list-location-like.html','BlogUserController@getListLocationLike');
     Route::post('/ban-be.html','BlogUserController@postFriend');
-
+    Route::any('/load-item-checkin-{id_check_in}','BlogUserController@loadCheckIn');
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
 });
 
