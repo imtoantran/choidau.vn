@@ -153,32 +153,6 @@ class UserController extends BaseController {
               return View::make('site/user/login',compact('page_title'));
 
         }
-        //  if($this->user->save())
-       //      {
-        //     return View::make('site/user/login',compact('page_title'));
-         //    }
-
-
-           echo '<pre>';
-         //   print_r($data);
-           echo '</pre>';
-    //    $this->user->username='vinhle';
-    //    $this->user->email='ád';
-     //   $this->user->password='ádasd';
-
-     //   $this->user->save();
-     //   if($this->user->save())
-    //    {
-         //   return View::make('site/user/login',compact('page_title'));
-    //    }
-    //    $listProvince=Province::orderBy('name','ASC')->get();
-    //    $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
-
-   //     $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-
-   //     return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
-
-    //    return View::make('site/user/create',compact('page_title','seoarray'));
 
     }
 
@@ -218,7 +192,7 @@ class UserController extends BaseController {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
 
-            return Redirect::to('user/login')
+            return Redirect::to('thanh-vien/dang-nhap.html')
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg);
         }

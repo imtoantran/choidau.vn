@@ -66,6 +66,9 @@ var Location = function () {
 			$('.do-upload-image').on('click',function(){
 				$('#uploadImageModal').modal("show");
 			});
+            $('.btn-create-event-location').on('click',function(){
+                $('#popup-create-event').modal("show");
+            });
 		},
 		deleteImgAlbum: function(){
 			var wrapperAlbum = $('.wrapper-img');

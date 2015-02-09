@@ -68,6 +68,19 @@
                 </span>
                 <!-- Arrow Navigator Skin End -->
 
+                <!-- Arrow Right -->
+                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
+                    <button class="btn text-primary btn-create-event-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Event <i class="icon-calendar"></i></button>
+                </span>
+                <!-- Arrow Navigator Skin End -->
+
+
+                <!-- Arrow Right -->
+                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
+                    <button class="btn text-primary btn-create-event-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Thực đơn <i class="icon-calendar"></i></button>
+                </span>
+                <!-- Arrow Navigator Skin End -->
+
                 <!-- Thumbnail Navigator Skin Begin -->
                 <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
                     <!-- Thumbnail Item Skin Begin -->
@@ -461,11 +474,13 @@
 @section("bottomb")
     <!-- bai viet noi bat -->
     @include("site.blog.featured")
+
     <!-- bai viet noi bat end -->
+@include('site.location.popup_create_event')
 @stop
 
 @section('style_plugin')
-
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
@@ -506,6 +521,7 @@
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
+<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
 
 <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
@@ -555,6 +571,60 @@
                     Layout.initSliderLocation();
                 },1000);
                 Portfolio.init();
+
+
+                //initialize datepicker
+
+//                $('.datepicker-start').off('focus').datepicker({ format: 'dd-mm-yyyy'}).click(
+//                    function () {
+//                        $(this).datepicker('show');
+//                    }
+//                );
+//                $('.datepicker-end').off('focus').datepicker({ format: 'dd-mm-yyyy'}).click(
+//                    function () {
+//                        $(this).datepicker('show');
+//                    }
+//                );
+
+
+
+
+
+
+                var startDate = new Date(2012,1,20);
+                var endDate = new Date(2012,1,25);
+                $('.datepicker-start').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() > endDate.valueOf()){
+
+                        } else {
+
+                            startDate = new Date(ev.date);
+                            $(this).val(startDate);
+                        }
+                        $('.datepicker-start').datepicker('hide');
+                    });
+
+                $('.datepicker-end').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() < startDate.valueOf()){
+
+                            } else {
+
+                            endDate = new Date(ev.date);
+                            $(this).val(endDate);
+                        }
+                        $('.datepicker-end').datepicker('hide');
+                    });
+
+
+
+
+
+
+
+
+
                 /* imtoantran do like */
                 $("#do-like").click(function(e){
                     var like_btn = $(this);

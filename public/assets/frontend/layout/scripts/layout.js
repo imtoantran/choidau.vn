@@ -1104,6 +1104,37 @@ var Layout = function () {
 
 
     }
+   var  handleUser= function(){
+       $(".btn-login-popup-choidau").click(function(){
+
+           var email=$("#username_popup_login").val();
+           var password=$("#password_popup_login").val();
+           var remember=$("#remember").val();
+           var _token=$("#_token").val();
+           $.ajax({
+               type: "POST",
+               url: URL+"/thanh-vien/dang-nhap.html",
+               data: {
+                   'email':email,
+                   'password':password,
+                   'remember':remember,
+                   '_token':_token
+
+               },
+               sync:false,
+               success: function(data_1){
+
+
+               },
+               dataType:'JSON',
+               complete:function(){
+                   $('.modal').modal("hide");
+                   location.reload();
+               }
+           });
+
+       });
+   }
 
     var handlePostAction=function(){
         /*----like post-----------*/
@@ -1242,6 +1273,7 @@ var Layout = function () {
             handleComponentLayout();
             handleBlog();
             handlePostAction();
+            handleUser();
         },
         btnSelection:function(){
             $(".select-button ul.dropdown-menu li ").click(function(){

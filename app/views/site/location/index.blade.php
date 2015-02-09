@@ -93,4 +93,5 @@
         @endforeach
     </div>
     <div class="paging">{{$locations->links()}}</div>
+
 @stop
