@@ -63,9 +63,10 @@
                     </div>
 
                     <div class="col-md-3 margin-top-10 box-infor-user text-right" style="padding-right:5px;">
-                        <i class="icon-user-7"></i>
+
 
                         @if (Auth::check())
+                            <i class="icon-user-7"></i>
                             @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                             @endif
@@ -76,8 +77,8 @@
                                 <span class="badge badge-default"> 7 </span>
                             </a>
                         @else
-                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
-                            <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
+                            <a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
+                            <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
                         @endif
                     </div>
 
@@ -98,9 +99,9 @@
     <div class="">
         <nav class="header-navigation font-transform-inherit">
             <ul>
-                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/an")}}"><span> ăn </span> <i class="icon-food"></i></a></li>
-                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/uong")}}"><span> uống </span> <i class="icon-bar"></i></a></li>
-                <li><a href="{{URL::to(Str::slug(Session::get("province")->name)."/di")}}"><span>đi </span> <i class="icon-school"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->name)."/an"}}"><span> ăn </span> <i class="icon-food"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->name)."/uong"}}"><span> uống </span> <i class="icon-bar"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->name)."/di"}}"><span>đi </span> <i class="icon-school"></i></a></li>
                 <li><a href="#"><span>video </span> <i class="icon-videocam-3"></i></a></li>
                 <li><a href="{{URL::to("blog.html")}}"><span>blog </span> <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="#"><span>hỏi đáp</span> <i class="icon-wechat"></i></a></li>

@@ -447,13 +447,13 @@
                     <div class="row">
                         <div class="col-lg-12 padding-top-10">
                             <div>Địa điểm lân cận</div>
-                            <a href="#" class="show-more">&gt;&gt;&gt;Xem tất cả</a>
                         </div>
                         @foreach($location_nearly as $key=>$val)
                             @if($key < 6)
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                                 <div class="location-info">
                                     <a href="{{$val->url()}}">
+                                        <div class="box-product-img-content">
                                         <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
                                         <section class="location-description">
                                         <strong>{{$val->name}}</strong>
@@ -461,6 +461,7 @@
                                                 <small>{{$val->address()}}</small>
                                             </p>
                                         </section>
+                                            </div>
                                     </a>
                                 </div>
                             </div>
@@ -575,6 +576,7 @@
                 setTimeout(function(){
                     Layout.initSliderLocation();
                 },1000);
+
                 Portfolio.init();
 
                 /*thời gian sự kiện location*/

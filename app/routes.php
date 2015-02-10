@@ -33,7 +33,16 @@ Route::pattern('token', '[0-9a-z]+');
 
 /* imtoantran set province */
 Route::post("changePorvince",function(){
-   Session::put("province",Province::find(Input::get("id")));
+    $province = Province::find(Input::get("id"));
+    if(is_null($province)){
+        return json_encode(["success"=>false]);
+    }
+    else
+    {
+        Session::put("province",Province::find(Input::get("id")));
+        return json_encode(["success"=>true,"url"=>URL::to($province->slug)]);
+    }
+
 })->where("id","[0-9]");
 /* imtoantran set province */
 /** ------------------------------------------
@@ -104,6 +113,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 
 });
 
+
 #location start
 Route::get('dia-diem/{provinceSlug}/{id}-{locationSlug}','LocationController@getView');
 Route::post("location/like/",'LocationController@like');
@@ -132,6 +142,7 @@ Route::get('blog/su-kien.html','BlogController@getEvent');
 Route::get('blog/kinh-nghiem.html','BlogController@getExperience');
 Route::get('blog/{slug}.html','BlogController@getView');
 Route::controller('blog.html','BlogController');
+Route::controller('blog', 'BlogController');
 /* imtoantran end */
 
 /** ------------------------------------------
@@ -171,7 +182,7 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
 
 /** -------------------End Site User-------------------**/
 /** -------------------Site blog: -------------**/
-Route::group(array('prefix' => 'trang-ca-nhan'), function(){
+Route::group(array('prefix' => 'trang-ca-nhan','before'=>'auth'), function(){
 
     Route::get('/chinh-sua-thong-tin.html','BlogUserController@getEditBlogUser');
     Route::post('/chinh-sua-thong-tin.html','BlogUserController@postEditBlogUser');
@@ -199,7 +210,8 @@ Route::post('user/reset/{token}', 'UserController@postReset');
 Route::post('user/{user}/edit', 'UserController@postEdit');
 
 //:: User Account Routes ::
-Route::post('user/login', 'UserController@postLogin');
+Route::get('nguoi-dung/dang-nhap', 'UserController@getLogin');
+Route::post('nguoi-dung/dang-nhap', 'UserController@postLogin');
 
 # User RESTful Routes (Login, Logout, Register, etc)
 Route::controller('user', 'UserController');
@@ -217,7 +229,7 @@ Route::get('contact-us', function()
 });
 
 # Posts - Second to last set, match slug
-Route::get('{postSlug}', 'BlogController@getView');
+Route::get('{postSlug}.html', 'BlogController@getView');
 Route::post('{postSlug}', 'BlogController@postView');
 
 # Index Page - Last route, no matches
@@ -231,17 +243,12 @@ Route::get('language/{lang}',
     )
 );
 /* imtoantran start */
-Route::get("{provinceSlug}/{slug}","LocationController@getView");
+Route::group(array('prefix' => "{provinceSlug}"),function(){
+    Route::get("/","LocationController@getView");
+    Route::get("{slug}","LocationController@getView");
+});
 /* imtoantran end */
 /* imtoantran filter start */
 Route::filter("checkLogin",function(){
 
 });
-Route::filter("session",function(){
-    if(!Session::has("province"))
-        Session::put("province",Province::find(79));
-    if (!Cache::has('provinces'))
-        Cache::forever('provinces', Province::all());
-});
-Route::when("*","session");
-/* imtoantran filter end */
