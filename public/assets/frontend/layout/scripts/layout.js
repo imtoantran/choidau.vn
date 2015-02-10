@@ -1104,6 +1104,71 @@ var Layout = function () {
 
 
     }
+   var  handleUser= function(){
+       $(".btn-login-popup-choidau").click(function(){
+
+           var email=$("#username_popup_login").val();
+           var password=$("#password_popup_login").val();
+           var remember=$("#remember").val();
+           var _token=$("#_token").val();
+           $.ajax({
+               type: "POST",
+               url: URL+"/thanh-vien/dang-nhap.html",
+               data: {
+                   'email':email,
+                   'password':password,
+                   'remember':remember,
+                   '_token':_token
+
+               },
+               sync:false,
+               success: function(data_1){
+
+
+               },
+               dataType:'JSON',
+               complete:function(){
+                   $('.modal').modal("hide");
+                   location.reload();
+               }
+           });
+
+       });
+   }
+
+
+    var handleCalendar=function(){
+//
+//        var afp_current_date = new Date();
+//
+//        var AfpCurrentMonth = afp_current_date.getMonth();
+//        var AfpCurrentDate  = afp_current_date.getDate();
+//        var AfpCurrentYear  = afp_current_date.getFullYear();
+//
+//        $.datepicker.regional['vi'] = {
+//            minDate: new Date(AfpCurrentYear, AfpCurrentMonth, AfpCurrentDate),
+//            closeText: 'Cerrar',
+//            prevText: '<Ant',
+//            nextText: 'Sig>',
+//            currentText: 'Hoy',
+//            monthNames: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+//                'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'],
+//            monthNamesShort: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+//                'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'],
+//            dayNames: ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','Chủ Nhật'],
+//            dayNamesShort: ['Thu2','Thu3','Thu4','Thu5','Thu6','Thu7','ChuN'],
+//            dayNamesMin: ['T2','T3','T4','T5','T6','T7','CN'],
+//            weekHeader: 'Tuần',
+//            dateFormat: 'dd/mm/yy',
+//            firstDay: 1,
+//            isRTL: false,
+//            showMonthAfterYear: false,
+//            yearSuffix: ''};
+//     //   $.datepicker.setDefaults($.datepicker.regional['vi']);
+
+
+
+    }
 
     var handlePostAction=function(){
         /*----like post-----------*/
@@ -1236,12 +1301,14 @@ var Layout = function () {
             $( ".tooltips" ).tooltip({
                 disabled: true
             });
+            handleCalendar();
             handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
             handleComponentLayout();
             handleBlog();
             handlePostAction();
+            handleUser();
         },
         btnSelection:function(){
             $(".select-button ul.dropdown-menu li ").click(function(){

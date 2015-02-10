@@ -74,7 +74,13 @@ class LocationController extends BaseController {
         $foodType = Option::orderBy('name','ASC')->where('name','=','food_type')->get();
         $province = Province::orderBy('name','ASC')->get();
         $utility = Utility::orderBy('name','ASC')->get();
-        $food = Food::orderBy('name','ASC')->get();
+
+        if(Cache::has('list_food')){
+            $food=Cache::get('list_food');
+        }else{
+            $food = Food::orderBy('name','ASC')->get();
+        }
+
 
         // Lay danh muc dia diem
         $catLocation = Category::whereSlug("danh-muc-dia-diem")->first()->children()->get();
@@ -389,13 +395,14 @@ class LocationController extends BaseController {
         $location_id=$data['location_id'];
         $user=Auth::user();
         $location=Location::find($location_id);
-        $listEvent=$location->events()->get();
+        $listEvent=$location->events()->get()->sortByDesc('updated_at');
 
         foreach($listEvent as $event){
          $html.=$this->loadEventItem($event);
         }
         echo $html;
     }
+
     public function loadEventItem($event){
             $user_author=$event->author;
             return View::make('site.location.item_event',compact('event','user_author'));
@@ -445,21 +452,84 @@ class LocationController extends BaseController {
             $a=4;
         }
 
-      //  $arrReturn['html']=$html_photo;
-        // $arrReturn['total']=count($list_id_friend);
-
-        echo $html_photo;// json_encode($arrReturn);
-
+        echo $html_photo;
     }
+
 
 
 
     /*---------end load photo*/
 
+   /***
+    * @param $id
+    * @return \Illuminate\View\View
+    * load một review của địa điêm
+    */
 
     public static  function loadItemReview($id){
         $review=Review::find($id);
         return    View::make('site.location.item_review',compact('review'));
     }
+    /***--------    * load một review của địa điêm --end--     */
+
+
+    /**
+     * Đăng một sự kiện mới cho location
+    */
+
+    public function postEvent(){
+
+        $data=Input::all();
+        $location=Location::find($data['location_id']);
+        $event = new EventLocation();
+        $event->title=$data['title_event'];
+        $event->content=$data['content_event'];
+        $event->user_id=Auth::user()->id;
+
+        $event->save();
+        $event->location()->save($location);
+        $postMeta=new PostMeta();
+        $postMeta->meta_key='time_date_start';
+        $postMeta->meta_value=$data['date_start_event'];
+        $event->meta()->save($postMeta);
+
+        $postMeta1=new PostMeta();
+        $postMeta1->meta_key='time_date_end';
+        $postMeta1->meta_value=$data['date_end_event'];
+        $event->meta()->save($postMeta1);
+
+
+
+
+    }
+    /**-end-------     * Đăng một sự kiện mới cho location     */
+
+
+
+     /**
+      * Đăng món ăn trong thực đơn locaiton
+     */
+
+    /****/
+    public function postFood(){
+
+        $data=Input::all();
+
+        $location=Location::find($data['location_id']);
+           $value=array(
+               'food_name'=>$data['food_name'],
+               'description'=>$data['food_description'],
+               'user_id'=>Auth::user()->id,
+               'location_id'=>$data['location_id'],
+               'type_id'=>$data['food_type'],
+
+               'price'=>$data['food_price']
+
+
+           );
+        $location->food()->attach($data['food_name_id'],$value);
+    }
+
+    /***      * Đăng món ăn trong thực đơn locaiton--end    */
 
 }

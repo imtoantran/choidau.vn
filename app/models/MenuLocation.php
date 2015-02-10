@@ -1,10 +1,10 @@
 <?php
 use Illuminate\Support\Facades\URL;
 
-class EventLocation extends Post {
+class MenuLocation extends Post {
     protected $table = "posts";
     protected $attributes = array(
-        'post_type' => 'event_location'
+        'post_type' => 'menu_location'
     );
     protected $id_location;
     /**
@@ -17,7 +17,7 @@ class EventLocation extends Post {
 
     public function newQuery($excludeDeleted = true)
     { $this->title;
-        return parent::newQuery()->wherePost_type("event_location");
+        return parent::newQuery()->wherePost_type("menu_location");
     }
 
     public function location(){

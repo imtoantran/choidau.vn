@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="POST" action="{{ URL::to('user/login') }}" accept-charset="UTF-8">
+<form class="form-horizontal" method="POST" action="{{ URL::to('thanh-vien/dang-nhap.html') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <fieldset>
         <div class="form-group">

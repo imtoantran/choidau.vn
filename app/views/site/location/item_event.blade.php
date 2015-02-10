@@ -24,7 +24,7 @@
             <div class="">
                 <div class="col-lg-6  col-none-padding">
                     <div>Đã đăng sự kiện</div>
-                    <div><small><i>Vào lúc {{String::showTimeAgo($event->created_at())}}</i></small></div>
+                    <div><small><i>{{String::showTimeAgo($event->created_at())}}</i></small></div>
                 </div>
                 <div class="col-lg-6  col-none-padding">
                     <small class="pull-right">Số người  + | Chi phí  đ+ | Sẽ quay lại:  không </small>
@@ -36,29 +36,11 @@
         <div>
             <p class="title">{{$event['title']}}</p>
             <p class="content">
-                bài test thứ 2&nbsp;bài test thứ 2&nbsp;bài test thứ 2bài test thứ 2bài test thứ 2bài test thứ 2bài test thứ 2bài test thứ 2
+                {{$event['content']}}
             </p>
         </div>
     </div>
-    <!-- hinh anh -->
 
-
-    <div class="">
-        <div class="col-md-2 col-sm-4 gallery-item">
-            <a data-rel="fancybox-button" title="Project Name" href="/upload/media_user/5/foody-bibimbap-korean-food.JPG" class="fancybox-button">
-                <img alt="" src="/upload/media_user/5/foody-bibimbap-korean-food.JPG" class="img-responsive">
-                <div class="zoomix"><i class="fa fa-search"></i></div>
-            </a>
-        </div>
-        <div class="col-md-2 col-sm-4 gallery-item">
-            <a data-rel="fancybox-button" title="Project Name" href="/upload/media_user/5/foody-the-chapel-restaurant-705-635564030635150634.JPG" class="fancybox-button">
-                <img alt="" src="/upload/media_user/5/foody-the-chapel-restaurant-705-635564030635150634.JPG" class="img-responsive">
-                <div class="zoomix"><i class="fa fa-search"></i></div>
-            </a>
-        </div>
-
-    </div>
-    <!-- hinh anh -->
     <!-- thao luan,like,dislike,report -->
 
     <div class="col-md-12 review-action padding-left-0">

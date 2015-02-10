@@ -68,6 +68,19 @@
                 </span>
                 <!-- Arrow Navigator Skin End -->
 
+                <!-- Arrow Right -->
+                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
+                    <button class="btn text-primary btn-create-event-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Event <i class="icon-calendar"></i></button>
+                </span>
+                <!-- Arrow Navigator Skin End -->
+
+
+                <!-- Arrow Right -->
+                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
+                    <button class="btn text-primary btn-create-food-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Món ăn <i class="icon-calendar"></i></button>
+                </span>
+                <!-- Arrow Navigator Skin End -->
+
                 <!-- Thumbnail Navigator Skin Begin -->
                 <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
                     <!-- Thumbnail Item Skin Begin -->
@@ -461,11 +474,14 @@
 @section("bottomb")
     <!-- bai viet noi bat -->
     @include("site.blog.featured")
+
     <!-- bai viet noi bat end -->
+@include('site.location.popup_create_event')
+@include('site.location.popup_create_food')
 @stop
 
 @section('style_plugin')
-
+<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
 <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
@@ -507,6 +523,7 @@
 <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
 <script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
 
+<!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
 <script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
 
@@ -555,6 +572,51 @@
                     Layout.initSliderLocation();
                 },1000);
                 Portfolio.init();
+
+                /*thời gian sự kiện location*/
+//                $( ".datepicker-start" ).datetimepicker({
+//                    defaultDate: "+1w",
+//                    changeMonth: true,
+//                    numberOfMonths: 2,
+//                    format: "dd-mm-yyyy",
+//                    timeFormat: "hh:mm tt",
+//                    language: "vi",
+//                    onClose: function( selectedDate ) {
+//                        $( ".datepicker-end" ).datepicker( "option", "minDate", selectedDate );
+//                    }
+//                });
+//                $( ".datepicker-end" ).datetimepicker({
+//                    defaultDate: "+1w",
+//                    changeMonth: true,
+//                    numberOfMonths: 2,
+//                    format: "dd-mm-yyyy",
+//                    timeFormat: "hh:mm tt",
+//                    language: "vi",
+//                    onClose: function( selectedDate ) {
+//                        $( ".datepicker-start" ).datepicker( "option", "maxDate", selectedDate );
+//                    }
+//                });
+
+
+                $('#date-start-event-location').datetimepicker({
+                    format: 'DD/MM/YYYY h:mm:ss'
+
+
+                });
+                $('#date-end-event-location').datetimepicker({
+                    format: 'DD/MM/YYYY h:mm:ss'
+                });
+                $("#date-start-event-location").on("dp.change",function (e) {
+                    $('#date-end-event-location').data("DateTimePicker").minDate(e.date);
+                });
+                $("#date-end-event-location").on("dp.change",function (e) {
+                    $('#date-start-event-location').data("DateTimePicker").maxDate(e.date);
+                });
+
+                /***--end thời gian sự kiện location*/
+
+
+
                 /* imtoantran do like */
                 $("#do-like").click(function(e){
                     var like_btn = $(this);
@@ -666,6 +728,7 @@
             var element_input_data_location=$("#input-data-value-location");
             var location_id=element_input_data_location.attr('i_l');
             var is_val = $(".lab-location-list-event").attr('is_val');
+
             if(is_val!='1'){
                 $.ajax({
                     url:"{{URL::to("location/load-event")}}",
@@ -675,7 +738,9 @@
                 },
 
                 success:function(response){
-                    if(response!=null){
+
+                   if(response!=null){
+
                     $(".lab-location-list-event").html(response);
                     $(".lab-location-list-event").attr('is_val','1');
                     }
@@ -720,6 +785,97 @@
         }
         });
         /*--------------Tag hình ảnh end*/
+
+
+
+
+        /***---Btn Add sự kiện location--start--*/
+
+        $(".btn-add-event-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var title_event=$("#title-event-location").val();
+            var content_event=$("#content-event-location").val();
+            var date_start_event=$("#date-start-event-location").val();
+            var date_end_event=$("#date-end-event-location").val();
+          // alert(date_start_event);
+            $.ajax({
+                url:"{{URL::to("location/event")}}",
+                type:"POST",
+
+                data:{
+                    'location_id':location_id,
+                    'title_event':title_event,
+                    'content_event':content_event,
+                    'date_end_event':date_end_event,
+                    'date_start_event':date_start_event
+            },
+            success:function(response){
+
+            },
+            complete:function(response){
+               $('.modal').modal("hide");
+            }
+        });
+
+        });
+
+        /***---Btn Add sự kiện location--end--*/
+
+
+        /*** Btn Add Thực đơn ---start--*/
+
+        $("#txt-location-food-name").blur(function(){
+            var x = $(this).val();
+            var z = $('#food-datalist-add-food');
+            var val = $(z).find('option[value="' + x + '"]');
+            var end_val = val.attr('data-id');
+            $("#txt-location-food-name").attr('data-food-suggest-id',end_val);
+        });
+
+
+
+        $(".btn-add-food-location").click(function(){
+
+            var element_input_data_location=$("#input-data-value-location");
+            var location_id=element_input_data_location.attr('i_l');
+            var food_name=$("#txt-location-food-name").val();
+            var food_name_id=$("#txt-location-food-name").attr('data-food-suggest-id');
+            var food_price=$("#txt-location-food-price").val();
+            var food_type=$("#slc-location-food-type").val();
+            var food_description=$("#are-location-food-description").val();
+
+
+
+            //alert(food_name_id);
+
+            $.ajax({
+                url:"{{URL::to("location/food")}}",
+                type:"POST",
+
+                data:{
+                    'location_id':location_id,
+                    'food_name':food_name,
+                    'food_name_id':food_name_id,
+                    'food_price':food_price,
+                    'food_type':food_type,
+                    'food_description':food_description
+            },
+            success:function(response){
+
+            },
+            complete:function(response){
+                $('#from-add-food-location')[0].reset();
+                $('.modal').modal("hide");
+            }
+        });
+
+
+        });
+
+        /*** Btn Add Thực đơn ---end--*/
+
 
                 // load gmap
                 var position = $('.gmaps-location').attr('data-position');
