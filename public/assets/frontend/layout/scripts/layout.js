@@ -1,12 +1,15 @@
 var Auth=function(){
 
     return {
-        check : function () {
-         //   alert('kk');
+        check : function (url) {
+
             var data_kq='0';
             $.ajax({
                 type: "POST",
                 url: URL+"/thanh-vien/check-login",
+                data:{
+                    'url':url
+                },
                 async: false,
                 success: function(data){
                     if(data=='1'){
@@ -1124,7 +1127,7 @@ var Layout = function () {
                sync:false,
                success: function(data_1){
 
-
+                alert(data_1);
                },
                dataType:'JSON',
                complete:function(){
@@ -1301,6 +1304,16 @@ var Layout = function () {
             $( ".tooltips" ).tooltip({
                 disabled: true
             });
+            $(".btn-create-location").click(function(){
+
+                var islog= Auth.check(URL+"dia-diem/tao-dia-diem");
+
+                if(islog=='1'){
+                    window.location.replace(URL+"dia-diem/tao-dia-diem");
+                }
+            });
+
+
             handleCalendar();
             handleMobiMenu();
             handleMobiSearch();

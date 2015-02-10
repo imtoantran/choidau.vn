@@ -9,7 +9,7 @@
             <div class="modal-body">
 
 
-                <form id="review-form" action="" method="POST" class="form-horizontal" role="form">
+                <form id="form-ada-event-location" action="" method="POST" class="form-horizontal" role="form">
                     <input name="_token" value="" type="hidden">
                     <input name="id" value="127" type="hidden">
                     <div class="row">

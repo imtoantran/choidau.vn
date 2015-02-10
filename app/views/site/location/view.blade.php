@@ -58,10 +58,14 @@
                 <!-- Arrow Right -->
 								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
 								</span>
+
                 <!-- Arrow Left -->
                 <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
                     <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
                 </div>
+
+
+                @if( isset($user_auth->id) && $user_auth->id==$location->user_id)
                 <!-- Arrow Right -->
                 <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
                     <button class="btn text-primary do-upload-image" data-toggle="modal" href="uploadImageModal" type="button">Đăng hình <i class="icon-camera"></i></button>
@@ -80,7 +84,7 @@
                     <button class="btn text-primary btn-create-food-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Món ăn <i class="icon-calendar"></i></button>
                 </span>
                 <!-- Arrow Navigator Skin End -->
-
+                @endif
                 <!-- Thumbnail Navigator Skin Begin -->
                 <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
                     <!-- Thumbnail Item Skin Begin -->
@@ -660,7 +664,11 @@
                     /* load reviews end */
                     /* viet review start*/
                     $(".do-post-review").click(function(){
-                        $("#reviewModal").modal("show");
+                        var islog= Auth.check();
+                        if(islog=='1'){
+                            $("#reviewModal").modal("show");
+                        }
+
                     });
                     $(".wysihtml5").wysihtml5();
 
@@ -815,6 +823,7 @@
 
             },
             complete:function(response){
+                $("#form-ada-event-location")[0].reset();
                $('.modal').modal("hide");
             }
         });

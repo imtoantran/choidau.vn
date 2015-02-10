@@ -57,7 +57,9 @@
                         </div>
                     </div>
                     <div class=" col-md-3 margin-top-5 box-add-location" >
-                       <a style="font-weight: bold;font-size: 0.9em;" href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>
+                       <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location"  href="javascript:void()">  +Thêm địa điểm</a>
+
+<!--                        <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location"  href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>-->
                     </div>
 
                     <div class="col-md-3 margin-top-10 box-infor-user text-right" style="padding-right:5px;">

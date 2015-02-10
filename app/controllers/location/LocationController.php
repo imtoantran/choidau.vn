@@ -201,6 +201,10 @@ class LocationController extends BaseController {
                     }
                 }
             }
+            $user_auth=null;
+            if(Auth::check()){
+                $user_auth=Auth::user();
+            }
             // neu khong co danh muc thi hien thi dia diem
             if(Location::whereSlug($slug)->count()){
                 $location = Location::whereSlug($slug)->first();
@@ -208,7 +212,7 @@ class LocationController extends BaseController {
                 $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
+                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs","user_auth"));
             }
 
         }

@@ -182,7 +182,8 @@ class UserController extends BaseController {
         $input = Input::all();
 
         if ($this->userRepo->login($input)) {
-            return Redirect::intended('/');
+            $url=Cookie::get('url_link_current');
+            return Redirect::to($url);
         } else {
             if ($this->userRepo->isThrottled($input)) {
                 $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
@@ -196,6 +197,7 @@ class UserController extends BaseController {
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg);
         }
+        echo $url;
 
     }
 
@@ -343,6 +345,8 @@ class UserController extends BaseController {
     }
 
     public function checkLogin(){
+        $data=Input::get('url');
+        $cookie = Cookie::make('url_link_current', $data, 60);
         if(Auth::check()){ echo '1';}
         else {echo '0';}
     }
