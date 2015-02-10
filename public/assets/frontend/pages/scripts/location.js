@@ -69,6 +69,22 @@ var Location = function () {
             $('.btn-create-event-location').on('click',function(){
                 $('#popup-create-event').modal("show");
             });
+
+            $('.btn-create-food-location').on('click',function(){
+//                $.ajax({
+//                    url: URL+"/dia-diem/load-image-album",
+//                    type: 'post',
+//                    data: {'location_id': location_id, 'post_id': post_id},
+//
+//                    success: function(resAlbum){
+//
+//                    },
+//                    complete: function(){
+//
+//                    }
+//                });
+                $('#popup-create-food').modal("show");
+            });
 		},
 		deleteImgAlbum: function(){
 			var wrapperAlbum = $('.wrapper-img');

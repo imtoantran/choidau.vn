@@ -2706,3 +2706,18 @@ padding: 13px;}
   }
 }
 /* imtoantran */
+
+/**/
+.ui-datepicker-title .ui-datepicker-month{
+    color: white;
+}
+#ui-datepicker-div{
+    z-index: 50000 !important;
+}
+.ui-datepicker .ui-datepicker-title select{
+    color: green;
+}
+.ui-widget-header{
+    background-color: rgb(152, 145, 26) !important;
+    background-image: none !important;
+}

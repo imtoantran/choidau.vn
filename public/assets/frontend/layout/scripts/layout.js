@@ -1136,6 +1136,40 @@ var Layout = function () {
        });
    }
 
+
+    var handleCalendar=function(){
+//
+//        var afp_current_date = new Date();
+//
+//        var AfpCurrentMonth = afp_current_date.getMonth();
+//        var AfpCurrentDate  = afp_current_date.getDate();
+//        var AfpCurrentYear  = afp_current_date.getFullYear();
+//
+//        $.datepicker.regional['vi'] = {
+//            minDate: new Date(AfpCurrentYear, AfpCurrentMonth, AfpCurrentDate),
+//            closeText: 'Cerrar',
+//            prevText: '<Ant',
+//            nextText: 'Sig>',
+//            currentText: 'Hoy',
+//            monthNames: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+//                'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'],
+//            monthNamesShort: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+//                'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'],
+//            dayNames: ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','Chủ Nhật'],
+//            dayNamesShort: ['Thu2','Thu3','Thu4','Thu5','Thu6','Thu7','ChuN'],
+//            dayNamesMin: ['T2','T3','T4','T5','T6','T7','CN'],
+//            weekHeader: 'Tuần',
+//            dateFormat: 'dd/mm/yy',
+//            firstDay: 1,
+//            isRTL: false,
+//            showMonthAfterYear: false,
+//            yearSuffix: ''};
+//     //   $.datepicker.setDefaults($.datepicker.regional['vi']);
+
+
+
+    }
+
     var handlePostAction=function(){
         /*----like post-----------*/
         $(".btn-post-like").click(function(){
@@ -1267,6 +1301,7 @@ var Layout = function () {
             $( ".tooltips" ).tooltip({
                 disabled: true
             });
+            handleCalendar();
             handleMobiMenu();
             handleMobiSearch();
             handleMediaBrowser();
