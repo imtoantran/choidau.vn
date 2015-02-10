@@ -63,9 +63,10 @@
                     </div>
 
                     <div class="col-md-3 margin-top-10 box-infor-user text-right" style="padding-right:5px;">
-                        <i class="icon-user-7"></i>
+
 
                         @if (Auth::check())
+                            <i class="icon-user-7"></i>
                             @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                             @endif
@@ -76,8 +77,8 @@
                                 <span class="badge badge-default"> 7 </span>
                             </a>
                         @else
-                            <a {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
-                            <a {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
+                            <a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
+                            <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
                         @endif
                     </div>
 

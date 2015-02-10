@@ -41,12 +41,13 @@ class BlogController extends BaseController {
 	 */
 	public function getIndex($catSlug = 'an-uong-choi')
 	{
+		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
 		$cat = $this->cat->whereSlug($catSlug)->first();
 		// Get all the blog posts
 		$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 		// Show the page
-		return View::make('site/blog/index', compact('posts'));
+		return View::make('site/blog/index', compact('posts','blogs','cat'));
 	}
 	public function getEvent(){
 		return $this->getIndex('su-kien');
@@ -64,7 +65,8 @@ class BlogController extends BaseController {
 	public function getView($slug)
 	{
 		// Get this blog post data
-		$post = Post::where('slug', '=', $slug)->first();
+		$post = Blog::where('slug', '=', $slug)->first();
+		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
 
 		// Check if the blog post exists
 		if (is_null($post))
@@ -75,7 +77,8 @@ class BlogController extends BaseController {
 			// 404 error page.
 			return App::abort(404);
 		}
-
+		$meta = new PostMeta("blog_view",$this->user->currentUser()?$this->user->currentUser()->id:'guest');
+		$post->meta()->save($meta);
 		// Get this post comments
 		$comments = $post->comments()->orderBy('created_at', 'ASC')->get();
 
@@ -85,9 +88,17 @@ class BlogController extends BaseController {
         if(!empty($user)) {
             $canComment = $user->can('post_comment');
         }
-
+		// who like this post
+		if(Auth::check())
+			$isLiked = $post->isLiked(Auth::user()->id);
+		$likeMeta = $post->whoLiked()->orderBy("created_at","desc")->take(3)->get();
+		foreach($likeMeta as $meta){
+			$userIds[] = $meta->meta_value;
+		}
+		$likes = User::whereIn("id",$userIds)->get();
+		$post->whoLiked()->get();
 		// Show the page
-		return View::make('site/blog/view_post', compact('post', 'comments', 'canComment'));
+		return View::make('site/blog/view_post', compact('post', 'comments', 'canComment','blogs','isLiked','likes'));
 	}
 
 	/**
@@ -139,4 +150,42 @@ class BlogController extends BaseController {
 		// Redirect to this blog post page
 		return Redirect::to($slug)->withInput()->withErrors($validator);
 	}
+	/* imtoantran save comment start */
+	public function postComment(){
+		$data = Input::all();
+		$user = Auth::user();
+		$post = Blog::find($data['id']);
+		$comment = new Comment();
+		$comment->content = $data['content'];
+		$comment->user_id = $user->id;
+		$comment->created_at = date_format(new DateTime(),"Y-m-d H:i:s");
+		if($post->comments()->save($comment)){
+			return json_encode([
+				"success"=>true,
+				"avatar"=>asset($user->avatar),
+				"username"=>$user->username,
+				"content"=>$comment->content,
+				"date"=>$comment->date(),
+			]);
+		}
+		return json_encode(["success"=>false]);
+	}
+	public function postLike(){
+		$blog = Blog::find(Input::get("id"));
+		if(is_null($blog)||Auth::guest()){
+			return json_encode(["success"=>false]);
+		}
+		$meta = new PostMeta("blog_like",Auth::user()->id);
+		$blog->meta()->save($meta);
+		return json_encode(["success"=>true]);
+	}
+	public function postUnlike(){
+		$blog = Blog::find(Input::get("id"));
+		if(is_null($blog)||Auth::guest()){
+			return json_encode(["success"=>false]);
+		}
+		PostMeta::whereMetaKey("blog_like")->whereMetaValue($this->user->currentUser()->id)->delete();
+		return json_encode(["success"=>true]);
+	}
+	/* imtoantran save comment end*/
 }

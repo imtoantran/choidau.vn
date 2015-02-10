@@ -14,9 +14,6 @@ class LocationController extends BaseController {
     }
 
     public function getCreate() {
-        if(!Auth::user()){
-            return Redirect::to('/');
-        }
         $style_plugin = $this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
@@ -185,7 +182,7 @@ class LocationController extends BaseController {
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     
     /* imtoantran save location start */
-    public function getView($provinceSlug,$slug){
+    public function getView($provinceSlug,$slug = ''){
         // kiem tra thanh pho ton tai hay khng
         if(Province::whereSlug($provinceSlug)->count()){
             $province = Province::whereSlug($provinceSlug)->first();
@@ -286,15 +283,15 @@ class LocationController extends BaseController {
         $response['success']=true;
         return json_encode($response);
     }
+
     function checkin(){
         $id = Input::get("id");
         $location = Location::find($id);
         $user = Auth::user();
-        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('checkin')->count();
         $response=[];
-        if($count){
-            $response['success']=false;
-            $response['message']="Bạn đã đến đây";
+        if($location->totalCheckIn()){
+            $response['success'] = false;
+            $response['message'] = "Bạn đã đến đây";
         }
         else{
             $date=date_create("now");
@@ -314,7 +311,7 @@ class LocationController extends BaseController {
 
             $response['success'] = true;
         }
-        $response['totalCheckedIn'] = $location->userAction()->whereAction_type("checkin")->count();
+        $response['totalCheckedIn'] = $location->totalCheckIn();
 
         return json_encode($response);
     }

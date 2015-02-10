@@ -37,7 +37,7 @@ Route::filter('auth', function()
 {
 	if ( Auth::guest() ) // If the user is not logged in
 	{
-        	return Redirect::guest('user/login');
+        	return Redirect::guest('nguoi-dung/dang-nhap');
 	}
 });
 
@@ -59,7 +59,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('user/login/');
+	if (Auth::check()) return Redirect::to('nguoi-dung/dang-nhap/');
 });
 
 /*
@@ -122,3 +122,15 @@ Route::filter('detectLang',  function($route, $request, $lang = 'auto')
         App::setLocale($userLang);
     }
 });
+/* imtoantran filter start*/
+Route::filter("session",function(){
+    if(!Session::has("province"))
+        Session::put("province",Province::find(79));
+    if (!Cache::has('provinces')){
+        $provinces = Province::orderBy("name","asc")->get();
+        Cache::forever('provinces', $provinces);
+    }
+
+});
+Route::when("*","session");
+/* imtoantran filter end */

@@ -105,6 +105,9 @@ class Location extends Eloquent {
         return $this->belongsToMany('Image','location_post','location_id','post_id');
 
     }
+	public function totalCheckIn(){
+		return $this->userAction()->whereAction_type("checkin")->count();
+	}
 
 
 
