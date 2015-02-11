@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => 'http://choidau.vn',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -115,7 +115,6 @@ return array(
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
         /* Additional Providers */
         
-        'Bllim\Datatables\DatatablesServiceProvider', // Datatables
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
@@ -187,7 +186,6 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-        'View'            => 'Illuminate\Support\Facades\View',
         /* Additional Aliases */
         'Confide'         => 'Zizaco\Confide\Facade', // Confide Alias
         'Entrust'         => 'Zizaco\Entrust\EntrustFacade', // Entrust Alias

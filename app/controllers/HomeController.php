@@ -46,7 +46,7 @@ class HomeController extends BaseController {
 		$topLocation = Location::orderBy("created_at","desc")->first();
 		/* top location end */
 		/* top post start */
-		$topBlog = BLog::orderBy("created_at","desc")->first();
+		$topBlog = Post::wherePostType("blog")->orderBy("created_at","desc")->first();
 		/* top post end */
 		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
 		return View::make('site/home/index',compact('page_title','categories','topReview','topLocation','topBlog','blogs'));
