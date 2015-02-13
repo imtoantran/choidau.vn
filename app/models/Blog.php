@@ -27,17 +27,34 @@ class Blog extends Post {
 	public function category(){
 		return $this->belongsTo('Category');
 	}
+
 	public function totalComment()
 	{
 		return $this->comments()->count();
 	}
-	public function totalLike(){
+
+	public function totalLiked(){
 		return $this->whoLiked()->count();
 	}
-	public function isLiked($userId){
-		return $this->whoLiked()->whereMetaValue($userId)->count();
+
+	public function isLiked($id = null){
+		if($id == null) {
+			if (Auth::check()) {
+				return $this->whoLiked()->whereMetaValue(Auth::id())->count();
+			}
+		}
+		return $this->whoLiked()->whereMetaValue(Auth::id())->count();
 	}
+
 	public function whoLiked(){
 		return $this->meta()->whereMetaKey("blog_like");
+	}
+
+	public function recentLiked(){
+		if(Auth::check()){
+			return User::whereIn("id",$this->whoLiked()->lists("meta_value"));
+		}else{
+			return User::whereIn("id",$this->whoLiked()->list("meta_value"));
+		}
 	}
 }

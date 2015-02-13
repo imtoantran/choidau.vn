@@ -86,7 +86,7 @@ class Post extends Eloquent
 			$date = $this->created_at;
 		}
 
-		return String::date($date);
+		return String::showTimeAgo($date);
 	}
 
 	/**
@@ -170,8 +170,19 @@ class Post extends Eloquent
 	public function thumbnail(){
 		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
 	}
+
 	public function totalView(){
-		return $this->meta()->whereMetaKey("blog_view")->count();
+		if($this->meta()->whereMetaKey("blog_view")->count())
+			return $this->meta()->whereMetaKey("blog_view")->first()->meta_value;
+		return 0;
+	}
+	public function updateTotalView(){
+		if($totalView = $this->totalView()){
+			$view = $this->meta()->whereMetaKey("blog_view")->first();
+			$view -> meta_value = $totalView + 1;
+			return $view->save();
+		}
+		return $this->meta()->save(new PostMeta("blog_view",1));
 	}
 	//imtoantran
 

@@ -300,7 +300,7 @@
                     <h1>TOP REVIEW</h1>
                 </header>
                 <article>
-                    @if(!is_null($topReview)))
+                    @if(!is_null($topReview))
                     <img class="padding-2 img-border-light" src="{{URL::to($topReview->location->avatar)}}"
                          height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
@@ -328,7 +328,7 @@
                     <h1>TOP ĐỊA ĐIỂM</h1>
                 </header>
                 <article>
-                    @if(!is_null($topLocation)))
+                    @if(!is_null($topLocation))
                     <img class="padding-2 img-border-light" src="{{URL::to($topLocation->avatar)}}" height="100px"
                          width="100px"/>
                     <div class="col-none-padding lab-user-post">
@@ -356,7 +356,7 @@
                     <h1>Admin Giới thiệu</h1>
                 </header>
                 <article>
-                    @if(!is_null($topBlog)))
+                    @if(!is_null($topBlog))
                     <img class="padding-2 img-border-light" src="{{$topBlog->thumbnail}}" height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
                         <a href="#"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
