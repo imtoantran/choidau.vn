@@ -77,8 +77,7 @@ class BlogController extends BaseController {
 			// 404 error page.
 			return App::abort(404);
 		}
-		$meta = new PostMeta("blog_view",$this->user->currentUser()?$this->user->currentUser()->id:'guest');
-		$post->meta()->save($meta);
+		$post -> updateTotalView();
 		// Get this post comments
 		$comments = $post->comments()->orderBy('created_at', 'ASC')->get();
 
@@ -89,16 +88,19 @@ class BlogController extends BaseController {
             $canComment = $user->can('post_comment');
         }
 		// who like this post
-		if(Auth::check())
-			$isLiked = $post->isLiked(Auth::user()->id);
 		$likeMeta = $post->whoLiked()->orderBy("created_at","desc")->take(3)->get();
-		foreach($likeMeta as $meta){
-			$userIds[] = $meta->meta_value;
+
+		$userIds = [];
+		if(is_array($likeMeta)) {
+			foreach ($likeMeta as $meta) {
+				$userIds[] = $meta->meta_value;
+			}
+			$likes = User::whereIn("id",$userIds)->get();
 		}
-		$likes = User::whereIn("id",$userIds)->get();
-		$post->whoLiked()->get();
+
+		//$post->whoLiked()->get();
 		// Show the page
-		return View::make('site/blog/view_post', compact('post', 'comments', 'canComment','blogs','isLiked','likes'));
+		return View::make('site/blog/view_post', compact('post', 'comments', 'canComment','blogs'));
 	}
 
 	/**

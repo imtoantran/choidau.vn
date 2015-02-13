@@ -45,21 +45,29 @@
         <p>{{ $post->content() }}</p>
 
         <div>
-            @if(Auth::check())
-                @if($post->isLiked(1))
+            <div>
+                @if($post->isLiked())
                     <button class="btn btn-sm like-action" likeable="false" data-id="{{$post->id}}">Bỏ thích</button>
                 @else
                     <button class="btn btn-sm like-action" likeable="true" data-id="{{$post->id}}">Thích</button>
                 @endif
-            <button class="btn btn-sm">Thảo luận</button>
-            @endif
-            <div>
-                @if($likes->count())
-                    @foreach($likes as $user)
-                        {{$user->username}}
+                @if(Auth::check())
+                        <button class="btn btn-sm">Thảo luận</button>
+@endif
+            </div>
+            <div class="like-item">
+                @if($post->totalLiked())
+                    @if($post->isLiked())
+                        <span class="me">Bạn</span>
+                    @endif
+                    @if($post->recentLiked()->count())
+                        @foreach($post->recentLiked()->get() as $user)
+                            <span> {{$user->meta_value}}</span>
                         @endforeach
+                    @endif
+                    <span> thích mục này</span>
+                @else
                 @endif
-                    thích mục này
             </div>
 
         </div>
@@ -71,7 +79,8 @@
 
             <div class="row" style="display: none" id="hiddenComment">
                 <div class="col-md-1">
-                    <div class="row"><img class="thumbnail" src="http://placehold.it/60x60" alt="" width="70" height="70"></div>
+                    <div class="row"><img class="thumbnail" src="http://placehold.it/60x60" alt="" width="70"
+                                          height="70"></div>
                 </div>
                 <div class="col-md-11">
                     <div class="row">
@@ -132,7 +141,7 @@
                     </div>
                 </div>
             </div>
-            @else
+        @else
             Hãy đăng nhập để viết bình luận.
         @endif
         {{--comment form--}}
@@ -157,7 +166,7 @@
                                 if (data.success) {
                                     var newComment = $("#hiddenComment").clone();
                                     newComment.find("time").text(data.date);
-                                    newComment.find("img").attr("src",data.avatar);
+                                    newComment.find("img").attr("src", data.avatar);
                                     newComment.find(".content").text(data.content);
                                     newComment.find(".username").text(data.username);
                                     $("#comments").append(newComment);
@@ -172,31 +181,31 @@
             /* like */
             var likeUrl = "{{URL::to("blog/like")}}";
             var unLikeUrl = "{{URL::to("blog/unlike")}}";
-            var loading = $("<i/>",{class:"animate-spin icon-spin3"});
-            $(".like-action").click(function(){
+            var loading = $("<i/>", {class: "animate-spin icon-spin3"});
+            $(".like-action").click(function () {
                 var element = $(this);
-                element.attr("disabled",true);
+                element.attr("disabled", true);
                 var likeable = true;
                 var text = "Thích";
                 var url = unLikeUrl;
-                if(element.attr("likeable")=='true'){
+                if (element.attr("likeable") == 'true') {
                     url = likeUrl;
                     likeable = false;
                     text = "Bỏ thích";
                 }
                 element.prepend(loading);
                 $.ajax({
-                    url:url,
-                    data:{id:$(this).attr("data-id")},
-                    dataType:"json",
-                    type:"post",
-                    success:function(){
-                        element.attr("likeable",likeable);
+                    url: url,
+                    data: {id: $(this).attr("data-id")},
+                    dataType: "json",
+                    type: "post",
+                    success: function () {
+                        element.attr("likeable", likeable);
                         element.text(text);
                     },
-                    complete:function(){
+                    complete: function () {
                         loading.remove();
-                        element.attr("disabled",false);
+                        element.attr("disabled", false);
                     }
                 })
             });

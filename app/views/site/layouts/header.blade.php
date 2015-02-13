@@ -99,9 +99,9 @@
     <div class="">
         <nav class="header-navigation font-transform-inherit">
             <ul>
-                <li><a href="{{URL::to(Session::get("province")->name)."/an"}}"><span> ăn </span> <i class="icon-food"></i></a></li>
-                <li><a href="{{URL::to(Session::get("province")->name)."/uong"}}"><span> uống </span> <i class="icon-bar"></i></a></li>
-                <li><a href="{{URL::to(Session::get("province")->name)."/di"}}"><span>đi </span> <i class="icon-school"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->slug)."/an"}}"><span> ăn </span> <i class="icon-food"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->slug)."/uong"}}"><span> uống </span> <i class="icon-bar"></i></a></li>
+                <li><a href="{{URL::to(Session::get("province")->slug)."/di"}}"><span>đi </span> <i class="icon-school"></i></a></li>
                 <li><a href="#"><span>video </span> <i class="icon-videocam-3"></i></a></li>
                 <li><a href="{{URL::to("blog.html")}}"><span>blog </span> <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="#"><span>hỏi đáp</span> <i class="icon-wechat"></i></a></li>
