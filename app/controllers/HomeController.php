@@ -19,12 +19,13 @@ class HomeController extends BaseController {
      * @param Post $post
      * @param User $user
      */
-    public function __construct(Post $post, User $user)
+    public function __construct(Blog $blog,Post $post, User $user)
     {
         parent::__construct();
 
         $this->post = $post;
         $this->user = $user;
+		$this->blog = $blog;
     }
     
 	/**
@@ -46,7 +47,7 @@ class HomeController extends BaseController {
 		$topLocation = Location::orderBy("created_at","desc")->first();
 		/* top location end */
 		/* top post start */
-		$topBlog = Post::wherePostType("blog")->orderBy("created_at","desc")->first();
+		$topBlog = $this->blog->wherePostType("blog")->orderBy("created_at","desc")->first();
 		/* top post end */
 		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
 		return View::make('site/home/index',compact('page_title','categories','topReview','topLocation','topBlog','blogs'));
