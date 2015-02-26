@@ -1,7 +1,7 @@
 var Auth = function () {
     return {
         check: function (url) {
-            var data_kq = '0';
+            var result = 0;
             $.ajax({
                 type: "POST",
                 url: URL + "/thanh-vien/check-login",
@@ -10,15 +10,12 @@ var Auth = function () {
                 },
                 async: false,
                 success: function (data) {
-                    console.log(data);
-                    if (data == '1') {
-                        data_kq = data;
-                    } else {
-                        $('#popup-login').modal('show')
+                    if (data == 1){
+                        result = 1;
                     }
                 }
             });
-            return data_kq;
+            return result;
         },
         check_2: function () {
             //  alert('chào nha 2');
@@ -1104,10 +1101,25 @@ var Layout = function () {
                     '_token': _token
                 },
                 dataType: 'JSON',
-                sync: false,
-                success: function (data_1) {
-                    //alert(data_1);
-                    console.log(data_1);
+                //async: false,
+                success: function (data) {
+                    if(data.url != ""){
+                        window.alert("Đăng nhập thành công.");
+                        window.location.replace(data.url);
+                    }else{
+                        switch(data.err_msg){
+                            case 0:
+                                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Bạn đăng nhập sai quá nhiều lần. Vui lòng kiểm tra lại.</div></div>').fadeIn();
+                                break;
+                            case 1:
+                                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Tài khoản chưa được xác thực.</div></div>').fadeIn();
+                                break;
+                            case 2:
+                                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Đăng nhập thất bại, email, tài khoản hoặc mật khẩu không đúng.</div></div>').fadeIn();
+                                break;
+                            default: break;
+                        }
+                    }
                 },
                 complete: function () {
                     //$('.modal').modal("hide");
@@ -1283,12 +1295,15 @@ var Layout = function () {
             //luuhoabk - kiem tra login
             $(".require-login").click(function (e) {
                 e.preventDefault();
+
                 var url_after_login = $(this).attr('data-url');
                     url_after_login = (url_after_login != '')? url_after_login : "";
-                var islog = Auth.check(url_after_login);
 
-                if (islog == '1' && url_after_login != "") {
+                var islog = Auth.check(url_after_login);
+                if (islog == 1 && url_after_login != "") {
                     window.location.replace(url_after_login);
+                }else{
+                    $('#popup-login').modal('show');
                 }
             });
 
