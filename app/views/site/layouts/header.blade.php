@@ -68,7 +68,7 @@
                         @if (Auth::check())
                             <i class="icon-user-7"></i>
                             @if (Auth::user()->hasRole('admin'))
-                                <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
+                                <li><a href="{{{ URL::to('qtri-choidau') }}}">Admin Panel</a></li>
                             @endif
                             <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">{{{ Auth::user()->username }}}</a>
                             <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
