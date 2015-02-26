@@ -1,7 +1,4 @@
 @extends('site.layouts.default')
-
-
-
 {{-- Content --}}
 @section('content')
 <div class="page-header">

@@ -1,8 +1,6 @@
 var Auth = function () {
-
     return {
         check: function (url) {
-
             var data_kq = '0';
             $.ajax({
                 type: "POST",
@@ -12,10 +10,10 @@ var Auth = function () {
                 },
                 async: false,
                 success: function (data) {
+                    console.log(data);
                     if (data == '1') {
                         data_kq = data;
                     } else {
-
                         $('#popup-login').modal('show')
                     }
                 }
@@ -28,8 +26,8 @@ var Auth = function () {
     };
 
 }();
-var Layout = function () {
 
+var Layout = function () {
     // IE mode
     var isRTL = false;
     var isIE8 = false;
@@ -42,7 +40,6 @@ var Layout = function () {
     var responsiveHandlers = [];
 
     var handleInit = function () {
-
         if ($('body').css('direction') === 'rtl') {
             isRTL = true;
         }
@@ -121,7 +118,6 @@ var Layout = function () {
         });
     }
 
-
     var loadDialogMapVinh = function () {
 
         var html = '<div class="input-group loacation-search-wrapper">';
@@ -156,7 +152,6 @@ var Layout = function () {
 
 
     }
-
 
     // runs callback functions set by App.addResponsiveHandler().
     var runResponsiveHandlers = function () {
@@ -1073,13 +1068,32 @@ var Layout = function () {
 
 
     };
+    //luuhoabk
     var handleUser = function () {
         $(".btn-login-popup-choidau").click(function () {
 
+            var alert = '';
             var email = $("#username_popup_login").val();
             var password = $("#password_popup_login").val();
-            var remember = $("#remember").val();
+            var remember = $("input#remember_popup_login").attr('checked');
+                remember = (remember == 'checked')? 1 : 0;
             var _token = $("#_token").val();
+
+            var alert_login = $('.alert-popup-login');
+
+            //if(email.length <= 0){
+            //    alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập email hoặc username.</div></div>').fadeIn();
+            //    return false;
+            //}
+            //if(password.length <= 0){
+            //    alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập mật khẩu.</div></div>').fadeIn();
+            //    return false;
+            //}
+            //
+
+            //$('.btn-login-popup-choidau i').removeClass('icon-login-2');
+            //$('.btn-login-popup-choidau i').removeClass('icon-login-2');
+
             $.ajax({
                 type: "POST",
                 url: URL + "/thanh-vien/dang-nhap.html",
@@ -1088,17 +1102,16 @@ var Layout = function () {
                     'password': password,
                     'remember': remember,
                     '_token': _token
-
-                },
-                sync: false,
-                success: function (data_1) {
-
-                    alert(data_1);
                 },
                 dataType: 'JSON',
+                sync: false,
+                success: function (data_1) {
+                    //alert(data_1);
+                    console.log(data_1);
+                },
                 complete: function () {
-                    $('.modal').modal("hide");
-                    location.reload();
+                    //$('.modal').modal("hide");
+                    //location.reload();
                 }
             });
 
@@ -1265,12 +1278,17 @@ var Layout = function () {
             $(".tooltips").tooltip({
                 disabled: true
             });
-            $(".btn-create-location").click(function () {
 
-                var islog = Auth.check(URL + "/dia-diem/tao-dia-diem");
 
-                if (islog == '1') {
-                    window.location.replace(URL + "/dia-diem/tao-dia-diem");
+            //luuhoabk - kiem tra login
+            $(".require-login").click(function (e) {
+                e.preventDefault();
+                var url_after_login = $(this).attr('data-url');
+                    url_after_login = (url_after_login != '')? url_after_login : "";
+                var islog = Auth.check(url_after_login);
+
+                if (islog == '1' && url_after_login != "") {
+                    window.location.replace(url_after_login);
                 }
             });
 

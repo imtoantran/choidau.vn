@@ -180,24 +180,27 @@ class UserController extends BaseController {
     {
         $repo = App::make('UserRepository');
         $input = Input::all();
+        $url=Cookie::get('url_link_current');
+        echo json_encode($url);
 
-        if ($this->userRepo->login($input)) {
-            $url=Cookie::get('url_link_current');
-            return Redirect::to($url);
-        } else {
-            if ($this->userRepo->isThrottled($input)) {
-                $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
-            } elseif ($this->userRepo->existsButNotConfirmed($input)) {
-                $err_msg = Lang::get('confide::confide.alerts.not_confirmed');
-            } else {
-                $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
-            }
-
-            return Redirect::to('thanh-vien/dang-nhap.html')
-                ->withInput(Input::except('password'))
-                ->with('error', $err_msg);
-        }
-        echo $url;
+//        if ($this->userRepo->login($input)) {
+//
+//            $url=Cookie::get('url_link_current');
+////            return Redirect::to($url);
+//        } else {
+//            if ($this->userRepo->isThrottled($input)) {
+//                $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
+//            } elseif ($this->userRepo->existsButNotConfirmed($input)) {
+//                $err_msg = "Tài khoản của bạn chưa được xác thực.";
+//            } else {
+//                $err_msg = "Đăng nhập thất bại, email, tài khoản hoặc mật khẩu không đúng.";
+//            }
+//
+//            return Redirect::to('thanh-vien/dang-nhap.html')
+//                ->withInput(Input::except('password'))
+//                ->with('error', $err_msg);
+//        }
+//        echo $url;
 
     }
 
@@ -347,7 +350,9 @@ class UserController extends BaseController {
     public function checkLogin(){
         $data=Input::get('url');
         $cookie = Cookie::make('url_link_current', $data, 60);
-        if(Auth::check()){ echo '1';}
-        else {echo '0';}
+        echo 'kq='.$data;
+
+//        if(Auth::check()){ echo '1';}
+//        else {echo '0';}
     }
 }
