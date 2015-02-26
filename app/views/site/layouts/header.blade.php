@@ -50,21 +50,16 @@
                         <div class="col-md-4  col-xs-12 col-sm-12" >
                             <div class="input-group">
                                 <input type="text" class="form-control" style="border:none;" id="header-input-string-search" placeholder="Hãy nhập từ khoá bạn cần tìm ?">
-										<span class="input-group-addon">
-											<i class="icon-menu-1"></i>
-										</span>
+                                <span class="input-group-addon">
+                                    <i class="icon-menu-1"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class=" col-md-3 margin-top-5 box-add-location" >
-                       <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location"  href="javascript:void()">  +Thêm địa điểm</a>
-
-<!--                        <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location"  href="{{URL::to("dia-diem/tao-dia-diem")}}">  +Thêm địa điểm</a>-->
+                       <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location require-login"  data-url="{{{URL::to('/dia-diem/tao-dia-diem')}}}" href="{{{URL::to('/dia-diem/tao-dia-diem')}}}">  +Thêm địa điểm</a>
                     </div>
-
-                    <div class="col-md-3 margin-top-10 box-infor-user text-right" style="padding-right:5px;">
-
-
+                    <div class="col-md-3 margin-top-10 box-infor-user text-right padding-right-5">
                         @if (Auth::check())
                             <i class="icon-user-7"></i>
                             @if (Auth::user()->hasRole('admin'))
@@ -77,8 +72,10 @@
                                 <span class="badge badge-default"> 7 </span>
                             </a>
                         @else
-                            <a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">{{{ Lang::get('site.login') }}}</a> /
-                            <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">{{{ Lang::get('site.sign_up') }}}</a>
+                            {{--<a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Đăng nhập</a> /--}}
+                            {{--<a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">Đăng ký</a>--}}
+                            <a class="header-logout-a require-login" data-url="" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void()">Đăng nhập</a> /
+                            <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html')}}}">Đăng ký</a>
                         @endif
                     </div>
 
