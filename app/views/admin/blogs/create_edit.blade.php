@@ -14,7 +14,9 @@
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
-
+		@if(isset($catId))
+		<input name="catId" value="{{$catId}}" type="hidden"/>
+		@endif
 		<!-- Tabs Content -->
 		<div class="tab-content">
 			<!-- General tab -->
@@ -80,9 +82,9 @@
 		<!-- Form Actions -->
 		<div class="form-group">
 			<div class="col-md-12">
-				<element class="btn-cancel close_popup">Cancel</element>
-				<button type="reset" class="btn btn-default">Reset</button>
-				<button type="submit" class="btn btn-success">Update</button>
+				<element class="btn-cancel btn-xs close_popup">Hủy</element>
+				<button type="reset" class="btn btn-xs btn-default">Khôi phục</button>
+				<button type="submit" class="btn btn-xs btn-success">Lưu</button>
 			</div>
 		</div>
 		<!-- ./ form actions -->

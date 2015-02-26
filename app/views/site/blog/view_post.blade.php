@@ -39,7 +39,7 @@
 {{-- Content --}}
 @section('content')
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
+<div class="row">
         <h3>{{ $post->title }}</h3>
 
         <p>{{ $post->content() }}</p>
@@ -47,12 +47,12 @@
         <div>
             <div>
                 @if($post->isLiked())
-                    <button class="btn btn-sm like-action" likeable="false" data-id="{{$post->id}}">Bỏ thích</button>
+                    <button class="btn btn-xs like-action" likeable="false" data-id="{{$post->id}}">Bỏ thích</button>
                 @else
-                    <button class="btn btn-sm like-action" likeable="true" data-id="{{$post->id}}">Thích</button>
+                    <button class="btn btn-xs btn-primary like-action" likeable="true" data-id="{{$post->id}}">Thích</button>
                 @endif
                 @if(Auth::check())
-                        <button class="btn btn-sm">Thảo luận</button>
+                        <button class="btn btn-xs">Thảo luận</button>
 @endif
             </div>
             <div class="like-item">
@@ -77,7 +77,7 @@
         <div id="comments">
             <h4>{{ $comments->count() }} {{ \Illuminate\Support\Pluralizer::plural('Bình luận', $comments->count()) }}</h4>
 
-            <div class="row" style="display: none" id="hiddenComment">
+            <div class="col-xs-12" style="display: none" id="hiddenComment">
                 <div class="col-md-1">
                     <div class="row"><img class="thumbnail" src="http://placehold.it/60x60" alt="" width="70"
                                           height="70"></div>
@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-md-12 content">
-                            content
+
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
 
             @if ($comments->count())
                 @foreach ($comments as $comment)
-                    <div class="row">
+                    <div class="col-xs-12">
                         <div class="col-md-1">
                             <div class="row">
                                 <img class="thumbnail" src="{{$comment->author->avatar}}" alt="" width="70" height="70">
@@ -127,7 +127,7 @@
         </div>
         {{--comment form--}}
         @if(Auth::check())
-            <div class="row">
+            <div class="col-xs-12">
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img class="thumbnail" src="http://placehold.it/60x60" alt="">
@@ -146,7 +146,7 @@
         @endif
         {{--comment form--}}
 
-
+</div>
     </div>
 @stop
 
@@ -164,7 +164,7 @@
                             type: "post",
                             success: function (data) {
                                 if (data.success) {
-                                    var newComment = $("#hiddenComment").clone();
+                                    var newComment = $("#hiddenComment").clone().removeAttr('id');
                                     newComment.find("time").text(data.date);
                                     newComment.find("img").attr("src", data.avatar);
                                     newComment.find(".content").text(data.content);

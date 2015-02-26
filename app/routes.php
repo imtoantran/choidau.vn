@@ -141,6 +141,7 @@ Route::get('blog/su-kien.html','BlogController@getEvent');
 Route::get('blog/kinh-nghiem.html','BlogController@getExperience');
 Route::get('blog/{slug}.html','BlogController@getView');
 Route::controller('blog.html','BlogController');
+Route::get('blog/create/{catId}', 'BlogController@getCreate');
 Route::controller('blog', 'BlogController');
 /* imtoantran end */
 
