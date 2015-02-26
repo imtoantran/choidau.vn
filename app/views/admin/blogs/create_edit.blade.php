@@ -100,9 +100,22 @@
                 <div class="caption">Hình ảnh tiêu biểu</div>
             </div>
             <div class="portlet-body">
-                <div class="featured-image-wrap">
-                    <img src="{{asset("assets/global/img/no-image.png")}}">
+                {{--luuhoabk anh dai dien--}}
+
+                <button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
+
+                <div id="iM_user_slide1" class="insertMedia single-picture-wrapper imageManager_openModal1" type_insert="location_load_avatar" data-target="#imageManager_modal"  style="position: relative;" data-toggle="modal" >
+                    <div class="add-picture vertically-centered" style="">
+                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
+                    </div>
+                    <img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
                 </div>
+
+
+
+                {{--<div class="featured-image-wrap">--}}
+{{--                    <img src="{{asset("assets/global/img/no-image.png")}}">--}}
+                {{--</div>--}}
             </div>
         </div>
         <!-- Form Actions -->
@@ -120,7 +133,7 @@
 @stop
 
 @section("scripts")
-    <script src="{{asset("assets/global/plugins/uploadify/jquery.uploadify.min.js")}}"></script>
+{{--    <script src="{{asset("assets/global/plugins/uploadify/jquery.uploadify.min.js")}}"></script>--}}
     <script type="text/javascript">
         $(document).ready(function () {
             $('.close_popup').click(function () {
@@ -162,5 +175,5 @@
 @stop
 
 @section("styles")
-    <link rel="stylesheet" href="{{asset("assets/global/plugins/uploadify/uploadify.css")}}"/>
+{{--    <link rel="stylesheet" href="{{asset("assets/global/plugins/uploadify/uploadify.css")}}"/>--}}
     @stop

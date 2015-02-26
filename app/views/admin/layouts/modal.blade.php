@@ -53,7 +53,7 @@
     <link href="{{asset('assets/global/css/components.css')}}" rel="stylesheet"
           type="text/css"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-summernote/summernote.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-summernote/summernote.css')}}">--}}
     {{--<link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">--}}
     {{--<link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">--}}
 

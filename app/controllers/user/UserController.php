@@ -374,9 +374,9 @@ class UserController extends BaseController {
             $fb_email = $result['email'];
             $fb_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($fb_id)->count()){
+            if(User::whereEmail($fb_email)->count()){
                 // ton tai
-                $user = User::whereUsername($fb_id)->first();
+                $user = User::whereEmail($fb_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
             }else{
@@ -397,7 +397,7 @@ class UserController extends BaseController {
                 );
 
                 if($kq){
-                    $user = User::whereUsername($fb_id)->first();
+                    $user = User::whereEmail($fb_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
@@ -438,9 +438,9 @@ class UserController extends BaseController {
             $google_email = $result['email'];
             $google_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($google_id)->count()){
+            if(User::whereEmail($google_email)->count()){
                 // ton tai
-                $user = User::whereUsername($google_id)->first();
+                $user = User::whereEmail($google_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
             }else{
@@ -461,7 +461,7 @@ class UserController extends BaseController {
                 );
 
                 if($kq){
-                    $user = User::whereUsername($google_id)->first();
+                    $user = User::whereEmail($google_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
