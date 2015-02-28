@@ -28,6 +28,10 @@ class Blog extends Post {
 		return $this->belongsTo('Category');
 	}
 
+	public function categoryUrl(){
+		return isset($this->category)?$this->category->slug.".html":"#";
+	}
+
 	public function totalComment()
 	{
 		return $this->comments()->count();

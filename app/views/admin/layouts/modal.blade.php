@@ -50,6 +50,8 @@
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet"
           type="text/css"/>
+    <link href="{{asset('assets/global/css/components.css')}}" rel="stylesheet"
+          type="text/css"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-summernote/summernote.css')}}">
     {{--<link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">--}}
@@ -123,6 +125,7 @@
 <!-- Javascripts -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="{{asset("assets/global/plugins/bootstrap/js/bootstrap.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/scripts/metronic.js")}}" type="text/javascript"></script>
 {{--<script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>--}}
 {{--<script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>--}}
 <script src="{{asset("assets/global/plugins/tinymce/tinymce.min.js")}}"></script>
@@ -134,40 +137,6 @@
 <script src="{{asset('assets/global/plugins/prettify.js')}}"></script>
 {{--<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}"--}}
         {{--type="text/javascript"></script>--}}
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.close_popup').click(function () {
-            parent.oTable.fnReloadAjax();
-            parent.jQuery.fn.colorbox.close();
-            return false;
-        });
-        $('#deleteForm').submit(function (event) {
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize()
-            }).done(function () {
-                parent.jQuery.colorbox.close();
-                parent.oTable.fnReloadAjax();
-            }).fail(function () {
-            });
-            event.preventDefault();
-        });
-    });
-    if ($('.wysihtml5').size() > 0)
-        tinymce.init({
-            selector: ".wysihtml5",
-            plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-        });
-    //$(prettyPrint)
-</script>
 
 @yield('scripts')
 

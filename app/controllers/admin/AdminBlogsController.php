@@ -33,7 +33,7 @@ class AdminBlogsController extends AdminController {
         $posts = $this->post;
         return $this->blogCategory("an-uong-choi");
         // Show the page
-        return View::make('admin/blogs/index', compact('posts', 'title'));
+        //return View::make('admin/blogs/index', compact('posts', 'title'));
     }
 
     /**
@@ -47,11 +47,12 @@ class AdminBlogsController extends AdminController {
         $category = Category::whereSlug($slug)->first();
         $catId = $category->id;
         // Title
-        $title = Lang::get('admin/blogs/title.blog_management')." - Danh mục: ".$category->name;
+        $title = "Danh mục: ".$category->name;
         //$posts = $category->blogs()->get();
         $categories = Category::whereSlug("danh-muc-bai-viet")->first()->children()->get();
+        $page_name = "Quản lý blog bài viết";
         // Show the page
-        return View::make('admin/blogs/index', compact('title','slug','categories','catId'));
+        return View::make('admin/blogs/index', compact('title','page_name','slug','categories','catId'));
     }
 
 	/**

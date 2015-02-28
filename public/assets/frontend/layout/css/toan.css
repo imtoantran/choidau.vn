@@ -206,3 +206,16 @@
 .blog-menu li:first-child a{
 	margin-left: 0 !important;
 }
+.blog-post{
+	padding: 30px 40px;
+}
+img{
+	max-width:100%;
+	height: auto;
+}
+.entry-meta{
+	font-size: 11px;
+}
+.page-header{
+	margin: 10px 0px;
+}

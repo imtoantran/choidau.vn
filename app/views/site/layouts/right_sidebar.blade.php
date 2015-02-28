@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <!--<![endif]-->
@@ -19,28 +18,29 @@
 <!-- Container -->
 <section id="container">
     <div class="container">
-    @section('topa')
-        top a
-    @show
-    <!-- Content -->
-    @section('content')
-      <h1>Ko load dc dữ liệu</h1>
-    @show
-    <!-- ./ content -->
-    @section('sidebar')
+        @section('topa')
+            top a
         @show
+        <div >
+            <!-- Content -->
+            @section('content')
+                <h1>Ko load dc dữ liệu</h1>
+                @show
+                        <!-- ./ content -->
+            @section('sidebar')
+            @show
+        </div>
     </div>
 
 </section>
 <!-- ./ container -->
 
 
-
 <footer id="footer">
-  @include('site.layouts.footer');
+    @include('site.layouts.footer')
 </footer>
 
-  @include('site.layouts.foot');
+@include('site.layouts.foot')
 
 
 </body>
