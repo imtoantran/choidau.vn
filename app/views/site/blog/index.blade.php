@@ -42,7 +42,7 @@
                                     {{ date_format($post->created_at,"d/m/Y - H:m:i") }}
                                     <i class = "icon-smile"></i>{{$post->totalView()}} lượt xem
                                     <i class = "icon-comment-empty"></i>{{$post->totalComment()}} thảo luận
-                                    <i class = "icon-heart-empty"></i>{{$post->totalLike()}} thích
+                                    <i class = "icon-heart-empty"></i>{{$post->totalLiked()}} thích
 
                                 </p>
 

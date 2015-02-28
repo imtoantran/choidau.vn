@@ -33,7 +33,7 @@ class AdminBlogsController extends AdminController {
         $posts = $this->post;
         return $this->blogCategory("an-uong-choi");
         // Show the page
-        return View::make('admin/blogs/index', compact('posts', 'title'));
+        //return View::make('admin/blogs/index', compact('posts', 'title'));
     }
 
     /**
@@ -45,12 +45,14 @@ class AdminBlogsController extends AdminController {
     public function blogCategory($slug = "an-uong-choi")
     {
         $category = Category::whereSlug($slug)->first();
+        $catId = $category->id;
         // Title
-        $title = Lang::get('admin/blogs/title.blog_management')." - Danh mục: ".$category->name;
+        $title = "Danh mục: ".$category->name;
         //$posts = $category->blogs()->get();
         $categories = Category::whereSlug("danh-muc-bai-viet")->first()->children()->get();
+        $page_name = "Quản lý blog bài viết";
         // Show the page
-        return View::make('admin/blogs/index', compact('title','slug','categories'));
+        return View::make('admin/blogs/index', compact('title','page_name','slug','categories','catId'));
     }
 
 	/**
@@ -58,13 +60,13 @@ class AdminBlogsController extends AdminController {
 	 *
 	 * @return Response
 	 */
-	public function getCreate()
+	public function getCreate($catId)
 	{
         // Title
         $title = Lang::get('admin/blogs/title.create_a_new_blog');
 
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('title'));
+        return View::make('admin/blogs/create_edit', compact('title','catId'));
 	}
 
 	/**
@@ -97,6 +99,7 @@ class AdminBlogsController extends AdminController {
             $this->post->meta_description = Input::get('meta-description');
             $this->post->meta_keywords    = Input::get('meta-keywords');
             $this->post->user_id          = $user->id;
+            $this->post->category_id      = Input::get("catId");
 
             // Was the blog post created?
             if($this->post->save())

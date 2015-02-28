@@ -119,6 +119,7 @@ return array(
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 //		'Barryvdh\Debugbar\ServiceProvider',
+		'Mews\Purifier\PurifierServiceProvider',
 
 		// login facebook
 		'Artdarek\OAuth\OAuthServiceProvider'
@@ -196,6 +197,7 @@ return array(
         'String'          => 'Andrew13\Helpers\String', // String
         'Carbon'          => 'Carbon\Carbon', // Carbon
         'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
+		'Purifier'		  => 'Mews\Purifier\Facades\Purifier',
 
 		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
     ),

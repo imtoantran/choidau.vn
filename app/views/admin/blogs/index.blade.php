@@ -12,7 +12,7 @@
 {{-- Content --}}
 @section('content')
 	<div class="pull-right">
-		<a href="{{{ URL::to('qtri-choidau/blog/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> {{Lang::get("admin/blogs/button.create")}}</a>
+		<a href="{{{ URL::to('qtri-choidau/blog/create/') }}}/{{{$catId}}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> {{Lang::get("admin/blogs/button.create")}}</a>
 	</div>
 	<div class="pull-right">
 		<div class="form-group">
@@ -52,8 +52,8 @@
 @section('styles')
 	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
 	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
-	<link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
+{{--	<link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">--}}
+{{--	<link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">--}}
 	<link rel="stylesheet" href="{{asset('assets/global/plugins/colorbox/colorbox.css')}}">
 @stop
 {{-- Scripts --}}
@@ -62,7 +62,7 @@
 	<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
 	<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
 	<script src="{{asset("assets/global/plugins/datatables/jquery.colorbox.js")}}" type="text/javascript"></script>
-	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>
+{{--	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
 	<script type="text/javascript">
 		var oTable;
 		$(document).ready(function() {

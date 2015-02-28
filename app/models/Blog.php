@@ -28,6 +28,10 @@ class Blog extends Post {
 		return $this->belongsTo('Category');
 	}
 
+	public function categoryUrl(){
+		return isset($this->category)?$this->category->slug.".html":"#";
+	}
+
 	public function totalComment()
 	{
 		return $this->comments()->count();
@@ -54,7 +58,7 @@ class Blog extends Post {
 		if(Auth::check()){
 			return User::whereIn("id",$this->whoLiked()->lists("meta_value"));
 		}else{
-			return User::whereIn("id",$this->whoLiked()->list("meta_value"));
+			return User::whereIn("id",$this->whoLiked()->lists("meta_value"));
 		}
 	}
 }

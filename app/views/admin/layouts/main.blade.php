@@ -472,7 +472,7 @@
 </li>
 
 
-<li class="start active open">
+<li class="start">
     <a href="javascript:;">
         <i class="icon-desktop-3"></i>
         <span class="title">Dashboard</span>
@@ -518,31 +518,11 @@
 
 
 </li>
-<li>
-
-    <a href="javascript:;">
+<li @if(str_contains(Route::currentRouteAction(),"AdminBlog")) class="active" @endif>
+    <a href="{{URL::to("qtri-choidau/blog")}}">
         <i class="icon-pen"></i>
         <span class="title">BÀI VIẾT</span>
-        <span class="arrow "></span>
     </a>
-    <ul class="sub-menu">
-        <li>
-            <a href="#">
-                <i class="icon-food-1"></i>
-                MÓN ĂN</a>
-        </li>
-        <li>
-            <a href="ecommerce_orders.html">
-                <i class="icon-bar"></i>
-                ĐỒ UỐNG</a>
-        </li>
-        <li>
-            <a href="ecommerce_orders_view.html">
-                <i class="icon-location-3"></i>
-                ĐIỂM ĐẾN</a>
-        </li>
-
-    </ul>
 </li>
 
 <li>
@@ -799,14 +779,16 @@
 <!-- END STYLE CUSTOMIZER -->
 <!-- BEGIN PAGE HEADER-->
 <h3 class="page-title">
-    @if(isset($name_page))
-    {{$name_page}}
+    @if(isset($page_name))
+    {{$page_name}}
+        @else
+        Trang quản trị
     @endif
-
+        <small>
     @if(isset($detail_name_page))
-    <small> {{$detail_name_page}}</small>
+     {{$detail_name_page}}
     @endif
-
+        </small>
 </h3>
 <div class="page-bar">
     <ul class="page-breadcrumb">
