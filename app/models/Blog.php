@@ -58,7 +58,7 @@ class Blog extends Post {
 		if(Auth::check()){
 			return User::whereIn("id",$this->whoLiked()->lists("meta_value"));
 		}else{
-			return User::whereIn("id",$this->whoLiked()->list("meta_value"));
+			return User::whereIn("id",$this->whoLiked()->lists("meta_value"));
 		}
 	}
 }

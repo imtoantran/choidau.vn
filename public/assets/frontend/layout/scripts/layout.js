@@ -443,11 +443,6 @@ var Layout = function () {
         var type_insert = "";
 
         $(".insertMedia").click(function () {
-
-            $(".insertMedia").removeClass('abc');
-            $(this).addClass("abc");
-            //   $(this).addClass("abc");
-
             type_insert = $(this).attr('type_insert');
         });
 

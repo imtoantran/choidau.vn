@@ -83,7 +83,7 @@
                         @endif
                         @if($post->recentLiked()->count())
                             @foreach($post->recentLiked()->get() as $user)
-                                <span> {{$user->meta_value}}</span>
+                                <span> {{$user->username}}</span>
                             @endforeach
                         @endif
                         <small> thích mục này</small>

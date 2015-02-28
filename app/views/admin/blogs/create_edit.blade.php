@@ -2,6 +2,9 @@
 
 {{-- Content --}}
 @section('content')
+    {{-- Edit Blog Form --}}
+    <form class="form-horizontal" method="post"
+          action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif" autocomplete="off">
     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
     <!-- Tabs -->
     <ul class="nav nav-tabs">
@@ -10,9 +13,6 @@
     </ul>
     <!-- ./ tabs -->
 
-    {{-- Edit Blog Form --}}
-    <form class="form-horizontal" method="post"
-          action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif" autocomplete="off">
         <!-- CSRF Token -->
         <input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
         <!-- ./ csrf token -->
@@ -26,8 +26,7 @@
                     <!-- Post Title -->
                     <div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
                         <div class="col-md-12">
-                            <label class="control-label" for="title">Tiêu đề</label>
-                            <input class="form-control" type="text" name="title" id="title"
+                            <input placeholder="Tiêu đề bài viết" class="form-control" type="text" name="title" id="title"
                                    value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}"/>
                             {{ $errors->first('title', '<span class="help-block">:message</span>') }}
                         </div>
@@ -37,7 +36,6 @@
                     <!-- Content -->
                     <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
                         <div class="col-md-12">
-                            <label class="control-label" for="content">Nội dung</label>
                             <textarea class="form-control full-width wysihtml5" name="content" value="content"
                                       rows="10">{{{ Input::old('content', isset($post) ? $post->content : null) }}}</textarea>
                             {{ $errors->first('content', '<span class="help-block">:message</span>') }}
@@ -86,16 +84,6 @@
             </div>
             <!-- ./ tabs content -->
 
-            <!-- Form Actions -->
-            <div class="form-group">
-                <div class="col-md-12">
-                    <element class="btn-cancel btn-xs close_popup">Hủy</element>
-                    <button type="reset" class="btn btn-xs btn-default">Khôi phục</button>
-                    <button type="submit" class="btn btn-xs btn-success">Lưu</button>
-                </div>
-            </div>
-            <!-- ./ form actions -->
-    </form>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
     	<div class="portlet solid">
@@ -112,14 +100,27 @@
                 <div class="caption">Hình ảnh tiêu biểu</div>
             </div>
             <div class="portlet-body">
-                <input type="checkbox" name="featured_post" id=""/>
-                <label for="featured_post"></label>
+                <div class="featured-image-wrap">
+                    <img src="{{asset("assets/global/img/no-image.png")}}">
+                </div>
             </div>
         </div>
+        <!-- Form Actions -->
+        <div class="form-group">
+            <div class="col-md-12">
+                <element class="btn-cancel btn-xs close_popup">Hủy</element>
+                <button type="reset" class="btn btn-xs btn-default">Khôi phục</button>
+                <button type="submit" class="btn btn-xs btn-success">Lưu</button>
+            </div>
+        </div>
+        <!-- ./ form actions -->
+
     </div>
+    </form>
 @stop
 
 @section("scripts")
+    <script src="{{asset("assets/global/plugins/uploadify/jquery.uploadify.min.js")}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.close_popup').click(function () {
@@ -127,6 +128,7 @@
                 parent.jQuery.fn.colorbox.close();
                 return false;
             });
+
             $('#deleteForm').submit(function (event) {
                 var form = $(this);
                 $.ajax({
@@ -140,19 +142,25 @@
                 });
                 event.preventDefault();
             });
+
+            if ($('.wysihtml5').size() > 0) {
+                tinymce.init({
+                    selector: ".wysihtml5",
+                    menubar: false,
+                    plugins: [
+                        "advlist autolink lists link image charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste",
+                        "autoresize",
+                        "preview", "image", "code", "wordcount", "textcolor"
+                    ],
+                    toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
+                });
+            }
         });
-        if ($('.wysihtml5').size() > 0)
-            tinymce.init({
-                selector: ".wysihtml5",
-                plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table contextmenu paste",
-                    "autoresize",
-                    "preview", "image", "code"
-                ],
-                toolbar: "code | preview | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-            });
-        //$(prettyPrint)
     </script>
 @stop
+
+@section("styles")
+    <link rel="stylesheet" href="{{asset("assets/global/plugins/uploadify/uploadify.css")}}"/>
+    @stop
