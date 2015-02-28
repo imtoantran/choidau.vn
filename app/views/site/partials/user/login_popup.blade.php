@@ -128,14 +128,18 @@
             </div>
 
             <div class="modal-footer" id="footer_login" style="padding: 15px 20px 15px;">
-                <!-- imtoantran add login with facebook -->
-                <button class="btn login-face-btn" type="button">
-                    <i class="fa fa-facebook"></i> |
-                    đăng nhập Facebook
+                <!-- luuhoabk add login with facebook -->
+                <button class="btn btn-sm btn-danger login-google-btn" type="button" data-url="{{URL::current()}}">
+                    <i class="icon-googleplus-rect-1 white"></i>
+                    | Google+
+                </button>
+                <button class="btn btn-sm login-face-btn" type="button" data-url="{{URL::current()}}">
+                    <i class="icon-facebook white"></i>
+                    | Facebook
                 </button>
                 <!-- <img class='login-face-btn' src="http://beleza.vn/beleza/public/assets/img/fbloginbtn.png" onclick="loginFB()"/> -->
                 <!-- imtoantran add login with facebook -->
-                <button type="button" class="btn green btn-login-popup-choidau">đăng nhâp <i class="icon-login-2 white"></i>
+                <button type="button" class="btn btn-sm green btn-login-popup-choidau">đăng nhâp <i class="icon-login-2 white"></i>
                 </button> <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Hủy</button>
             </div>
         </div>

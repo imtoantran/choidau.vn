@@ -114,12 +114,14 @@ return array(
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
         /* Additional Providers */
-        
+
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 //		'Barryvdh\Debugbar\ServiceProvider',
 
+		// login facebook
+		'Artdarek\OAuth\OAuthServiceProvider'
     ),
 
     /*
@@ -195,6 +197,7 @@ return array(
         'Carbon'          => 'Carbon\Carbon', // Carbon
         'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
 
+		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
     ),
 
     'available_language' => array('en', 'vi'),

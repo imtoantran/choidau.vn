@@ -24,6 +24,19 @@ var Auth = function () {
 
 }();
 
+//luuhoabk
+var iconload = function() {
+    return {
+        load: function(tag, iclass){
+            tag.removeClass(iclass);
+            tag.addClass('animate-spin icon-spin3');
+        },
+        unload: function(tag, iclass){
+            tag.addClass(iclass);
+            tag.removeClass('animate-spin icon-spin3');
+        }
+    }
+}();
 var Layout = function () {
     // IE mode
     var isRTL = false;
@@ -1068,7 +1081,6 @@ var Layout = function () {
     //luuhoabk
     var handleUser = function () {
         $(".btn-login-popup-choidau").click(function () {
-
             var alert = '';
             var email = $("#username_popup_login").val();
             var password = $("#password_popup_login").val();
@@ -1078,19 +1090,17 @@ var Layout = function () {
 
             var alert_login = $('.alert-popup-login');
 
-            //if(email.length <= 0){
-            //    alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập email hoặc username.</div></div>').fadeIn();
-            //    return false;
-            //}
-            //if(password.length <= 0){
-            //    alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập mật khẩu.</div></div>').fadeIn();
-            //    return false;
-            //}
-            //
+            if(email.length <= 0){
+                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập email hoặc username.</div></div>').fadeIn();
+                return false;
+            }
+            if(password.length <= 0){
+                alert_login.html('<div class=" alert alert-danger margin-none padding-5 "><div class="text-center">Vui lòng nhập mật khẩu.</div></div>').fadeIn();
+                return false;
+            }
 
-            //$('.btn-login-popup-choidau i').removeClass('icon-login-2');
-            //$('.btn-login-popup-choidau i').removeClass('icon-login-2');
-
+            var tag_icon =  $('.btn-login-popup-choidau i');
+            iconload.load(tag_icon, 'icon-login-2');
             $.ajax({
                 type: "POST",
                 url: URL + "/thanh-vien/dang-nhap.html",
@@ -1105,6 +1115,7 @@ var Layout = function () {
                 success: function (data) {
                     if(data.url != ""){
                         window.alert("Đăng nhập thành công.");
+                        $('.modal').modal("hide");
                         window.location.replace(data.url);
                     }else{
                         switch(data.err_msg){
@@ -1115,19 +1126,58 @@ var Layout = function () {
                                 alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Tài khoản chưa được xác thực.</div></div>').fadeIn();
                                 break;
                             case 2:
-                                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Đăng nhập thất bại, email, tài khoản hoặc mật khẩu không đúng.</div></div>').fadeIn();
+                                alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Đăng nhập thất bại, tên đăng nhập hoặc mật khẩu không đúng.</div></div>').fadeIn();
                                 break;
-                            default: break;
+                            default:
+                                alert_login.html('<div class="alert alert-success margin-none padding-5 "><div class="text-center">Đăng nhập thành công.</div></div>').fadeIn();
+                                break;
                         }
                     }
                 },
                 complete: function () {
-                    //$('.modal').modal("hide");
-                    //location.reload();
+                    iconload.unload(tag_icon, 'icon-login-2');
                 }
             });
 
         });
+
+        //login facebook
+        $('.login-face-btn').click(function(){
+            var current_url = $(this).attr('data-url');
+            var tag_icon =  $('.login-face-btn i');
+            iconload.load(tag_icon, 'icon-facebook');
+            $.ajax({
+                url: URL + "/thanh-vien/login-facebook",
+                type : 'post',
+                data : {'current_url': current_url},
+
+                success : function(response) {
+                    window.location.assign(response);
+                },
+                complete : function(r) {
+                    //iconload.unload(tag_icon, 'icon-facebook');
+                }
+            });
+        })
+
+        $('.login-google-btn').click(function(){
+            var current_url = $(this).attr('data-url');
+            var tag_icon =  $('.login-google-btn i');
+            iconload.load(tag_icon, 'icon-googleplus-rect-1');
+            $.ajax({
+                url: URL + "/thanh-vien/login-google",
+                type : 'post',
+                data : {'current_url': current_url},
+
+                success : function(response) {
+
+                    window.location.assign(response);
+                },
+                complete : function(r) {
+                    //iconload.unload(tag_icon, 'icon-facebook');
+                }
+            });
+        })
     }
 
 

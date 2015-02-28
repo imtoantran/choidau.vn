@@ -140,6 +140,7 @@ class UserController extends BaseController {
             return Redirect::to('/');
         }
         $data=Input::all();
+
             $user_singup= $this->userRepo->signup($data);
         if(!$user_singup){
             $listProvince=Province::orderBy('name','ASC')->get();
@@ -195,9 +196,7 @@ class UserController extends BaseController {
                 $err_msg = 2;
             }
             $arr['err_msg'] = $err_msg;
-//            return Redirect::to('thanh-vien/dang-nhap.html')
-//                ->withInput(Input::except('password'))
-//                ->with('error', $err_msg);
+
         }
         echo json_encode($arr);
 
@@ -350,8 +349,133 @@ class UserController extends BaseController {
         $data=Input::get('url');
         Session::put('url_link_current', $data);
         echo Auth::check();
-//        if(Auth::check()){
-//            echo 1;}
-//        else {echo 1;}
+    }
+
+    public function loginWithFacebook() {
+        // get data from input
+        $code = Input::get( 'code' );
+
+        // get fb service
+        $fb = OAuth::consumer('Facebook' );
+
+        // check if code is valid
+
+        // if code is provided get user data and sign in
+        if ( !empty( $code ) ) {
+            $current_url =  Session::get('url_link_current');
+            // This was a callback request from facebook, get the token
+            $token = $fb->requestAccessToken( $code );
+
+            // Send a request with it
+            $result = json_decode( $fb->request( '/me' ), true );
+
+            $fb_id = '[FB]'.$result['id'];
+            $fb_name = $result['name'];
+            $fb_email = $result['email'];
+            $fb_gender = $result['gender'];
+            //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
+            if(User::whereUsername($fb_id)->count()){
+                // ton tai
+                $user = User::whereUsername($fb_id)->first();
+                Auth::login($user);
+                return Redirect::to($current_url);
+            }else{
+                $kq = DB::table('users')->insert(
+                    array(
+                        'username' => $fb_id,
+                        'email' => $fb_email,
+                        'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
+                        'gender' => ($fb_gender == 'male')? 1 : 0,
+                        'confirmation_code' => md5(uniqid(mt_rand(), true)),
+                        'confirmed' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'fullname' => $fb_name,
+                        'level_id' => 3,
+                        'status_marriage_id' => 0
+                    )
+                );
+
+                if($kq){
+                    $user = User::whereUsername($fb_id)->first();
+                    Auth::login($user);
+                }
+                return Redirect::to($current_url);
+            }
+        }
+
+        // if not ask for permission first
+        else {
+            // get fb authorization
+            $current_url = Input::get('current_url');
+            Session::put('url_link_current', $current_url);
+            $url = $fb->getAuthorizationUri();
+            echo  $url;
+        }
+
+    }
+
+    public function loginWithGoogle() {
+        // get data from input
+        $code = Input::get( 'code' );
+
+        // get fb service
+        $google = OAuth::consumer('Google' );
+
+        // check if code is valid
+
+        // if code is provided get user data and sign in
+        if ( !empty( $code ) ) {
+            $current_url =  Session::get('url_link_current');
+            // This was a callback request from google, get the token
+            $token = $google->requestAccessToken( $code );
+
+            // Send a request with it
+            $result = json_decode( $google->request('https://www.googleapis.com/oauth2/v1/userinfo'), true );
+
+            $google_id = '[GG]'.$result['id'];
+            $google_name = $result['name'];
+            $google_email = $result['email'];
+            $google_gender = $result['gender'];
+            //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
+            if(User::whereUsername($google_id)->count()){
+                // ton tai
+                $user = User::whereUsername($google_id)->first();
+                Auth::login($user);
+                return Redirect::to($current_url);
+            }else{
+                $kq = DB::table('users')->insert(
+                    array(
+                        'username' => $google_id,
+                        'email' => $google_email,
+                        'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
+                        'gender' => ($google_gender == 'male')? 1 : 0,
+                        'confirmation_code' => md5(uniqid(mt_rand(), true)),
+                        'confirmed' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'fullname' => $google_name,
+                        'level_id' => 3,
+                        'status_marriage_id' => 0
+                    )
+                );
+
+                if($kq){
+                    $user = User::whereUsername($google_id)->first();
+                    Auth::login($user);
+                }
+                return Redirect::to($current_url);
+            }
+        }
+
+        // if not ask for permission first
+        else {
+            // get fb authorization
+            $current_url = Input::get('current_url');
+            Session::put('url_link_current', $current_url);
+            $url = $google->getAuthorizationUri();
+            echo  $url;
+        }
+
     }
 }
