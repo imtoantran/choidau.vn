@@ -3779,15 +3779,11 @@ background-color: #f9f9f9;
 	font-weight: 600;
 
 }
-.home-content-row{
-	/*padding-top: 20px;*/
-	/*margin-bottom: 5px;*/
-
-}
 .home-content-row .separator{height: 5px; background-color: green; margin-bottom: 5px;}
 
-.home-content-item:last-child{
-}
+.login-face-btn{background-color: #6d85b4; color: #fff; border-bottom: 1px solid #3F5E99;}
+.login-face-btn:hover{background-color: #5e729a; color: #fff; border-bottom: 1px solid #375184;}
+
 .italic{font-style: italic;}
 .underline{text-decoration: underline;}
 .text-grey{color: #ababab;}

@@ -65,7 +65,13 @@
                             @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                             @endif
-                            <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">{{{ Auth::user()->username }}}</a>
+                            <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">
+                                @if(empty(Auth::user()->fullname))
+                                    {{{ Auth::user()->username }}}
+                                @else
+                                    {{{ Auth::user()->fullname }}}
+                                @endif
+                            </a>
                             <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
                             <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="dropdown-toggle icon-badge-number" >
                                 <i class="icon-bell"></i>
@@ -74,7 +80,7 @@
                         @else
                             {{--<a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Đăng nhập</a> /--}}
                             {{--<a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">Đăng ký</a>--}}
-                            <a class="header-logout-a require-login" data-url="" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void()">Đăng nhập</a> /
+                            <a class="header-logout-a require-login" data-url="{{URL::current();}}" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void()">Đăng nhập</a> /
                             <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html')}}}">Đăng ký</a>
                         @endif
                     </div>

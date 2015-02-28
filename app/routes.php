@@ -175,6 +175,10 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::post('dang-nhap.html', 'UserController@postLogin');
     Route::get('dang-xuat.html', 'UserController@getLogout');
     Route::post('check-login','UserController@checkLogin');
+    Route::get('login-facebook','UserController@loginWithFacebook');
+    Route::post('login-facebook','UserController@loginWithFacebook');
+    Route::get('login-google','UserController@loginWithGoogle');
+    Route::post('login-google','UserController@loginWithGoogle');
     Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });

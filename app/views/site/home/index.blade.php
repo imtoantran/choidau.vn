@@ -334,7 +334,7 @@
                     <div class="col-none-padding lab-user-post">
                         <a href="{{$topLocation->url()}}"><h1>{{$topLocation->name}}</h1></a>
 
-                        <h2> {{$topLocation->author->username}}</h2><span>Đã đăng </span>
+                        <h2> {{isset($topLocation->author->username) ? $topLocation->author->username : 'undefined'}}</h2><span>Đã đăng </span>
                         <time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
                     </div>
                     <div class="clearfix"></div>
