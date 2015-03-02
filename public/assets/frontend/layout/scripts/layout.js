@@ -1076,6 +1076,7 @@ var Layout = function () {
     //luuhoabk
     var handleUser = function () {
         $(".btn-login-popup-choidau").click(function () {
+            var btnlogin = $(this);
             var alert = '';
             var email = $("#username_popup_login").val();
             var password = $("#password_popup_login").val();
@@ -1096,6 +1097,7 @@ var Layout = function () {
 
             var tag_icon =  $('.btn-login-popup-choidau i');
             iconload.load(tag_icon, 'icon-login-2');
+            btnlogin.attr('disabled','disabled');
             $.ajax({
                 type: "POST",
                 url: URL + "/thanh-vien/dang-nhap.html",
@@ -1113,6 +1115,8 @@ var Layout = function () {
                         $('.modal').modal("hide");
                         window.location.replace(data.url);
                     }else{
+                        alert_login.fadeOut().fadeIn();
+
                         switch(data.err_msg){
                             case 0:
                                 alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Bạn đăng nhập sai quá nhiều lần. Vui lòng kiểm tra lại.</div></div>').fadeIn();
@@ -1130,6 +1134,7 @@ var Layout = function () {
                     }
                 },
                 complete: function () {
+                    btnlogin.removeAttr('disabled');
                     iconload.unload(tag_icon, 'icon-login-2');
                 }
             });
@@ -1138,9 +1143,11 @@ var Layout = function () {
 
         //login facebook
         $('.login-face-btn').click(function(){
+            var btnlogin_fb = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-face-btn i');
             iconload.load(tag_icon, 'icon-facebook');
+            btnlogin_fb.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-facebook",
                 type : 'post',
@@ -1150,15 +1157,18 @@ var Layout = function () {
                     window.location.assign(response);
                 },
                 complete : function(r) {
-                    //iconload.unload(tag_icon, 'icon-facebook');
+                    btnlogin_fb.removeAttr('disabled');
+                    iconload.unload(tag_icon, 'icon-facebook');
                 }
             });
         })
 
         $('.login-google-btn').click(function(){
+            var btnlogin_gg = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-google-btn i');
             iconload.load(tag_icon, 'icon-googleplus-rect-1');
+            btnlogin_gg.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-google",
                 type : 'post',
@@ -1169,6 +1179,7 @@ var Layout = function () {
                     window.location.assign(response);
                 },
                 complete : function(r) {
+                    btnlogin_gg.removeAttr('disabled');
                     //iconload.unload(tag_icon, 'icon-facebook');
                 }
             });
