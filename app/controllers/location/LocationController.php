@@ -247,6 +247,7 @@ class LocationController extends BaseController {
         }
         return $object;
     }
+
     function like(){
         $id = Input::get("id");
         $location = Location::find($id);
@@ -315,16 +316,20 @@ class LocationController extends BaseController {
 
         return json_encode($response);
     }
+
     private function userAction(){
 
     }
+
     public function loadReviews(){
         $id = Input::get("id");
         return json_encode(Location::find($id)->reviews());
     }
+
     public function getReview(){
         return View::make("site.location.review");
     }
+
     public function postReview(){
         $user = Auth::user();
         $data = Input::all();

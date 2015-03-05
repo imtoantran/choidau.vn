@@ -188,7 +188,7 @@
                 offText: "Tắt"
             });
             $("#featured_image").mediaupload({
-                fullwidth: true,
+                token:"{{Session::token()}}",
                 url: "{{URL::to("media/upload")}}",
                 "multi-select": false,
                 complete: function (data) {
@@ -198,6 +198,7 @@
                 }
             });
             $("#add-media").mediaupload({
+                token:"{{Session::token()}}",
                 url: "{{URL::to("media/upload")}}",
                 "multi-select": true,
                 complete: function (data) {

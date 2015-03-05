@@ -307,7 +307,9 @@ class MediaController extends BaseController {
         $path = [];
         if(Image::destroy($images)){
             foreach($images as $image){
-                $path[] = Image::find($image->id)->guid;
+
+                if(isset(Image::find($image->id)->guid))
+                    $path[] = Image::find($image->id)->guid;
             }
             //File::delete($path);
         }
