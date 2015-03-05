@@ -12218,13 +12218,15 @@ text-align:left !important;
 }
 .modal-dialog{z-index: 10053!important;}
 
-#featuredimage{
+#featured_image{
   overflow: hidden;
   background: #eee;
   cursor:pointer;
+  min-height: 50px;
 }
-#featuredimage img{
+#featured_image img{
   width:100%;
+  max-height: 200px;
 }
 /* imtoantran */
 #uploadzone .modal-footer{

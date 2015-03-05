@@ -46,6 +46,7 @@
     <link href="{{asset('assets/admin/layout/css/layout.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/layout/css/themes/default.css')}}" rel="stylesheet" type="text/css"
           id="style_color"/>
+    <link href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/layout/css/custom.css')}}" rel="stylesheet" type="text/css"/>
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
@@ -1641,6 +1642,8 @@
 <script src="{{asset("assets/admin/pages/scripts/index.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/admin/pages/scripts/tasks.js")}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
+<script src="{{asset("assets/global/plugins/dropzone/dropzone.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/frontend/pages/scripts/media-manager.js")}}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets

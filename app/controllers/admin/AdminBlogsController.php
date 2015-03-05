@@ -156,8 +156,8 @@ class AdminBlogsController extends AdminController {
         $featured_image = [];
         $title = Lang::get('admin/blogs/title.blog_update');
         if($featured_image_id->count()){
-            $featured_image["id"] = $featured_image_id->meta_value;
-            $featured_image["src"] = Image::find($featured_image_id->meta_value)->guid;
+            $featured_image["id"] = isset($featured_image_id->meta_value)?$featured_image_id->meta_value:"";
+            $featured_image["src"] = isset(Image::find($featured_image_id->meta_value)->guid)?Image::find($featured_image_id->meta_value)->guid:"";
         }
         // Show the page
         return View::make('admin/blogs/create_edit', compact('post', 'title','featured_image','is_featured_post'));
