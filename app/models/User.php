@@ -230,4 +230,8 @@ class User extends Eloquent implements ConfideUserInterface {
     public function location_like(){
         return $this->belongsToMany("Location")->wherePivot('action_type','=','like');
     }
+
+    public function Images(){
+        return $this->hasMany("Image");
+    }
 }

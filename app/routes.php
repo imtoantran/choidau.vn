@@ -130,6 +130,7 @@ Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
 
 
+Route::any('media/loadMedia','MediaController@loadMedia');
 Route::controller('media','MediaController');
 Route::any('media-data','ImageController@upLoadFile');
 //Route::any('media-data','MediaController@fetchData');

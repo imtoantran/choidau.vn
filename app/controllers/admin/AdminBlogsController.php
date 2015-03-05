@@ -9,14 +9,17 @@ class AdminBlogsController extends AdminController {
      */
     protected $post;
 
+    protected $post_meta;
+
     /**
      * Inject the models.
      * @param Blog $post
      */
-    public function __construct(Blog $post)
+    public function __construct(Blog $post,PostMeta $post_meta)
     {
         parent::__construct();
         $this->post = $post;
+        $this->post_meta = $post_meta;
     }
 
     /**
@@ -104,6 +107,15 @@ class AdminBlogsController extends AdminController {
             // Was the blog post created?
             if($this->post->save())
             {
+                if(Input::has("featured_post")){
+                    $meta = new PostMeta("featured_post",Input::get("featured_post"));
+                    $this->post->meta()->save($meta);
+                }else{
+                    $meta = new PostMeta("featured_post",false);
+                    $this->post->meta()->save($meta);
+                }
+                $post_meta = new PostMeta("featured_image",Input::get("featured_image"));
+                $this->post->meta()->save($post_meta);
                 // Redirect to the new blog post page
                 return Redirect::to('qtri-choidau/blog/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
             }
@@ -136,10 +148,19 @@ class AdminBlogsController extends AdminController {
 	public function getEdit($post)
 	{
         // Title
+        $is_featured_post = false;
+        if($post->meta()->whereMetaKey("featured_post")->count()){
+            $is_featured_post = $post->meta()->whereMetaKey("featured_post")->first()->meta_value;
+        }
+        $featured_image_id = $post->meta()->whereMetaKey("featured_image")->first();
+        $featured_image = [];
         $title = Lang::get('admin/blogs/title.blog_update');
-
+        if($featured_image_id->count()){
+            $featured_image["id"] = $featured_image_id->meta_value;
+            $featured_image["src"] = Image::find($featured_image_id->meta_value)->guid;
+        }
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('post', 'title'));
+        return View::make('admin/blogs/create_edit', compact('post', 'title','featured_image','is_featured_post'));
 	}
 
     /**
@@ -174,6 +195,20 @@ class AdminBlogsController extends AdminController {
             // Was the blog post updated?
             if($post->save())
             {
+                $meta = $post->meta()->whereMetaKey("featured_post")->first();
+                    if (isset($meta)) {
+                        $meta->meta_value = Input::get("featured_post");
+                        $meta->save();
+                    }
+                    else{
+                        $meta = new PostMeta("featured_post",Input::get("featured_post"));
+                        $post->meta()->save($meta);
+                    }
+                $post_meta = $post->meta()->whereMetaKey("featured_image")->first();
+                if(isset($post_meta)){
+                    $post_meta->meta_value =Input::get("featured_image");
+                    $post_meta->save();
+                }
                 // Redirect to the new blog post page
                 return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
             }
@@ -250,7 +285,7 @@ class AdminBlogsController extends AdminController {
 
         ->edit_column('comments', '{{ DB::table(\'posts\')->where(\'parent_id\', \'=\', $id)->count() }}')
 
-        ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
+        ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs" >{{{ Lang::get(\'button.edit\') }}}</a>
                 <a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
             ')
 
