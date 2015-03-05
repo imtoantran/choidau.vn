@@ -1629,8 +1629,9 @@
         type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.blockui.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.cokie.min.js")}}" type="text/javascript"></script>
-{{--<script src="{{asset("assets/global/plugins/uniform/jquery.uniform.min.js")}}" type="text/javascript"></script>--}}
-{{--<script src="{{asset("assets/global/plugins/bootstrap-switbootstrap-switch.min.js")}}" type="text/javascript"></script>--}}
+<script src="{{asset("assets/global/plugins/uniform/jquery.uniform.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/tinymce/tinymce.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js")}}" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="{{asset("assets/global/scripts/metronic.js")}}" type="text/javascript"></script>

@@ -116,6 +116,7 @@
         <!-- ./ form actions -->
 
     </div>
+        <div class="clearfix"></div>
     </form>
 @stop
 
