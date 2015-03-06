@@ -16,27 +16,11 @@ var Auth = function () {
                 }
             });
             return result;
-        },
-        check_2: function () {
-            //  alert('chào nha 2');
         }
     };
 
 }();
 
-//luuhoabk
-var iconload = function() {
-    return {
-        load: function(tag, iclass){
-            tag.removeClass(iclass);
-            tag.addClass('animate-spin icon-spin3');
-        },
-        unload: function(tag, iclass){
-            tag.addClass(iclass);
-            tag.removeClass('animate-spin icon-spin3');
-        }
-    }
-}();
 var Layout = function () {
     // IE mode
     var isRTL = false;
@@ -568,7 +552,7 @@ var Layout = function () {
     }
 
     var handleBlog = function () {
-        var id_user_blog = $('.person-header-username').attr('id_u_blo');
+        var userBlog_id = $('.person-header-username').attr('id_u_blo');
         var id_user_auth = $(".item-status-value").attr('user_auth_id');
 
 
@@ -587,10 +571,10 @@ var Layout = function () {
                     'content': content_status,
                     'privacy': privacy_status,
                     'type_edit': 'add_status',
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
-                sync: true,
+                async: true,
                 success: function (data) {
                     $.ajax({
                         type: "POST",
@@ -634,7 +618,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -681,7 +665,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -722,7 +706,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -777,7 +761,7 @@ var Layout = function () {
                         'post_id': post_id,
                         'type_edit': 'comment_post',
                         'content_comment': content_comment,
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
 
                     },
                     dataType: 'JSON',
@@ -801,7 +785,6 @@ var Layout = function () {
 
         });
 
-
         $(document).on("click", "div.btn-blog-post-comment-delete", function () {
             var parent_post_element = $(this).parents("div.person-content-item");
             var parent_item_element = $(this).parents("div.lab-blog-post-item-comment");
@@ -817,7 +800,7 @@ var Layout = function () {
                     'id_user': id_user,
                     'id_parent_comment': id_parent_comment,
                     'type_edit': 'comment_delete',
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: true,
@@ -829,6 +812,7 @@ var Layout = function () {
             });
 
         });
+
         $(document).on("click", "li.btn-blog-post-status-delete", function () {
             var parent_item_element = $(this).parents('div.person-content-item');
             var input_element = parent_item_element.find('input.item-status-value');
@@ -843,7 +827,7 @@ var Layout = function () {
                         data: {
                             'id_status': id_status,
                             'type_edit': 'status_delete',
-                            'id_user_blog': id_user_blog
+                            'userBlog_id': userBlog_id
                         },
                         sync: true,
                         success: function (data_1) {
@@ -862,26 +846,140 @@ var Layout = function () {
         /**
          * Gửi lời mới kết bạn
          * */
-        $(document).on("click", "button.btn-aside-add-friend", function () {
+        $(document).on("click", "button.btn-header-add-friend", function () {
             var id_friend = $(this).attr('i_u');
-            var parent_item_element = $(this).parents("li.lab-btn-item-blog-friend");
-            //alert(id_friend);
-
+            var btn_tag = $(this);
+            iconload.load(btn_tag.find('i'),'icon-user-add');
             $.ajax({
                 type: "POST",
                 url: URL + "/trang-ca-nhan/ban-be.html",
                 data: {
                     'id_friend': id_friend,
                     'type_edit': 'request_add_friend',
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
                 },
-                sync: false,
-                success: function (data_1) {
-                    parent_item_element.hide(200);
+                success: function (respon) {
+                    if(respon){
+                        btn_tag.html('<i class="icon-hourglass black"> </i>Đã gửi lời mời kết bạn');
+                        $('.btn-delete-confirm-friend').removeClass('hidden').fadeIn();
+                        btn_tag.removeClass('btn-header-add-friend').css('cursor', 'default');
+                    }
                 }
-            });
+             });
+        });
+
+        /**
+         * Gui loi moi ket ban - box-right
+         * */
+        $(document).on("click", "button.btn-aside-add-friend", function () {
+            window.location = $(this).attr('data-url');
 
 
+            //var id_friend = $(this).attr('i_u');
+            //var btn_tag = $(this);
+            //iconload.load(btn_tag.find('i'),'icon-user-add');
+            //$.ajax({
+            //    type: "POST",
+            //    url: URL + "/trang-ca-nhan/ban-be.html",
+            //    data: {
+            //        'id_friend': id_friend,
+            //        'type_edit': 'request_add_friend',
+            //        'userBlog_id': userBlog_id
+            //    },
+            //    success: function (respon) {
+            //        if(respon){
+            //            btn_tag.html('<i class="icon-hourglass black"> </i>Đang chờ');
+            //            //$('.btn-delete-confirm-friend').removeClass('hidden').fadeIn();
+            //            //btn_tag.removeClass('btn-aside-add-friend').css('cursor', 'default');
+            //        }
+            //    }
+            //});
+        });
+
+        /**
+         *Huy xac nhan ket ban
+         * */
+        $('.btn-delete-confirm-friend').on('click', function(){
+            var tag_friend = $('.btn-title-friend');
+            var r = confirm("Bạn thật sự muốn hủy?");
+            if(r == true){
+                var id_friend = $(this).attr('i_u');
+                var btn_tag = $(this);
+                iconload.load(btn_tag.find('i'),'icon-cancel-2');
+                $.ajax({
+                    type: "POST",
+                    url: URL + "/trang-ca-nhan/ban-be.html",
+                    data: {
+                        'id_friend': id_friend,
+                        'type_edit': 'request_delete_confirm_friend',
+                        'userBlog_id': userBlog_id
+                    },
+                    success: function (respon) {
+                        tag_friend.html('<i class="icon-user-add black"> </i>Kết bạn');
+                        tag_friend.removeClass('btn-delete-confirm-friend').addClass('btn-aside-add-friend').css('cursor', 'pointer');
+                        $('.btn-delete-confirm-friend').addClass('hidden').fadeOut();
+                    },
+                    complete: function(){
+                        iconload.unload(btn_tag.find('i'),'icon-cancel-2');
+                    }
+                });
+            }
+        });
+
+
+        /**
+         *Huy ket ban
+         * */
+        $('.btn-delete-friend').on('click', function(){
+            var tag_friend = $('.btn-title-friend');
+            var r = confirm("Bạn thật sự muốn hủy?");
+            if(r == true){
+                var id_friend = $(this).attr('i_u');
+                var btn_tag = $(this);
+                iconload.load(btn_tag.find('i'),'icon-user-delete');
+                $.ajax({
+                    type: "POST",
+                    url: URL + "/trang-ca-nhan/ban-be.html",
+                    data: {
+                        'id_friend': id_friend,
+                        'type_edit': 'request_delete_confirm_friend',
+                        'userBlog_id': userBlog_id
+                    },
+                    success: function (respon) {
+                        tag_friend.html('<i class="icon-user-add black"> </i>Kết bạn');
+                        tag_friend.removeClass('btn-delete-friend').addClass('btn-aside-add-friend').css('cursor', 'pointer');
+                    },
+                    complete: function(){
+                        iconload.unload(btn_tag.find('i'),'btn-title-friend');
+                    }
+                });
+            }
+
+        });
+
+        //luuhoabk - error
+        $('.btn-tag-delete-friend').on('click', function(){
+            console.log('hello');
+            //var tag = $(this);
+            //var r = confirm("Bạn thật sự muốn hủy?");
+            //if(r == true){
+            //    var id_friend = $(this).attr('i_u');
+            //    var btn_tag = $(this);
+            //    iconload.load(btn_tag.find('i'),'icon-user-delete');
+            //    $.ajax({
+            //        type: "POST",
+            //        url: URL + "/trang-ca-nhan/ban-be.html",
+            //        data: {
+            //            'id_friend': id_friend,
+            //            'type_edit': 'request_delete_friend'
+            //        },
+            //        success: function (respon) {
+            //
+            //            tag.remove();
+            //        }
+            //
+            //    });
+            //}
         });
 
 
@@ -893,36 +991,102 @@ var Layout = function () {
          * ------------------------------------------------------------------*/
 
         $("#btn-tag-blog-friend").click(function () {
-            var element_list_friend = $(".person-friends-list").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var tagListFriend = $(".person-friends-list");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
+            tagListFriend.html('<span class="white" style="font-size: 1.3em;"><i class="icon-spin4 animate-spin white"></i> loading...</span>');
+            $.ajax({
+                type: "POST",
+                url: URL + "/trang-ca-nhan/list-ban-be.html",
+                dataType: 'JSON',
+                data: {
+                    'userBlog_id': userBlog_id
+                },
+                success: function (respon) {
+                    console.log(respon);
+                    if(respon.length>0){
+                        $("span.person-friends-list-total").html(respon.length);
+                        var html = '';
+                        $.each(respon, function(key, val){
+                            html += '<article class="person-friends-item col-md-4 col-sm-6 col-xs-12">';
+                                html += '<div class="media">';
+                                html += '<a href="'+URL+'/trang-ca-nhan/'+val.username+'.html" class="pull-left"><img src="'+val.avatar+'" alt="" class="media-object"> </a>';
+                                    html += '<div class="media-body">';
+                                        html += '<header><a href="'+URL+'/trang-ca-nhan/'+val.username+'.html" class="media-heading text-1em2">'+((val.fullname)?val.fullname:val.username)+'</a></header>';
+                                        if(val.user_login_id != val.id){
+                                            html += '<p>'+val.mutual_friend_count+' bạn chung</p>';
+                                            html += '<div style="margin-top: -5px;">';
+                                                var state_user = val.state_user;
+                                                var state_friend = val.state_friend;
 
-            var is_val = $(".person-friends-list").attr('is_val');
-            //  alert('asdsad'+element_list_friend);
+                                                if(state_user != null){
+                                                    html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="delete" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>';
+                                                    if(state_user['status_id'] == 35){
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã gửi lời mời</span>';
+                                                    }else{
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>'
+                                                    }
+                                                }else if(state_friend !=null){
+                                                    if(state_friend['status_id'] == 35){
+                                                        html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="confirm" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-add" style="font-size: 1.2em;"></i>Chấp nhận</button>';
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đang chờ</span>';
+                                                    }else{
+                                                        html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="delete" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>';
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>'
+                                                    }
+                                                }else{
+                                                    html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="add" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-add" style="font-size: 1.2em;"></i>Kết bạn</button>';
+                                                }
+                                            html += '</div>';
+                                        }
+                                    html += '</div>';
+                                html += '</div>';
+                            html += '</article>';
+                        });
+                        tagListFriend.html(html);
 
-            if (is_val != '1') {
-                $('.person-friends-list').html('<i class="icon-spin4 animate-spin"></i> loading...');
-                $.ajax({
-                    type: "POST",
-                    url: URL + "/trang-ca-nhan/list-ban-be.html",
-                    data: {
-                        'id_user_blog': id_user_blog
-                    },
-                    sync: false,
-                    success: function (data_1) {
+                        //luuhoatest
+                        tagListFriend.find('.btn-friend').on('click',function(){
+                            var self = $(this);
+                            var friend_type = $(this).attr('data-type');
+                            if(friend_type == 'add'){
+                                self.addFriend({callback: function(respon){
+                                    if(respon){
+                                        self.html('<i class="icon-user-add black"> </i>Hủy');
+                                        self.attr('data-type','delete');
+                                        $('.sub-alert').text(' Đã gửi lời mời');
+                                    }
+                                }});
+                            }else if(friend_type == 'delete'){
+                                self.delFriend({callback: function(respon){
+                                    if(respon){
+                                        self.html('<i class="icon-user-add black"> </i>Kết bạn');
+                                        self.attr('data-type','add');
+                                        $('.sub-alert').html('Chưa kết bạn');
+                                    }
+                                }});
+                            }else if(friend_type == 'confirm'){
+                                self.delConfirm({callback: function(respon){
+                                    if(respon){
+                                        self.html('<i class="icon-user-add black"> </i>Hủy');
+                                        self.attr('data-type','delete');
+                                        $('.sub-alert').text(' Đã kết bạn');
+                                    }
+                                }});
+                            }
 
-                        //  parent_item_element.hide(200);
-                        $(".person-friends-list").html(data_1.html);
-                        $(".person-friends-list").attr('is_val', '1');
-                        $("span.person-friends-list-total").html(data_1.total);
-                    },
-                    dataType: 'JSON'
-                });
-            }
+                        });
+                    }
+                    else{
+                        tagListFriend.html('<div style="background-color: #fff; padding: 10px;"><i class="icon-warning-empty"></i>Chưa có bạn.</div>');
+                        $("span.person-friends-list-total").html('');
+                    }
+                }
+            });
         });
 
         $("#btn-tag-blog-photo").click(function () {
             var element_list_friend = $(".blog-photo-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-photo-list-content").attr('is_val');
             if (is_val != '1') {
@@ -931,7 +1095,7 @@ var Layout = function () {
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-hinh-anh.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
@@ -952,7 +1116,7 @@ var Layout = function () {
         $("#btn-tag-blog-checkin").click(function () {
 
             var element_list_friend = $(".blog-checkin-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-checkin-list-content").attr('is_val');
 
@@ -962,7 +1126,7 @@ var Layout = function () {
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-check-in.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
@@ -985,23 +1149,21 @@ var Layout = function () {
         $("#btn-tag-blog-location-like").click(function () {
 
             var element_list_friend = $(".blog-photo-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-location-like-list-content").attr('is_val');
-
             if (is_val != '1') {
                 $('.blog-location-like-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
                 $.ajax({
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-location-like.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
                         $(".blog-location-like-list-content").html(data_1.html);
                         $(".blog-location-like-list-content").attr('is_val', '1');
-
                     },
                     dataType: 'JSON'
                 });
@@ -1010,66 +1172,6 @@ var Layout = function () {
 
 
         });
-
-        /**end Tab location like*/
-
-
-        /****
-         *
-         *End Tag Bạn Bè Blog
-         *
-         *--------------------------------------------------------------------*/
-
-        /*
-         $(".btn-blog-post-comment").click(function(){
-         var parent_item_element=$(this).parents('div.person-content-item');
-         var input_comment_element=parent_item_element.find('input.txt-blog-post-comment');
-         input_comment_element.focus();
-
-
-         });
-
-
-
-         $('.txt-blog-post-comment').keyup(function(e) {
-         if (e.keyCode == 13) {
-         var parent_item_element=$(this).parents('div.person-content-item');
-         var input_element=parent_item_element.find('input.item-status-value');
-         var parent_vt_element=parent_item_element.find("div.list-blog-post-comment");
-
-         var post_id=input_element.attr('post_id');
-         var content_comment=$(this).val();
-         //    alert(parent_vt_element.html());
-         $.ajax({
-         type: "POST",
-         url: URL+"/trang-ca-nhan/trang-thai.html",
-         data: {
-         'post_id':post_id,
-         'type_edit':'comment_post',
-         'content_comment':content_comment
-
-         },
-         dataType:'JSON',
-         success: function(data_1){
-         //    alert(data_1.date_at);
-         var html_item_comment='   <div class="col-md-12 article-img-text col-none-padding">';
-         html_item_comment+='     <div class="row margin-none">';
-         html_item_comment+='       <img class="col-md-1 col-ms-1 avatar-pad2" src="'+data_1.avatar_user+'" alt="">';
-         html_item_comment+='           <a style="font-size: 16px" class="lab-blog-post-content-comment" >'+data_1.username+'</a>'+data_1.date_at;
-         html_item_comment+='             <span class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" value="" >'+data_1.content+'</span>';
-         html_item_comment+='       </div> </div>';
-         //  alert(data_1);
-         parent_vt_element.append(html_item_comment);
-         }
-         });
-
-
-
-         }
-         });*/
-
-
-        /*-------------end comment*/
 
 
     };
@@ -1184,6 +1286,8 @@ var Layout = function () {
                 }
             });
         })
+
+
     }
 
 
@@ -1486,7 +1590,7 @@ var Layout = function () {
                 pagination: false,
                 navigation: true,
                 items: 4,
-                addClassActive: true,
+                addClassActive: true
             });
 
             $(".owl-carousel3").owlCarousel({
@@ -1677,3 +1781,98 @@ var Layout = function () {
         }
     };
 }();
+
+//-----luuhoabk ------
+var iconload = function() {
+    return {
+        load: function(tag, iclass){
+            tag.removeClass(iclass);
+            tag.addClass('animate-spin icon-spin3');
+        },
+        unload: function(tag, iclass){
+            tag.removeClass('animate-spin icon-spin3');
+            tag.addClass(iclass);
+        }
+    }
+}();
+
+$.fn.addFriend = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var friend_id = $(this).attr('friend_id');
+        iconload.load(self.find('i'),'icon-user-add');
+        $.ajax({
+             type: "POST",
+             url: URL + "/trang-ca-nhan/ban-be.html",
+             data: {
+                 'friend_id': friend_id,
+                 'type_edit': 'request_add_friend'
+             },
+             success: function (respon) {
+                 options.callback.call(null,respon);
+             },
+             complete: function(){
+                 iconload.unload(self.find('i'),'icon-user-delete');
+             }
+        });
+    });
+};
+// luuhoabk - delete friend
+$.fn.delFriend = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var r = confirm("Bạn thật sự muốn hủy?");
+        if(r == true){
+            var id_friend = $(this).attr('friend_id');
+            iconload.load(self.find('i'),'icon-user-delete');
+            $.ajax({
+                type: "POST",
+                url: URL + "/trang-ca-nhan/ban-be.html",
+                data: {
+                    'id_friend': id_friend,
+                    'type_edit': 'request_delete_friend'
+                },
+                success: function (respon) {
+                    options.callback.call(null,respon);
+                },
+                complete: function(){
+                    iconload.unload(self.find('i'),'icon-user-add');
+                }
+            });
+        }
+    });
+};
+
+// luuhoabk - confirm friend
+$.fn.delConfirm = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var id_friend = $(this).attr('friend_id');
+        iconload.load(self.find('i'),'icon-user-add');
+        $.ajax({
+            type: "POST",
+            url: URL + "/trang-ca-nhan/ban-be.html",
+            data: {
+                'id_friend': id_friend,
+                'type_edit': 'request_confirm_friend'
+            },
+            success: function (respon) {
+                options.callback.call(null,respon);
+            },
+            complete: function(){
+                iconload.unload(self.find('i'),'icon-user-delete');
+            }
+        });
+
+    });
+};
+// -- end luuhoabk ------

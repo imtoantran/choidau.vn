@@ -351,6 +351,15 @@ class UserController extends BaseController {
         echo Auth::check();
     }
 
+
+    public function getTotalLikeLocation(){
+        return User::getTotalLikeLocation();
+    }
+
+
+//    luuhoabk
+
+
     public function loginWithFacebook() {
         // get data from input
         $code = Input::get( 'code' );
@@ -414,7 +423,6 @@ class UserController extends BaseController {
         }
 
     }
-
     public function loginWithGoogle() {
         // get data from input
         $code = Input::get( 'code' );
@@ -455,7 +463,7 @@ class UserController extends BaseController {
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                         'fullname' => $google_name,
-                        'level_id' => 3,
+                        'level_id' => 28,
                         'status_marriage_id' => 0
                     )
                 );
@@ -478,4 +486,9 @@ class UserController extends BaseController {
         }
 
     }
+    public function getFriendsConfirm(){
+        $userModel = new User;
+        echo $userModel->getFriendsConfirm();
+    }
+// end luuhoabk
 }

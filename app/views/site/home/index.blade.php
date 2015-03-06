@@ -436,10 +436,14 @@
                                 </ul>
                             </div>
                             <div class="absolute-top-right bg-primary">
-                                <span href="#"
-                                      class="like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif "
-                                      data-id="{{$location->id}}"><i class="icon-heart"></i></span>
-                                <i class="icon-export"></i>
+                                <span class="tooltips like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-original-title ='@if(Auth::check()&&$location->isLiked(Auth::user()->id)) Bỏ thích @else thích @endif'
+                                     data-id="{{$location->id}}">
+                                    <i class="icon-heart"></i>
+                                </span>
+
+                                <span class="tooltips"  data-original-title = "Chia sẻ" >
+                                     <i class="icon-export "></i>
+                                </span>
                             </div>
                         </div>
                     </a>
@@ -487,7 +491,7 @@
                                 @if($location->totalLike())
                                     @foreach($location->whoLiked()->take(3)->get() as $userLiked)
                                         <a href="{{URL::to($userLiked->url())}}">
-                                            <img class="img-circle" src="{{asset($userLiked->avatar)}}"/>
+                                            <img class="img-circle tooltips" src="{{asset($userLiked->avatar)}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>
                                         </a>
                                     @endforeach
                                 @else
@@ -553,7 +557,12 @@
                 success: function (response) {
                     if (response.success) {
                         el.toggleClass("active");
-                        el.closest(".location-item").find(".quantity-like span").text(response.totalFavourites);
+                        el.closest(".home-content-item").find(".quantity-like span").text(response.totalFavourites);
+                        if(response.canLike){
+                            el.attr('data-original-title','Thích');
+                        }else{
+                            el.attr('data-original-title','Bỏ thích');
+                        }
                     }
                 },
                 complete: function () {

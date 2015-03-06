@@ -43,11 +43,9 @@ class BlogUserController extends BaseController {
 	 */
 	public function getIndex($user_slug)
 	{
-        $user_blog =User::where('username','=',"$user_slug")->first();
-        $blogUser=$user_blog->blog()->first();
-        $date =new DateTime($user_blog->birthday);
-        $date=date_format($date,'d/m/Y');
-        $tp=Province::getName($user_blog->province_id);
+        $user_blog = User::where('username','=',"$user_slug")->first();
+//        $blogUser  = $user_blog->blog()->first();
+
 
         try{
 
@@ -56,8 +54,7 @@ class BlogUserController extends BaseController {
             $this->user = $user_auth;
             $this->blogUser=$user_blog;
 
-
-            $html_sus_friend='';
+            $html_friends = '';
 
             $list_friend=$user_blog->friends()->get();
             $list_sus_friend=array();
@@ -65,70 +62,58 @@ class BlogUserController extends BaseController {
             $list_friend_my=$this->filterFriends_byBlog($list_friend,$user_auth->id);
 
             foreach($list_friend_my as $item){
-
-                $user_tam=User::where('id','=',$item)->first();
-
+                $user_tam=User::whereId($item)->first();
                 $list_friend_friend=$user_tam->friends()->get();
-
-
-                $list_id_friend_friend=$this->filterFriends_byBlog($list_friend_friend,$user_auth->id);
+                $list_id_friend_friend = $this->filterFriends_byBlog($list_friend_friend,$user_auth->id);
                 $i=0;
+
                 foreach($list_id_friend_friend as $item1){
-
-
                     if(!in_array($item1,$list_sus_friend)){
-                        $user_tam_1=User::where('id','=',$item1)->first();
+                        $user_tam_1=User::whereId($item1)->first();
                         $list_sus_friend[$i]['id']=$item1;
                         $item_friend=$this->filterMutualFriend($this->user,$user_tam_1);
-
                         $list_sus_friend[$i]['mutual']=count($item_friend['list_id_friend_mutual']);
-                      //  $list_sus_friend[$i]['list_item']=$item_friend['list_item_friend_mutual'];
-                    $i++;
-
+                        $i++;
                     }
                 }
-
             }
 
             $list_sus_friend2=array();
+            $html_friends.='';
 
             foreach($list_sus_friend as $item){
-
-                if(!in_array($item['id'],$list_friend_my)&&!in_array($item['id'],$list_sus_friend2)){
-
+                if(!in_array($item['id'], $list_friend_my) && !in_array($item['id'], $list_sus_friend2)){
                     $list_sus_friend2[]=$item['id'];
-                    $user_ok=User::where('id','=',$item['id'])->first();
-                    $html_sus_friend.='';
-                    $html_sus_friend.='   <li class="lab-btn-item-blog-friend"><div class="row margin-none"><div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">';
-                    $html_sus_friend.='       <img class="avatar-pad2" src="'.$user_ok->avatar.'" alt="">';
-                    $html_sus_friend.='       <div class="aside-items-text"><b>'.$user_ok->username.'</b> <p>'.$item['mutual'].' bạn chung</p></div></div>';
-                    $html_sus_friend.='  <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">';
-                    $html_sus_friend.='     <button i_u="'.$user_ok->id.'"  class="btn btn-default btn-aside-add-friend"> <i class="icon-user-add"> </i> Kết bạn</button></div></div> </li>';
+                    $user_friend = User::whereId($item['id'])->first();
+                    $html_friends.='<li class="lab-btn-item-blog-friend"><div class = "row margin-none"><div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">';
+                        $html_friends.='<a href="'.$user_friend->url().'">';
+                            $html_friends.='<img class="avatar-pad2" src="'.$user_friend->avatar.'" alt="">';
+                        $html_friends.='</a>';
+                            $html_friends.='<div class="aside-items-text">';
+                                $html_friends.='<a href="'.$user_friend->url().'">';
+                                    $html_friends.='<b>'.(($user_friend->fullname)?$user_friend->fullname:$user_friend->username).'</b>';
+                                $html_friends.='</a>';
+                                $html_friends.= '<p>'.$item['mutual'].' bạn chung</p></div>';
+                            $html_friends.='</div>';
+                        $html_friends.='<div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">';
 
+                    $html_friends.='<button i_u="'.$user_friend->id.'" data-url="'.$user_friend->url().'" class="btn btn-default btn-aside-add-friend"> <i class="icon-user-add"> </i> Kết bạn</button>';
+
+//                    $status_id = Friend::whereUser_id($user_auth->id)->whereFriend_id($user_friend->id)->first()['status_id'];
+//                    if($status_id == null){
+//                            $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-add-friend"> <i class="icon-user-add"> </i> Kết bạn</button>';
+//                    }elseif($status_id == 35){
+//                            $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-delete-friend"> <i class="icon-user-add"> </i> Đang đợi/Hủy</button>';
+//                    }else{
+//                        $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-delete-friend"> <i class="icon-user-add"> </i> H</button>';
+//                    }
+
+                    $html_friends.='</div></div></li>';
 
                 }
             }
 
-          //  echo'<pre>';
-           //   print_r($list_sus_friend2);
-         //   echo'</pre>';
-
         }catch (Exception $e){}
-
-
-        $blogList=array(
-            'name'=>$blogUser->name,
-            'id'=>$user_blog->id,
-            'background'=>$blogUser->background,
-            'avatar'=>$user_blog->avatar,
-            'level'=> Option::find($user_blog->level_id)->description,
-            'birthday'=>$date,
-            'tp'=>$tp,
-            'id_user_blog'=>$user_blog->id,
-
-            'friend_sus'=>$html_sus_friend,
-            'html_list_friend'=>''//$this->getListFriend()
-        );
 
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
@@ -165,12 +150,31 @@ class BlogUserController extends BaseController {
                 var id_blo='.$this->blogUser->id.';
                 FormFileUpload.init();
                  Portfolio.init();
-
         ';
 
+        $user_birthday      = new DateTime($user_blog->birthday);
+        $user_birthday      = date_format($user_birthday,'d/m/Y');
 
-       // $listStatus=Post::orderBy('updated_at','DESC')->where('user_id','=',$user_blog->id)->where('post_type','=','status')->skip(0)->take(5)->get();
-         $listStatus_2=$blogUser->getContentAction();
+        $blog_info =array(
+            'username'=>$user_blog->username,
+            'name'=>$user_blog->fullname,
+            'id'=>$user_blog->id,
+            'background'=>$user_blog->background,
+            'avatar'=>$user_blog->avatar,
+            'level'=> Option::find($user_blog->level_id)->description,
+            'birthday'=>$user_birthday,
+            'province'=>Province::getName($user_blog->province_id),
+            'friend_sus'=>$html_friends,
+            'total_like'=>$user_blog->getTotalLikeLocation(),
+            'id_auth'=>$user_auth->id,
+            'friend_status'=>Friend::whereUser_id($user_auth->id)->whereFriend_id($user_blog->id)->first()['status_id'],
+        );
+
+        $listStatus_2 =Post::orderBy('updated_at','DESC')->whereUser_id($user_blog->id)->wherePost_type('status')->get();
+
+//        $listStatus_2 =Post::orderBy('updated_at','DESC')->where('user_id','=',$user_blog->id)->where('post_type','=','status')->skip(0)->take(5)->get();
+//         $listStatus_2=$blogUser->getContentAction();
+
          $html_status='';
 
         /*---- get html item status*/
@@ -179,7 +183,6 @@ class BlogUserController extends BaseController {
 
             switch($item->blog_post_type_id){
                 case "43":
-
                    $html_status.= $this->loadItemStatus2($id);
                     break;
                 case "44":
@@ -198,14 +201,13 @@ class BlogUserController extends BaseController {
                     break;
             }
 
-
         }
 
 
 
 
        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','blogList','style_plugin','style_page','js_plugin','js_page','js_script'));
+       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
 	public function getEvent(){
@@ -427,38 +429,41 @@ class BlogUserController extends BaseController {
 
     }
 
+    public function getCountMutualFriend($arr1, $arr2){
+    $arr1_tam[] ='';
+    $arr2_tam[] ='';
+    foreach($arr1 as $key=>$val){
+        $arr1_tam[$key] = $val['id'];
+    }
+    foreach($arr2 as $key=>$val){
+        $arr2_tam[$key] = $val['id'];
+    }
 
-
+    return array_intersect($arr1_tam ,$arr2_tam);
+}
+    //luuhoabk
     public function  getListFriend(){
 
-        $data=Input::all();
-        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
-        $list_friend=$user_blog->friends()->get();
-        $list_id_friend=$this->filterFriends_byBlog($list_friend,$user_blog->id);
+        $data           = Input::all();
+        $user_blog      = User::whereId($data['userBlog_id'])->first();
+        $list_friend    = $user_blog->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get(['id','username','avatar', 'fullname']);
+        $arrTemp = $list_friend;
+        $user = Auth::user();
 
+        $arr_user_friend  = $user->referFriend()->get(['id']);
 
-        $html_list_friend='';
-        foreach($list_id_friend as $item){
+        foreach($arrTemp as $key=>$val){
+            $user_blog_friend      = User::whereId($val['id'])->first();
+            $arr_blog_friend  = $user_blog_friend->referFriend()->get(['id']);
+            $list_friend[$key]['mutual_friend_count'] = count($this->getCountMutualFriend($arr_blog_friend, $arr_user_friend));
+            $list_friend[$key]['user_login_id'] = $user->id;
 
-            $user_item=User::where('id','=',$item)->first();
-            $item_friend=$this->filterMutualFriend($this->user,$user_item);
-            $number_mutual_friend=count($item_friend['list_id_friend_mutual']);
+            //kiem tra user_login coquan he voi user friend_blog_item khong
+            $list_friend[$key]['state_user'] = Friend::whereUser_id($user->id)->whereFriend_id($val['id'])->get(['status_id'])->first();
+            $list_friend[$key]['state_friend'] = Friend::whereUser_id($val['id'])->whereFriend_id($user->id)->get(['status_id'])->first();
 
-
-            $html_list_friend.='<article class="person-friends-item col-md-4 col-sm-6 col-xs-12"> <div class="media"> ';
-            $html_list_friend.='<a href="#" class="pull-left"><img src="'.$user_item->avatar.'" alt="" class="media-object"> </a>';
-            $html_list_friend.='<div class="media-body"><header><a class="media-heading text-1em2">'.$user_item->username.'</a></header>';
-            $html_list_friend.='<p>'.$number_mutual_friend.' bạn chung</p></div> </div> </article>';
         }
-
-              $arrReturn['html']=$html_list_friend;
-              $arrReturn['id']=$list_id_friend;
-              $arrReturn['total']=count($list_id_friend);
-
-        echo  json_encode($arrReturn);
-
-
-
+        echo json_encode($list_friend);
     }
 
     public function  getListPhoto(){
@@ -536,48 +541,59 @@ class BlogUserController extends BaseController {
     }
 
     /** end---get list location like yêu thích*/
+    public function deleteFriend($friend, $user_id, $friend_id){
+        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->delete();
+    }
+    public function updateFriend($friend, $user_id, $friend_id, $state){
+        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->update(['status_id' => $state]);
+    }
+    public function getFriend($friend, $user_id, $friend_id){
+        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->get()->first();
+    }
+    public function addFriend($friend, $user_id, $friend_id, $state){
+        $friend->user_id    = $user_id;
+        $friend->friend_id  = $friend_id;
+        $friend->status_id  = $state;
+        $friend->created_at = date_format(date_create("now"),"Y-m-d H:i:s");
+        return $friend->save();
+    }
 
-
-
+    /** luuhoabk action ket ban */
     public function  postFriend(){
-
         $this->user = Auth::user();
-       // $this->blogUser=$user->blog()->first();
-
         $data=Input::all();
-
-        $type_edit=$data['type_edit'];
         if(Request::ajax())
         {
-            switch($type_edit){
+            $friend             = new Friend();
+            switch($data['type_edit']){
                 case "request_add_friend":
-                    $friend=new Friend();
-                    $friend->user_id=$this->user->id;
-                    $friend->friend_id=$data['id_friend'];
-                    $friend->status_id='35';
-                        $date=date_create("now");
-                        $date=  date_format($date,"Y-m-d H:i:s");
+                    echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '35');
+                    break;
 
-                    $friend->created_at=$date;
-                    $friend->save();
-                break;
+                case "request_confirm_friend":
+                    $this->updateFriend($friend, $data['id_friend'], $this->user->id, '34');
+                    $num_friend = $this->getFriend($friend, $this->user->id, $data['id_friend']);
+                    if(count($num_friend)>0){
+                        echo $this->updateFriend($friend, $this->user->id, $data['id_friend'], '34');
+                    }else{
+                        echo $this->addFriend($friend, $this->user->id, $data['id_friend'], '34');
+                    }
+                    break;
+
+                case "request_delete_confirm_friend":
+                    echo $this->deleteFriend($friend, $this->user->id, $data['id_friend']);
+                    break;
+
+                case "request_delete_friend":
+                         $this->deleteFriend($friend, $this->user->id, $data['id_friend']);
+                         $this->deleteFriend($friend, $data['id_friend'], $this->user->id);
+                         echo 1;
+                    break;
 
                 default:
                     break;
             }
         }
-
-    }
-
-
-
-
-    public function getEditBlogUser(){
-      //  $data=Input::all();
-
-      //  $this->blogUser->background=$data['background'];
-    //    $this->blogUser->save();
-echo'ádasdasd';
 
     }
 
@@ -963,17 +979,12 @@ echo'ádasdasd';
         }
 
     public function filterFriends_byBlog($listFriend,$id){
-//echo $this->blogUser->id;
         $list_id_friend_my=array();
         $list_id_friend_my2=array();
 
         foreach($listFriend as $item){
-            //   echo $item->user_id.'->'.$item->friend_id.'<br>';
-
-
-            if($item->friend_id==$this->blogUser->id){
+            if($item->friend_id == $this->blogUser->id){
                 $list_id_friend_my[]=$item->user_id;
-
             }else{
                 $list_id_friend_my[]=$item->friend_id;
             }
@@ -1004,7 +1015,6 @@ echo'ádasdasd';
         return $list_id_friend_my2;
     }
 
-
     public function filterMutualFriend($user_1,$user_2){
 
             $list_friend_user_1=$user_1->friends()->get();
@@ -1027,8 +1037,6 @@ echo'ádasdasd';
 
         }
 
-
-
     public function ala($id_status_slug){
         echo $id_status_slug;
         $post_like=Post::where('id','=',131);
@@ -1040,10 +1048,5 @@ echo'ádasdasd';
 
 
     }
-
-
-
-
-
 
 }

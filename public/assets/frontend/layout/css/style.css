@@ -3783,7 +3783,8 @@ background-color: #f9f9f9;
 
 .login-face-btn{background-color: #6d85b4; color: #fff; border-bottom: 1px solid #3F5E99;}
 .login-face-btn:hover{background-color: #5e729a; color: #fff; border-bottom: 1px solid #375184;}
-
+.updateting{font-weight: normal!important; font-style: italic; color: #ccc;}
+.blog-info-lbl{width: 100px;font-weight: 600;}
 .italic{font-style: italic;}
 .underline{text-decoration: underline;}
 .text-grey{color: #ababab;}

@@ -43,10 +43,10 @@ class BlogUser extends Eloquent {
     *
     * Load các status của người dùng
     */
-    public function getContentAction(){
-        return  BlogPost::orderBy('updated_at','DESC')->where('blog_id','=',$this->id)->get();
-    }
-    /*---end  getContentAction*/
+//    public function getContentAction(){
+//        return  BlogPost::orderBy('updated_at','DESC')->where('blog_id','=',$this->id)->get();
+//    }
+//    /*---end  getContentAction*/
 
 
 

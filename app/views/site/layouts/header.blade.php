@@ -56,33 +56,106 @@
                             </div>
                         </div>
                     </div>
-                    <div class=" col-md-3 margin-top-5 box-add-location" >
+                    <div class=" col-md-2 margin-top-5 box-add-location" >
                        <a style="font-weight: bold;font-size: 0.9em;" class="btn-create-location require-login"  data-url="{{{URL::to('/dia-diem/tao-dia-diem')}}}" href="{{{URL::to('/dia-diem/tao-dia-diem')}}}">  +Thêm địa điểm</a>
                     </div>
-                    <div class="col-md-3 margin-top-10 box-infor-user text-right padding-right-5">
+                    <div class="col-md-4 margin-top-10 box-infor-user text-right padding-right-5">
                         @if (Auth::check())
-                            <i class="icon-user-7"></i>
-                            @if (Auth::user()->hasRole('admin'))
+                            <ul>
+                                <li>
+                                    <i class="icon-user-7"></i>
+                                    @if (Auth::user()->hasRole('admin'))
                                 <li><a href="{{{ URL::to('qtri-choidau') }}}">Admin Panel</a></li>
-                            @endif
-                            <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">
-                                @if(empty(Auth::user()->fullname))
-                                    {{{ Auth::user()->username }}}
-                                @else
-                                    {{{ Auth::user()->fullname }}}
                                 @endif
-                            </a>
-                            <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
-                            <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="dropdown-toggle icon-badge-number" >
-                                <i class="icon-bell"></i>
-                                <span class="badge badge-default"> 7 </span>
-                            </a>
+                                <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">
+                                    @if(empty(Auth::user()->fullname))
+                                        {{{ Auth::user()->username }}}
+                                    @else
+                                        {{{ Auth::user()->fullname }}}
+                                    @endif
+                                </a>
+                                </li>
+                                <li>
+                                    <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
+                                </li>
+                                <li>
+                                    <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number"  data-original-title="Thông báo mới">
+                                        <i class="icon-bell icon-badge"></i>
+                                        <span class="badge badge-default"> 7 </span>
+                                    </a>
+                                </li>
+
+                                <li class="wrapper-confirm-friends">
+                                    <?php
+                                        $user = Auth::user();
+                                        $num_confirm = count(json_decode($user->getFriendsConfirm(), true));
+                                    ?>
+                                    @if($num_confirm>0)
+                                        <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number margin-left-10" data-original-title="Lời mời kết bạn"  data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">
+                                            <i class="icon-users" style="font-size: 20px;"></i>
+                                            <span class="badge total-confirm-friends">{{$num_confirm}}</span>
+                                        </a>
+                                        <ul class="dropdown-menu extended tasks add-friend list-confirm-friends">
+
+                                        </ul>
+                                    @endif
+                                </li>
+                            </ul>
+
                         @else
+                            <ul>
+                                <li>
+                                    <a class="header-logout-a require-login" data-url="{{URL::current();}}" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void();">Đăng nhập</a> /
+                                    <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html')}}}">Đăng ký</a>
+                                </li>
+                            </ul>
+                        @endif
+
+
+
+
+                        {{--@if (Auth::check())--}}
+                            {{--<i class="icon-user-7"></i>--}}
+                            {{--@if (Auth::user()->hasRole('admin'))--}}
+                                {{--<li><a href="{{{ URL::to('qtri-choidau') }}}">Admin Panel</a></li>--}}
+                            {{--@endif--}}
+                            {{--<a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">--}}
+                                {{--@if(empty(Auth::user()->fullname))--}}
+                                    {{--{{{ Auth::user()->username }}}--}}
+                                {{--@else--}}
+                                    {{--{{{ Auth::user()->fullname }}}--}}
+                                {{--@endif--}}
+                            {{--</a>--}}
+                            {{--<a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>--}}
+                            {{--<a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number"  data-original-title="Thông báo mới">--}}
+                                {{--<i class="icon-bell icon-badge"></i>--}}
+                                {{--<span class="badge badge-default"> 7 </span>--}}
+                            {{--</a>--}}
+
+                            {{--luuhoabk - hien thi loi moi ket ban--}}
+
+                            {{--<a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number margin-left-10" data-original-title="Lời mời kết bạn"  data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">--}}
+                                {{--<i class="icon-users" style="font-size: 20px;"></i>--}}
+                                {{--<span class="badge"> 7 </span>--}}
+                            {{--</a>--}}
+                            {{--<ul class="dropdown-menu extended tasks">--}}
+                                {{--<li>--}}
+                                    {{--<a href="extra_profile.html">--}}
+                                        {{--<i class="icon-user"></i> My Profile </a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<a href="page_calendar.html">--}}
+                                        {{--<i class="icon-calendar"></i> My Calendar </a>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+
+
+                        {{--@else--}}
                             {{--<a class="header-logout-a" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-nhap.html') }}}">Đăng nhập</a> /--}}
                             {{--<a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html') }}}">Đăng ký</a>--}}
-                            <a class="header-logout-a require-login" data-url="{{URL::current();}}" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void()">Đăng nhập</a> /
-                            <a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html')}}}">Đăng ký</a>
-                        @endif
+                            {{--<a class="header-logout-a require-login" data-url="{{URL::current();}}" {{ (Request::is('user/login') ? ' class="active"' : '') }} href="javascript:void()">Đăng nhập</a> /--}}
+                            {{--<a class="header-logout-a" {{ (Request::is('user/create') ? ' class="active"' : '') }} href="{{{ URL::to('thanh-vien/dang-ky.html')}}}">Đăng ký</a>--}}
+                        {{--@endif--}}
                     </div>
 
                 </div>

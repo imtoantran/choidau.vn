@@ -117,21 +117,11 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->hasOne('BlogUser');
     }
 
-    public   function friends(){
-       $friend=Friend::Where('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
 
-
-      // echo '<pre>';
-      //  print_r( $friend);
-      //  echo '</pre>';
-    return $friend;
-     // return  DB::table('friends')
-     //       ->orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
-     // return $this->belongsToMany('User','friends','user_id','friend_id');
-
-
+    public function friends(){
+       $friend=Friend::WhereUser_id($this->id)->orWhere('friend_id','=',$this->id);
+       return $friend;
     }
-
 
     public function friends_(){
         //    $list= $this->belongsToMany('User','friends')->orWherePivot('user_id','=',$this->id)
@@ -164,21 +154,8 @@ class User extends Eloquent implements ConfideUserInterface {
 
 
     public function friend_common($user_friend){
-    /*    echo '<pre>';
-        print_r( $list_friend_this=$this->friends()->get());
-        echo '</pre> ----------------------------------------';
-  */
-      //  $list_friend_auth=$user_friend->friends()->get();
-
-
         $list_friend_auth=$user_friend->friends()->get();
         $list_friend_this=$this->friends()->get();
-
-
-        echo '<pre>';
-       // print_r( $list_friend_this);
-        echo '</pre>';
-
         $list_friend_common=array();
 
         foreach($list_friend_this as $item){
@@ -234,4 +211,24 @@ class User extends Eloquent implements ConfideUserInterface {
     public function Images(){
         return $this->hasMany("Image");
     }
+
+    public function getTotalLikeLocation(){
+        return $this->location_like()->get()->count();
+    }
+
+    public function getFriendsConfirm(){
+        $user = Auth::user();
+        $arryIdFriend = Friend::whereStatus_id(35)->whereFriend_id($user->id)->get();
+        $arr = array();
+        foreach($arryIdFriend as $key=>$val){
+            $arr[$key] =  $val['user_id'];
+        }
+        return json_encode(User::WhereIn('id',$arr)->get());
+    }
+
+//    luuhoabk
+    public function referFriend(){
+        return  $this->belongsToMany("User","friends","user_id","friend_id");
+    }
+
 }
