@@ -1,9 +1,4 @@
 <?php
-/**
- * @author imtoantran
- *
- */
-
 
 class Location extends Eloquent {
 	public function ward(){
@@ -103,8 +98,12 @@ class Location extends Eloquent {
 
     public function photos(){
         return $this->belongsToMany('Image','location_post','location_id','post_id');
-
     }
+    public function images(){
+        return $this->belongsToMany('Image','location_post','location_id','post_id');
+    }
+
+
 	public function totalCheckIn(){
 		return $this->userAction()->whereAction_type("checkin")->count();
 	}

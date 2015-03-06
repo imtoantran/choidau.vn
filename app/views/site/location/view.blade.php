@@ -5,7 +5,8 @@
     <div class="row margin-top-10 margin-bottom-10">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="banner-top text-center">
-                <img width="100%" src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive" alt="Image">
+                <img width="100%" src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive"
+                     alt="Image">
             </div>
         </div>
     </div>
@@ -17,13 +18,17 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
+            <div style="overflow: hidden;">
+            <div id="slider1_container"
+                 style="position: relative; width:530px; height: 515px; background: #191919; overflow: hidden;">
 
                 <!-- Loading Screen -->
                 <header class="row header-location">
                     <div class="col-md-10 ">
                         <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
-                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
+
+                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i>
+                        </h1>
                         <ul class="list-unstyled list-inline ul-list-rating">
                             <li><i class="icon-star-filled"></i></li>
                             <li><i class="icon-star-filled"></i></li>
@@ -41,79 +46,100 @@
                 </header>
 
                 <!-- Slides Container -->
-                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
-                    @foreach($location->album()->get() as $image)
+                <section u="slides" class="slider-location"
+                         style="cursor: move; position: relative; padding: 15px 15px 15px; top: 60px; width: 530px; height: 360px; overflow: hidden;">
+                    @foreach($location->images()->get() as $image)
                         <div>
-                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
-                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
+                            <img u="image" class="img-item-slider img-responsive"
+                                 src="{{asset($image->getMetaKey("url"))}}"/>
+                            <img u="thumb" src="{{asset($image->thumbnail())}}"/>
                         </div>
                     @endforeach
+                    @if(!$location->images()->count())
+                            <div class="rt">
+                                <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
+                                <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
+                            </div>
+                            <div>
+                                <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
+                                <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
+                            </div>
+                    @endif
                 </section>
 
                 <!-- Arrow Navigator Skin Begin -->
 
                 <!-- Arrow Left -->
-								<span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 158px; left: 15px;">
+								<span u="arrowleft" class="jssora05l"
+                                      style="width: 40px; height: 40px; top: 158px; left: 15px;">
 								</span>
                 <!-- Arrow Right -->
-								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
+								<span u="arrowright" class="jssora05r"
+                                      style="width: 40px; height: 40px; top: 158px; right: 15px">
 								</span>
 
                 <!-- Arrow Left -->
                 <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
+                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal"
+                            type="submit">Viết bình luận <i class="icon-edit"></i></button>
                 </div>
 
 
-                @if( isset($user_auth->id) && $user_auth->id==$location->user_id)
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
-                    <button class="btn text-primary do-upload-image" data-toggle="modal" href="uploadImageModal" type="button">Đăng hình <i class="icon-camera"></i></button>
+                @if(Auth::check() && Auth::user()->id == $location->user_id)
+                    <!-- Arrow Right -->
+                    <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
+                    <button class="btn text-primary do-upload-image" data-toggle="modal" href="uploadImageModal"
+                            type="button">Đăng hình <i class="icon-camera"></i></button>
                 </span>
-                <!-- Arrow Navigator Skin End -->
+                    <!-- Arrow Navigator Skin End -->
 
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
-                    <button class="btn text-primary btn-create-event-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Event <i class="icon-calendar"></i></button>
+                    <!-- Arrow Right -->
+                    <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
+                    <button class="btn text-primary btn-create-event-location" data-toggle="modal"
+                            href="uploadImageModal" type="button">Đăng Event <i class="icon-calendar"></i></button>
                 </span>
-                <!-- Arrow Navigator Skin End -->
+                    <!-- Arrow Navigator Skin End -->
 
 
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
-                    <button class="btn text-primary btn-create-food-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Món ăn <i class="icon-calendar"></i></button>
+                    <!-- Arrow Right -->
+                    <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
+                    <button class="btn text-primary btn-create-food-location" data-toggle="modal"
+                            href="uploadImageModal" type="button">Đăng Món ăn <i class="icon-calendar"></i></button>
                 </span>
-                <!-- Arrow Navigator Skin End -->
-                @endif
-                <!-- Thumbnail Navigator Skin Begin -->
-                <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
-                    <!-- Thumbnail Item Skin Begin -->
+                    <!-- Arrow Navigator Skin End -->
+                    @endif
+                            <!-- Thumbnail Navigator Skin Begin -->
+                    <div u="thumbnavigator" class="jssort01"
+                         style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
+                        <!-- Thumbnail Item Skin Begin -->
 
-                    <div u="slides" style="cursor: move;">
-                        <div u="prototype" class="p" style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
-                            <div class=w>
-                                <div u="thumbnailtemplate" style=" width: 100%; height: 100%; border: none;position:absolute; top: 0; left: 0;">
+                        <div u="slides" style="cursor: move;">
+                            <div u="prototype" class="p"
+                                 style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
+                                <div class=w>
+                                    <div u="thumbnailtemplate"
+                                         style=" width: 100%; height: 100%; border: none;position:absolute; top: 0; left: 0;">
+                                    </div>
+                                </div>
+                                <div class=c>
                                 </div>
                             </div>
-                            <div class=c>
-                            </div>
                         </div>
+                        <!-- Thumbnail Item Skin End -->
                     </div>
-                    <!-- Thumbnail Item Skin End -->
-                </div>
-                <!-- Thumbnail Navigator Skin End -->
+                    <!-- Thumbnail Navigator Skin End -->
 
             </div>
-
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
             <div class="location-information">
                 {{--//luuhoabk dia diem --}}
                 <div>
                     <?php
-                    $address_detail = (isset($location->address_detail))? $location->address_detail : "";
-                    $district = (isset($location->district->name))? $location->district->name : "";
-                    $province = (isset($location->province->name))? $location->province->name : "";
+                    $address_detail = (isset($location->address_detail)) ? $location->address_detail : "";
+                    $district = (isset($location->district->name)) ? $location->district->name : "";
+                    $province = (isset($location->province->name)) ? $location->province->name : "";
                     ?>
                     @if(!($address_detail =="" && $district =="" && $province==""))
                         <p class="title">
@@ -145,21 +171,25 @@
                         <?php // hien thoi gian hoat dong theo dang dac biet (gom nhom)
                         $arr = json_decode($location->action_time);
                         $arr1 = array();
-                        foreach($arr as $k1=>$v1){
-                            array_push($arr1,$v1->time);
+                        foreach ($arr as $k1 => $v1) {
+                            array_push($arr1, $v1->time);
                         }
                         $arr1 = array_unique($arr1); // loai bo gia tri trung
-                        foreach($arr1 as $k2=>$v2){
+                        foreach ($arr1 as $k2 => $v2) {
                             $thu1 = "";
-                            foreach($arr as $k3=>$v3){
-                                if($v3->time == $v2){
+                            foreach ($arr as $k3 => $v3) {
+                                if ($v3->time == $v2) {
                                     $thu3 = $v3->thu;
-                                    if($thu3 == '8'){$thu3= "CN";}
-                                    $thu1 .= $thu3.', ';
+                                    if ($thu3 == '8') {
+                                        $thu3 = "CN";
+                                    }
+                                    $thu1 .= $thu3 . ', ';
                                 }
                             }
-                            if($v2 == ""){$v2 = "Nghỉ";}
-                            echo '<div><label class="bold" style="width:165px;">- Thứ '.rtrim($thu1,', ').'</label>: '.$v2.'</div>';
+                            if ($v2 == "") {
+                                $v2 = "Nghỉ";
+                            }
+                            echo '<div><label class="bold" style="width:165px;">- Thứ ' . rtrim($thu1, ', ') . '</label>: ' . $v2 . '</div>';
                         }
                         ?>
                     </div>
@@ -174,9 +204,11 @@
                             {{--<small> 75 000đ - 350 000đ </small>--}}
 
                             @if( $location->price_min > 0 && $location->price_max > 0 )
-                                <small> {{number_format($location->price_min,0, ".",",")}}đ - {{number_format($location->price_max,0, ".",",")}}đ </small>
+                                <small> {{number_format($location->price_min,0, ".",",")}}đ
+                                    - {{number_format($location->price_max,0, ".",",")}}đ
+                                </small>
                             @else
-                                <small> Đang cập nhật. </small>
+                                <small> Đang cập nhật.</small>
                             @endif
                         </p>
                     </div>
@@ -186,27 +218,36 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
+                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like"
+                                  data-original-title="Thích"></span>
+
                             <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-location icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
+                            <span class="icon-location icon-border-square tooltips" style="cursor:pointer;"
+                                  id="do-checkin" data-original-title="Đánh dấu"></span>
+
                             <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
                         </div>
                         <div class="col-md-6">
-                            <span class="icon-star icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
+                            <span class="icon-star icon-border-square tooltips"
+                                  data-original-title="Địa điểm lân cận"></span>
+
                             <p>{{$location->reviews()->count()}}</p>
                         </div>
                         <div class="col-md-6">
                             <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
+
                             <p>15</p>
                         </div>
 
 
                     </div>
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
-                        <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                        <div id="gmap_marker"
+                             data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}"
+                             class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
                         </div>
                     </div>
                 </div>
@@ -225,117 +266,148 @@
                 <!-- Nav tabs -->
 
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
-                    <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
-                    <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
-                    <li role="presentation" class=""><a href="#tag-member-location-content"  class="btn-member-location" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
-                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
-                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
+                    <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab"
+                                                              data-toggle="tab" aria-expanded="true">Review</a></li>
+                    <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab"
+                                                        data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
+                    <li role="presentation" class=""><a href="#tag-member-location-content" class="btn-member-location"
+                                                        aria-controls="messages" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Thành viên</a></li>
+                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location"
+                                                        aria-controls="settings" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Sự kiện</a></li>
+                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location"
+                                                        aria-controls="settings" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Hình ảnh</a></li>
+                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab"
+                                                        data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @foreach($reviews as $review)
-                        <div class="reviews row item-post-element-parent">
+                            <div class="reviews row item-post-element-parent">
 
-                            <input type="hidden" i_p="{{$review->id}}" i_u="{{$review->user_id}}" class="input-data-value-post"/>
-                            <div class="media">
-                                <a href="#" class="pull-left">
-                                    <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt="" class="media-object">
-                                </a>
-                                <div class="media-body">
-                                    <div class="media-heading">
-                                        <div class="col-sm-6">
-                                            <div class="row"><a href="#"><strong>{{$review->author->username}} </strong></a></div>
+                                <input type="hidden" i_p="{{$review->id}}" i_u="{{$review->user_id}}"
+                                       class="input-data-value-post"/>
+
+                                <div class="media">
+                                    <a href="#" class="pull-left">
+                                        <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt=""
+                                             class="media-object">
+                                    </a>
+
+                                    <div class="media-body">
+                                        <div class="media-heading">
+                                            <div class="col-sm-6">
+                                                <div class="row"><a
+                                                            href="#"><strong>{{$review->author->username}} </strong></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="pull-right">
+
+                                                    <ul class="list-unstyled list-inline ul-list-rating">
+                                                        @for($i=0;$i<5;$i++)
+                                                            @if($i<$review->getMetaKey("review_rating"))
+                                                                <li><i class="icon-star-filled"></i></li>
+                                                            @else
+                                                                <li><i class="icon-star-1"></i></li>
+                                                            @endif
+                                                        @endfor
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="pull-right">
-
-                                                <ul class="list-unstyled list-inline ul-list-rating">
-                                                    @for($i=0;$i<5;$i++)
-                                                        @if($i<$review->getMetaKey("review_rating"))
-                                                            <li><i class="icon-star-filled"></i></li>
-                                                        @else
-                                                            <li><i class="icon-star-1"></i></li>
-                                                        @endif
-                                                    @endfor
-                                                </ul>
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div>Đã đánh giá địa điểm</div>
+                                                <div>
+                                                    <small><i>Vào
+                                                            lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <small class="pull-right">Số
+                                                    người {{ $review->getMetaKey("review_visitors")}} + | Chi
+                                                    phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay
+                                                    lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else
+                                                        không @endif</small>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <div class="col-lg-6">
-                                            <div>Đã đánh giá địa điểm</div>
-                                            <div><small><i>Vào lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i></small></div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <small class="pull-right">Số người {{ $review->getMetaKey("review_visitors")}} + | Chi phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else không @endif</small>
-                                        </div>
+                                </div>
+                                <div class="review-content">
+                                    <div>
+                                        <p class="title">{{$review->title}}</p>
+
+                                        <p class="content">
+                                            {{$review->content}}
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="review-content">
-                                <div>
-                                    <p class="title">{{$review->title}}</p>
-                                    <p class="content">
-                                        {{$review->content}}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- hinh anh -->
-                            <?php $list_album=PostMeta::where('post_id','=',$review->id)->where('meta_key','=','review_image')->get();
-                           // print_r($list_album);
-                            ?>
-
-                            <div class="">
-                                @foreach($list_album as $img)
-                                <?php $img=Post::find($img->meta_value);
-                                      $img_link=$img->getMetaKey('url');
+                                <!-- hinh anh -->
+                                <?php $list_album = PostMeta::where('post_id', '=', $review->id)->where('meta_key', '=', 'review_image')->get();
+                                // print_r($list_album);
                                 ?>
 
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}" class="fancybox-button">
-                                        <img alt="" src="{{$img_link}}" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
+                                <div class="">
+                                    @foreach($list_album as $img)
+                                        <?php $img = Post::find($img->meta_value);
+                                        $img_link = $img->getMetaKey('url');
+                                        ?>
+
+                                        <div class="col-md-2 col-sm-4 gallery-item">
+                                            <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}"
+                                               class="fancybox-button">
+                                                <img alt="" src="{{$img_link}}" class="img-responsive">
+
+                                                <div class="zoomix"><i class="fa fa-search"></i></div>
+                                            </a>
+                                        </div>
+                                    @endforeach
+
                                 </div>
-                                @endforeach
+                                <!-- hinh anh -->
+                                <!-- thao luan,like,dislike,report -->
+                                <?php
+                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('31')->count()) {
+                                    $lab_like = 'Đã thích ';
+                                } else {
+                                    $lab_like = 'Thích ';
+                                }
+
+                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('32')->count()) {
+                                    $lab_dislike = 'Đã không thích ';
+                                } else {
+                                    $lab_dislike = 'không Thích ';
+                                }
+
+
+                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('37')->count()) {
+
+                                    $lab_spam = 'Đã báo cáo xấu';
+                                } else {
+                                    $lab_spam = 'Báo cáo xấu ';
+                                }
+                                ?>
+
+                                <div class="col-md-12 review-action padding-left-0">
+                                    <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
+                                    <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span
+                                                class="lab_text_like">{{$lab_like}}</span><span
+                                                class="lab_num_like">{{ $review->countLike()}}</span></a>
+                                    <a class="btn-post-dislike" type_action="32"><i class="icon-thumbs-down"></i><span
+                                                class="lab_text_dislike">{{$lab_dislike}}</span><span
+                                                class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
+                                    <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span
+                                                class="lab_text_spam">{{$lab_spam}}</span></a>
+                                    <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
+                                </div>
+                                <!-- thao luan,like,dislike,report end-->
 
                             </div>
-                            <!-- hinh anh -->
-                            <!-- thao luan,like,dislike,report -->
-                            <?php
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('31')->count()){
-                                $lab_like='Đã thích ';
-                            }else{
-                                $lab_like='Thích ';
-                            }
-
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('32')->count()){
-                                $lab_dislike='Đã không thích ';
-                            }else{
-                                $lab_dislike='không Thích ';
-                            }
-
-
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('37')->count()){
-
-                                $lab_spam='Đã báo cáo xấu';
-                            }else{
-                                $lab_spam='Báo cáo xấu ';
-                            }
-                            ?>
-
-                            <div class="col-md-12 review-action padding-left-0">
-                                <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
-                                <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
-                                <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_spam">{{$lab_spam}}</span></a>
-                                <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
-                            </div>
-                            <!-- thao luan,like,dislike,report end-->
-
-                        </div>
                         @endforeach
                         <div class="paging">{{$reviews->links()}}</div>
 
@@ -366,7 +438,6 @@
                         </div>
 
 
-
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
@@ -375,7 +446,9 @@
                         <section class="person-images choidau-bg">
                             <header>
                                 <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
-                                <i class="icon-camera" style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
+                                <i class="icon-camera"
+                                   style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
+
                                 <div class="text-1em2">Album ảnh</div>
                             </header>
                             <nav>
@@ -385,8 +458,7 @@
                                     <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
                                 </ul>
                             </nav>
-                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo" >
-
+                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo">
 
 
                             </div>
@@ -402,33 +474,35 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <!-- luuhoabk tien ich right -->
 
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
-                            <icon class="icon-layout font-16px"></icon>
-                            Tiện ích
-                        </div>
-                        @if(count($location->loadUtility()->get()) >0)
-                            @foreach($location->loadUtility()->get() as $utility)
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                                    <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                                <span class="utility-empty font-12px">- Đang cập nhật.</span>
-                            </div>
-                        @endif
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
+                        <icon class="icon-layout font-16px"></icon>
+                        Tiện ích
                     </div>
+                    @if(count($location->loadUtility()->get()) >0)
+                        @foreach($location->loadUtility()->get() as $utility)
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                                <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                            <span class="utility-empty font-12px">- Đang cập nhật.</span>
+                        </div>
+                    @endif
                 </div>
+            </div>
 
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
+                         class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
+                         class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
             </div>
             <!-- right end -->
@@ -440,59 +514,66 @@
 @section("bottoma")
     <!-- dia diem lan can -->
     @if($location_nearly->count())
-    <div class="row location">
-        <div class="col-lg-12">
-            <div class="container-fluid bg-primary">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-12 padding-top-10">
-                            <div>Địa điểm lân cận</div>
-                        </div>
-                        @foreach($location_nearly as $key=>$val)
-                            @if($key < 6)
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                                <div class="location-info">
-                                    <a href="{{$val->url()}}">
-                                        <div class="box-product-img-content">
-                                        <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
-                                        <section class="location-description">
-                                        <strong>{{$val->name}}</strong>
-                                            <p>
-                                                <small>{{$val->address()}}</small>
-                                            </p>
-                                        </section>
-                                            </div>
-                                    </a>
-                                </div>
+        <div class="row location">
+            <div class="col-lg-12">
+                <div class="container-fluid bg-primary">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12 padding-top-10">
+                                <div>Địa điểm lân cận</div>
                             </div>
-                            @endif
-                        @endforeach
+                            @foreach($location_nearly as $key=>$val)
+                                @if($key < 6)
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
+                                        <div class="location-info">
+                                            <a href="{{$val->url()}}">
+                                                <div class="box-product-img-content">
+                                                    <img class="full-width" height="200px" src="{{asset($val->avatar)}}"
+                                                         alt="Image">
+                                                    <section class="location-description">
+                                                        <strong>{{$val->name}}</strong>
+
+                                                        <p>
+                                                            <small>{{$val->address()}}</small>
+                                                        </p>
+                                                    </section>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    @endif
-    <!-- dia diem lan can end -->
-    @stop
+        @endif
+                <!-- dia diem lan can end -->
+@stop
 
 @section("bottomb")
     <!-- bai viet noi bat -->
     @include("site.blog.featured")
 
     <!-- bai viet noi bat end -->
-@include('site.location.popup_create_event')
-@include('site.location.popup_create_food')
+    @include('site.location.popup_create_event')
+    @include('site.location.popup_create_food')
 @stop
 
 @section('style_plugin')
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
 
 
 @stop
@@ -500,11 +581,8 @@
 
 @section("styles")
     <!-- imtoantran  -->
-    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
-
-
-    <link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
+    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet"
+          type="text/css"/>
     <link href="{{asset("assets/global/css/plugins.css")}}" rel="stylesheet">
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
     <!-- imtoantran -->
@@ -512,44 +590,44 @@
 
 
 @section('js_plugin')
-<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
 
-<!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
-<script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
+    <!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
 
-<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
-<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
 
 
-<script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
+    <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
 
 
-<script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
-<script src="https://apis.google.com/js/platform.js" async defer>
-    {lang: 'vi'}
-</script>
+    <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer>
+        {
+            lang: 'vi'
+        }
+    </script>
 @stop
 
 
 @section('js_page')
-<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
+    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+    <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
+    <script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
 
 
 @stop
@@ -571,15 +649,12 @@
 
     <script>
         jQuery(document).ready(
-            function(){
-                Location.initLocationItem();
-                setTimeout(function(){
-                    Layout.initSliderLocation();
-                },1000);
+                function () {
+                    Location.initLocationItem();
+                    Layout.initSliderLocation("slider1_container");
+                    Portfolio.init();
 
-                Portfolio.init();
-
-                /*thời gian sự kiện location*/
+                    /*thời gian sự kiện location*/
 //                $( ".datepicker-start" ).datetimepicker({
 //                    defaultDate: "+1w",
 //                    changeMonth: true,
@@ -604,60 +679,59 @@
 //                });
 
 
-                $('#date-start-event-location').datetimepicker({
-                    format: 'DD/MM/YYYY h:mm:ss'
+                    $('#date-start-event-location').datetimepicker({
+                        format: 'DD/MM/YYYY h:mm:ss'
 
 
-                });
-                $('#date-end-event-location').datetimepicker({
-                    format: 'DD/MM/YYYY h:mm:ss'
-                });
-                $("#date-start-event-location").on("dp.change",function (e) {
-                    $('#date-end-event-location').data("DateTimePicker").minDate(e.date);
-                });
-                $("#date-end-event-location").on("dp.change",function (e) {
-                    $('#date-start-event-location').data("DateTimePicker").maxDate(e.date);
-                });
-
-                /***--end thời gian sự kiện location*/
-
-
-
-                /* imtoantran do like */
-                $("#do-like").click(function(e){
-                    var like_btn = $(this);
-                    $(this).attr('disabled',true);
-                    $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/like")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
-                        success:function(response){
-                            $(".like-count").text(response['totalFavourites']);
-                            if(response['canLike']){
-
-                            }
-                            like_btn.attr('disabled',false);
-                        }
                     });
-                });
-                /* imtoantran do like */
-                /* do checkin start */
-                $("#do-checkin").click(function(e){
-                    var checkin_btn = $(this);
-                    checkin_btn.attr('disabled',true);
-                    $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/checkin")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
-                        success:function(response){
-                            if(response['success']){
-                                $(".checkin-count").text(response['totalCheckedIn']);
-                            }else{
-                                alert(response['message']);
+                    $('#date-end-event-location').datetimepicker({
+                        format: 'DD/MM/YYYY h:mm:ss'
+                    });
+                    $("#date-start-event-location").on("dp.change", function (e) {
+                        $('#date-end-event-location').data("DateTimePicker").minDate(e.date);
+                    });
+                    $("#date-end-event-location").on("dp.change", function (e) {
+                        $('#date-start-event-location').data("DateTimePicker").maxDate(e.date);
+                    });
+
+                    /***--end thời gian sự kiện location*/
+
+
+                    /* imtoantran do like */
+                    $("#do-like").click(function (e) {
+                        var like_btn = $(this);
+                        $(this).attr('disabled', true);
+                        $.ajax({
+                            type: "post",
+                            url: "{{URL::to("location/like")}}",
+                            data: {id: "{{$location->id}}"},
+                            dataType: "json",
+                            success: function (response) {
+                                $(".like-count").text(response['totalFavourites']);
+                                if (response['canLike']) {
+
+                                }
+                                like_btn.attr('disabled', false);
                             }
-                                checkin_btn.attr('disabled',false);
+                        });
+                    });
+                    /* imtoantran do like */
+                    /* do checkin start */
+                    $("#do-checkin").click(function (e) {
+                        var checkin_btn = $(this);
+                        checkin_btn.attr('disabled', true);
+                        $.ajax({
+                            type: "post",
+                            url: "{{URL::to("location/checkin")}}",
+                            data: {id: "{{$location->id}}"},
+                            dataType: "json",
+                            success: function (response) {
+                                if (response['success']) {
+                                    $(".checkin-count").text(response['totalCheckedIn']);
+                                } else {
+                                    alert(response['message']);
+                                }
+                                checkin_btn.attr('disabled', false);
                             }
                         });
                     });
@@ -665,254 +739,247 @@
                     /* load reviews start */
                     /* load reviews end */
                     /* viet review start*/
-                    $(".do-post-review").click(function(){
-                        var islog= Auth.check();
-                        if(islog=='1'){
+                    $(".do-post-review").click(function () {
+                        var islog = Auth.check();
+                        if (islog == '1') {
                             $("#reviewModal").modal("show");
                         }
 
                     });
-                    $(".wysihtml5").wysihtml5();
+                    $("#review-save").click(function () {
 
-                    $("#review-save").click(function(){
-
-                        var listAlbum=Location.getAlbum();
+                        var listAlbum = Location.getAlbum();
                         $("#review_album").val(listAlbum);
-                        var listalbum='';
+                        var listalbum = '';
 
                         listAlbum.forEach(function (item) {
-                           listalbum+=item['post_id']+",";
+                            listalbum += item['post_id'] + ",";
                         })
                         $("#list-album").val(listalbum);
                         var form = $("#review-form").serialize();
 
                         $.ajax({
-                            url:"{{URL::to("location/review")}}",
-                            type:"POST",
-                            data:form,
+                            url: "{{URL::to("location/review")}}",
+                            type: "POST",
+                            data: form,
 
-                            success:function(response){
+                            success: function (response) {
                                 $("#review-form")[0].reset();
-                               //  location.reload();
+                                //  location.reload();
                             },
-                            complete:function(){
+                            complete: function () {
                                 $('.modal').modal("hide");
                             }
                         })
-                });
-                /* viet review end */
+                    });
+                    /* viet review end */
 
 
-        /*------------Tag Thanh vien Loacation-*/
-        $(".btn-member-location").click(function(){
+                    /*------------Tag Thanh vien Loacation-*/
+                    $(".btn-member-location").click(function () {
 
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-member").attr('is_val');
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-member")}}",
-                    type:"POST",
-                    data:{
-                    'location_id':location_id
-                },
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-member").attr('is_val');
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-member")}}",
+                                type: "POST",
+                                data: {
+                                    'location_id': location_id
+                                },
 
-                success:function(response){
-                    $(".lab-location-list-member").html(response);
-                    $(".lab-location-list-member").attr('is_val','1');
+                                success: function (response) {
+                                    $(".lab-location-list-member").html(response);
+                                    $(".lab-location-list-member").attr('is_val', '1');
 
-                },
-                complete:function(){
-                    $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-
-
-        /*------------Tag Thanh vien Loacation*/
-
-        /*-------------Tag Sự kiện*/
-        $(".btn-event-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-event").attr('is_val');
-
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-event")}}",
-                    type:"POST",
-                    data:{
-                    'location_id':location_id
-                },
-
-                success:function(response){
-
-                   if(response!=null){
-
-                    $(".lab-location-list-event").html(response);
-                    $(".lab-location-list-event").attr('is_val','1');
-                    }
-                },
-                complete:function(){
-                  //  $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-        /*--------------Tag Sự Kiện end*/
-
-        /*-------------Tag Hình ảnh*/
-        $(".btn-photo-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-photo").attr('is_val');
-           // alert(location_id);
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-photo")}}",
-                    type:"POST",
-
-                    data:{
-                    'location_id':location_id
-                },
-                success:function(response){
-
-                    if(response!=null){
-                        var i=  $(".lab-location-list-photo").html(response);
-                        $(".lab-location-list-photo").attr('is_val','1');
-                    }
+                                },
+                                complete: function () {
+                                    $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
 
 
+                    /*------------Tag Thanh vien Loacation*/
 
-                },
-                complete:function(response){
-                   // $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-        /*--------------Tag hình ảnh end*/
+                    /*-------------Tag Sự kiện*/
+                    $(".btn-event-location").click(function () {
 
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-event").attr('is_val');
 
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-event")}}",
+                                type: "POST",
+                                data: {
+                                    'location_id': location_id
+                                },
 
+                                success: function (response) {
 
-        /***---Btn Add sự kiện location--start--*/
+                                    if (response != null) {
 
-        $(".btn-add-event-location").click(function(){
+                                        $(".lab-location-list-event").html(response);
+                                        $(".lab-location-list-event").attr('is_val', '1');
+                                    }
+                                },
+                                complete: function () {
+                                    //  $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
+                    /*--------------Tag Sự Kiện end*/
 
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var title_event=$("#title-event-location").val();
-            var content_event=$("#content-event-location").val();
-            var date_start_event=$("#date-start-event-location").val();
-            var date_end_event=$("#date-end-event-location").val();
-          // alert(date_start_event);
-            $.ajax({
-                url:"{{URL::to("location/event")}}",
-                type:"POST",
+                    /*-------------Tag Hình ảnh*/
+                    $(".btn-photo-location").click(function () {
 
-                data:{
-                    'location_id':location_id,
-                    'title_event':title_event,
-                    'content_event':content_event,
-                    'date_end_event':date_end_event,
-                    'date_start_event':date_start_event
-            },
-            success:function(response){
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-photo").attr('is_val');
+                        // alert(location_id);
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-photo")}}",
+                                type: "POST",
 
-            },
-            complete:function(response){
-                $("#form-ada-event-location")[0].reset();
-               $('.modal').modal("hide");
-            }
-        });
+                                data: {
+                                    'location_id': location_id
+                                },
+                                success: function (response) {
 
-        });
-
-        /***---Btn Add sự kiện location--end--*/
-
-
-        /*** Btn Add Thực đơn ---start--*/
-
-        $("#txt-location-food-name").blur(function(){
-            var x = $(this).val();
-            var z = $('#food-datalist-add-food');
-            var val = $(z).find('option[value="' + x + '"]');
-            var end_val = val.attr('data-id');
-            $("#txt-location-food-name").attr('data-food-suggest-id',end_val);
-        });
+                                    if (response != null) {
+                                        var i = $(".lab-location-list-photo").html(response);
+                                        $(".lab-location-list-photo").attr('is_val', '1');
+                                    }
 
 
-
-        $(".btn-add-food-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var food_name=$("#txt-location-food-name").val();
-            var food_name_id=$("#txt-location-food-name").attr('data-food-suggest-id');
-            var food_price=$("#txt-location-food-price").val();
-            var food_type=$("#slc-location-food-type").val();
-            var food_description=$("#are-location-food-description").val();
+                                },
+                                complete: function (response) {
+                                    // $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
+                    /*--------------Tag hình ảnh end*/
 
 
+                    /***---Btn Add sự kiện location--start--*/
 
-            //alert(food_name_id);
+                    $(".btn-add-event-location").click(function () {
 
-            $.ajax({
-                url:"{{URL::to("location/food")}}",
-                type:"POST",
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var title_event = $("#title-event-location").val();
+                        var content_event = $("#content-event-location").val();
+                        var date_start_event = $("#date-start-event-location").val();
+                        var date_end_event = $("#date-end-event-location").val();
+                        // alert(date_start_event);
+                        $.ajax({
+                            url: "{{URL::to("location/event")}}",
+                            type: "POST",
 
-                data:{
-                    'location_id':location_id,
-                    'food_name':food_name,
-                    'food_name_id':food_name_id,
-                    'food_price':food_price,
-                    'food_type':food_type,
-                    'food_description':food_description
-            },
-            success:function(response){
+                            data: {
+                                'location_id': location_id,
+                                'title_event': title_event,
+                                'content_event': content_event,
+                                'date_end_event': date_end_event,
+                                'date_start_event': date_start_event
+                            },
+                            success: function (response) {
 
-            },
-            complete:function(response){
-                $('#from-add-food-location')[0].reset();
-                $('.modal').modal("hide");
-            }
-        });
+                            },
+                            complete: function (response) {
+                                $("#form-ada-event-location")[0].reset();
+                                $('.modal').modal("hide");
+                            }
+                        });
 
+                    });
 
-        });
-
-        /*** Btn Add Thực đơn ---end--*/
+                    /***---Btn Add sự kiện location--end--*/
 
 
-                // load gmap
-                var position = $('.gmaps-location').attr('data-position');
+                    /*** Btn Add Thực đơn ---start--*/
+
+                    $("#txt-location-food-name").blur(function () {
+                        var x = $(this).val();
+                        var z = $('#food-datalist-add-food');
+                        var val = $(z).find('option[value="' + x + '"]');
+                        var end_val = val.attr('data-id');
+                        $("#txt-location-food-name").attr('data-food-suggest-id', end_val);
+                    });
+
+
+                    $(".btn-add-food-location").click(function () {
+
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var food_name = $("#txt-location-food-name").val();
+                        var food_name_id = $("#txt-location-food-name").attr('data-food-suggest-id');
+                        var food_price = $("#txt-location-food-price").val();
+                        var food_type = $("#slc-location-food-type").val();
+                        var food_description = $("#are-location-food-description").val();
+
+
+                        //alert(food_name_id);
+
+                        $.ajax({
+                            url: "{{URL::to("location/food")}}",
+                            type: "POST",
+
+                            data: {
+                                'location_id': location_id,
+                                'food_name': food_name,
+                                'food_name_id': food_name_id,
+                                'food_price': food_price,
+                                'food_type': food_type,
+                                'food_description': food_description
+                            },
+                            success: function (response) {
+
+                            },
+                            complete: function (response) {
+                                $('#from-add-food-location')[0].reset();
+                                $('.modal').modal("hide");
+                            }
+                        });
+
+
+                    });
+
+                    /*** Btn Add Thực đơn ---end--*/
+
+
+                    // load gmap
+                    var position = $('.gmaps-location').attr('data-position');
                     position = position.split(",");
-                var position_lat = position[0];
-                var position_lng = position[1];
-                var map = new GMaps({
-                    div: '#gmap_marker',
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
-                });
-                var location_marker = map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng,
-                    title:'Địa điểm: {{$location->category->name}}'
-                });
-                infowindow.open(map,location_marker);
-                map.setZoom(15);
-            }
+                    var position_lat = position[0];
+                    var position_lng = position[1];
+                    var map = new GMaps({
+                        div: '#gmap_marker',
+                        lat: position_lat,
+                        lng: position_lng
+                    });
+                    map.addMarker({
+                        lat: position_lat,
+                        lng: position_lng
+                    });
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
+                    });
+                    var location_marker = map.addMarker({
+                        lat: position_lat,
+                        lng: position_lng,
+                        title: 'Địa điểm: {{$location->category->name}}'
+                    });
+                    infowindow.open(map, location_marker);
+                    map.setZoom(15);
+                }
         );
     </script>
-    @stop
+@stop

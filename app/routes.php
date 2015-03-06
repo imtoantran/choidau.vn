@@ -248,12 +248,10 @@ Route::get('language/{lang}',
     )
 );
 /* imtoantran start */
+Route::get("location/slider/{location}","LocationController@getSlider");
 Route::group(array('prefix' => "{provinceSlug}"),function(){
     Route::get("/","LocationController@getView");
     Route::get("{slug}","LocationController@getView");
 });
 /* imtoantran end */
-/* imtoantran filter start */
-Route::filter("checkLogin",function(){
 
-});
