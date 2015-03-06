@@ -76,8 +76,6 @@
 		        "bServerSide": true,
 		        "sAjaxSource": "{{ URL::to('qtri-choidau/blog/data/'.$slug) }}",
 		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"100%", height:"100%"});
-	           		//$(".iframe").fancybox({iframe:true, width:"80%", height:"80%"});
 	     		}
 			});
 			$("#inputID").change(function(e){

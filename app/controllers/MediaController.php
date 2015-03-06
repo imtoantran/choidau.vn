@@ -267,9 +267,55 @@ class MediaController extends BaseController {
 
     }
 
+    /* imtoantran */
+    public function getUpload(){
+//        $type = pathinfo($path, PATHINFO_EXTENSION);
+//        $data = file_get_contents($path);
+//        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        if(Auth::check()){
+            $user = Auth::user();
+            $images = $user->Images()->get();
+            $img = [];
+            foreach($images as $key=>$image){
+                $img[] = ["id"=>$image->id,"name"=>$image->title,"src"=>$image->guid,"thumbnail"=>"/upload/".$image->thumbnail,"link"=>URL::to("upload/$image->guid")];
+            }
+        }
+        return json_encode($img);
+    }
 
+    public function postUpload(){
+        if(Auth::check()) {
+            $id="";
+            $images = [];
+            foreach (Input::file("file") as $file) {
+                $file->move("upload", $file->getClientOriginalName());
+                $image = new Image();
+                $image->title = $file->getClientOriginalName();
+                $image->thumbnail = $file->getClientOriginalName();
+                $image->guid = "/upload/".$file->getClientOriginalName();
+                if($image->save()){
+                    $id=["id"=>$image->id];
+                    $images[] = $image;
+                }
+            }
+            Auth::user()->Images()->saveMany($images);
+            echo json_encode($id);
+        }
+    }
+    public function deleteUpload(){
+        $images = Input::get("images");
+        $path = [];
+        if(Image::destroy($images)){
+            foreach($images as $image){
 
-
+                if(isset(Image::find($image->id)->guid))
+                    $path[] = Image::find($image->id)->guid;
+            }
+            //File::delete($path);
+        }
+        return json_encode($path);
+    }
+    /* imtoantran */
 
 
 

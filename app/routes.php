@@ -130,6 +130,7 @@ Route::get('images/{slug}','ImageController@getView');
 Route::controller('images','ImageController');
 
 
+Route::any('media/loadMedia','MediaController@loadMedia');
 Route::controller('media','MediaController');
 Route::any('media-data','ImageController@upLoadFile');
 //Route::any('media-data','MediaController@fetchData');
@@ -247,12 +248,10 @@ Route::get('language/{lang}',
     )
 );
 /* imtoantran start */
+Route::get("location/slider/{location}","LocationController@getSlider");
 Route::group(array('prefix' => "{provinceSlug}"),function(){
     Route::get("/","LocationController@getView");
     Route::get("{slug}","LocationController@getView");
 });
 /* imtoantran end */
-/* imtoantran filter start */
-Route::filter("checkLogin",function(){
 
-});

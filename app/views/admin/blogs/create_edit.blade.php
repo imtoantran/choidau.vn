@@ -1,139 +1,148 @@
-@extends('admin.layouts.modal')
+@extends('admin.layouts.main')
 
 {{-- Content --}}
 @section('content')
     {{-- Edit Blog Form --}}
-    <form class="form-horizontal" method="post"
-          action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif" autocomplete="off">
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-    <!-- Tabs -->
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
-        <li><a href="#tab-meta-data" data-toggle="tab">Meta data</a></li>
-    </ul>
-    <!-- ./ tabs -->
+    <div class="row">
+        <form class="form-horizontal" method="post"
+              action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif"
+              autocomplete="off">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
+                    {{--<li><a href="#tab-meta-data" data-toggle="tab">Meta data</a></li>--}}
+                </ul>
+                <!-- ./ tabs -->
 
-        <!-- CSRF Token -->
-        <input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
-        <!-- ./ csrf token -->
-        @if(isset($catId))
-            <input name="catId" value="{{$catId}}" type="hidden"/>
-            @endif
-                    <!-- Tabs Content -->
-            <div class="tab-content">
-                <!-- General tab -->
-                <div class="tab-pane active" id="tab-general">
-                    <!-- Post Title -->
-                    <div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
-                        <div class="col-md-12">
-                            <input placeholder="Tiêu đề bài viết" class="form-control" type="text" name="title" id="title"
-                                   value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}"/>
-                            {{ $errors->first('title', '<span class="help-block">:message</span>') }}
-                        </div>
-                    </div>
-                    <!-- ./ post title -->
+                <!-- CSRF Token -->
+                <input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
+                <!-- ./ csrf token -->
+                @if(isset($catId))
+                    <input name="catId" value="{{$catId}}" type="hidden"/>
+                    @endif
+                            <!-- Tabs Content -->
+                    <div class="tab-content">
+                        <!-- General tab -->
+                        <div class="tab-pane active" id="tab-general">
+                            <!-- Post Title -->
+                            <div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
+                                <div class="col-md-12">
+                                    <input placeholder="Tiêu đề bài viết" class="form-control" type="text" name="title"
+                                           id="title"
+                                           value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}"/>
+                                    {{ $errors->first('title', '<span class="help-block">:message</span>') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <button id="add-media" type="button" class="btn btn-xs btn-success"><span
+                                                class="icon icon-upload-cloud"></span>Thêm hình
+                                    </button>
+                                </div>
+                            </div>
 
-                    <!-- Content -->
-                    <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
-                        <div class="col-md-12">
-                            <textarea class="form-control full-width wysihtml5" name="content" value="content"
+                            <!-- ./ post title -->
+
+                            <!-- Content -->
+                            <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
+                                <div class="col-md-12">
+                            <textarea id="editor" class="form-control full-width wysihtml5" name="content" value="content"
                                       rows="10">{{{ Input::old('content', isset($post) ? $post->content : null) }}}</textarea>
-                            {{ $errors->first('content', '<span class="help-block">:message</span>') }}
+                                    {{ $errors->first('content', '<span class="help-block">:message</span>') }}
+                                </div>
+                            </div>
+                            <!-- ./ content -->
                         </div>
-                    </div>
-                    <!-- ./ content -->
-                </div>
-                <!-- ./ general tab -->
+                        <!-- ./ general tab -->
 
-                <!-- Meta Data tab -->
-                <div class="tab-pane" id="tab-meta-data">
-                    <!-- Meta Title -->
-                    <div class="form-group {{{ $errors->has('meta-title') ? 'error' : '' }}}">
-                        <div class="col-md-12">
-                            <label class="control-label" for="meta-title">Meta Title</label>
-                            <input class="form-control" type="text" name="meta-title" id="meta-title"
-                                   value="{{{ Input::old('meta-title', isset($post) ? $post->meta_title : null) }}}"/>
-                            {{ $errors->first('meta-title', '<span class="help-block">:message</span>') }}
-                        </div>
-                    </div>
-                    <!-- ./ meta title -->
+                        <!-- Meta Data tab -->
+                        <div class="tab-pane" id="tab-meta-data">
+                            <!-- Meta Title -->
+                            <div class="form-group {{{ $errors->has('meta-title') ? 'error' : '' }}}">
+                                <div class="col-md-12">
+                                    <label class="control-label" for="meta-title">Meta Title</label>
+                                    <input class="form-control" type="text" name="meta-title" id="meta-title"
+                                           value="{{{ Input::old('meta-title', isset($post) ? $post->meta_title : null) }}}"/>
+                                    {{ $errors->first('meta-title', '<span class="help-block">:message</span>') }}
+                                </div>
+                            </div>
+                            <!-- ./ meta title -->
 
-                    <!-- Meta Description -->
-                    <div class="form-group {{{ $errors->has('meta-description') ? 'error' : '' }}}">
-                        <div class="col-md-12 controls">
-                            <label class="control-label" for="meta-description">Meta Description</label>
-                            <input class="form-control" type="text" name="meta-description" id="meta-description"
-                                   value="{{{ Input::old('meta-description', isset($post) ? $post->meta_description : null) }}}"/>
-                            {{ $errors->first('meta-description', '<span class="help-block">:message</span>') }}
-                        </div>
-                    </div>
-                    <!-- ./ meta description -->
+                            <!-- Meta Description -->
+                            <div class="form-group {{{ $errors->has('meta-description') ? 'error' : '' }}}">
+                                <div class="col-md-12 controls">
+                                    <label class="control-label" for="meta-description">Meta Description</label>
+                                    <input class="form-control" type="text" name="meta-description"
+                                           id="meta-description"
+                                           value="{{{ Input::old('meta-description', isset($post) ? $post->meta_description : null) }}}"/>
+                                    {{ $errors->first('meta-description', '<span class="help-block">:message</span>') }}
+                                </div>
+                            </div>
+                            <!-- ./ meta description -->
 
-                    <!-- Meta Keywords -->
-                    <div class="form-group {{{ $errors->has('meta-keywords') ? 'error' : '' }}}">
-                        <div class="col-md-12">
-                            <label class="control-label" for="meta-keywords">Meta Keywords</label>
-                            <input class="form-control" type="text" name="meta-keywords" id="meta-keywords"
-                                   value="{{{ Input::old('meta-keywords', isset($post) ? $post->meta_keywords : null) }}}"/>
-                            {{ $errors->first('meta-keywords', '<span class="help-block">:message</span>') }}
+                            <!-- Meta Keywords -->
+                            <div class="form-group {{{ $errors->has('meta-keywords') ? 'error' : '' }}}">
+                                <div class="col-md-12">
+                                    <label class="control-label" for="meta-keywords">Meta Keywords</label>
+                                    <input class="form-control" type="text" name="meta-keywords" id="meta-keywords"
+                                           value="{{{ Input::old('meta-keywords', isset($post) ? $post->meta_keywords : null) }}}"/>
+                                    {{ $errors->first('meta-keywords', '<span class="help-block">:message</span>') }}
+                                </div>
+                            </div>
+                            <!-- ./ meta keywords -->
                         </div>
+                        <!-- ./ meta data tab -->
                     </div>
-                    <!-- ./ meta keywords -->
-                </div>
-                <!-- ./ meta data tab -->
+                    <!-- ./ tabs content -->
+
             </div>
-            <!-- ./ tabs content -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="portlet solid">
+                    <div class="portlet-title">
+                        <div class="caption">Bài viết nổi bật</div>
+                    </div>
+                    <div class="portlet-body">
+                        <input @if(isset($is_featured_post)) @if($is_featured_post) {{"checked"}} @endif @endif type="checkbox" name="featured_post" id=""/>
+                    </div>
+                </div>
+                <div class="portlet solid">
+                    <div class="portlet-title">
+                        <div class="caption">Hình đại diện</div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="media">
+                            <div id="featured_image">
+                                <img class="media-object" src="@if(isset($featured_image)) {{$featured_image['src']}} @endif">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form Actions -->
+                <div class="portlet solid">
+                    <div class="portlet-body">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="reset" class="btn btn-xs btn-info"><span class="icon icon-cancel"></span>Hủy
+                                </button>
+                                <button type="submit" class="btn btn-xs btn-success"><span
+                                            class="icon icon-edit"></span>Lưu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./ form actions -->
 
+            </div>
+            <div class="clearfix"></div>
+            <input name="featured_image" @if(isset($featured_image)) value="{{$featured_image['id']}}" @endif type="hidden"/>
+        </form>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    	<div class="portlet solid">
-            <div class="portlet-title">
-                <div class="caption">Bài viết nổi bật</div>
-            </div>
-            <div class="portlet-body">
-                <input type="checkbox" name="featured_post" id=""/>
-                <label for="featured_post">Đánh dấu bài viết nổi bật.</label>
-            </div>
-        </div>
-        <div class="portlet solid">
-            <div class="portlet-title">
-                <div class="caption">Hình ảnh tiêu biểu</div>
-            </div>
-            <div class="portlet-body">
-                {{--luuhoabk anh dai dien--}}
-
-                <button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>
-
-                <div id="iM_user_slide1" class="insertMedia single-picture-wrapper imageManager_openModal1" type_insert="location_load_avatar" data-target="#imageManager_modal"  style="position: relative;" data-toggle="modal" >
-                    <div class="add-picture vertically-centered" style="">
-                        <button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh</button>
-                    </div>
-                    <img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
-                </div>
-
-
-
-                {{--<div class="featured-image-wrap">--}}
-{{--                    <img src="{{asset("assets/global/img/no-image.png")}}">--}}
-                {{--</div>--}}
-            </div>
-        </div>
-        <!-- Form Actions -->
-        <div class="form-group">
-            <div class="col-md-12">
-                <element class="btn-cancel btn-xs close_popup">Hủy</element>
-                <button type="reset" class="btn btn-xs btn-default">Khôi phục</button>
-                <button type="submit" class="btn btn-xs btn-success">Lưu</button>
-            </div>
-        </div>
-        <!-- ./ form actions -->
-
-    </div>
-    </form>
+    <div class="clearfix"></div>
 @stop
 
 @section("scripts")
-{{--    <script src="{{asset("assets/global/plugins/uploadify/jquery.uploadify.min.js")}}"></script>--}}
     <script type="text/javascript">
         $(document).ready(function () {
             $('.close_popup').click(function () {
@@ -156,9 +165,9 @@
                 event.preventDefault();
             });
 
-            if ($('.wysihtml5').size() > 0) {
+            if ($('#editor').size() > 0) {
                 tinymce.init({
-                    selector: ".wysihtml5",
+                    selector: "#editor",
                     menubar: false,
                     plugins: [
                         "advlist autolink lists link image charmap print preview anchor",
@@ -167,13 +176,48 @@
                         "autoresize",
                         "preview", "image", "code", "wordcount", "textcolor"
                     ],
-                    toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
+                    toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
                 });
             }
+
+            $("input[name=featured_post]").bootstrapSwitch({
+                size: "small",
+                onColor: "danger",
+                offColor: "warning",
+                onText: "Bật",
+                offText: "Tắt"
+            });
+            $("#featured_image").mediaupload({
+                token:"{{Session::token()}}",
+                url: "{{URL::to("media/upload")}}",
+                "multi-select": false,
+                complete: function (data) {
+                    console.log(data)
+                    $("#featured_image").html("<img src='" + data[0].src + "'/>");
+                    $("input[name=featured_image]").val(data[0].id);
+                }
+            });
+            $("#add-media").mediaupload({
+                token:"{{Session::token()}}",
+                url: "{{URL::to("media/upload")}}",
+                "multi-select": true,
+                complete: function (data) {
+                    if (data != null) {
+                        if (data.length) {
+                            $.each(data, function (i, image) {
+                                var ed = tinyMCE.get('editor');
+                                var range = ed.selection.getRng();
+                                var newNode = ed.getDoc().createElement("img");
+                                newNode.src = image.src;
+                                range.insertNode(newNode);
+                            })
+                        }
+                    }
+                }
+            });
         });
     </script>
 @stop
 
 @section("styles")
-{{--    <link rel="stylesheet" href="{{asset("assets/global/plugins/uploadify/uploadify.css")}}"/>--}}
-    @stop
+@stop

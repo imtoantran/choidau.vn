@@ -168,7 +168,7 @@ class Post extends Eloquent
 	 * @return string
      */
 	public function thumbnail(){
-		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
+		return "/upload/$this->thumbnail";
 	}
 
 	public function totalView(){

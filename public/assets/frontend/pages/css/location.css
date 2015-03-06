@@ -42,3 +42,28 @@ img#location-img-url{
 }
 
 #uploadImageModal .wrapper-img .item-img{position: relative; margin-bottom: 10px;}
+
+/* imtoantran start */
+.header-location{
+    z-index: 99;
+    width: auto;
+    right:15px;
+    left:15px;
+    position: absolute;
+    padding: 4px 0 !important;
+}
+.header-location .social .social-item{
+    /*width:100px;*/
+    display: block;
+    position: relative;
+    float: right;
+    overflow: hidden;
+}
+.header-location .social{
+    text-align: right;
+}
+.fb_iframe_widget{
+    position:absolute;
+    width:100px !important;
+}
+/* imtoantran end */

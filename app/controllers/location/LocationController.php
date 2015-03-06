@@ -180,7 +180,11 @@ class LocationController extends BaseController {
 //        $a = array($province_id['location_timeAction']);
 //        print_r($a); exit;
 //        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
-    
+    /* imtoantran load slider start */
+    public function getSlider($location){
+        return json_encode($location->images()->get());
+    }
+    /* imtoantran load slider end */
     /* imtoantran save location start */
     public function getView($provinceSlug,$slug = ''){
         // kiem tra thanh pho ton tai hay khng
@@ -198,10 +202,6 @@ class LocationController extends BaseController {
                     }
                 }
             }
-            $user_auth=null;
-            if(Auth::check()){
-                $user_auth=Auth::user();
-            }
             // neu khong co danh muc thi hien thi dia diem
             if(Location::whereSlug($slug)->count()){
                 $location = Location::whereSlug($slug)->first();
@@ -209,7 +209,7 @@ class LocationController extends BaseController {
                 $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs","user_auth"));
+                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs"));
             }
 
         }
@@ -247,6 +247,7 @@ class LocationController extends BaseController {
         }
         return $object;
     }
+
     function like(){
         $id = Input::get("id");
         $location = Location::find($id);
@@ -315,16 +316,20 @@ class LocationController extends BaseController {
 
         return json_encode($response);
     }
+
     private function userAction(){
 
     }
+
     public function loadReviews(){
         $id = Input::get("id");
         return json_encode(Location::find($id)->reviews());
     }
+
     public function getReview(){
         return View::make("site.location.review");
     }
+
     public function postReview(){
         $user = Auth::user();
         $data = Input::all();
@@ -530,7 +535,6 @@ class LocationController extends BaseController {
            );
         $location->food()->attach($data['food_name_id'],$value);
     }
-
     /***      * Đăng món ăn trong thực đơn locaiton--end    */
 
 }
