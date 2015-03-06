@@ -186,6 +186,19 @@ class LocationController extends BaseController {
     }
     /* imtoantran load slider end */
     /* imtoantran save location start */
+    /* imtoantran save location images start */
+    public function postImages($location){
+        if(Auth::guest())
+            return json_encode(["success"=>false]);
+        if(!Input::has("images"))
+            return json_encode(["success"=>false]);
+        $images = Input::get("images");
+        foreach($images as $image){
+            $location->images()->attach($image);
+        }
+        return json_encode(Input::get("images"));
+    }
+    /* imtoantran save location images end */
     public function getView($provinceSlug,$slug = ''){
         // kiem tra thanh pho ton tai hay khng
         if(Province::whereSlug($provinceSlug)->count()){

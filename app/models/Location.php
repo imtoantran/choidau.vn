@@ -60,7 +60,7 @@ class Location extends Eloquent {
 	public function loadUtility(){
 		return $this->hasMany("Location_Utility","location_id");
 	}
-	/* imtoantran url start */
+	/* imtoantran start */
 	public function url(){
 		return isset($this->province->name)? URL::to($this->province->slug."/$this->slug"):"";
 	}
@@ -84,7 +84,7 @@ class Location extends Eloquent {
 	public function totalLike(){
 		return $this->whoLiked()->count()?$this->whoLiked()->count():0;
 	}
-	/* imtoantran url end */
+	/* imtoantran end */
 	public function hasReview(){
 		return $this->reviews()->count();
 	}
@@ -107,9 +107,4 @@ class Location extends Eloquent {
 	public function totalCheckIn(){
 		return $this->userAction()->whereAction_type("checkin")->count();
 	}
-
-
-
-
-
 }

@@ -28,8 +28,11 @@
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/animation.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}">
 @if (isset($style_global))
 {{$style_global}}
 @endif
@@ -52,7 +55,6 @@
 
 
 <!-- Theme styles START -->
-<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/css/components.css')}}">
 <link rel="stylesheet" href="{{asset('assets/frontend/layout/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('assets/frontend/pages/css/style-choidau.css')}}">

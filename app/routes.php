@@ -249,6 +249,7 @@ Route::get('language/{lang}',
 );
 /* imtoantran start */
 Route::get("location/slider/{location}","LocationController@getSlider");
+Route::post("location/{location}/images","LocationController@postImages");
 Route::group(array('prefix' => "{provinceSlug}"),function(){
     Route::get("/","LocationController@getView");
     Route::get("{slug}","LocationController@getView");
