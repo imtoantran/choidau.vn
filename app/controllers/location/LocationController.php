@@ -116,7 +116,7 @@ class LocationController extends BaseController
         $location->price_max = $locationCreate['location_price_max'];
         $location->price_min = $locationCreate['location_price_min'];
         $location->category_id = $locationCreate['location_category'];
-//        $location->slug = Str::slug($locationCreate['location_name']);
+        $location->slug = Str::slug($locationCreate['location_name']);
         $location->action_time = json_encode($locationCreate['location_timeAction']);
         $location->user_id = $user->id;
 
@@ -126,7 +126,6 @@ class LocationController extends BaseController
         // kiem tra neu luu thanh cong
         if ($isSaveLocation) {
             /* imtoantran create unique slug start */
-            $location->slug = Str::slug($locationCreate['location_name'])."-$location->id";
             $location->save();
             /* imtoantran create unique slug end */
             // kiem tra va insert table location_post 'them album'

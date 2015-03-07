@@ -62,7 +62,7 @@ class Location extends Eloquent {
 	}
 	/* imtoantran start */
 	public function url(){
-		return isset($this->province->name)? URL::to($this->province->slug."/$this->slug".$this->id):"";
+		return isset($this->province->name)? URL::to($this->province->slug."/$this->slug"):"";
 	}
 	public function rating(){
 		$ratings = $this->hasManyThrough("PostMeta","Review","parent_id","post_id")->whereMetaKey("review_rating");
