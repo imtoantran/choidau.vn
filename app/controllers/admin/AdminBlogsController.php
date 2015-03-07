@@ -193,22 +193,28 @@ class AdminBlogsController extends AdminController {
             $post->meta_keywords    = Input::get('meta-keywords');
 
             // Was the blog post updated?
-            if($post->save())
-            {
+            if($post->save()) {
+                /* featured post start */
                 $meta = $post->meta()->whereMetaKey("featured_post")->first();
+                $is_featured_post = false;
+                if(Input::has("featured_post")) {
+                    $is_featured_post = Input::get("featured_post");
+                }
                     if (isset($meta)) {
-                        $meta->meta_value = Input::get("featured_post");
+                        $meta->meta_value = $is_featured_post;
                         $meta->save();
-                    }
-                    else{
-                        $meta = new PostMeta("featured_post",Input::get("featured_post"));
+                    } else {
+                        $meta = new PostMeta("featured_post", $is_featured_post);
                         $post->meta()->save($meta);
                     }
+                /* featured post stop */
+                /* featured image start */
                 $post_meta = $post->meta()->whereMetaKey("featured_image")->first();
-                if(isset($post_meta)){
-                    $post_meta->meta_value =Input::get("featured_image");
+                if (isset($post_meta)) {
+                    $post_meta->meta_value = Input::get("featured_image");
                     $post_meta->save();
                 }
+                /* featured image stop */
                 // Redirect to the new blog post page
                 return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
             }

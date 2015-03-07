@@ -356,7 +356,7 @@
                     <h1>Admin Giới thiệu</h1>
                 </header>
                 <article>
-                    @if(!is_null($topBlog))
+                    @if(!isset($topBlog))
                     <img class="padding-2 img-border-light" src="{{$topBlog->thumbnail}}" height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
                         <a href="#"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
