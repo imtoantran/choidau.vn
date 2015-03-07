@@ -4,28 +4,28 @@
 <div class="person-header">
    <div style="position: relative;">
     <div class="person-header-bg" style="background-image: url('{{$blog_info['background']}}'); position: relative;">
-        @if(Auth::check()&&Auth::user()->id != $blog_info['id'])
+        {{--luuhoabk - action duoc xu ly ben layout.js -> loadActionFriend() --}}
+        @if(Auth::check() && Auth::user()->id != $blog_info['id'])
             <span i_u="{{$blog_info['id']}}" class="box-top-friend" style="position: absolute; right: 10px; z-index:10; bottom: 5px;">
-                @if($blog_info['friend_status'] == 35)
-                    <button i_u="{{$blog_info['id']}}"  class="btn btn-default btn-sm btn-title-friend" style="text-transform: inherit; cursor: default; padding: 2px 8px 1px 4px;">
-                        <i class="icon-hourglass black"> </i>
-                        Đã gửi lời mời kết bạn
-                    </button>
-                @elseif($blog_info['friend_status'] == 34)
-                    <button i_u="{{$blog_info['id']}}"  class="btn btn-default btn-delete-friend btn-sm btn-title-friend" style="text-transform: inherit; padding: 2px 8px 1px 4px;">
-                        <i class="icon-user-delete black"> </i>
-                        Hủy kết bạn
-                    </button>
+                @if(count($blog_info['state_user'])>0)
+                    <button class="btn btn-default btn-sm-8 margin-none btn-friend" data-type="delete" friend_id="{{$blog_info['id']}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>
+                    @if($blog_info['state_user']['status_id'] == 35)
+                        <span class="italic text-grey font-10px sub-alert"> Đã gửi lời mời</span>
+                    @else
+                        <span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
+                    @endif
+                @elseif(count($blog_info['state_friend'])>0)
+                    @if($blog_info['state_friend']['status_id'] == 35)
+                        <button class="btn btn-default btn-sm-8 margin-none btn-friend" data-type="confirm" friend_id="{{$blog_info['id']}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>Chấp nhận</button>
+                        <span class="italic text-grey font-10px sub-alert"> Đang chờ</span>
+                    @else
+                        <button class="btn btn-default btn-sm-8 margin-none btn-friend" data-type="delete" friend_id="{{$blog_info['id']}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>
+                        <span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
+                    @endif
                 @else
-                    <button i_u="{{$blog_info['id']}}"  class="btn btn-default btn-header-add-friend btn-sm btn-title-friend" style="text-transform: inherit; padding: 2px 8px 1px 4px;">
-                        <i class="icon-user-add black"> </i>
-                        Kết bạn
-                    </button>
+                    <button class="btn btn-default btn-sm-8 margin-none btn-friend" data-type="add" friend_id="{{$blog_info['id']}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>Kết bạn</button>
+                    <span class="italic text-grey font-10px sub-alert"></span>
                 @endif
-
-                <button i_u="{{$blog_info['id']}}"  class="btn btn-default btn-sm btn-delete-confirm-friend tooltips @if($blog_info['friend_status'] != 35) hidden @endif" data-original-title="Hủy kết bạn" style="padding: 2px 4px 1px 4px;">
-                    <i class="icon-cancel-2"> </i>
-                </button>
             </span>
         @endif
     </div>
@@ -74,7 +74,7 @@
             </header >
             <nav class="person-header-nav">
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
-                    <li role="presentation" class="active">
+                    <li role="presentation">
                         <a href="#home" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false">Hoạt động</a>
                     </li>
                     <li role="presentation" class="">
@@ -84,13 +84,13 @@
                         <a href="#tag-blog-location-like-content" aria-controls="messages" id="btn-tag-blog-location-like" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm yêu thích</a>
                     </li>
                     <li role="presentation" class="">
-                        <a href="#tag-blog-checkin-content" aria-controls="settings" id="btn-tag-blog-checkin" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
+                        <a href="#tag-blog-checkin-content" aria-controls="tag-blog-checkin-content" id="btn-tag-blog-checkin" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
                     </li>
                     <li role="presentation">
-                        <a href="#tag-blog-friend-content" id="btn-tag-blog-friend" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
+                        <a href="#tag-blog-friend-content" id="btn-tag-blog-friend" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
                     </li>
-                    <li role="presentation">
-                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
+                    <li role="presentation"  class="active">
+                        <a href="#blog-tab-setting" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
                     </li>
                 </ul>
 

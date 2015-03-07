@@ -215,18 +215,22 @@ class User extends Eloquent implements ConfideUserInterface {
     public function getTotalLikeLocation(){
         return $this->location_like()->get()->count();
     }
-
-    public function getFriendsConfirm(){
-        $user = Auth::user();
-        $arryIdFriend = Friend::whereStatus_id(35)->whereFriend_id($user->id)->get();
-        $arr = array();
-        foreach($arryIdFriend as $key=>$val){
-            $arr[$key] =  $val['user_id'];
-        }
-        return json_encode(User::WhereIn('id',$arr)->get());
-    }
+//
+//    public function getFriendsConfirm(){
+//        $user = Auth::user();
+//        $arryIdFriend = Friend::whereStatus_id(35)->whereFriend_id($user->id)->get();
+//        $arr = array();
+//        foreach($arryIdFriend as $key=>$val){
+//            $arr[$key] =  $val['user_id'];
+//        }
+//        return json_encode(User::WhereIn('id',$arr)->get());
+//    }
 
 //    luuhoabk
+    public function referFriendConfirm(){
+        return  $this->belongsToMany("User","friends","friend_id","user_id")->withPivot('user_id');
+    }
+
     public function referFriend(){
         return  $this->belongsToMany("User","friends","user_id","friend_id");
     }

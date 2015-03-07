@@ -843,152 +843,16 @@ var Layout = function () {
 
         });
 
-        /**
-         * Gửi lời mới kết bạn
-         * */
-        $(document).on("click", "button.btn-header-add-friend", function () {
-            var id_friend = $(this).attr('i_u');
-            var btn_tag = $(this);
-            iconload.load(btn_tag.find('i'),'icon-user-add');
-            $.ajax({
-                type: "POST",
-                url: URL + "/trang-ca-nhan/ban-be.html",
-                data: {
-                    'id_friend': id_friend,
-                    'type_edit': 'request_add_friend',
-                    'userBlog_id': userBlog_id
-                },
-                success: function (respon) {
-                    if(respon){
-                        btn_tag.html('<i class="icon-hourglass black"> </i>Đã gửi lời mời kết bạn');
-                        $('.btn-delete-confirm-friend').removeClass('hidden').fadeIn();
-                        btn_tag.removeClass('btn-header-add-friend').css('cursor', 'default');
-                    }
-                }
-             });
-        });
-
-        /**
-         * Gui loi moi ket ban - box-right
-         * */
-        $(document).on("click", "button.btn-aside-add-friend", function () {
-            window.location = $(this).attr('data-url');
-
-
-            //var id_friend = $(this).attr('i_u');
-            //var btn_tag = $(this);
-            //iconload.load(btn_tag.find('i'),'icon-user-add');
-            //$.ajax({
-            //    type: "POST",
-            //    url: URL + "/trang-ca-nhan/ban-be.html",
-            //    data: {
-            //        'id_friend': id_friend,
-            //        'type_edit': 'request_add_friend',
-            //        'userBlog_id': userBlog_id
-            //    },
-            //    success: function (respon) {
-            //        if(respon){
-            //            btn_tag.html('<i class="icon-hourglass black"> </i>Đang chờ');
-            //            //$('.btn-delete-confirm-friend').removeClass('hidden').fadeIn();
-            //            //btn_tag.removeClass('btn-aside-add-friend').css('cursor', 'default');
-            //        }
-            //    }
-            //});
-        });
-
-        /**
-         *Huy xac nhan ket ban
-         * */
-        $('.btn-delete-confirm-friend').on('click', function(){
-            var tag_friend = $('.btn-title-friend');
-            var r = confirm("Bạn thật sự muốn hủy?");
-            if(r == true){
-                var id_friend = $(this).attr('i_u');
-                var btn_tag = $(this);
-                iconload.load(btn_tag.find('i'),'icon-cancel-2');
-                $.ajax({
-                    type: "POST",
-                    url: URL + "/trang-ca-nhan/ban-be.html",
-                    data: {
-                        'id_friend': id_friend,
-                        'type_edit': 'request_delete_confirm_friend',
-                        'userBlog_id': userBlog_id
-                    },
-                    success: function (respon) {
-                        tag_friend.html('<i class="icon-user-add black"> </i>Kết bạn');
-                        tag_friend.removeClass('btn-delete-confirm-friend').addClass('btn-aside-add-friend').css('cursor', 'pointer');
-                        $('.btn-delete-confirm-friend').addClass('hidden').fadeOut();
-                    },
-                    complete: function(){
-                        iconload.unload(btn_tag.find('i'),'icon-cancel-2');
-                    }
-                });
-            }
-        });
-
-
-        /**
-         *Huy ket ban
-         * */
-        $('.btn-delete-friend').on('click', function(){
-            var tag_friend = $('.btn-title-friend');
-            var r = confirm("Bạn thật sự muốn hủy?");
-            if(r == true){
-                var id_friend = $(this).attr('i_u');
-                var btn_tag = $(this);
-                iconload.load(btn_tag.find('i'),'icon-user-delete');
-                $.ajax({
-                    type: "POST",
-                    url: URL + "/trang-ca-nhan/ban-be.html",
-                    data: {
-                        'id_friend': id_friend,
-                        'type_edit': 'request_delete_confirm_friend',
-                        'userBlog_id': userBlog_id
-                    },
-                    success: function (respon) {
-                        tag_friend.html('<i class="icon-user-add black"> </i>Kết bạn');
-                        tag_friend.removeClass('btn-delete-friend').addClass('btn-aside-add-friend').css('cursor', 'pointer');
-                    },
-                    complete: function(){
-                        iconload.unload(btn_tag.find('i'),'btn-title-friend');
-                    }
-                });
-            }
-
-        });
-
-        //luuhoabk - error
-        $('.btn-tag-delete-friend').on('click', function(){
-            console.log('hello');
-            //var tag = $(this);
-            //var r = confirm("Bạn thật sự muốn hủy?");
-            //if(r == true){
-            //    var id_friend = $(this).attr('i_u');
-            //    var btn_tag = $(this);
-            //    iconload.load(btn_tag.find('i'),'icon-user-delete');
-            //    $.ajax({
-            //        type: "POST",
-            //        url: URL + "/trang-ca-nhan/ban-be.html",
-            //        data: {
-            //            'id_friend': id_friend,
-            //            'type_edit': 'request_delete_friend'
-            //        },
-            //        success: function (respon) {
-            //
-            //            tag.remove();
-            //        }
-            //
-            //    });
-            //}
-        });
-
-
+        
         /****
          *
          *TagMenu Bạn Bè Blog
          *
          *
          * ------------------------------------------------------------------*/
+
+        $('.btn-friend').loadActionFriend();
+        $('.btn-friend-suggest').loadActionFriend();
 
         $("#btn-tag-blog-friend").click(function () {
             var tagListFriend = $(".person-friends-list");
@@ -1035,6 +899,7 @@ var Layout = function () {
                                                     }
                                                 }else{
                                                     html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="add" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-add" style="font-size: 1.2em;"></i>Kết bạn</button>';
+                                                    html += '<span class="italic text-grey font-10px sub-alert"></span>'
                                                 }
                                             html += '</div>';
                                         }
@@ -1043,38 +908,9 @@ var Layout = function () {
                             html += '</article>';
                         });
                         tagListFriend.html(html);
+                        $('.btn-friend').loadActionFriend();
+                        //luuhoanote
 
-                        //luuhoatest
-                        tagListFriend.find('.btn-friend').on('click',function(){
-                            var self = $(this);
-                            var friend_type = $(this).attr('data-type');
-                            if(friend_type == 'add'){
-                                self.addFriend({callback: function(respon){
-                                    if(respon){
-                                        self.html('<i class="icon-user-add black"> </i>Hủy');
-                                        self.attr('data-type','delete');
-                                        $('.sub-alert').text(' Đã gửi lời mời');
-                                    }
-                                }});
-                            }else if(friend_type == 'delete'){
-                                self.delFriend({callback: function(respon){
-                                    if(respon){
-                                        self.html('<i class="icon-user-add black"> </i>Kết bạn');
-                                        self.attr('data-type','add');
-                                        $('.sub-alert').html('Chưa kết bạn');
-                                    }
-                                }});
-                            }else if(friend_type == 'confirm'){
-                                self.delConfirm({callback: function(respon){
-                                    if(respon){
-                                        self.html('<i class="icon-user-add black"> </i>Hủy');
-                                        self.attr('data-type','delete');
-                                        $('.sub-alert').text(' Đã kết bạn');
-                                    }
-                                }});
-                            }
-
-                        });
                     }
                     else{
                         tagListFriend.html('<div style="background-color: #fff; padding: 10px;"><i class="icon-warning-empty"></i>Chưa có bạn.</div>');
@@ -1198,7 +1034,7 @@ var Layout = function () {
             }
 
             var tag_icon =  $('.btn-login-popup-choidau i');
-            iconload.load(tag_icon, 'icon-login-2');
+            tag_icon.iconLoad('icon-login-2');
             btnlogin.attr('disabled','disabled');
             $.ajax({
                 type: "POST",
@@ -1237,7 +1073,7 @@ var Layout = function () {
                 },
                 complete: function () {
                     btnlogin.removeAttr('disabled');
-                    iconload.unload(tag_icon, 'icon-login-2');
+                    tag_icon.iconUnload('icon-login-2');
                 }
             });
 
@@ -1248,7 +1084,7 @@ var Layout = function () {
             var btnlogin_fb = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-face-btn i');
-            iconload.load(tag_icon, 'icon-facebook');
+            tag_icon.iconLoad('icon-facebook');
             btnlogin_fb.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-facebook",
@@ -1260,7 +1096,7 @@ var Layout = function () {
                 },
                 complete : function(r) {
                     btnlogin_fb.removeAttr('disabled');
-                    iconload.unload(tag_icon, 'icon-facebook');
+                    tag_icon.iconUnload('icon-facebook');
                 }
             });
         })
@@ -1269,7 +1105,7 @@ var Layout = function () {
             var btnlogin_gg = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-google-btn i');
-            iconload.load(tag_icon, 'icon-googleplus-rect-1');
+            tag_icon.iconLoad('icon-googleplus-rect-1');
             btnlogin_gg.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-google",
@@ -1282,7 +1118,6 @@ var Layout = function () {
                 },
                 complete : function(r) {
                     btnlogin_gg.removeAttr('disabled');
-                    //iconload.unload(tag_icon, 'icon-facebook');
                 }
             });
         })
@@ -1783,6 +1618,13 @@ var Layout = function () {
 }();
 
 //-----luuhoabk ------
+$.fn.iconLoad = function(iclass){
+    $(this).removeClass(iclass).addClass('animate-spin icon-spin3');
+}
+$.fn.iconUnload = function(iclass){
+    $(this).removeClass('animate-spin icon-spin3').addClass(iclass);
+}
+
 var iconload = function() {
     return {
         load: function(tag, iclass){
@@ -1795,7 +1637,50 @@ var iconload = function() {
         }
     }
 }();
+// luuhoabk - action friend
+$.fn.loadActionFriend = function(){
+    $(this).on('click',function(){
+        var self = $(this);
+        var friend_type = $(this).attr('data-type');
+        if(friend_type == 'add'){
+            self.addFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Hủy');
+                    self.attr('data-type','delete');
+                    self.parent().find('.sub-alert').html(' Đã gửi lời mời');
+                }
+            }});
+        }else if(friend_type == 'delete'){
+            self.delFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Kết bạn');
+                    self.attr('data-type','add');
+                    self.parent().find('.sub-alert').html(' Chưa kết bạn');
+                }
+            }});
+        }else if(friend_type == 'confirm'){
+            self.confirmFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Hủy');
+                    self.attr('data-type','delete');
+                    self.parent().find('.sub-alert').html(' Đã kết bạn');
+                }
+            }});
+        }
+        if($('.total-confirm-friends')[0]){
+            var tagConfirm = $('.total-confirm-friends');
+            var totalConfirm = parseInt(tagConfirm.text())-1;
+            if(totalConfirm > 0){
+                tagConfirm.text(totalConfirm);
+            }else{
+                $('.wrapper-confirm-friends').html('');
+            }
+        }
 
+
+    });
+}
+// luuhoabk - add friend
 $.fn.addFriend = function(userOptions){
     $.extend(options, userOptions);
     var options = $.extend(null,userOptions);
@@ -1803,7 +1688,7 @@ $.fn.addFriend = function(userOptions){
     return $(this).each(function(){
         var self = $(this);
         var friend_id = $(this).attr('friend_id');
-        iconload.load(self.find('i'),'icon-user-add');
+        self.find('i').iconLoad('icon-user-add');
         $.ajax({
              type: "POST",
              url: URL + "/trang-ca-nhan/ban-be.html",
@@ -1815,11 +1700,13 @@ $.fn.addFriend = function(userOptions){
                  options.callback.call(null,respon);
              },
              complete: function(){
-                 iconload.unload(self.find('i'),'icon-user-delete');
+                 self.find('i').iconUnload('icon-user-delete');
              }
         });
     });
 };
+// END luuhoabk - add friend
+
 // luuhoabk - delete friend
 $.fn.delFriend = function(userOptions){
     $.extend(options, userOptions);
@@ -1829,50 +1716,51 @@ $.fn.delFriend = function(userOptions){
         var self = $(this);
         var r = confirm("Bạn thật sự muốn hủy?");
         if(r == true){
-            var id_friend = $(this).attr('friend_id');
-            iconload.load(self.find('i'),'icon-user-delete');
+            var friend_id = $(this).attr('friend_id');
+            self.find('i').iconLoad('icon-user-delete');
             $.ajax({
                 type: "POST",
                 url: URL + "/trang-ca-nhan/ban-be.html",
                 data: {
-                    'id_friend': id_friend,
+                    'friend_id': friend_id,
                     'type_edit': 'request_delete_friend'
                 },
                 success: function (respon) {
                     options.callback.call(null,respon);
                 },
                 complete: function(){
-                    iconload.unload(self.find('i'),'icon-user-add');
+                    self.find('i').iconUnload('icon-user-add');
                 }
             });
         }
     });
 };
+// END luuhoabk - delete friend
 
 // luuhoabk - confirm friend
-$.fn.delConfirm = function(userOptions){
+$.fn.confirmFriend = function(userOptions){
     $.extend(options, userOptions);
     var options = $.extend(null,userOptions);
 
     return $(this).each(function(){
         var self = $(this);
-        var id_friend = $(this).attr('friend_id');
-        iconload.load(self.find('i'),'icon-user-add');
+        var friend_id = $(this).attr('friend_id');
+        self.find('i').iconLoad('icon-user-add');
         $.ajax({
             type: "POST",
             url: URL + "/trang-ca-nhan/ban-be.html",
             data: {
-                'id_friend': id_friend,
+                'friend_id': friend_id,
                 'type_edit': 'request_confirm_friend'
             },
             success: function (respon) {
                 options.callback.call(null,respon);
             },
             complete: function(){
-                iconload.unload(self.find('i'),'icon-user-delete');
+                self.find('i').iconUnload('icon-user-delete');
             }
         });
 
     });
 };
-// -- end luuhoabk ------
+// END luuhoabk confirm friend

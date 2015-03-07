@@ -181,8 +181,8 @@ Route::group(array('prefix' => 'thanh-vien'), function(){
     Route::post('login-facebook','UserController@loginWithFacebook');
     Route::get('login-google','UserController@loginWithGoogle');
     Route::post('login-google','UserController@loginWithGoogle');
-    Route::post('getFriendsConfirm','UserController@getFriendsConfirm');
-    Route::get('getFriendsConfirm','UserController@getFriendsConfirm');
+    Route::post('xac-thuc','UserController@getFriendConfirm');
+    Route::get('xac-thuc','UserController@getFriendConfirm');
     Route::get('/', 'UserController@getIndex');
 //  Route::controller('/', 'LocationController'); // run contruct function
 });

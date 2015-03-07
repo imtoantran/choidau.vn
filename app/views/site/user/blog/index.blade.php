@@ -9,7 +9,7 @@
                 <div class="col-md-9 col-none-padding person-body-content">
 
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="home">
+                        <div role="tabpanel" class="tab-pane" id="home">
 
 
                             <section class="person-content choidau-bg">
@@ -302,6 +302,14 @@
                             </section>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                        <div role="tabpanel" class="tab-pane" id="tag-blog-checkin-content">
+                            <section class="person-content  blog-checkin-list-content choidau-bg">
+                                <!--main content-->
+                            </section>
+                            <div class="person-advertise text-center">
+                                <img class="img-responsive" src="./img-data-demo/advertise.jpg" alt="">
+                            </div>
+                        </div>
                         <div role="tabpanel" class="tab-pane" id="tag-blog-friend-content">
                             <section class="person-friends choidau-bg">
                                 <header class="padding-5">
@@ -313,14 +321,23 @@
                             </section>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane" id="tag-blog-checkin-content">
-                            <section class="person-content  blog-checkin-list-content choidau-bg">
-                                <!--main content-->
+                        {{--luuhoabk tab setting infor user--}}
+                        <div role="tabpanel" class="tab-pane active" id="blog-tab-setting">
+                            <section class="blog-setting-section choidau-bg">
+                                <header class="padding-5 blog-setting-header white">
+                                    <i class="icon-cog white"></i>
+                                    Cập nhật thông tin
+                                </header>
+                                <div class="row blog-setting-wrapper margin-none">
+                                    <div class="blog-setting-content">
+                                        dsd
+                                    </div>
+                                </div>
+
+
                             </section>
-                            <div class="person-advertise text-center">
-                                <img class="img-responsive" src="./img-data-demo/advertise.jpg" alt="">
-                            </div>
                         </div>
+                        {{--END luuhoabk tab setting infor user--}}
 
                         <div role="tabpanel" class="tab-pane" id="tag-blog-location-like-content">
                             <section class="person-location choidau-bg">
@@ -394,7 +411,6 @@
                                 <li>
                                     <div>
                                         <label class="blog-info-lbl">Số lượt thích</label>:
-
                                         @if(isset($blog_info['total_like']) && !empty($blog_info['total_like']))
                                             <span>{{$blog_info['total_like']}} Địa điểm</span>
                                         @else
@@ -404,7 +420,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @if(isset($blog_info['friend_sus']))
+                        @if(isset($arrFriendSuggset))
                             <!-- add friend -->
                             <div class="aside-list">
                                 <header class="choidau-bg-font">
@@ -412,9 +428,47 @@
                                     Gơi ý kết bạn
                                 </header>
                                 <!--goi y ket ban-->
-                                @if(!empty($blog_info['friend_sus']))
+                                @if(count($arrFriendSuggset)>0)
                                     <ul class="list-unstyled aside-items">
-                                        {{$blog_info['friend_sus']}}
+                                        @foreach(json_decode($arrFriendSuggset) as $key=>$val)
+                                            <li class="lab-btn-item-blog-friend">
+                                                <div class = "row margin-none">
+                                                    <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
+                                                        <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
+                                                            <img class="avatar-pad2" src="{{$val->avatar}}" alt="">
+                                                        </a>
+                                                        <div class="aside-items-text">
+                                                            <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
+                                                                <b>@if(isset($val->fullname)){{$val->fullname}}@else{{$val->username}}@endif</b>
+                                                            </a>
+                                                            <p>{{$val->num_muatal}} bạn chung</p></div>
+                                                        </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
+                                                        @if(count($val->state_user)>0)
+                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>
+                                                            </br>
+                                                            @if($val->state_user->status_id == 35)
+                                                                <span class="italic text-grey font-10px sub-alert"> Đã gửi lời mời</span>
+                                                            @else
+                                                                <span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
+                                                            @endif
+                                                        @elseif(count($val->state_friend)>0)
+                                                            @if($val->state_friend->status_id == 35)
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="confirm" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>Chấp nhận</button>
+                                                                </br><span class="italic text-grey font-10px sub-alert"> Đang chờ</span>
+                                                            @else
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>
+                                                                </br><span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
+                                                            @endif
+                                                        @else
+                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="add" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>Kết bạn</button>
+                                                            </br><span class="italic text-grey font-10px sub-alert">Chưa kết bạn</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+{{--                                        {{$blog_info['friend_sus']}}--}}
                                     </ul>
                                     <div class="aside-item-viewmore">
                                         <button class="btn btn-block default">
@@ -430,7 +484,7 @@
                                     </div>
                                 @endif
                             </div>
-                            @endif
+                        @endif
                                     <!-- online friend -->
                             <div class="aside-list">
                                 <header class="choidau-bg-font">

@@ -65,15 +65,15 @@
                                 <li>
                                     <i class="icon-user-7"></i>
                                     @if (Auth::user()->hasRole('admin'))
-                                <li><a href="{{{ URL::to('qtri-choidau') }}}">Admin Panel</a></li>
-                                @endif
-                                <a style="font-weight: 600;" href="{{{ URL::to('thanh-vien') }}}">
-                                    @if(empty(Auth::user()->fullname))
-                                        {{{ Auth::user()->username }}}
-                                    @else
-                                        {{{ Auth::user()->fullname }}}
+                                        <a href="{{{ URL::to('qtri-choidau') }}}">Admin Panel</a>
                                     @endif
-                                </a>
+                                    <a style="font-weight: 600;" href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}">
+                                        @if(empty(Auth::user()->fullname))
+                                            {{{ Auth::user()->username }}}
+                                        @else
+                                            {{{ Auth::user()->fullname }}}
+                                        @endif
+                                    </a>
                                 </li>
                                 <li>
                                     <a class="header-logout-a" href="{{{ URL::to('thanh-vien/dang-xuat.html') }}}">Đăng xuất</a>
@@ -88,10 +88,10 @@
                                 <li class="wrapper-confirm-friends">
                                     <?php
                                         $user = Auth::user();
-                                        $num_confirm = count(json_decode($user->getFriendsConfirm(), true));
+                                        $num_confirm = count(json_decode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id','=', 35)->get(['user_id']), true));
                                     ?>
                                     @if($num_confirm>0)
-                                        <a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number margin-left-10" data-original-title="Lời mời kết bạn"  data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">
+                                        <a href="{{{ URL::to('trang-ca-nhan/'.$user->username.'.html') }}}" class="tooltips dropdown-toggle icon-badge-number margin-left-10" data-original-title="Lời mời kết bạn"  data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">
                                             <i class="icon-users" style="font-size: 20px;"></i>
                                             <span class="badge total-confirm-friends">{{$num_confirm}}</span>
                                         </a>

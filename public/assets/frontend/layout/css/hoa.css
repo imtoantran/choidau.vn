@@ -156,4 +156,9 @@ section.person-content .person-command .article-img-text div input{height: 32px;
 #choidau-person .action-view-more{padding: 5px; background-color: #fff; font-size: 1em; }
 
 /*end person action*/
+
+/*blog setting info*/
+.tab-content .blog-setting-wrapper{padding: 5px;}
+.tab-content .blog-setting-content{padding: 5px; background-color: #fff;}
+/*end blog setting info*/
 /*end luuhoabk - person page*/

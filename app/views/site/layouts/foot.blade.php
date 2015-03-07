@@ -138,12 +138,11 @@
 
     function uploadFriendsConfirm(){
         var tag_parent = $('.wrapper-confirm-friends');
-
         $.ajax({
             type: "POST",
-            url: URL + "/thanh-vien/getFriendsConfirm",
-//            async: false,
+            url: URL + "/thanh-vien/xac-thuc",
             success: function (respon) {
+                console.log(respon);
                 var data = $.parseJSON(respon);
                 if(data.length >0){
                     var strHtml ='';
@@ -153,13 +152,9 @@
                         strHtml +='</a>';
                         strHtml +='<ul class="list-confirm-friends dropdown-menu extended tasks add-friend">';
                         strHtml +='</ul>';
-
                     tag_parent.html(strHtml);
 
                     var listFriend = tag_parent.find('.list-confirm-friends');
-
-
-//                    var listFriend = $('</ul>',{class:'list-confirm-friends'});
 
                     listFriend.html('<li>Lời mời kết bạn</li>');
                     $.each(data, function(k,val) {
@@ -167,81 +162,61 @@
                         var html = '';
                         html += '<div class="row margin-none">';
                         html += '<div class="col-md-2 col-sm-2 col-xs-2 col-none-padding">';
-                        html += '<a href="#">';
+                        html += '<a href="'+URL+'/trang-ca-nhan/'+val.username+'.html">';
                         html += '<img class="avatar-pad2 img-responsive" src="http://choidau.net/upload/media_user/5/nghiemcaoboi_160_4.jpg" alt=""/>';
                         html += '</a>';
                         html += '</div>';
                         html += '<div class="col-md-6 col-sm-6 col-xs-6 col-none-padding">';
                         html += '<div class="aside-items-text">';
-                        html += '<a href="#">';
+                        html += '<a href="'+URL+'/trang-ca-nhan/'+val.username+'.html">';
                         html += '<b>'+username+'</b>';
                         html += '</a>';
                         html += '<p>3 ban chung</p>';
                         html += '</div>';
                         html += '</div>';
                         html += '<div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-right" style="line-height: 25px;">';
-                        html += '<button data-id-friend="'+val.id+'" class="btn btn-default btn-sm btn-accept" style="padding-left: 7px;  padding-right: 8px;">Chấp nhận</button>';
-                        html += '<button data-id-friend="'+val.id+'" class="btn btn-default btn-sm btn-delete">Xóa yêu cầu</button>';
+                        html += '<button friend_id="'+val.id+'" data-type="confirm" class="btn btn-default btn-sm btn-friend-hint" style="padding-left: 7px;  padding-right: 8px;">';
+                        html += '<i class="icon-user-add"></i> Chấp nhận';
+                        html += '</button>';
+                        html += '<button friend_id="'+val.id+'" data-type="delete" class="btn btn-default btn-sm btn-friend-hint">';
+                        html += '<i class="icon-user-delete"></i> Hủy yêu cầu';
+                        html += '</button>';
                         html += '</div>';
                         html += '</div>';
-                        var htmlTag  = $('<li/>').append(html);
+                        var htmlTag  = $('<li/>',{'class':'item-friend-hint'}).append(html);
 
                         //bat su kien click chap nhan ket ban
-                        htmlTag.find('.btn-accept').on('click',function(e){
+
+
+                        htmlTag.find('.btn-friend-hint').on('click',function(e){
                             e.stopPropagation();
-                            var id_friend = $(this).attr('data-id-friend');
-                            $.ajax({
-                                type: "POST",
-                                url: URL + "/trang-ca-nhan/ban-be.html",
-                                data: {
-                                    'id_friend': id_friend,
-                                    'type_edit': 'request_accept_friend'
-//                                    'id_user_blog': id_user_blog
-                                },
-                                success: function (respon) {
-                                   if(respon){
-                                       htmlTag.remove();
-                                       var total = $('.total-confirm-friends');
-                                       var numTotal = parseInt(total.text())-1;
+                            var self = $(this);
+                            var friend_type = $(this).attr('data-type');
+                            var total = $('.total-confirm-friends');
+                            var numTotal = parseInt(total.text()-1);
+                            if(friend_type == 'confirm'){
+                                self.confirmFriend({callback: function(respon){
+                                    if(respon){
+                                        self.closest('.item-friend-hint').remove();
 
-                                       if(numTotal > 0){
-                                           total.text(numTotal);
-                                       }else{
-                                           tag_parent.html('');
-                                       }
-                                   }
-                                }
-                            });
-                        });
-
-                        //bat su kien click huy ket ban
-                        htmlTag.find('.btn-delete').on('click',function(e){
-                            e.stopPropagation();
-                            var r = confirm('Bạn có thật sự muốn xóa?');
-                            if(r){
-                                var id_friend = $(this).attr('data-id-friend');
-                                $.ajax({
-                                    type: "POST",
-                                    url: URL + "/trang-ca-nhan/ban-be.html",
-                                    data: {
-                                        'id_friend': id_friend,
-                                        'type_edit': 'request_delete_friend'
-                                    },
-                                    success: function (respon) {
-                                        if(respon){
-                                            htmlTag.remove();
-                                            var total = $('.total-confirm-friends');
-
-                                            var numTotal = parseInt(total.text())-1;
-                                            if(numTotal > 0){
-                                                total.text(numTotal);
-                                            }else{
-                                                tag_parent.html('');
-                                            }
-
+                                        if(numTotal > 0){
+                                            total.text(numTotal);
+                                        }else{
+                                            tag_parent.html('');
                                         }
                                     }
-                                });
+                                }});
+                            }else if(friend_type == 'delete'){
+                                self.delFriend({callback: function(respon){
+                                    if(respon){
+                                        self.closest('.item-friend-hint').remove();
+                                        if(numTotal > 0){
+                                            total.text(numTotal);
+                                        }else{
+                                            tag_parent.html('');
+                                        }
+                                    }
+                                }});
                             }
                         });
                         listFriend.append(htmlTag);

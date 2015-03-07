@@ -486,9 +486,9 @@ class UserController extends BaseController {
         }
 
     }
-    public function getFriendsConfirm(){
-        $userModel = new User;
-        echo $userModel->getFriendsConfirm();
+    public function getFriendConfirm(){
+        $user = Auth::user();
+        echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id','=', 35)->get());
     }
 // end luuhoabk
 }

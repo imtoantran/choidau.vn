@@ -167,14 +167,11 @@ class BlogUserController extends BaseController {
             'friend_sus'=>$html_friends,
             'total_like'=>$user_blog->getTotalLikeLocation(),
             'id_auth'=>$user_auth->id,
-            'friend_status'=>Friend::whereUser_id($user_auth->id)->whereFriend_id($user_blog->id)->first()['status_id'],
+            'state_user'=>$this->getStatus($user_auth->id, $user_blog->id),
+            'state_friend'=>$this->getStatus($user_blog->id, $user_auth->id),
         );
 
         $listStatus_2 =Post::orderBy('updated_at','DESC')->whereUser_id($user_blog->id)->wherePost_type('status')->get();
-
-//        $listStatus_2 =Post::orderBy('updated_at','DESC')->where('user_id','=',$user_blog->id)->where('post_type','=','status')->skip(0)->take(5)->get();
-//         $listStatus_2=$blogUser->getContentAction();
-
          $html_status='';
 
         /*---- get html item status*/
@@ -203,19 +200,55 @@ class BlogUserController extends BaseController {
 
         }
 
+        //luuhoa note
+        $arrUserBlog = $user_blog->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get();
+        $arrUserLogin = $user_auth->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get();
+        $arrFiltered = $this->getSuggestlFriend($arrUserBlog, $arrUserLogin, $user_auth->id);
+        $arrFriendSuggset = User::whereIn('id',$arrFiltered)->get();
 
-
+        foreach($arrFriendSuggset as $key=>$val){
+            $user_friend_suggest      = User::whereId($val['id'])->first();
+            $arr_friend_suggest   = $user_friend_suggest->referFriend()->get(['id']);
+            $arrFriendSuggset[$key]['num_muatal'] = count($this->getCountMutualFriend($arr_friend_suggest, $arrUserLogin));
+            $arrFriendSuggset[$key]['state_user'] = $this->getStatus($user_auth->id, $val['id']);
+            $arrFriendSuggset[$key]['state_friend'] = $this->getStatus($val['id'], $user_auth->id);;
+        }
 
        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
+       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
+    public function getStatus($user_id, $friend_id){
+        return Friend::whereUser_id($user_id)->whereFriend_id($friend_id)->get(['status_id'])->first();
+    }
+
+    public function getSuggestlFriend($arr1, $arr2, $user_log_id)
+    {
+        $arr1_tam[] = '';
+        $arr2_tam[] = '';
+        $arr3_tam[] = '';
+        foreach ($arr1 as $key => $val) {
+            $arr1_tam[$key] = $val['id'];
+        }
+        foreach ($arr2 as $key => $val) {
+            $arr2_tam[$key] = $val['id'];
+        }
+
+        foreach($arr1_tam as $key=>$val){
+            if(!in_array($val, $arr2_tam) && $val != $user_log_id){
+                $arr3_tam[]= $val;
+            }
+        }
+        return $arr3_tam;
+    }
+
 	public function getEvent(){
 		return $this->getIndex('su-kien');
 	}
 	public function getExperience(){
 		return $this->getIndex('kinh-nghiem');
 	}
+
 	/**
 	 * View a blog post.
 	 *
@@ -371,9 +404,6 @@ class BlogUserController extends BaseController {
 
                     }else{
                         $post_like->userAction()->detach($user,['post_user_type_id'=>31,'created_at'=>$date]);
-
-                     //  $post_like->userAction()->updateExistingPivot($user,['post_user_type_id'=>31,'created_at'=>$date]);
-
                     }
                     $number_like=$post_like->userAction()->where('post_user_type_id','=','31')->count();
                     $data_1=array(
@@ -428,6 +458,7 @@ class BlogUserController extends BaseController {
 
 
     }
+    //luuhoabk
 
     public function getCountMutualFriend($arr1, $arr2){
     $arr1_tam[] ='';
@@ -441,7 +472,7 @@ class BlogUserController extends BaseController {
 
     return array_intersect($arr1_tam ,$arr2_tam);
 }
-    //luuhoabk
+
     public function  getListFriend(){
 
         $data           = Input::all();
@@ -571,22 +602,22 @@ class BlogUserController extends BaseController {
                     break;
 
                 case "request_confirm_friend":
-                    $this->updateFriend($friend, $data['id_friend'], $this->user->id, '34');
-                    $num_friend = $this->getFriend($friend, $this->user->id, $data['id_friend']);
+                    $this->updateFriend($friend, $data['friend_id'], $this->user->id, '34');
+                    $num_friend = $this->getFriend($friend, $this->user->id, $data['friend_id']);
                     if(count($num_friend)>0){
-                        echo $this->updateFriend($friend, $this->user->id, $data['id_friend'], '34');
+                        echo $this->updateFriend($friend, $this->user->id, $data['friend_id'], '34');
                     }else{
-                        echo $this->addFriend($friend, $this->user->id, $data['id_friend'], '34');
+                        echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '34');
                     }
                     break;
 
                 case "request_delete_confirm_friend":
-                    echo $this->deleteFriend($friend, $this->user->id, $data['id_friend']);
+                    echo $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
                     break;
 
                 case "request_delete_friend":
-                         $this->deleteFriend($friend, $this->user->id, $data['id_friend']);
-                         $this->deleteFriend($friend, $data['id_friend'], $this->user->id);
+                         $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
+                         $this->deleteFriend($friend, $data['friend_id'], $this->user->id);
                          echo 1;
                     break;
 
@@ -989,7 +1020,6 @@ class BlogUserController extends BaseController {
                 $list_id_friend_my[]=$item->friend_id;
             }
 
-
             if($item->user_id==$this->blogUser->id){
                 //  $list_id_friend_my[]=$item->friend_id;
             }else{
@@ -1003,14 +1033,8 @@ class BlogUserController extends BaseController {
                 if($item!=$id){
                     $list_id_friend_my2[]=$item;
                 }
-
             }
-
-
-
         }
-
-
 
         return $list_id_friend_my2;
     }
@@ -1045,8 +1069,6 @@ class BlogUserController extends BaseController {
             echo '<pre>';
           print_r($post_like);
         echo '</pre>';
-
-
     }
 
 }
