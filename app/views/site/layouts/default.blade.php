@@ -8,7 +8,7 @@
 </head>
 <!-- Head END -->
 <!-- Body BEGIN -->
-<body class="choidau">
+<body class="choidau page-container">
 
 <div id="fb-root"></div>
 <header id="header" class="container">

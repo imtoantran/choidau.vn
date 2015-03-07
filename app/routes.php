@@ -118,7 +118,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function()
 Route::post("location/like/",'LocationController@like');
 Route::post("location/checkin/",'LocationController@checkin');
 Route::get("location/review/{id}",'LocationController@getReview');
-Route::post("location/review",'LocationController@postReview');
+Route::post("location/{location}/review",'LocationController@postReview');
 Route::post("location/load-member",'LocationController@loadMember');
 Route::post("location/load-event",'LocationController@loadEvent');
 Route::post("location/event",'LocationController@postEvent');
@@ -248,7 +248,8 @@ Route::get('language/{lang}',
     )
 );
 /* imtoantran start */
-Route::get("location/slider/{location}","LocationController@getSlider");
+Route::delete("location/{location}/images","LocationController@deleteImages");
+Route::get("location/{location}/images","LocationController@getImages");
 Route::post("location/{location}/images","LocationController@postImages");
 Route::group(array('prefix' => "{provinceSlug}"),function(){
     Route::get("/","LocationController@getView");

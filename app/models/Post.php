@@ -148,8 +148,6 @@ class Post extends Eloquent
 		return $this->hasOne("Option","status");
 	}
 
-
-
     public function getMetaKey($meta_key){
 		if($this->meta()->whereMeta_key($meta_key)->count())
         	return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
@@ -176,6 +174,7 @@ class Post extends Eloquent
 			return $this->meta()->whereMetaKey("blog_view")->first()->meta_value;
 		return 0;
 	}
+
 	public function updateTotalView(){
 		if($totalView = $this->totalView()){
 			$view = $this->meta()->whereMetaKey("blog_view")->first();
@@ -189,6 +188,7 @@ class Post extends Eloquent
     public function countLike(){
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','31')->count();
     }
+
     public function countDisLike(){
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','32')->count();
     }

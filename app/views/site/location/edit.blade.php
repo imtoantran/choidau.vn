@@ -1,5 +1,4 @@
-{{--<a class="btn btn-primary" data-toggle="modal" href="uploadImageModal">Trigger modal</a>--}}
-<div class="modal fade" id="uploadImageModal" data-backdrop="static" tabindex="-1">
+<div class="modal fade" id="uploadImageModal" data-backdrop="static" data-focus-on="input:first" tabindex="-1">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title margin-bottom-0"><i class="icon-picture"></i> hình địa điểm</h4>
@@ -9,8 +8,8 @@
 					<div class="row wrapper-img">
 						@if($location->images()->count())
 							@foreach($location->images()->get() as $image)
-								<div class="col-xs-3 item-img"  data-img-id="{{$image->id}}">
-									<button type="button" data-img-album="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips" data-original-title="Xóa">
+								<div class="col-xs-3 item-img"  data-image-id="{{$image->id}}">
+									<button type="button" data-image-id="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips" data-original-title="Xóa">
 										<i class="icon-cancel-circled"></i>
 									</button>
 									<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="{{$image->thumbnail();}}" alt=""/>

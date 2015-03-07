@@ -18,123 +18,8 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div style="overflow: hidden;">
-                <div id="slider1_container"
-                     style="position: relative; width:530px; height: 515px; background: #191919; overflow: hidden;">
-
-                    <!-- Loading Screen -->
-                    <header class="row header-location">
-                        <div class="col-md-10 ">
-                            <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
-
-                            <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i
-                                        class="icon-help-circled-1"></i>
-                            </h1>
-                            <ul class="list-unstyled list-inline ul-list-rating">
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-filled"></i></li>
-                                <li><i class="icon-star-1"></i></li>
-                                <li><i class="icon-star-1"></i></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="g-plusone" data-size="medium"></div>
-                            <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
-                            </div>
-
-                        </div>
-                    </header>
-
-                    <!-- Slides Container -->
-                    <section u="slides" class="slider-location"
-                             style="cursor: move; position: relative; padding: 15px 15px 15px; top: 60px; width: 530px; height: 360px; overflow: hidden;">
-                        @foreach($location->images()->get() as $image)
-                            <div>
-                                <img u="image" class="img-item-slider img-responsive"
-                                     src="{{asset($image->thumbnail())}}"/>
-                                <img u="thumb" src="{{asset($image->thumbnail())}}"/>
-                            </div>
-                        @endforeach
-                        @if(!$location->images()->count())
-                            <div class="rt">
-                                <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
-                                <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
-                            </div>
-                            <div>
-                                <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
-                                <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
-                            </div>
-                        @endif
-                    </section>
-
-                    <!-- Arrow Navigator Skin Begin -->
-
-                    <!-- Arrow Left -->
-								<span u="arrowleft" class="jssora05l"
-                                      style="width: 40px; height: 40px; top: 158px; left: 15px;">
-								</span>
-                    <!-- Arrow Right -->
-								<span u="arrowright" class="jssora05r"
-                                      style="width: 40px; height: 40px; top: 158px; right: 15px">
-								</span>
-
-                    <!-- Arrow Left -->
-                    <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                        <button class="btn text-primary do-post-review" @if(Auth::check()) data-toggle="modal"
-                                data-target="#reviewModal" @endif
-                        type="submit">Viết bình luận <i class="icon-edit"></i></button>
-                    </div>
-
-
-                    @if(Auth::check() && Auth::user()->id == $location->user_id)
-                        <!-- Arrow Right -->
-                        <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
-                    <button class="btn text-primary do-upload-image" @if(Auth::check()) data-toggle="modal"
-                            data-target="#uploadImageModal" @endif
-                    type="button">Đăng hình <i class="icon-camera"></i></button>
-                </span>
-                        <!-- Arrow Navigator Skin End -->
-
-                        <!-- Arrow Right -->
-                        <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
-                    <button class="btn text-primary btn-create-event-location" @if(Auth::check()) data-toggle="modal"
-                            data-target="#popup-create-event" @endif type="button">Đăng Event <i
-                                class="icon-calendar"></i></button>
-                </span>
-                        <!-- Arrow Navigator Skin End -->
-
-
-                        <!-- Arrow Right -->
-                        <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
-                    <button class="btn text-primary btn-create-food-location" @if(Auth::check()) data-toggle="modal"
-                            data-target="#popup-create-food" @endif type="button">Đăng Món ăn <i
-                                class="icon-calendar"></i></button>
-                </span>
-                        <!-- Arrow Navigator Skin End -->
-                        @endif
-                                <!-- Thumbnail Navigator Skin Begin -->
-                        <div u="thumbnavigator" class="jssort01"
-                             style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
-                            <!-- Thumbnail Item Skin Begin -->
-
-                            <div u="slides" style="cursor: move;">
-                                <div u="prototype" class="p"
-                                     style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
-                                    <div class=w>
-                                        <div u="thumbnailtemplate"
-                                             style=" width: 100%; height: 100%; border: none;position:absolute; top: 0; left: 0;">
-                                        </div>
-                                    </div>
-                                    <div class=c>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Thumbnail Item Skin End -->
-                        </div>
-                        <!-- Thumbnail Navigator Skin End -->
-
-                </div>
+            <div style="overflow: hidden;" id="location-slider">
+                {{--@include("site.location.slider")--}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
@@ -653,11 +538,43 @@
 
 
     <script>
-        jQuery(document).ready(
-                function () {
-                    Location.initLocationItem();
-                    Layout.initSliderLocation("slider1_container");
-                    //Portfolio.init();
+        jQuery(document).ready(function () {
+                    /* imtoantran ajax load slider start */
+                    var albumWrapper = $('.wrapper-img');
+                    var removeLocationImage = function(image){
+                        $("#uploadImageModal").block();
+                        $.ajax({
+                            url: "{{URL::to("location/$location->id/images")}}",
+                            type: 'delete',
+                            data: {'images': image.id},
+                            success: function (resAlbum) {
+                                albumWrapper.find('.item-img[data-image-id="' + image.id + '"]').remove();
+                            },
+                            complete: function () {
+                                if ($('.wrapper-img .item-img').length <= 0) {
+                                    $('.album-empty').fadeIn();
+                                }
+                                $("#uploadImageModal").unblock();
+                            }
+                        });
+                    };
+                    $.fn.init_slider = function () {
+                        $("#location-slider").load("{{URL::to("location/$location->id/images")}}", null, function (data) {
+                            Layout.initSliderLocation("slider1_container");
+                            $("#uploadImageModal").unblock();
+                        });
+
+                    };
+                    $.fn.init_slider();
+                    $("#uploadImageModal").on("bs.modal.hide",function(){
+                        $.fn.init_slider();
+                    });
+                    /* imtoantran ajax load slider end */
+                    $('.wrapper-img button').click(function () {
+                        var image = {};
+                        image.id = $(this).data("image-id");
+                        removeLocationImage(image);
+                    });
                     /* imtoantran add image for location start */
                     $(".add-picture").mediaupload({
                         url: "{{URL::to("media/upload")}}",
@@ -666,50 +583,49 @@
                         "multi-select": true,
                         complete: function (images) {
                             var imageIDs = [];
-                            var wrapperAlbum = $('.wrapper-img');
                             $.each(images, function (i, image) {
-                                if (!wrapperAlbum.find("div[data-img-id='" + image.id + "']").length) {
+                                if (!albumWrapper.find("div[data-image-id='" + image.id + "']").length) {
                                     imageIDs.push(image.id);
-                                    var htmlTag = $('<div/>', {class: 'col-xs-3 item-img', 'data-img-id': image.id});
-                                    var btn = $('<button type="button" data-img-album="' + image.id + '" class="no-padding location-img-btn-close-item" title="Xóa hình">');
+                                    var htmlTag = $('<div/>', {class: 'col-xs-3 item-img', 'data-image-id': image.id});
+                                    var btn = $('<button type="button" data-image-id="' + image.id + '" class="no-padding location-img-btn-close-item" title="Xóa hình">');
                                     btn.html('<i class="icon-cancel-circled"></i>');
                                     htmlTag.append(btn).append('<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="' + image.src + '" alt=""/>');
-                                    wrapperAlbum.append(htmlTag);
-                                    btn.on('click', function () {
-                                        btn.loading(button.find('i'), 'icon-cancel-circled', 'show');
-                                        $.ajax({
-                                            url: URL + "/dia-diem/xoa-image-album",
-                                            type: 'post',
-                                            data: {'location_id': "{{$location->id}}", 'post_id': image.id},
-                                            success: function (resAlbum) {
-                                                wrapperAlbum.find('.item-img').each(function () {
-                                                    if ($(this).attr('data-img-id') == post_id) {
-                                                        $(this).remove();
-                                                    }
-                                                })
-                                            },
-                                            complete: function () {
-                                                if ($('.wrapper-img .item-img').length <= 0) {
-                                                    $('.album-empty').fadeIn();
-                                                }
-                                                btn.loading(button.find('i'), 'icon-cancel-circled', 'hide');
-                                            }
-                                        });
+                                    albumWrapper.append(htmlTag);
+                                    btn.on('click', function (e) {
+                                        /*btn.loading(btn.find('i'), 'icon-cancel-circled', 'show');*/
+                                        removeLocationImage(image);
                                     });
                                 }
                             });
-                            $.ajax({
-                                url: URL + "/location/{{$location->id}}/images",
-                                type: 'post',
-                                data: {images: imageIDs},
-                                dataType: 'json',
-                            });
+                            if (imageIDs.length) {
+                                $("#uploadImageModal").block();
+                                $.ajax({
+                                    url: URL + "/location/{{$location->id}}/images",
+                                    type: 'post',
+                                    data: {images: imageIDs},
+                                    dataType: 'json',
+                                    success: function(){
+                                        $.fn.init_slider();
+                                    }
+                                });
+                            }
                         }
                     });
                     /* imtoantran add image for location end */
-
+                    /* imtoantran add image for review start*/
+                    $("#add-review-image").mediaupload({
+                        url:"{{URL::to("media/upload")}}",
+                        token:"{{Session::token()}}",
+                        "multi-select":true,
+                        complete:function(images){console.log(images)
+                            $.each(images,function(i,image){
+                               $("#review-form").append($("<input />",{name:"images[]",type:"hidden",value:image.id}));
+                            });
+                        }
+                    });
+                    /* imtoantran add image for review stop */
                     /*thời gian sự kiện location*/
-//                $( ".datepicker-start" ).datetimepicker({
+//                  $( ".datepicker-start" ).datetimepicker({
 //                    defaultDate: "+1w",
 //                    changeMonth: true,
 //                    numberOfMonths: 2,
@@ -794,6 +710,9 @@
                     /* load reviews end */
                     /* viet review start*/
 
+                    /**
+                     * save review
+                     */
                     $("#review-save").click(function () {
 
                         var listAlbum = Location.getAlbum();
@@ -807,7 +726,7 @@
                         var form = $("#review-form").serialize();
 
                         $.ajax({
-                            url: "{{URL::to("location/review")}}",
+                            url: "{{URL::to("location/$location->id/review")}}",
                             type: "POST",
                             data: form,
 

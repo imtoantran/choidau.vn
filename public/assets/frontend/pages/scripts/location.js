@@ -61,16 +61,16 @@ var Location = function () {
 
 		deleteImgAlbum: function(){
 			var wrapperAlbum = $('.wrapper-img');
-			var location_id=$('#input-data-value-location').attr('i_l');
+			var location_id = $("body").data()
 			wrapperAlbum.find('button').each(function(){
 				var button = $(this);
 				var post_id = $(this).attr('data-img-album');
 				$(this).on('click', function(){
 					self.loading(button.find('i'),'icon-cancel-circled','show');
 					$.ajax({
-						url: URL+"/dia-diem/xoa-image-album",
-						type: 'post',
-						data: {'location_id': location_id, 'post_id': post_id},
+						url: URL+"/location/"+location_id+"/images",
+						type: 'delete',
+						data: {'images': [post_id]},
 						//dataType: 'json',
 						success: function(resAlbum){
 							wrapperAlbum.find('.item-img').each(function(){
