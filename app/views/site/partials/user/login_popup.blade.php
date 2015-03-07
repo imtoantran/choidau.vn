@@ -84,8 +84,6 @@
 -->
 
 <div id="popup-login" style="z-index: 1051; display: none;" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static" data-max-height="440">
-    <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header choidau-bg" style=" padding: 6px 10px;">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 <h5 class="modal-title" id="myModalLabel" style="font-size:1.3em; margin: 5px 0px; text-align:center; font-weight: 600; color: white;">Đăng Nhập</h5>
@@ -142,6 +140,5 @@
                 <button type="button" class="btn btn-sm green btn-login-popup-choidau">đăng nhâp <i class="icon-login-2 white"></i>
                 </button> <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Hủy</button>
             </div>
-        </div>
-    </div>
+
 </div>

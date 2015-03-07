@@ -191,12 +191,11 @@
                                         <div class="media-heading">
                                             <div class="col-sm-6">
                                                 <div class="row"><a
-                                                            href="#"><strong>{{$review->author->username}} </strong></a>
+                                                            href="#"><strong>@if(isset($review->author->fullname)) {{$review->author->fullname}} @else {{$review->author->username}} @endif </strong></a>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="pull-right">
-
                                                     <ul class="list-unstyled list-inline ul-list-rating">
                                                         @for($i=0;$i<5;$i++)
                                                             @if($i<$review->getMetaKey("review_rating"))
@@ -617,13 +616,30 @@
                         url:"{{URL::to("media/upload")}}",
                         token:"{{Session::token()}}",
                         "multi-select":true,
-                        complete:function(images){console.log(images)
+                        complete:function(images){
                             $.each(images,function(i,image){
-                               $("#review-form").append($("<input />",{name:"images[]",type:"hidden",value:image.id}));
+                               $("#review-form").append($("<input />",{class:'review-images',name:"images[]",type:"hidden",value:image.id}));
                             });
                         }
                     });
                     /* imtoantran add image for review stop */
+                    /* save review */
+
+                    $("#review-save").click(function () {
+                        var form = $("#review-form");
+                        $.ajax({
+                            url: "{{URL::to("location/$location->id/review")}}",
+                            type: "POST",
+                            data: form.serialize(),
+                            complete: function () {
+                                document.getElementById("review-form").reset();
+                                $(".review-images").remove();
+                                $('.modal').modal("hide");
+                            }
+                        })
+                    });
+                    /* viet review end */
+
                     /*thời gian sự kiện location*/
 //                  $( ".datepicker-start" ).datetimepicker({
 //                    defaultDate: "+1w",
@@ -711,35 +727,6 @@
                     /* viet review start*/
 
                     /**
-                     * save review
-                     */
-                    $("#review-save").click(function () {
-
-                        var listAlbum = Location.getAlbum();
-                        $("#review_album").val(listAlbum);
-                        var listalbum = '';
-
-                        listAlbum.forEach(function (item) {
-                            listalbum += item['post_id'] + ",";
-                        })
-                        $("#list-album").val(listalbum);
-                        var form = $("#review-form").serialize();
-
-                        $.ajax({
-                            url: "{{URL::to("location/$location->id/review")}}",
-                            type: "POST",
-                            data: form,
-
-                            success: function (response) {
-                                $("#review-form")[0].reset();
-                                //  location.reload();
-                            },
-                            complete: function () {
-                                $('.modal').modal("hide");
-                            }
-                        })
-                    });
-                    /* viet review end */
 
 
                     /*------------Tag Thanh vien Loacation-*/

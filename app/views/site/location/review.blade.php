@@ -29,7 +29,6 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <input type="range" value="4" name="review_rating" step="0.25" id="backing4">
-
                             <div class="rateit" data-rateit-backingfld="#backing4" data-rateit-resetable="false"
                                  data-rateit-ispreset="true"
                                  data-rateit-min="0" data-rateit-max="10">

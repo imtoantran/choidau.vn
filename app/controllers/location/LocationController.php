@@ -127,6 +127,7 @@ class LocationController extends BaseController
         if ($isSaveLocation) {
             /* imtoantran create unique slug start */
             $location->slug = Str::slug($locationCreate['location_name'])."-$location->id";
+            $location->save();
             /* imtoantran create unique slug end */
             // kiem tra va insert table location_post 'them album'
             if ($isAlbum) {
