@@ -537,10 +537,17 @@
 
 
     <script>
-        jQuery(document).ready(function () {
+        $(document).ready(function () {
                     /* imtoantran ajax load slider start */
                     var albumWrapper = $('.wrapper-img');
-                    var removeLocationImage = function(image){
+                    var load_slider = function () {
+                        $("#location-slider").load("{{URL::to("location/$location->id/images")}}", null, function (data) {
+                            Layout.initSliderLocation("slider1_container");
+                            $("#uploadImageModal").unblock();
+                        });
+
+                    };
+                    var removeLocationImage = function (image) {
                         $("#uploadImageModal").block();
                         $.ajax({
                             url: "{{URL::to("location/$location->id/images")}}",
@@ -554,20 +561,11 @@
                                     $('.album-empty').fadeIn();
                                 }
                                 $("#uploadImageModal").unblock();
+                                load_slider();
                             }
                         });
                     };
-                    $.fn.init_slider = function () {
-                        $("#location-slider").load("{{URL::to("location/$location->id/images")}}", null, function (data) {
-                            Layout.initSliderLocation("slider1_container");
-                            $("#uploadImageModal").unblock();
-                        });
-
-                    };
-                    $.fn.init_slider();
-                    $("#uploadImageModal").on("bs.modal.hide",function(){
-                        $.fn.init_slider();
-                    });
+                    load_slider();
                     /* imtoantran ajax load slider end */
                     $('.wrapper-img button').click(function () {
                         var image = {};
@@ -575,7 +573,7 @@
                         removeLocationImage(image);
                     });
                     /* imtoantran add image for location start */
-                    $(".add-picture").mediaupload({
+                    $("#btn-upgrade-imgs").mediaupload({
                         url: "{{URL::to("media/upload")}}",
                         fullwidth: true,
                         token: "{{Session::token()}}",
@@ -603,8 +601,8 @@
                                     type: 'post',
                                     data: {images: imageIDs},
                                     dataType: 'json',
-                                    success: function(){
-                                        $.fn.init_slider();
+                                    success: function () {
+                                        load_slider();
                                     }
                                 });
                             }
@@ -613,18 +611,22 @@
                     /* imtoantran add image for location end */
                     /* imtoantran add image for review start*/
                     $("#add-review-image").mediaupload({
-                        url:"{{URL::to("media/upload")}}",
-                        token:"{{Session::token()}}",
-                        "multi-select":true,
-                        complete:function(images){
-                            $.each(images,function(i,image){
-                               $("#review-form").append($("<input />",{class:'review-images',name:"images[]",type:"hidden",value:image.id}));
+                        url: "{{URL::to("media/upload")}}",
+                        token: "{{Session::token()}}",
+                        "multi-select": true,
+                        complete: function (images) {
+                            $.each(images, function (i, image) {
+                                $("#review-form").append($("<input />", {
+                                    class: 'review-images',
+                                    name: "images[]",
+                                    type: "hidden",
+                                    value: image.id
+                                }));
                             });
                         }
                     });
                     /* imtoantran add image for review stop */
                     /* save review */
-
                     $("#review-save").click(function () {
                         var form = $("#review-form");
                         $.ajax({
@@ -729,7 +731,7 @@
                     /**
 
 
-                    /*------------Tag Thanh vien Loacation-*/
+                     /*------------Tag Thanh vien Loacation-*/
                     $(".btn-member-location").click(function () {
 
                         var element_input_data_location = $("#input-data-value-location");

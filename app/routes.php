@@ -249,6 +249,9 @@ Route::get('language/{lang}',
         'uses' => 'LanguageController@select'
     )
 );
+/* imtoantran image thumnnail start */
+Route::get("upload/thumbnail/{file}","MediaController@thumbnail");
+/* imtoantran image thumnnail stop */
 /* imtoantran start */
 Route::delete("location/{location}/images","LocationController@deleteImages");
 Route::get("location/{location}/images","LocationController@getImages");

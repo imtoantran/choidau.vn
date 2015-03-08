@@ -103,7 +103,7 @@
                         <div class="caption">Bài viết nổi bật</div>
                     </div>
                     <div class="portlet-body">
-                        <input @if(isset($is_featured_post)) @if($is_featured_post) {{"checked"}} @endif @endif type="checkbox" name="featured_post" id=""/>
+                        <input @if(isset($featured_post)) @if($featured_post) {{"checked"}} @endif @endif type="checkbox" name="featured_post" id=""/>
                     </div>
                 </div>
                 <div class="portlet solid">
@@ -113,7 +113,7 @@
                     <div class="portlet-body">
                         <div class="media">
                             <div id="featured_image">
-                                <img class="media-object" src="@if(isset($featured_image)) {{$featured_image['src']}} @endif">
+                                <img class="media-object" src="@if(isset($featured_image->thumbnail)) {{$featured_image->thumbnail}} @endif">
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
 
             </div>
             <div class="clearfix"></div>
-            <input name="featured_image" @if(isset($featured_image)) value="{{$featured_image['id']}}" @endif type="hidden"/>
+            <input name="featured_image" @if(isset($featured_image)) value="{{$featured_image->id}}" @endif type="hidden"/>
         </form>
     </div>
     <div class="clearfix"></div>

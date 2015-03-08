@@ -31,16 +31,12 @@
         @foreach($location->images()->get() as $image)
             <div>
                 <img u="image" class="img-item-slider img-responsive"
-                     src="{{asset($image->thumbnail())}}"/>
-                <img u="thumb" src="{{asset($image->thumbnail())}}"/>
+                     src="{{asset($image->guid)}}"/>
+                <img u="thumb" src="{{asset($image->thumbnail)}}"/>
             </div>
         @endforeach
         @if(!$location->images()->count())
             <div class="rt">
-                <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
-                <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
-            </div>
-            <div>
                 <img u="image" src="{{asset("assets/global/img/no-image.png")}}"/>
                 <img u="thumb" src="{{asset("assets/global/img/no-image.png")}}"/>
             </div>
@@ -66,7 +62,7 @@
     </div>
 
 
-    @if(Auth::check() && Auth::user()->id == $location->user_id)
+    @if(Auth::check())
         <!-- Arrow Right -->
         <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
                     <button class="btn btn-xs text-primary do-upload-image" @if(Auth::check()) data-toggle="modal"
@@ -77,7 +73,8 @@
 
         <!-- Arrow Right -->
         <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
-                    <button class="btn btn-xs text-primary btn-create-event-location" @if(Auth::check()) data-toggle="modal"
+                    <button class="btn btn-xs text-primary btn-create-event-location" @if(Auth::check())
+                            data-toggle="modal"
                             data-target="#popup-create-event" @endif type="button">Đăng Event <i
                                 class="icon-calendar"></i></button>
                 </span>
@@ -86,7 +83,8 @@
 
         <!-- Arrow Right -->
         <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
-                    <button class="btn btn-xs text-primary btn-create-food-location" @if(Auth::check()) data-toggle="modal"
+                    <button class="btn btn-xs text-primary btn-create-food-location" @if(Auth::check())
+                            data-toggle="modal"
                             data-target="#popup-create-food" @endif type="button">Đăng Món ăn <i
                                 class="icon-calendar"></i></button>
                 </span>

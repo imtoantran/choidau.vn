@@ -166,7 +166,7 @@ class Post extends Eloquent
 	 * @return string
      */
 	public function thumbnail(){
-		return "/upload/$this->thumbnail";
+		return $this->thumbnail;
 	}
 
 	public function totalView(){
@@ -192,4 +192,18 @@ class Post extends Eloquent
     public function countDisLike(){
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','32')->count();
     }
+
+	public function getMeta($key){
+		return $this->meta()->whereMetaKey($key);
+	}
+
+	/**
+	 * @return mixed
+     */
+	public function getFeaturedImage(){
+		$temp = $this->getMeta("featured_image");
+		if($temp->count()){
+			return Image::find($temp->first()->meta_value);
+		}
+	}
 }
