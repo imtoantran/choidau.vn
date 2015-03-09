@@ -302,6 +302,7 @@
                             </section>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="messages">...</div>
+
                         <div role="tabpanel" class="tab-pane" id="tag-blog-checkin-content">
                             <section class="person-content  blog-checkin-list-content choidau-bg">
                                 <!--main content-->
@@ -310,6 +311,7 @@
                                 <img class="img-responsive" src="./img-data-demo/advertise.jpg" alt="">
                             </div>
                         </div>
+
                         <div role="tabpanel" class="tab-pane" id="tag-blog-friend-content">
                             <section class="person-friends choidau-bg">
                                 <header class="padding-5">
@@ -339,12 +341,38 @@
                         </div>
                         {{--END luuhoabk tab setting infor user--}}
 
-                        <div role="tabpanel" class="tab-pane" id="tag-blog-location-like-content">
+                        {{--luuhoabk tab location --}}
+                        <div role="tabpanel" class="tab-pane" id="blog-tab-location">
                             <section class="person-location choidau-bg">
-                                <div class="row person-location-list  blog-location-like-list-content margin-none">
+                                <header>
+                                    <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
+                                    <i class="icon-camera"
+                                       style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
+
+                                    <div class="text-1em2">Album ảnh</div>
+                                </header>
+                                <nav>
+                                    <ul class="mix-filter">
+                                        <li data-filter="location-cat-posted" class="filter">Đã đăng</li>
+                                        <li data-filter="location-cat- active" class="filter">Yêu thích</li>
+                                    </ul>
+                                </nav>
+                                <div class="row mix-grid thumbnails margin-none blog-photo-list-content">
+                                    <div class="col-md-4 col-sm-6 mix category_1 mix_all" style="display: block; opacity: 1;">
+                                        <div class="mix-inner">
+                                            <img alt="" src="../../assets/frontend/pages/img/works/img1.jpg" class="img-responsive">
+                                            <div class="mix-details choidau-bg-light-a9">
+                                                <h4 class="choidau-font-fff">Cascusamus et iusto odio</h4>
+                                                <p>At vero eos et accusamus et iusto odio digniss imos duc sasdimus qui sint blanditiis prae sentium voluptatum deleniti atque corrupti quos dolores.</p>
+                                                <a class="mix-link choidau-bg"><i class="icon-link"></i></a>
+                                                <a data-rel="fancybox-button" title="Project Name" href="../../assets/frontend/pages/img/works/img1.jpg" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                         </div>
+                        {{--END luuhoabk tab location --}}
                     </div>
                 </div>
 
@@ -389,22 +417,6 @@
                             @else
                                 <span class="updateting">Đang cập nhật</span>
                             @endif
-                        </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Đã theo dõi</label>:
-                        <span>
-                            <span class="updateting">Đang cập nhật</span>
-                        </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Được theo dõi</label>:
-                        <span>
-                            <span class="updateting">Đang cập nhật</span>
                         </span>
                                     </div>
                                 </li>

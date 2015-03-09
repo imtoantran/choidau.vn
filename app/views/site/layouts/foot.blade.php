@@ -142,7 +142,6 @@
             type: "POST",
             url: URL + "/thanh-vien/xac-thuc",
             success: function (respon) {
-                console.log(respon);
                 var data = $.parseJSON(respon);
                 if(data.length >0){
                     var strHtml ='';
@@ -186,7 +185,6 @@
                         var htmlTag  = $('<li/>',{'class':'item-friend-hint'}).append(html);
 
                         //bat su kien click chap nhan ket ban
-
 
                         htmlTag.find('.btn-friend-hint').on('click',function(e){
                             e.stopPropagation();
