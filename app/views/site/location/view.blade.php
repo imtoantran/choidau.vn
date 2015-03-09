@@ -237,26 +237,19 @@
                                     </div>
                                 </div>
                                 <!-- hinh anh -->
-                                <?php $list_album = PostMeta::where('post_id', '=', $review->id)->where('meta_key', '=', 'review_image')->get();
-                                // print_r($list_album);
-                                ?>
-
                                 <div class="">
-                                    @foreach($list_album as $img)
-                                        <?php $img = Post::find($img->meta_value);
-                                        $img_link = $img->getMetaKey('url');
-                                        ?>
-
+                                    @if($review->recentImage())
+                                    @foreach($review->recentImage() as $img)
                                         <div class="col-md-2 col-sm-4 gallery-item">
-                                            <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}"
+                                            <a data-rel="fancybox-button" title="Project Name" href="{{$img->guid}}"
                                                class="fancybox-button">
-                                                <img alt="" src="{{$img_link}}" class="img-responsive">
+                                                <img alt="" src="{{$img->thumbnail}}" class="img-responsive">
 
                                                 <div class="zoomix"><i class="fa fa-search"></i></div>
                                             </a>
                                         </div>
                                     @endforeach
-
+                                    @endif
                                 </div>
                                 <!-- hinh anh -->
                                 <!-- thao luan,like,dislike,report -->
@@ -480,20 +473,6 @@
 
 @section('js_plugin')
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
-    <script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
 
     <!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
 
@@ -616,29 +595,33 @@
                         "multi-select": true,
                         complete: function (images) {
                             $.each(images, function (i, image) {
-                                $("#review-form").append($("<input />", {
-                                    class: 'review-images',
-                                    name: "images[]",
-                                    type: "hidden",
-                                    value: image.id
-                                }));
+                                if(!$(".review-image[data-id="+image.id+"]").length){console.log(image.id)
+                                    btnRemove = $('<i class="icon icon-cancel-circle"/>');
+                                    review_image = $("<div class='review-image' data-id="+image.id+"/>");
+                                    review_image.append(btnRemove);
+                                    review_image.append('<img style="width:100%" src="'+image.thumbnail+'"/>');
+                                    review_image.append('<input type="hidden" name="images[]" value="'+image.id+'"/>');
+                                    $(".review-image-container").append(review_image);
+                                    btnRemove.on("click",function(){$(this).parent().remove()})
+                                }
                             });
                         }
                     });
                     /* imtoantran add image for review stop */
                     /* save review */
-                    $("#review-save").click(function () {
-                        var form = $("#review-form");
+                    $("#review-form").submit(function () {
+                        var form = $(this);
                         $.ajax({
                             url: "{{URL::to("location/$location->id/review")}}",
                             type: "POST",
                             data: form.serialize(),
                             complete: function () {
                                 document.getElementById("review-form").reset();
-                                $(".review-images").remove();
+                                $(".review-image").remove();
                                 $('.modal').modal("hide");
                             }
-                        })
+                        });
+                        return false;
                     });
                     /* viet review end */
 

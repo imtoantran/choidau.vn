@@ -20,4 +20,19 @@ class Review extends Post {
 	public function location(){
 		return $this->belongsTo("Location","parent_id");
 	}
+
+	public function images(){
+		$meta = $this->getMeta("review_image");
+		if($meta->count()){
+			return Image::whereIn("id",$meta->orderBy("created_at","asc")->lists("meta_value"))->get();
+		}
+		return false;
+	}
+	public function recentImage(){
+		$meta = $this->getMeta("review_image");
+		if($meta->count()){
+			return Image::whereIn("id",$meta->orderBy("created_at","asc")->take(6)->lists("meta_value"))->get();
+		}
+		return false;
+	}
 }
