@@ -1,4 +1,6 @@
 <div class="modal fade" id="uploadImageModal" data-backdrop="static" data-focus-on="input:first" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title margin-bottom-0"><i class="icon-picture"></i> hình địa điểm</h4>
@@ -32,4 +34,6 @@
 					</div>
 				</div>
 			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -634,7 +634,7 @@ var Location = function () {
 		},
 
 		//load box add food
-		addFoodTemp: function(){
+			addFoodTemp: function(){
 			var	html ='<div class="form-group clearfix">';
 			html +='<label for="location-food-name" class="col-sm-2 control-label"><strong>Tên món:</strong></label>';
 			html +='<div class="col-sm-10">';

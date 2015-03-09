@@ -1,7 +1,6 @@
 
 <div class="modal fade in" id="popup-create-event" style="display: none;" aria-hidden="false"><div class="modal-backdrop fade in" style="height: 337px;"></div>
-    <div class="modal-dialog">
-        <div class="modal-content">
+
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title margin-bottom-0"><i class="icon-picture"></i> sự kiện địa điểm</h4>
@@ -75,6 +74,4 @@
                 <button type="button" class="yellow btn btn-warning btn-add-event-location" >Đăng sự kiện <i class="fa fa-calendar"></i></button>
 
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
 </div>
