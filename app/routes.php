@@ -163,6 +163,8 @@ Route::group(array('prefix' => 'dia-diem','before' => 'auth'), function(){
     Route::post('load-album', 'LocationController@loadAlbum');
     Route::post('save-image-album', 'LocationController@saveImageAlbum');
     Route::post('xoa-image-album', 'LocationController@deleteImageAlbum');
+    Route::post('loc-dia-diem', 'LocationController@filterLocation');
+    Route::get('loc-dia-diem', 'LocationController@filterLocation');
 
 //    Route::controller('/', 'LocationController'); // run contruct function
 });

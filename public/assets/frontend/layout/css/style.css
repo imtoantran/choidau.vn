@@ -1399,7 +1399,7 @@ div.content-form-page .checkbox-list {
 	margin-bottom: 0;
 }
 .nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	background: #F4F4F4;
+	/*background: #F4F4F4;*/
 	color: #647484;
 	border-radius: 0;
 	padding: 5px 15px 4px;
@@ -3787,6 +3787,7 @@ background-color: #f9f9f9;
 .blog-info-lbl{width: 100px;font-weight: 600;}
 .italic{font-style: italic;}
 .underline{text-decoration: underline;}
+.ver-mid{vertical-align: middle;}
 .text-grey{color: #ababab;}
 .text-justify{text-align: justify;}
 .img-border-light{border: 1px solid #f1f1f1;}

@@ -490,5 +490,10 @@ class UserController extends BaseController {
         $user = Auth::user();
         echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id','=', 35)->get());
     }
+
+    public function getLocation(){
+        $user = Auth::user();
+        echo json_encode($user->referLocation()->get());
+    }
 // end luuhoabk
 }

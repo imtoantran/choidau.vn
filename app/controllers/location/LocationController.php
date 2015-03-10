@@ -589,4 +589,27 @@ class LocationController extends BaseController
     }
     /***      * Đăng món ăn trong thực đơn locaiton--end    */
 
+
+
+    public function filterLocation(){
+        $data = Input::all();
+        $arr_location = array();
+        $arr_location['posted'] = $this->addUrl(Location::whereUser_id($data['userBlog_id'])->get());
+
+        $user = new User();
+        $user_blog = User::whereId($data['userBlog_id'])->get()->first();
+
+        $arr_location['checkin'] = $this->addUrl($user_blog->checkin()->get());
+        $arr_location['like'] = $this->addUrl($user_blog->location_like()->get());
+        echo json_encode($arr_location);
+    }
+
+    public function addUrl($arr){
+        foreach($arr as $key=>$val){
+            $location = Location::whereId($val['id'])->get()->first();
+            $arr[$key]['url'] = $location->url();
+        }
+        return $arr;
+    }
+
 }

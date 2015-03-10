@@ -234,5 +234,7 @@ class User extends Eloquent implements ConfideUserInterface {
     public function referFriend(){
         return  $this->belongsToMany("User","friends","user_id","friend_id");
     }
-
+    public function referLocation(){
+        return  $this->belongsToMany("User","locations","user_id","user_id");
+    }
 }

@@ -170,42 +170,43 @@ class BlogUserController extends BaseController {
             'state_user'=>$this->getStatus($user_auth->id, $user_blog->id),
             'state_friend'=>$this->getStatus($user_blog->id, $user_auth->id),
         );
+        // hoatest
+        // luuhoabk - danh sach hoat dong cua blog
+             $listStatus_2 =Post::orderBy('updated_at','DESC')->whereUser_id($user_blog->id)->wherePost_type('status')->get();
+             $html_status='';
+//        var_dump($listStatus_2); exit;
+            /*---- get html item status*/
+            foreach($listStatus_2 as $item){
+                $id= $item->post_id;
 
-        $listStatus_2 =Post::orderBy('updated_at','DESC')->whereUser_id($user_blog->id)->wherePost_type('status')->get();
-         $html_status='';
+                switch($item->blog_post_type_id){
+                    case "43":
+                       $html_status.= $this->loadItemStatus2($id);
+                        break;
+                    case "44":
+                        $html_status.=$this->loadLikeLocation($id);
 
-        /*---- get html item status*/
-        foreach($listStatus_2 as $item){
-            $id= $item->post_id;
+                        break;
+                    case "41":
+                        $html_status.=$this->loadCheckIn($id);
+                        break;
+                    case "42":
 
-            switch($item->blog_post_type_id){
-                case "43":
-                   $html_status.= $this->loadItemStatus2($id);
-                    break;
-                case "44":
-                    $html_status.=$this->loadLikeLocation($id);
+                      $html_status.=$this->loadReviewLocation($id);
+                        break;
+                    default :
 
-                    break;
-                case "41":
-                    $html_status.=$this->loadCheckIn($id);
-                    break;
-                case "42":
-
-                  $html_status.=$this->loadReviewLocation($id);
-                    break;
-                default :
-
-                    break;
+                        break;
+                }
             }
 
-        }
+        //END luuhoabk - danh sach hoat dong cua blog
 
-        //luuhoa note
+        //luuhoabk - danh sach goi y ket ban
         $arrUserBlog = $user_blog->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get();
         $arrUserLogin = $user_auth->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get();
         $arrFiltered = $this->getSuggestlFriend($arrUserBlog, $arrUserLogin, $user_auth->id);
         $arrFriendSuggset = User::whereIn('id',$arrFiltered)->get();
-
         foreach($arrFriendSuggset as $key=>$val){
             $user_friend_suggest      = User::whereId($val['id'])->first();
             $arr_friend_suggest   = $user_friend_suggest->referFriend()->get(['id']);
@@ -215,7 +216,7 @@ class BlogUserController extends BaseController {
         }
 
        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-       return View::make('site.user.blog.index',compact('user','listStatusPost','html_status','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
+       return View::make('site.user.blog.index',compact('user','html_status','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
     public function getStatus($user_id, $friend_id){

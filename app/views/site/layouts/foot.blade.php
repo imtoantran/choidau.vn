@@ -135,7 +135,7 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-
+//    luuhoabk - confirm friend
     function uploadFriendsConfirm(){
         var tag_parent = $('.wrapper-confirm-friends');
         $.ajax({
@@ -231,6 +231,9 @@
     	uploadFriendsConfirm();
         setInterval(function(){ uploadFriendsConfirm(); }, 30000);
     @endif
+// end luuhoabk - confirm friend
+
+
 </script>
 
 <!-- END CORE JS SCRIPT -->

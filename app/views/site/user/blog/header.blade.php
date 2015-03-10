@@ -73,25 +73,26 @@
                 @endif
             </header >
             <nav class="person-header-nav">
-                <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
-                    <li role="presentation">
-                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false">Hoạt động</a>
+                <ul class="nav nav-tabs nav-justified blog-navigation" role="tablist">
+                    {{--action--}}
+                    <li role="presentation" class="active">
+                        <a href="#blog-tab-action" id="btn-tag-blog-action" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Hoạt động</a>
                     </li>
+
+                    {{--photo--}}
                     <li role="presentation" class="">
-                        <a href="#tag-blog-photo-content" id="btn-tag-blog-photo" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Ảnh</a>
+                        <a href="#blog-tab-photo" id="btn-tag-blog-photo" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Ảnh</a>
                     </li>
+
                     {{--location--}}
                     <li role="presentation" class="">
-                        <a href="#blog-tab-location" aria-controls="messages" id="btn-tag-blog-location-like" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm</a>
+                        <a href="#blog-tab-location" aria-controls="messages" id="btn-tag-blog-location" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm</a>
                     </li>
                     {{--End location--}}
-                    <li role="presentation" class="">
-                        <a href="#tag-blog-checkin-content" aria-controls="tag-blog-checkin-content" id="btn-tag-blog-checkin" role="tab" data-toggle="tab" aria-expanded="true">Checkin</a>
-                    </li>
                     <li role="presentation">
-                        <a href="#tag-blog-friend-content" id="btn-tag-blog-friend" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
+                        <a href="#blog-tab-friend" id="btn-tag-blog-friend" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
                     </li>
-                    <li role="presentation"  class="active">
+                    <li role="presentation"  class="">
                         <a href="#blog-tab-setting" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
                     </li>
                 </ul>
