@@ -270,7 +270,44 @@ class PostController extends BaseController {
 
     }
 
-
-
+	/* imtoantran social action start */
+	public function social($post){
+		if(Auth::guest())
+			return ["success"=>false,"message"=>"Need login"];
+		$user = Auth::user();
+		$params = Input::all();
+		if(!in_array($params['action'],['like','spam'])){
+			return ["success"=>false];
+		}
+		$meta = $post->meta()->whereMetaKey($params['action'])->whereMetaValue($user->id);
+		if($meta->count()){
+			if($meta->delete()){
+				return json_encode(["success"=>true,"value"=>false,"totalLikes"=>$post->totalLikes()]);
+			}
+		}else{
+			$meta = new PostMeta($params['action'],$user->id);
+			$post->meta()->save($meta);
+			return json_encode(["success"=>true,"value"=>true,"totalLikes"=>$post->totalLikes()]);
+		}
+		return json_encode(["success"=>false]);
+	}
+	/* imtoantran social action stop */
+	/* imtoantran save comment start */
+	public function postComments($post){
+		if(Auth::guest()){
+			return;
+		}
+		$user = Auth::user();
+		$comment = new Comment();
+		$comment -> user_id = $user->id;
+		$post->comments()->save($comment);
+	}
+	/* imtoantran save comment stop */
+	/* imtoantran load comment start */
+	public function getComments($post){
+		$comments = $post->comments()->get();
+		return View::make("",compact("comments"));
+	}
+	/* imtoantran load comment stop */
 
 }

@@ -219,3 +219,19 @@
 .page-header{
 	margin: 10px 0px;
 }
+.social-btn .liked{
+	display: none;
+}
+.social-btn.true .liked{
+	display:inline;
+}
+.social-btn .un-liked{
+	display: inline;
+}
+.social-btn.true .un-liked {
+	display: none;
+
+}
+.social-btn.true .report-spam{
+	display: none;
+}

@@ -158,8 +158,6 @@
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
                     <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab"
                                                               data-toggle="tab" aria-expanded="true">Review</a></li>
-                    <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab"
-                                                        data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
                     <li role="presentation" class=""><a href="#tag-member-location-content" class="btn-member-location"
                                                         aria-controls="messages" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Thành viên</a></li>
@@ -175,126 +173,8 @@
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
                     <div role="tabpanel" class="tab-pane active" id="review">
-                        @foreach($reviews as $review)
-                            <div class="reviews row item-post-element-parent">
-
-                                <input type="hidden" i_p="{{$review->id}}" i_u="{{$review->user_id}}"
-                                       class="input-data-value-post"/>
-
-                                <div class="media">
-                                    <a href="#" class="pull-left">
-                                        <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt=""
-                                             class="media-object">
-                                    </a>
-
-                                    <div class="media-body">
-                                        <div class="media-heading">
-                                            <div class="col-sm-6">
-                                                <div class="row"><a
-                                                            href="#"><strong>@if(isset($review->author->fullname)) {{$review->author->fullname}} @else {{$review->author->username}} @endif </strong></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="pull-right">
-                                                    <ul class="list-unstyled list-inline ul-list-rating">
-                                                        @for($i=0;$i<5;$i++)
-                                                            @if($i<$review->getMetaKey("review_rating"))
-                                                                <li><i class="icon-star-filled"></i></li>
-                                                            @else
-                                                                <li><i class="icon-star-1"></i></li>
-                                                            @endif
-                                                        @endfor
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <div class="col-lg-6">
-                                                <div>Đã đánh giá địa điểm</div>
-                                                <div>
-                                                    <small><i>Vào
-                                                            lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <small class="pull-right">Số
-                                                    người {{ $review->getMetaKey("review_visitors")}} + | Chi
-                                                    phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay
-                                                    lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else
-                                                        không @endif</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="review-content">
-                                    <div>
-                                        <p class="title">{{$review->title}}</p>
-
-                                        <p class="content">
-                                            {{$review->content}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- hinh anh -->
-                                <div class="">
-                                    @if($review->recentImage())
-                                    @foreach($review->recentImage() as $img)
-                                        <div class="col-md-2 col-sm-4 gallery-item">
-                                            <a data-rel="fancybox-button" title="Project Name" href="{{$img->guid}}"
-                                               class="fancybox-button">
-                                                <img alt="" src="{{$img->thumbnail}}" class="img-responsive">
-
-                                                <div class="zoomix"><i class="fa fa-search"></i></div>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                    @endif
-                                </div>
-                                <!-- hinh anh -->
-                                <!-- thao luan,like,dislike,report -->
-                                <?php
-                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('31')->count()) {
-                                    $lab_like = 'Đã thích ';
-                                } else {
-                                    $lab_like = 'Thích ';
-                                }
-
-                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('32')->count()) {
-                                    $lab_dislike = 'Đã không thích ';
-                                } else {
-                                    $lab_dislike = 'không Thích ';
-                                }
-
-
-                                if ($review->userAction()->whereUser_id(Auth::check() && Auth::user()->id)->wherePost_user_type_id('37')->count()) {
-
-                                    $lab_spam = 'Đã báo cáo xấu';
-                                } else {
-                                    $lab_spam = 'Báo cáo xấu ';
-                                }
-                                ?>
-
-                                <div class="col-md-12 review-action padding-left-0">
-                                    <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
-                                    <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span
-                                                class="lab_text_like">{{$lab_like}}</span><span
-                                                class="lab_num_like">{{ $review->countLike()}}</span></a>
-                                    <a class="btn-post-dislike" type_action="32"><i class="icon-thumbs-down"></i><span
-                                                class="lab_text_dislike">{{$lab_dislike}}</span><span
-                                                class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                    <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span
-                                                class="lab_text_spam">{{$lab_spam}}</span></a>
-                                    <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
-                                </div>
-                                <!-- thao luan,like,dislike,report end-->
-
-                            </div>
-                        @endforeach
-                        <div class="paging">{{$reviews->links()}}</div>
-
+                        @include("site.location.review_item")
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
                     <div role="tabpanel" class="tab-pane" id="settings"></div>
                     <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
@@ -321,7 +201,6 @@
 
 
                     </div>
-
                     <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
 
 
@@ -501,20 +380,6 @@
 @stop
 
 @section("scripts")
-    <!-- imtoantran -->
-
-    <!-- imtoantran -->
-
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <!-- imtoantran -->
-
-    <!-- imtoantran -->
-    <!-- pop up -->
-    <!-- END LayerSlider -->
-
-
     <script>
         $(document).ready(function () {
                     /* imtoantran ajax load slider start */
@@ -624,31 +489,6 @@
                         return false;
                     });
                     /* viet review end */
-
-                    /*thời gian sự kiện location*/
-//                  $( ".datepicker-start" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-end" ).datepicker( "option", "minDate", selectedDate );
-//                    }
-//                });
-//                $( ".datepicker-end" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-start" ).datepicker( "option", "maxDate", selectedDate );
-//                    }
-//                });
-
 
                     $('#date-start-event-location').datetimepicker({
                         format: 'DD/MM/YYYY h:mm:ss'

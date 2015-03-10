@@ -253,6 +253,7 @@ class LocationController extends BaseController
                 /* bat session location end*/
                 $location_nearly = $this->getClosePosition($location);
                 $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
+                $reviews->setBaseUrl("/location/$location->id/reviews");
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
                 return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs"));
@@ -366,10 +367,11 @@ class LocationController extends BaseController
 
     }
 
-    public function loadReviews()
+    public function getReviews($location)
     {
-        $id = Input::get("id");
-        return json_encode(Location::find($id)->reviews());
+        $reviews = $location->reviews()->paginate(2);
+        $reviews->setBaseUrl("/location/$location->id/reviews");
+        return View::make("site.location.review_item",compact("reviews"));
     }
 
     public function getReview()
