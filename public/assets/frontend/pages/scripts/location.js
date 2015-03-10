@@ -59,97 +59,6 @@ var Location = function () {
 			}
 		},
 
-		deleteImgAlbum: function(){
-			var wrapperAlbum = $('.wrapper-img');
-			var location_id = $("body").data()
-			wrapperAlbum.find('button').each(function(){
-				var button = $(this);
-				var post_id = $(this).attr('data-img-album');
-				$(this).on('click', function(){
-					self.loading(button.find('i'),'icon-cancel-circled','show');
-					$.ajax({
-						url: URL+"/location/"+location_id+"/images",
-						type: 'delete',
-						data: {'images': [post_id]},
-						//dataType: 'json',
-						success: function(resAlbum){
-							wrapperAlbum.find('.item-img').each(function(){
-								if($(this).attr('data-img-id') == post_id){
-									$(this).remove();
-								}
-							})
-						},
-						complete: function(){
-							if($('.wrapper-img .item-img').length<=0){
-								$('.album-empty').fadeIn();
-							}
-							self.loading(button.find('i'),'icon-cancel-circled','hide');
-						}
-					});
-				});
-			});
-		},
-		insertAlbum: function(){
-			var urlImg=$('#url-edit-media').attr('data-img-url');
-			var urlPostId=$('#url-edit-media').attr('data-post-img-id');
-
-			var location_id=$('#input-data-value-location').attr('i_l');
-			var isExist = true;
-
-			if(urlImg == '' || urlImg == 'undefined'){
-				alert('Xin chọn hình.');
-				return false;
-			}
-			self.loading($('#btn-upgrade-imgs i'),'icon-file-image','show');
-			// kiem tra hinh da chon hay chua
-			$.ajax({
-				url: URL+"/dia-diem/load-album",
-				type: 'post',
-				data: {'location_id': location_id},
-				dataType: 'json',
-				success: function(resAlbum){
-					$.each(resAlbum, function(k,val){
-						if(val.id == urlPostId){
-							isExist = false;
-						}
-					});
-					if(!isExist){
-						alert('Hình này đã được chọn.');
-						self.loading($('#btn-upgrade-imgs i'),'icon-file-image','hide');
-						return false;
-					}else{
-						if($('.wrapper-img .item-img').length>0){
-							$('.album-empty').fadeOut();
-						}
-						// insert image in album
-						$.ajax({
-							url: URL+"/dia-diem/save-image-album",
-							type: 'post',
-							data: {'location_id': location_id, 'post_id': urlPostId},
-							dataType: 'json',
-							success: function(resSaveAlbum){
-								var wrapperAlbum = $('.wrapper-img');
-								var htmlTag  = $('<div/>',{class:'col-xs-3 item-img','data-img-id':urlPostId});
-								var html = '';
-									html += '<button type="button" data-img-album="'+urlPostId+'" class="no-padding location-img-btn-close-item" title="Xóa hình">';
-									html += '<i class="icon-cancel-circled"></i>';
-									html += '</button>';
-									html += '<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="'+urlImg+'" alt=""/>';
-									html += '</div>';
-								htmlTag.append(html);
-								wrapperAlbum.append(htmlTag);
-							},
-							complete: function(){
-								self.deleteImgAlbum();
-								self.loading($('#btn-upgrade-imgs i'),'icon-file-image','hide');
-							}
-						});
-					}
-				}
-			});
-		},
-        //-----END VIEW LOCATION----------------------------------------------------------------------------------------------
-
 		submitForm: function() {
 			var locationError = $('.alert-danger', location_create_frm);
 			var locationSuccess = $('.alert-success', location_create_frm);
@@ -239,7 +148,8 @@ var Location = function () {
 								alert('Thêm địa điểm thất bại, xin vui lòng kiểm tra kết nối và thử lại!');
 							}else{
 								//window.location = URL+'/dia-diem/luu-dia-diem-thanh-cong/'+resInsert.location_id;
-								self.loadSuccessInsert(resInsert.username, resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
+								//self.loadSuccessInsert(resInsert.username, resInsert.location_id, resInsert.location_name, resInsert.slug_province, resInsert.slug_location_name);
+								self.loadSuccessInsert(resInsert);
 							}
 						},
 						complete: function(){
@@ -249,10 +159,9 @@ var Location = function () {
 			});
 
 		},
-		//loadSuccessInsert: function(){
-		loadSuccessInsert: function(username,location_id,location_name, slug_province, slug_province_name){
-			var htmlBox = "";
 
+		loadSuccessInsert: function(resInsert){
+			var htmlBox = "";
 			htmlBox += '<div class="container-fluid"><div class="col-md-12">';
 				htmlBox += '<div class="portlet light bg-inverse">';
 					htmlBox += '<div class="portlet-title">';
@@ -263,10 +172,10 @@ var Location = function () {
 						htmlBox += '</div>';
 						htmlBox += '</div>';
 						htmlBox += '<div class="portlet-body ">';
-							htmlBox += '<p>Xin chào <label class="color-red">'+username+'</label>!</p>';
-							htmlBox += '<p>Bạn vừa thêm địa điểm <label class="label label-success label-sm bold">'+location_name+'</label> thành công</p>';
+							htmlBox += '<p>Xin chào <label class="color-red">'+resInsert.username+'</label>!</p>';
+							htmlBox += '<p>Bạn vừa thêm địa điểm <label class="label label-success label-sm bold">'+resInsert.location_name+'</label> thành công</p>';
 							htmlBox += '<div class="margin-top-20">';
-								htmlBox += '<a href="'+URL+'/'+slug_province+'/'+slug_province_name+'" class="btn btn-danger btn-sm">';
+								htmlBox += '<a href="'+resInsert.url+'" class="btn btn-danger btn-sm">';
 								htmlBox += '<i class="icon-eye color-white"></i> Đi đến địa điểm </a> ';
 								htmlBox += '<a href="'+URL+'/dia-diem/tao-dia-diem" class="btn btn btn-default btn-sm">';
 								htmlBox += '<i class="icon-plus" style="color: #444;"></i> Tạo địa điểm khác </a>';
@@ -282,57 +191,6 @@ var Location = function () {
 			$('.bootbox button.close').hide();
 			$('.modal-dialog').css({'width':'50%','margin-top':'100px'});
 			$('.modal-content').css('background-color','#f7f7f0');
-		},
-
-		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
-		loadAvatar: function(){
-			var urlImg=$('#url-edit-media').attr('data-img-url');
-			if(urlImg == '' || urlImg == 'undefined'){
-				alert('Xin chọn hình.');
-				return false;
-			}
-			$('#location-img-url').attr({'src':URL+'/'+urlImg,'data-url':urlImg}).removeClass('hidden').fadeIn();
-			$(this).removeClass('hidden').fadeIn('fast');
-
-			$('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
-			// bat su kien close cho nut bo chon avatar
-			$('#location-img-btn-close').click(function(){
-				$(this).addClass('hidden').fadeOut('fast');
-				$('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
-			});
-		},
-
-		// duoc goi tu layout url:" public/assets/frontend/layout/script/layout.js
-		loadAlbum: function(){
-			var urlImg=$('#url-edit-media').attr('data-img-url');
-			var urlPostId=$('#url-edit-media').attr('data-post-img-id');
-
-			var tag = $('.location-album-wrapper').find('button');
-			var isExist = true;
-			tag.each(function(){
-				var post_id= $(this).attr('data-post-id');
-				//var url_img= $(this).attr('data-img');
-				if(post_id == urlPostId){
-					alert('Hình này đã được chọn.');
-					isExist = false;
-				}
-			});
-			if(!isExist){ return false;}
-
-			if(urlImg == '' || urlImg == 'undefined'){
-				alert('Xin chọn hình.');
-				return false;
-			}
-			var strHTML = '';
-				strHTML +='<button data-post-id="'+urlPostId+'" data-img="'+urlImg+'" type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình"><i class="icon-cancel-circled"></i></button>';
-				strHTML +='<img class="img-responsive" src="'+URL+urlImg+'" alt=""/>';
-
-			var htmlTag  = $('<div/>',{class:'col-md-3'}).append(strHTML);
-				htmlTag.find('button').on('click',function(){
-					$(this).closest('.col-md-3').fadeOut('slow').remove();
-				});
-			var tagAlbum = $('.location-album-wrapper');
-				tagAlbum.append(htmlTag);
 		},
 
 		getAlbum: function(){

@@ -445,32 +445,32 @@ var Layout = function () {
 
                 switch (type_insert) {
                     case "location_load_avatar": //luuhoabk (location/location.js)
-                        Location.loadAvatar();
+                        //Location.loadAvatar();
                         break;
                     case "location_load_album": //luuhoabk (location/location.js)
-                        result = Location.loadAlbum();
+                        //result = Location.loadAlbum();
                         break;
 
                     case "location_insert_album": //luuhoabk (location/location.js)
-                        result = Location.insertAlbum();
+                        //result = Location.insertAlbum();
                         break;
-
-                    case "insert_one_img":
-                        $(".abc").html(img);
-
-                        break;
-
-                    case "insert_multi_img":
-                        $(".abc").append(img);
-                        break;
-
-                    case "insert_one_url":
-                        break;
-                    case "insert_one_url_location":
-
-                        //   Location::abc(url);
-                        //  $(".abc").html(url);
-                        break;
+                    //
+                    //case "insert_one_img":
+                    //    $(".abc").html(img);
+                    //
+                    //    break;
+                    //
+                    //case "insert_multi_img":
+                    //    $(".abc").append(img);
+                    //    break;
+                    //
+                    //case "insert_one_url":
+                    //    break;
+                    //case "insert_one_url_location":
+                    //
+                    //    //   Location::abc(url);
+                    //    //  $(".abc").html(url);
+                    //    break;
 
                     case "insert_one_img_anh_bia":
                         $(".person-header-bg").attr('style', 'background-image: url(' + url + ')');
@@ -488,7 +488,7 @@ var Layout = function () {
                         break;
                 }
             } else {
-                bootbox.alert('bạn chưa chọn hình ảnh !');
+                //bootbox.alert('bạn chưa chọn hình ảnh !');
                 result = false;
             }
             return result;
@@ -1306,7 +1306,7 @@ var Layout = function () {
             handleCalendar();
             handleMobiMenu();
             handleMobiSearch();
-            handleMediaBrowser();
+            //handleMediaBrowser();
             handleComponentLayout();
             handleBlog();
             handlePostAction();

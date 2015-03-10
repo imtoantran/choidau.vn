@@ -10,11 +10,11 @@
 					<div class="row wrapper-img">
 						@if($location->images()->count())
 							@foreach($location->images()->get() as $image)
-								<div class="col-xs-3 item-img"  data-image-id="{{$image->id}}">
-									<button type="button" data-image-id="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips" data-original-title="Xóa">
+								<div class="col-xs-2 item-img"  data-image-id="{{$image->id}}">
+									<button type="button" data-image-id="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips margin-none" data-original-title="Xóa">
 										<i class="icon-cancel-circled"></i>
 									</button>
-									<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="{{$image->thumbnail();}}" alt=""/>
+									<img style="width: 100%; " class="padding-3 img-border-grey" src="{{$image->thumbnail;}}" alt=""/>
 								</div>
 							@endforeach
 						@else

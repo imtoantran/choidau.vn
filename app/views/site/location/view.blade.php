@@ -562,10 +562,10 @@
                             $.each(images, function (i, image) {
                                 if (!albumWrapper.find("div[data-image-id='" + image.id + "']").length) {
                                     imageIDs.push(image.id);
-                                    var htmlTag = $('<div/>', {class: 'col-xs-3 item-img', 'data-image-id': image.id});
-                                    var btn = $('<button type="button" data-image-id="' + image.id + '" class="no-padding location-img-btn-close-item" title="Xóa hình">');
+                                    var htmlTag = $('<div/>', {class: 'col-xs-2 item-img', 'data-image-id': image.id});
+                                    var btn = $('<button type="button" data-image-id="' + image.id + '" class="no-padding margin-none location-img-btn-close-item" title="Xóa hình">');
                                     btn.html('<i class="icon-cancel-circled"></i>');
-                                    htmlTag.append(btn).append('<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="' + image.src + '" alt=""/>');
+                                    htmlTag.append(btn).append('<img style="width: 100%;" class="padding-3 img-border-grey" src="' + image.thumbnail + '" alt=""/>');
                                     albumWrapper.append(htmlTag);
                                     btn.on('click', function (e) {
                                         /*btn.loading(btn.find('i'), 'icon-cancel-circled', 'show');*/

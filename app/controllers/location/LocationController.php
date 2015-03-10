@@ -155,9 +155,8 @@ class LocationController extends BaseController
 
             $result['location_id'] = $location->id;
             $result['location_name'] = $location->name;
-            $result['username'] = $user->username;
-            $result['slug_province'] = Str::slug($province_name);
-            $result['slug_location_name'] = Str::slug($location->name);
+            $result['username'] = (empty($user->fullname) ? $user->username : $user->fullname);
+            $result['url'] = $location->url();
             $result['result'] = true;
 
         } else {

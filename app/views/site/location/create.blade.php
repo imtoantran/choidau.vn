@@ -150,20 +150,17 @@
                             <label class="col-sm-3 control-label"><strong>Ảnh đại diện</strong></label>
 
                             <div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
-                                <button type="button" id="location-img-btn-close"
-                                        class="no-padding hidden location-img-btn-close-item" title="Thôi chọn hình"><i
-                                            class="icon-cancel-circled"></i></button>
-                                <div style="position: relative;">
                                     <div class="add-picture vertically-centered" style="">
                                         <button id="btn-add-profile-picture" type="button"
-                                                class="form-control yellow btn btn-warning text-left"><i
-                                                    class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh
+                                                class="form-control yellow btn btn-warning text-left"><i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh
                                         </button>
                                     </div>
-                                    <img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png"
-                                         src="{{asset('assets/global/img/no-image.png')}}" width="166px" alt=""/>
-                                </div>
-
+                                    <div class="text-center">
+                                        <img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="100px" alt=""/>
+                                        <button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item tooltips" data-original-title="Bỏ chọn">
+                                                 <i class="icon-cancel-circled"></i>
+                                        </button>
+                                    </div>
                             </div>
                         </div>
 
@@ -601,18 +598,41 @@
 @stop
 @section("scripts")
     <script>
+        // luuhoabk - bat su kien upload anh dai dien cho dia diem
         $("#btn-add-profile-picture").mediaupload({
             url: "{{URL::to("media/upload")}}",
             token: "{{Session::token()}}",
             "multi-select":false,
             complete: function (images) {
+                $('#location-img-url').attr({'src':URL+'/'+images[0].thumbnail,'data-url':images[0].src}).removeClass('hidden').fadeIn();
+                $(this).removeClass('hidden').fadeIn('fast');
 
+                $('#location-img-btn-close').removeClass('hidden').fadeIn('fast');
+                // bat su kien close cho nut bo chon avatar
+                $('#location-img-btn-close').click(function(){
+                    $(this).addClass('hidden').fadeOut('fast');
+                    $('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
+                });;
             }
         });
+
+        // luuhoabk - bat su kien upload album anh cho dia diem
         $("#btn-add-image").mediaupload({
             url: "{{URL::to("media/upload")}}",
             token: "{{Session::token()}}",
             complete: function (images) {
+                $.each(images, function(key,val){
+                    var strHTML = '';
+                    strHTML +='<img class="img-responsive" src="'+URL+val.thumbnail+'" alt=""/>';
+                    strHTML +='<button data-post-id="'+val.id+'" data-img="'+val.src+'" type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình" style="margin-left:0px;"><i class="icon-cancel-circled"></i></button>';
+
+                    var htmlTag  = $('<div/>',{class:'col-md-3'}).append(strHTML);
+
+                    htmlTag.find('button').on('click',function(){
+                        $(this).closest('.col-md-3').fadeOut('slow').remove();
+                    });
+                    $('.location-album-wrapper').append(htmlTag);
+                });
 
             }
         });

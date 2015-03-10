@@ -24,16 +24,18 @@
 }
 .location-album-wrapper{margin:10px 0; padding: 0px !important;}
 .location-album-wrapper .col-md-3{padding: 0px 10px !important;}
-.location-album-wrapper img{width: 120px; height:80px; padding: 5px; border: 1px solid #d4d4d4; margin-top: 10px; background: #fff; box-shadow: 0 1px 1px #ccc;  -webkit-box-shadow: 0 1px 1px #ccc; -moz-box-shadow: 0 1px 1px #ccc;}
+.location-album-wrapper img{width: 100%; padding: 5px; border: 1px solid #d4d4d4; margin-top: 10px; background: #fff; box-shadow: 0 1px 1px #ccc;  -webkit-box-shadow: 0 1px 1px #ccc; -moz-box-shadow: 0 1px 1px #ccc;}
 .location-img-btn-close-item{
     position: absolute;
-    bottom: -3px;
-    right: 10px;
     z-index: 10;
+    margin-left: -23px;
+    bottom: 0;
 }
 img#location-img-url{
+    position: relative;
     padding: 5px;
     border: 1px solid #d4d4d4;
+    margin-top: 10px;
     margin-top: 10px;
     background: #fff;
     box-shadow: 0 1px 1px #ccc;
