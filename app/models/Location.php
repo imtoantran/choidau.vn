@@ -107,4 +107,10 @@ class Location extends Eloquent {
 	public function totalCheckIn(){
 		return $this->userAction()->whereAction_type("checkin")->count();
 	}
+
+	/* imtoantran event */
+	public function event(){
+		return $this->hasOne("EventLocation","parent_id");
+	}
+	/* imtoantran event */
 }

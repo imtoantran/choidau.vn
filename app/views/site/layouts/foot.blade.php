@@ -37,6 +37,7 @@
 
 <!-- START CORE PLUGINS -->
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/tinymce/tinymce.min.js")}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-datetimepicker/js/moment.js')}}" type="text/javascript" ></script>

@@ -13,7 +13,6 @@
     <!-- banner end -->
 @stop
 
-
 @section("topb")
 
     <div class="row">
@@ -163,8 +162,8 @@
                     <li role="presentation" class=""><a href="#tag-member-location-content" class="btn-member-location"
                                                         aria-controls="messages" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Thành viên</a></li>
-                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location"
-                                                        aria-controls="settings" role="tab" data-toggle="tab"
+                    <li role="presentation" class=""><a href="#event" class="btn-event-location"
+                                                        aria-controls="event" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Sự kiện</a></li>
                     <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location"
                                                         aria-controls="settings" role="tab" data-toggle="tab"
@@ -239,16 +238,16 @@
                                 <!-- hinh anh -->
                                 <div class="">
                                     @if($review->recentImage())
-                                    @foreach($review->recentImage() as $img)
-                                        <div class="col-md-2 col-sm-4 gallery-item">
-                                            <a data-rel="fancybox-button" title="Project Name" href="{{$img->guid}}"
-                                               class="fancybox-button">
-                                                <img alt="" src="{{$img->thumbnail}}" class="img-responsive">
+                                        @foreach($review->recentImage() as $img)
+                                            <div class="col-md-2 col-sm-4 gallery-item">
+                                                <a data-rel="fancybox-button" title="Project Name" href="{{$img->guid}}"
+                                                   class="fancybox-button">
+                                                    <img alt="" src="{{$img->thumbnail}}" class="img-responsive">
 
-                                                <div class="zoomix"><i class="fa fa-search"></i></div>
-                                            </a>
-                                        </div>
-                                    @endforeach
+                                                    <div class="zoomix"><i class="fa fa-search"></i></div>
+                                                </a>
+                                            </div>
+                                        @endforeach
                                     @endif
                                 </div>
                                 <!-- hinh anh -->
@@ -296,7 +295,48 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="settings"></div>
+                    <div role="tabpanel" class="tab-pane" id="event">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="event-editor-btn btn btn-xs btn-default">Sửa sự kiện
+                                </button>
+                            </div>
+                        </div>
+                        <style>
+                            .hidden{display:none !important;}
+                        </style>
+                        <div id="event-editor" class="hidden">
+                            <textarea name="event_content"></textarea>
+                            <button class="btn btn-xs btn-primary save">Lưu</button>
+                        </div>
+                        @if(Auth::check())
+                            @if(Auth::user() == $location->owner))
+                            @if($location->event->count())
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">Sửa sự kiện</button>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">Thêm sự kiện</button>
+                                    </div>
+                                </div>
+                            @endif
+                        <div id="event-editor">
+                                <textarea name="event_content"></textarea>
+                        </div>
+                            @endif
+                        @else
+
+                        @endif
+                        <div id="event-content">
+                            @if($location->event->count())
+                                {{$location->event->content}}
+                            @endif
+                        </div>
+                    </div>
                     <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
 
                         <section class="person-friends choidau-bg">
@@ -392,7 +432,6 @@
     </div>
 @stop
 
-
 @section("bottoma")
     <!-- dia diem lan can -->
     @if($location_nearly->count())
@@ -460,7 +499,6 @@
 
 @stop
 
-
 @section("styles")
     <!-- imtoantran  -->
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet"
@@ -469,7 +507,6 @@
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
     <!-- imtoantran -->
 @stop
-
 
 @section('js_plugin')
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
@@ -490,7 +527,6 @@
         }
     </script>
 @stop
-
 
 @section('js_page')
     <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
@@ -517,6 +553,33 @@
 
     <script>
         $(document).ready(function () {
+                    $(".event-editor-btn").on("click",function(){
+                        $("#event-editor").toggleClass("hidden");
+                    })
+                    /* imtoantran event editor start */
+                    tinymce.init({
+                        selector: "#event-editor textarea",
+                        menubar: false,
+                        theme: "modern",
+                        plugins: [
+                            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                            "save table contextmenu directionality emoticons template paste textcolor"
+                        ],
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+                        style_formats: [
+                            {title: 'Bold text', inline: 'b'},
+                            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+                            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                            {title: 'Example 1', inline: 'span', classes: 'example1'},
+                            {title: 'Example 2', inline: 'span', classes: 'example2'},
+                            {title: 'Table styles'},
+                            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+                        ]
+
+                    });
+
+                    /* imtoantran event editor stop */
                     /* imtoantran ajax load slider start */
                     var albumWrapper = $('.wrapper-img');
                     var load_slider = function () {
@@ -595,14 +658,17 @@
                         "multi-select": true,
                         complete: function (images) {
                             $.each(images, function (i, image) {
-                                if(!$(".review-image[data-id="+image.id+"]").length){console.log(image.id)
+                                if (!$(".review-image[data-id=" + image.id + "]").length) {
+                                    console.log(image.id)
                                     btnRemove = $('<i class="icon icon-cancel-circle"/>');
-                                    review_image = $("<div class='review-image' data-id="+image.id+"/>");
+                                    review_image = $("<div class='review-image' data-id=" + image.id + "/>");
                                     review_image.append(btnRemove);
-                                    review_image.append('<img style="width:100%" src="'+image.thumbnail+'"/>');
-                                    review_image.append('<input type="hidden" name="images[]" value="'+image.id+'"/>');
+                                    review_image.append('<img style="width:100%" src="' + image.thumbnail + '"/>');
+                                    review_image.append('<input type="hidden" name="images[]" value="' + image.id + '"/>');
                                     $(".review-image-container").append(review_image);
-                                    btnRemove.on("click",function(){$(this).parent().remove()})
+                                    btnRemove.on("click", function () {
+                                        $(this).parent().remove()
+                                    })
                                 }
                             });
                         }
