@@ -366,6 +366,11 @@ class LocationController extends BaseController
 
     }
 
+    /**
+     * imtoantran
+     * @param $location
+     * @return \Illuminate\View\View
+     */
     public function getReviews($location)
     {
         $reviews = $location->reviews()->paginate(2);

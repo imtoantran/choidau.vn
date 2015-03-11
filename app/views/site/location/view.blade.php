@@ -166,7 +166,7 @@
                     <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location"
                                                         aria-controls="settings" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Hình ảnh</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab"
+                    <li role="presentation" class=""><a href="#food" aria-controls="settings" role="tab"
                                                         data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
                 <!<!-- Tab panes -->
@@ -175,7 +175,7 @@
                         @include("site.location.review_item")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane active" id="event">
+                    <div role="tabpanel" class="tab-pane" id="event">
                         @if(Auth::check())
                             @if(Auth::user() == $location->owner)
                             <div>
@@ -216,31 +216,30 @@
 
 
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
-
-
-                        <section class="person-images choidau-bg">
-                            <header>
-                                <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
-                                <i class="icon-camera"
-                                   style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
-
-                                <div class="text-1em2">Album ảnh</div>
-                            </header>
-                            <nav>
-                                <ul class="mix-filter">
-                                    <li data-filter="all" class="filter">Tất cả</li>
-                                    <li data-filter="category_avatar active" class="filter">Ảnh đại diện</li>
-                                    <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
-                                </ul>
-                            </nav>
-                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo">
-
-
+                    <div role="tabpanel" class="tab-pane active" id="food">
+                        @if(Auth::check())
+                            <div class="text-right">
+                                <button class="btn btn-xs add"><i class="icon icon-plus"></i>Thêm món ăn</button>
                             </div>
-                        </section>
-
-
+                        @endif
+                        <div class="list-group">
+                        	<a href="#" class="list-group-item">
+                        		<p class="list-group-item-text">Content goes here</p>
+                        	</a>
+                        	<a href="#" class="list-group-item">
+                        		<p class="list-group-item-text">Content goes here</p>
+                        	</a>
+                        	<a href="#" class="list-group-item">
+                        		<p class="list-group-item-text">Content goes here</p>
+                        	</a>
+                        	<a href="#" class="list-group-item">
+                        		<p class="list-group-item-text">Content goes here</p>
+                        	</a>
+                        	<a href="#" class="list-group-item">
+                        		<p class="list-group-item-text">Content goes here</p>
+                        	</a>
+                        </div>
+                        @include("site.location.food")
                     </div>
 
                 </div>
