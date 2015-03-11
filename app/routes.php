@@ -121,7 +121,7 @@ Route::get("location/review/{id}",'LocationController@getReview');
 Route::post("location/{location}/review",'LocationController@postReview');
 Route::post("location/load-member",'LocationController@loadMember');
 Route::post("location/load-event",'LocationController@loadEvent');
-Route::post("location/event",'LocationController@postEvent');
+Route::post("location/event/{location}",'LocationController@postEvent');
 Route::post("location/food",'LocationController@postFood');
 Route::post("location/load-photo",'LocationController@loadPhoto');
 # location end

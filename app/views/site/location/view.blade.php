@@ -173,7 +173,7 @@
                 </ul>
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
-                    <div role="tabpanel" class="tab-pane active" id="review">
+                    <div role="tabpanel" class="tab-pane" id="review">
                         @foreach($reviews as $review)
                             <div class="reviews row item-post-element-parent">
 
@@ -295,19 +295,17 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="event">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="event-editor-btn btn btn-xs btn-default">Sửa sự kiện
-                                </button>
+                    <div role="tabpanel" class="tab-pane active" id="event">
+                        <div>
+                            <div class="text-right">
+                                <button class="btn btn-xs edit btn-primary">Sửa</button>
+                                <button class="btn btn-xs save btn-primary">Lưu</button>
                             </div>
-                        </div>
-                        <style>
-                            .hidden{display:none !important;}
-                        </style>
-                        <div id="event-editor" class="hidden">
-                            <textarea name="event_content"></textarea>
-                            <button class="btn btn-xs btn-primary save">Lưu</button>
+                            <div id="event-content">
+                                @if($location->event->count())
+                                    {{$location->event->content}}
+                                @endif
+                            </div>
                         </div>
                         @if(Auth::check())
                             @if(Auth::user() == $location->owner))
@@ -324,18 +322,10 @@
                                     </div>
                                 </div>
                             @endif
-                        <div id="event-editor">
-                                <textarea name="event_content"></textarea>
-                        </div>
                             @endif
                         @else
 
                         @endif
-                        <div id="event-content">
-                            @if($location->event->count())
-                                {{$location->event->content}}
-                            @endif
-                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
 
@@ -553,9 +543,20 @@
 
     <script>
         $(document).ready(function () {
-                    $(".event-editor-btn").on("click",function(){
-                        $("#event-editor").toggleClass("hidden");
-                    })
+                    $("#event .edit").on("click", function () {
+                        tinyMCE.execCommand('mceAddEditor', false, 'event-content');
+                    });
+                    $("#event .save").click(function(){
+                        content = $("#event-content").tinymce().getContent();
+                        $.ajax({
+                            url:"{{URL::to("location/events/$location->id")}}",
+                            type:"post",
+                            data:{content:content},
+                            complete:function(data){
+                                tinyMCE.execCommand('mceRemoveEditor', false, 'event-content');
+                            }
+                        });
+                    });
                     /* imtoantran event editor start */
                     tinymce.init({
                         selector: "#event-editor textarea",
@@ -564,19 +565,9 @@
                         plugins: [
                             "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                            "save table contextmenu directionality emoticons template paste textcolor"
+                            "table contextmenu directionality emoticons template paste textcolor",
                         ],
-                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
-                        style_formats: [
-                            {title: 'Bold text', inline: 'b'},
-                            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
-                            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
-                            {title: 'Example 1', inline: 'span', classes: 'example1'},
-                            {title: 'Example 2', inline: 'span', classes: 'example2'},
-                            {title: 'Table styles'},
-                            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-                        ]
-
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media | forecolor",
                     });
 
                     /* imtoantran event editor stop */
@@ -690,30 +681,6 @@
                         return false;
                     });
                     /* viet review end */
-
-                    /*thời gian sự kiện location*/
-//                  $( ".datepicker-start" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-end" ).datepicker( "option", "minDate", selectedDate );
-//                    }
-//                });
-//                $( ".datepicker-end" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-start" ).datepicker( "option", "maxDate", selectedDate );
-//                    }
-//                });
 
 
                     $('#date-start-event-location').datetimepicker({

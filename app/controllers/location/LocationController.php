@@ -532,32 +532,28 @@ class LocationController extends BaseController
 
 
     /**
+     * imtoantran
      * Đăng một sự kiện mới cho location
      */
 
-    public function postEvent()
+    public function postEvent($location)
     {
-
-        $data = Input::all();
-        $location = Location::find($data['location_id']);
-        $event = new EventLocation();
-        $event->title = $data['title_event'];
-        $event->content = $data['content_event'];
-        $event->user_id = Auth::user()->id;
-
-        $event->save();
-        $event->location()->save($location);
-        $postMeta = new PostMeta();
-        $postMeta->meta_key = 'time_date_start';
-        $postMeta->meta_value = $data['date_start_event'];
-        $event->meta()->save($postMeta);
-
-        $postMeta1 = new PostMeta();
-        $postMeta1->meta_key = 'time_date_end';
-        $postMeta1->meta_value = $data['date_end_event'];
-        $event->meta()->save($postMeta1);
-
-
+        if(Auth::guest()){
+            return json_encode(["success"=>false,"message"=>"Need login"]);
+        }
+        $event = $location->event;
+        if(!$event->count()){
+            $event = new EventLocation();
+            $event->parent_id = $location->id;
+        }
+        if(Input::has("content")){
+            $event->content = Input::get("content");
+            if($event->save()){
+                return json_encode(["success"=>true]);
+            };
+            return json_encode(["success"=>false]);
+        }
+        return json_encode(["success"=>false]);
     }
     /**-end-------     * Đăng một sự kiện mới cho location     */
 
