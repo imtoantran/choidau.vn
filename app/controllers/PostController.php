@@ -297,10 +297,14 @@ class PostController extends BaseController {
 		if(Auth::guest()){
 			return;
 		}
-		$user = Auth::user();
-		$comment = new Comment();
-		$comment -> user_id = $user->id;
-		$post->comments()->save($comment);
+		if(Input::has("content")){
+			$user = Auth::user();
+			$comment = new Comment();
+			$comment -> user_id = $user->id;
+			$comment -> parent_id = $post->id;
+			$comment -> content = Input::get("content");
+			$comment -> save();
+		}
 	}
 	/* imtoantran save comment stop */
 	/* imtoantran load comment start */
