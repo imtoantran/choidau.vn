@@ -71,24 +71,6 @@
                 </span>
         <!-- Arrow Navigator Skin End -->
 
-        <!-- Arrow Right -->
-        <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
-                    <button class="btn btn-xs text-primary btn-create-event-location" @if(Auth::check())
-                            data-toggle="modal"
-                            data-target="#popup-create-event" @endif type="button">Đăng Event <i
-                                class="icon-calendar"></i></button>
-                </span>
-        <!-- Arrow Navigator Skin End -->
-
-
-        <!-- Arrow Right -->
-        <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
-                    <button class="btn btn-xs text-primary btn-create-food-location" @if(Auth::check())
-                            data-toggle="modal"
-                            data-target="#popup-create-food" @endif type="button">Đăng Món ăn <i
-                                class="icon-calendar"></i></button>
-                </span>
-        <!-- Arrow Navigator Skin End -->
         @endif
                 <!-- Thumbnail Navigator Skin Begin -->
         <div u="thumbnavigator" class="jssort01"

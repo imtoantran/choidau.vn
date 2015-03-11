@@ -166,7 +166,9 @@ class Post extends Eloquent
 	 * @return string
      */
 	public function thumbnail(){
-		return $this->thumbnail;
+		if(File::exists(public_path().$this->thumbnail))
+			return $this->thumbnail;
+		return "/assets/global/img/no-image.png";
 	}
 
 	public function totalView(){
@@ -193,6 +195,10 @@ class Post extends Eloquent
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','32')->count();
     }
 
+	/**
+	 * @param $key
+	 * @return mixed
+     */
 	public function getMeta($key){
 		return $this->meta()->whereMetaKey($key);
 	}
@@ -206,4 +212,28 @@ class Post extends Eloquent
 			return Image::find($temp->first()->meta_value);
 		}
 	}
+
+	/* imtoantran check if user like this post start */
+	public function isLiked(){
+		if(Auth::guest()){
+			return false;
+		}
+		$user = Auth::user();
+		return($this->meta()->where(["meta_key"=>"like","meta_value"=>$user->id])->count());
+	}
+	/* imtoantran check if user like this post stop */
+	/* imtoantran check if user like this post start */
+	public function isReportedSpam(){
+		if(Auth::guest()){
+			return false;
+		}
+		$user = Auth::user();
+		return($this->meta()->where(["meta_key"=>"spam","meta_value"=>$user->id])->count());
+	}
+	/* imtoantran check if user like this post stop */
+	/* imtoantran get total like start */
+	public function totalLikes(){
+		return $this->meta()->where(["meta_key"=>"like"])->count();
+	}
+	/* imtoantran get total like stop */
 }

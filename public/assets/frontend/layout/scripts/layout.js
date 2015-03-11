@@ -1763,3 +1763,65 @@ $.fn.confirmFriend = function(userOptions){
     });
 };
 // END luuhoabk confirm friend
+/* imtoantran social action start */
+$.fn.social = function(options){
+    $(this).on("click",function(e){
+        e.preventDefault();
+        var _this = this;
+        url = $(this).attr("href");
+        if(options) {
+            if (options.controller) {
+                url = options.controller + "/" + $(this).data("id")+"/";
+            }
+        }
+        $.ajax({
+            url:url,
+            type:"post",
+            data:$(this).data(),
+            dataType:"json",
+            success:function(data){
+                if(data.success){
+                    if(data.value){
+                        $(_this).addClass("true");
+                    }else{
+                        $(_this).removeClass("true");
+                    }
+                    if($(_this).data("action")=="like"){
+                        if(data.totalLikes)
+                            $(_this).find(".total-liked").text(data.totalLikes);
+                    }
+                }
+            }
+        });
+        return false;
+    });
+};
+/* imtoantran social action stop */
+/* comment start */
+$.fn.comments = function(options) {
+    var _this = this;
+    var controller = $(this).attr("href");
+    if(options) {
+        if (options.controller) {
+            controller = options.controller + "/" + $(this).data("id");
+        }
+    }
+    $(this).on("keyup", function (e) {
+        if (e.which == 13) {
+            $.ajax({
+                type:"post",
+                url:controller,
+                data:{content:this.value},
+                success:function(data){
+                    this.value = "";
+                    if(data){
+                        if(data.success){
+
+                        }
+                    }
+                }
+            })
+        }
+    });
+};
+/* comment stop */

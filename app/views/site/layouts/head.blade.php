@@ -81,3 +81,4 @@
 {{-- imtoantran add style section from blade template start --}}
 @yield('styles')
 {{-- imtoantran add style section from blade template end --}}
+<script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
