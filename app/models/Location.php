@@ -14,7 +14,7 @@ class Location extends Eloquent {
 		return $this->hasMany('Review','parent_id');
 	}
 
-    public function author(){
+    public function owner(){
         return $this->belongsTo("User","user_id");
       //  return $user;
     }

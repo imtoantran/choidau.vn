@@ -296,36 +296,21 @@
                     <div role="tabpanel" class="tab-pane" id="profile">...</div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
                     <div role="tabpanel" class="tab-pane active" id="event">
-                        <div>
-                            <div class="text-right">
-                                <button class="btn btn-xs edit btn-primary">Sửa</button>
-                                <button class="btn btn-xs save btn-primary">Lưu</button>
-                            </div>
-                            <div id="event-content">
-                                @if($location->event->count())
-                                    {{$location->event->content}}
-                                @endif
-                            </div>
-                        </div>
                         @if(Auth::check())
-                            @if(Auth::user() == $location->owner))
-                            @if($location->event->count())
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default">Sửa sự kiện</button>
-                                    </div>
+                            @if(Auth::user() == $location->owner)
+                            <div>
+                                <div class="text-right">
+                                    <button class="btn btn-xs edit btn-primary">Sửa</button>
+                                    <button class="btn btn-xs save btn-primary">Lưu</button>
                                 </div>
-                            @else
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default">Thêm sự kiện</button>
-                                    </div>
-                                </div>
+                            </div>
                             @endif
-                            @endif
-                        @else
-
                         @endif
+                        <div id="event-content">
+                            @if($location->event)
+                                {{$location->event->content}}
+                            @endif
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
 
@@ -543,20 +528,6 @@
 
     <script>
         $(document).ready(function () {
-                    $("#event .edit").on("click", function () {
-                        tinyMCE.execCommand('mceAddEditor', false, 'event-content');
-                    });
-                    $("#event .save").click(function(){
-                        content = $("#event-content").tinymce().getContent();
-                        $.ajax({
-                            url:"{{URL::to("location/events/$location->id")}}",
-                            type:"post",
-                            data:{content:content},
-                            complete:function(data){
-                                tinyMCE.execCommand('mceRemoveEditor', false, 'event-content');
-                            }
-                        });
-                    });
                     /* imtoantran event editor start */
                     tinymce.init({
                         selector: "#event-editor textarea",
@@ -571,6 +542,22 @@
                     });
 
                     /* imtoantran event editor stop */
+                    $("#event .edit").on("click", function () {
+                        tinyMCE.execCommand('mceAddEditor', false, 'event-content');
+                    });
+                    $("#event .save").click(function(){
+                        if(tinyMCE.get("event-content")==null)
+                        return;
+                        content = tinyMCE.get("event-content").getContent();
+                        $.ajax({
+                            url:"{{URL::to("location/event/$location->id")}}",
+                            type:"post",
+                            data:{content:content},
+                            complete:function(data){
+                                tinyMCE.execCommand('mceRemoveEditor', false, 'event-content');
+                            }
+                        });
+                    });
                     /* imtoantran ajax load slider start */
                     var albumWrapper = $('.wrapper-img');
                     var load_slider = function () {

@@ -542,7 +542,7 @@ class LocationController extends BaseController
             return json_encode(["success"=>false,"message"=>"Need login"]);
         }
         $event = $location->event;
-        if(!$event->count()){
+        if(!$event){
             $event = new EventLocation();
             $event->parent_id = $location->id;
         }
