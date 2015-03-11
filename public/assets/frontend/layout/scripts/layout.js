@@ -857,7 +857,6 @@ var Layout = function () {
         $("#btn-tag-blog-friend").click(function () {
             var tagListFriend = $(".person-friends-list");
             var userBlog_id = $(".person-header-username").attr("id_u_blo");
-            tagListFriend.html('<span class="white" style="font-size: 1.3em;"><i class="icon-spin4 animate-spin white"></i> loading...</span>');
             $.ajax({
                 type: "POST",
                 url: URL + "/trang-ca-nhan/list-ban-be.html",
@@ -931,7 +930,7 @@ var Layout = function () {
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-hinh-anh.html",
                     data: {
-                        'userBlog_id': userBlog_id
+                        'id_user_blog': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {

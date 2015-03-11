@@ -165,6 +165,8 @@ Route::group(array('prefix' => 'dia-diem','before' => 'auth'), function(){
     Route::post('xoa-image-album', 'LocationController@deleteImageAlbum');
     Route::post('loc-dia-diem', 'LocationController@filterLocation');
     Route::get('loc-dia-diem', 'LocationController@filterLocation');
+    Route::post('loc-hinh-anh', 'LocationController@filterAlbums');
+    Route::get('loc-hinh-anh', 'LocationController@filterAlbums');
 
 //    Route::controller('/', 'LocationController'); // run contruct function
 });

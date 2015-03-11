@@ -50,8 +50,8 @@
             @endif
 
             <div  id="iM_user_slide" type_insert="insert_one_img_avatar" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 10px;  left: 40px;">
-                @if(Auth::check()&&Auth::user()->id==$blog_info['id'])
-                    <i class="icon-camera" style="font-size: 18px; padding:"></i>
+                @if(Auth::check() && Auth::user()->id == $blog_info['id'])
+                    <i class="icon-camera" style="font-size: 18px;"></i>
                     {{--<span style="color: #fff; font-size: 0.9em;">Cập nhật ảnh đại diện</span>--}}
                 @endif
             </div>
@@ -86,7 +86,7 @@
 
                     {{--location--}}
                     <li role="presentation" class="">
-                        <a href="#blog-tab-location" aria-controls="messages" id="btn-tag-blog-location" role="tab" data-toggle="tab" aria-expanded="false">Địa điểm</a>
+                        <a href="#blog-tab-location" id="btn-tag-blog-location"  aria-controls=""  role="tab" data-toggle="tab" aria-expanded="false">Địa điểm</a>
                     </li>
                     {{--End location--}}
                     <li role="presentation">

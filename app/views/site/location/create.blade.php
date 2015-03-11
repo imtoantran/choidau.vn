@@ -156,7 +156,7 @@
                                         </button>
                                     </div>
                                     <div class="text-center">
-                                        <img id="location-img-url" class="hidden" data-url="assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="100px" alt=""/>
+                                        <img id="location-img-url" class="hidden" data-url="/assets/global/img/no-image.png" src="{{asset('assets/global/img/no-image.png')}}" width="100px" alt=""/>
                                         <button type="button" id="location-img-btn-close" class="no-padding hidden location-img-btn-close-item tooltips" data-original-title="Bỏ chọn">
                                                  <i class="icon-cancel-circled"></i>
                                         </button>
@@ -611,7 +611,7 @@
                 // bat su kien close cho nut bo chon avatar
                 $('#location-img-btn-close').click(function(){
                     $(this).addClass('hidden').fadeOut('fast');
-                    $('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'assets/global/img/no-image.png'});
+                    $('#location-img-url').fadeOut('fast').attr({'src':URL+'/assets/global/img/no-image.png','data-url':'/assets/global/img/no-image.png'});
                 });;
             }
         });
@@ -625,7 +625,6 @@
                     var strHTML = '';
                     strHTML +='<img class="img-responsive" src="'+URL+val.thumbnail+'" alt=""/>';
                     strHTML +='<button data-post-id="'+val.id+'" data-img="'+val.src+'" type="button" class="no-padding location-img-btn-close-item" title="Thôi chọn hình" style="margin-left:0px;"><i class="icon-cancel-circled"></i></button>';
-
                     var htmlTag  = $('<div/>',{class:'col-md-3'}).append(strHTML);
 
                     htmlTag.find('button').on('click',function(){

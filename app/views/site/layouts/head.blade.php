@@ -34,6 +34,8 @@
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/global/plugins/rateit/rateit.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.css')}}">
 @if (isset($style_global))
 {{$style_global}}
 @endif

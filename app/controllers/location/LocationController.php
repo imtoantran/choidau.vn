@@ -170,7 +170,7 @@ class LocationController extends BaseController
     public function loadAlbum()
     {
         $location_id = Input::get('location_id');
-        return json_encode(Location::find($location_id)->album()->get());
+        return json_encode(Location::find($location_id)->images()->get());
     }
 
     public function saveImageAlbum()
@@ -464,30 +464,12 @@ class LocationController extends BaseController
     }
 
     /*------------end*/
-
-
-    /*---------load photo*/
-    public function loadPhoto1()
-    {
-        $html = '';
-        $data = Input::all();
-        $location_id = $data['location_id'];
-        $user = Auth::user();
-        $location = Location::find($location_id);
-        $listPhoto = $location->photos()->get();
-
-        foreach ($listPhoto as $photo) {
-            $html .= $this->loadEventItem($photo);
-        }
-        echo $html;
-    }
-
     public function  loadPhoto()
     {
 
         $data = Input::all();
         $location = Location::find($data['location_id']);
-        $list_photo = $location->photos()->get();
+        $list_photo = $location->images()->get();
         $html_photo = '';
 
         foreach ($list_photo as $item) {
@@ -591,14 +573,12 @@ class LocationController extends BaseController
         $arr_location = array();
         $arr_location['posted'] = $this->addUrl(Location::whereUser_id($data['userBlog_id'])->get());
 
-        $user = new User();
         $user_blog = User::whereId($data['userBlog_id'])->get()->first();
 
         $arr_location['checkin'] = $this->addUrl($user_blog->checkin()->get());
         $arr_location['like'] = $this->addUrl($user_blog->location_like()->get());
         echo json_encode($arr_location);
     }
-
     public function addUrl($arr){
         foreach($arr as $key=>$val){
             $location = Location::whereId($val['id'])->get()->first();
@@ -606,5 +586,16 @@ class LocationController extends BaseController
         }
         return $arr;
     }
+
+//    luuhoabk load album for location
+    public function filterAlbums(){
+        $data = Input::all();
+        $arr_location = Location::whereUser_id($data['id_user_blog'])->get();
+        foreach($arr_location as $key=>$val){
+            $arr_location[$key]['album'] = Location::find($val['id'])->images()->get();
+        }
+        echo json_encode($arr_location);
+    }
+//  END  luuhoabk load albm for location
 
 }

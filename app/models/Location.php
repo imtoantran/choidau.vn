@@ -47,9 +47,9 @@ class Location extends Eloquent {
 		}
 		return 0;
 	}
-	public function album(){
-		return $this->belongsToMany("Post")->whereLocationPostTypeId($this->getValuePostType('image'));
-	}
+//	public function album(){
+//		return $this->belongsToMany("Post")->whereLocationPostTypeId($this->getValuePostType('image'));
+//	}
 	public function food(){
 		return $this->belongsToMany("Food","location_food",'location_id','food_id');
 		// location_food: chi dinh lien ket khong theo thu tu a->z
@@ -96,14 +96,9 @@ class Location extends Eloquent {
         return $this->belongsToMany('EventLocation','location_post','location_id','post_id');
     }
 
-    public function photos(){
-        return $this->belongsToMany('Image','location_post','location_id','post_id');
-    }
     public function images(){
         return $this->belongsToMany('Image','location_post','location_id','post_id');
     }
-
-
 	public function totalCheckIn(){
 		return $this->userAction()->whereAction_type("checkin")->count();
 	}

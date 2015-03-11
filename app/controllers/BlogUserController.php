@@ -499,7 +499,6 @@ class BlogUserController extends BaseController {
     }
 
     public function  getListPhoto(){
-
         $data=Input::all();
         $user_blog=User::where('id','=',$data['id_user_blog'])->first();
         $list_photo=Post::where('user_id','=',$user_blog->id)->where('post_type','=','image')->get();
@@ -509,11 +508,7 @@ class BlogUserController extends BaseController {
             $url='';
 
             $url=$item->getMetaKey('url');
-           
-                $category='category_'.$item->getMetaKey('type_use');
-
-
-
+            $category='category_'.$item->getMetaKey('type_use');
             $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
 
             $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
@@ -762,7 +757,7 @@ class BlogUserController extends BaseController {
        $location=$post_check_in->location();
 
 
-        $album_location=$location->album()->get();
+        $album_location=$location->images()->get();
 
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
         $user_author=$post_check_in->author;
@@ -826,7 +821,7 @@ class BlogUserController extends BaseController {
         $post_check_in=Checkin::where('parent_id','=',$location->id)->where('user_id','=',$id_user)->first();
         if(isset($post_check_in)){
 
-        $album_location=$location->album()->get();
+        $album_location=$location->images()->get();
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
 
         $user_author=$post_check_in->author;
@@ -897,7 +892,7 @@ class BlogUserController extends BaseController {
 
         $post_like_location=Status::find($id_like_location);
         $location=Location::find($post_like_location->parent_id);
-        $album_location=$location->album()->get();
+        $album_location=$location->images()->get();
 
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
         $user_author=$post_like_location->author;

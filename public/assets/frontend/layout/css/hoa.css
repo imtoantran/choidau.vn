@@ -121,7 +121,7 @@ section.person-content .person-command .article-img-text div input{height: 32px;
 /*end person - friends*/
 
 /*person - location*/
-#choidau-person .person-location{padding: 5px;}
+#choidau-person .person-wrapper{padding: 5px;}
 #choidau-person .person-location-list{padding: 0;}
 #choidau-person .person-location-item{padding: 5px; background-color: #fff;}
 #choidau-person .person-location-item .media img{width: 200px; height: 120px;overflow: hidden;}
@@ -177,4 +177,34 @@ ul.blog-navigation>li a{border: 1px solid green;}
 ul.blog-navigation>li a:hover,ul.blog-navigation>li.active a{border: 1px solid green!important; background-color: green; color: #fff;}
 ul.blog-navigation>li a:hover i,ul.blog-navigation>li.active a i{color: #fff!important;}
 /* end blog location */
+
+/*luuhoabk - blog-photo*/
+#blog-tab-photo ul.blog-tabs {margin-bottom: 5px;}
+ul.blog-tabs {text-transform: inherit!important;}
+ul.blog-tabs > li a{color: #fff;}
+ul.blog-tabs > li > a .badge{color: #444!important; background-color: #fff;!important;}
+ul.blog-tabs >li.active a, ul.blog-tabs >li>:hover{background-color: #3ec753!important; color: #fff;}
+#photo-tab-location .badge-name{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	font-size: 0.9em;
+	width: 100%;
+	padding: 10px;
+	background-color: rgba(0,0,0,0.5);
+	font-weight: 600;
+	color: rgb(255,255,255);
+}
+#photo-tab-location .badge-num-image{
+	position: absolute;
+	right: 0;
+	padding: 2px 6px;
+	background-color: #b4b4b4;
+	font-weight: 600;
+	text-shadow: 0px 0px 16px #000;
+	color: #fff;
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #eee;
+}
+/*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/
