@@ -865,7 +865,6 @@ var Layout = function () {
                     'userBlog_id': userBlog_id
                 },
                 success: function (respon) {
-                    console.log(respon);
                     if(respon.length>0){
                         $("span.person-friends-list-total").html(respon.length);
                         var html = '';

@@ -203,7 +203,6 @@ Route::group(array('prefix' => 'trang-ca-nhan', 'before' => 'auth'), function ()
     Route::any('/load-item-status-{id_status_slug}', 'BlogUserController@loadItemStatus2');
     Route::any('/load-item-comment-{id_comment_post_slug}', 'BlogUserController@loadComment');
     Route::any('/load-item-statusz-{id_status_slug}', 'BlogUserController@ala');
-    // Route::get('/ban-be.html','BlogUserController@getListFriend');
     Route::post('/list-ban-be.html', 'BlogUserController@getListFriend');
     Route::post('/list-hinh-anh.html', 'BlogUserController@getListPhoto');
     Route::post('/list-check-in.html', 'BlogUserController@getListCheckIn');

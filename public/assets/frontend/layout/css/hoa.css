@@ -78,7 +78,7 @@ section.person-content .person-content-item .person-type-scopy ul.dropdown-menu 
     padding: 5px;
 }
 section.person-content .person-content-item .person-type-scopy ul.dropdown-menu li:hover{
-    background: aqua;
+    background-color: #4f4f4f; color: #fff;
 }
 
 section.person-content .article-img-text>img{width: 70px; height: 70px;}
@@ -98,7 +98,7 @@ section.person-content .content-article-wrapper article{text-align: justify;}
 
 section.person-content ul.person-content-slide {margin: 5px 0 0 0;}
 section.person-content ul.person-content-slide li{display: inline-block; padding-right: 4px; margin: 5px 0px;}
-section.person-content ul.person-content-slide li img{width: 81px; height: 80px; padding: 2px; border: 1px solid #d5d5d5;}
+section.person-content ul.person-content-slide li img{  width: 88px; height: 80px; padding: 2px; border: 1px solid #d5d5d5;}
 section.person-content ul.person-content-slide li:last-child{padding-right: 0px;}
 section.person-content ul.person-content-slide li:last-child button{background-color: #e5e5e5; width:80px; height: 80px; font-size: 0.8em}
 

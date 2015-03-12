@@ -5,54 +5,77 @@
         <div class="person-body">
             <div class="row margin-none">
                 <div class="col-md-9 col-none-padding person-body-content">
-
-                    <div class="tab-content">
+                    <div class="tab-content col-none-padding">
                         <div role="tabpanel" class="tab-pane active" id="blog-tab-action">
                             <section class="person-content choidau-bg">
                                 {{--post statetus--}}
-                                <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
-                                    <div class="action-comment">
-                                        <header class="action-comment-subject text-weight600">Cập nhật trạng thái
-                                        </header>
-                                        <div class="action-comment-input">
-                                            <textarea name="content-status" id="content-status"
-                                                      placeholder="bạn đang nghỉ gì ?" rows="3"
-                                                      style="width: 100%;padding: 0; border: none;">
-                                            </textarea>
-                                        </div>
-                                        <div class="text-right action-comment-submit">
-                                            <div class="btn-group person-type-scopy margin-none">
-                                                <button type="button" id="privacy-status" value_id="18"
-                                                        class="btn btn-default btn-xs">Công khai
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon-down-dir"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    @foreach($listStatusPost as $item)
-                                                        <li value_id="{{$item['id']}}">{{$item['description']}}</li>
-                                                    @endforeach
-                                                </ul>
+                                    @if($user_auth->id == $user_blog->id)
+                                        <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
+                                        <div class="action-comment">
+                                            <header class="action-comment-subject text-weight600">Cập nhật trạng thái
+                                            </header>
+                                            <div class="action-comment-input">
+                                                <textarea name="content-status" id="content-status"
+                                                          placeholder="bạn đang nghỉ gì ?" rows="3"
+                                                          style="width: 100%;padding: 0; border: none;">
+                                                </textarea>
                                             </div>
-                                            <button class="btn choidau-bg-font btn-xs btn-add-status ">Đăng</button>
+                                            <div class="text-right action-comment-submit">
+                                                <div class="btn-group person-type-scopy margin-none">
+                                                    <button type="button" id="privacy-status" value_id="18"
+                                                            class="btn btn-default btn-xs">Công khai
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="icon-down-dir"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        @foreach($listStatusPost as $item)
+                                                            <li value_id="{{$item['id']}}">{{$item['description']}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <button class="btn choidau-bg-font btn-xs btn-post-status">Đăng</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    @endif
                                 <div class="my-tab-content" style="background-color: #fff;">
                                     <?php $object_action = json_decode($actions); ?>
                                     @foreach($object_action as $key=>$val)
-                                        @if($val->post_type == 'status')
-                                        @else
+                                        {{--chuan bi du lieu --}}
+                                        <?php
+                                            $note = '';
+                                            $description = '';
+                                            switch($val->post_type){
+                                                case 'checkin':
+                                                    $note = 'Đã check in địa điểm này.';
+                                                    $description = $val->location->description;
+                                                    break;
+                                                case 'like'   :
+                                                    $note = 'Đã thích địa điểm này.';
+                                                    $description = $val->location->description;
+                                                    break;
+                                                case 'review' :
+                                                    $note = 'Đã nhận xét địa điểm này.';
+                                                    $description =  $val->content;
+                                                    break;
+                                                default :
+                                                    $note = 'Đã cập nhật trạng thái.';
+                                                    $description = $val->content;
+                                                    break;
+                                            }
+                                            $date_updated   = new DateTime($val->updated_at);
+                                            $date_updated      = date_format($date_updated,'H:i d/m/Y');
+                                        ?>
 
-                                        @endif
-                                            <div class="row person-content-item">
+                                        <div class="row person-content-item">
                                                 <div class="col-md-12 col-none-padding">
                                                     <div class="col-md-9 article-img-text col-none-padding">
-                                                        <img class="avatar-pad2" src="./img-data-demo/avatar-2.JPG" alt="">
+                                                        <img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">
                                                         <div class="person-content-info">
-                                                            <div><a>{{$val->user_id}}</a><span> - Newbie</span></div>
-                                                            <span>đã check địa điểm này</span><br>
-                                                            <span>01/01/2014 - 05:15</span>
+                                                            <div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$val->level}}</span></div>
+                                                            <span>{{$note}}</span><br>
+                                                            <span>{{$date_updated}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-none-padding text-right">
@@ -70,21 +93,54 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12 col-none-padding person-content-article">
-                                                    <div class="row margin-none">
-                                                        <section class="article-img-text clearfix content-article-wrapper">
-                                                            <div class="text-algin-img">
-                                                                <article>
-                                                                    Trong thời tiết lạnh giá của mùa đông thế này, ngồi quay quần bên
-                                                                    chiếc bếp than hồng hay nồi lẩu bốc khói nghi ngút, hẳn là một lựa
-                                                                    chọn tuyệt vời cho các teen nhà mình phải không? Vì thế hôm nay
-                                                                    chúng tớ giới thiệu cho các bạn một địa chỉ mà chúng tớ mới khám phá
-                                                                    ra, đó là ...
-                                                                </article>
+
+                                                    @if($val->post_type == 'status')
+                                                        @if(!is_null($description) && !empty($description) && $description!="")
+                                                            <div class="col-md-12 col-none-padding person-content-article">
+                                                                <div class="row margin-none">
+                                                                    <section class="article-img-text clearfix content-article-wrapper">
+                                                                        <div class="text-algin-img">
+                                                                            <article>
+                                                                                {{$description;}}
+                                                                            </article>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
                                                             </div>
-                                                        </section>
-                                                    </div>
-                                                </div>
+                                                        @endif
+                                                    @else
+                                                        <div class="col-md-12 col-none-padding person-content-article">
+                                                            @if(!is_null($val->location))
+                                                                <div class="row margin-none">
+                                                                    <section class="article-img-text clearfix content-article-wrapper">
+                                                                        <img class="avatar-pad2" src="{{URL::to('/').$val->location->avatar}}" alt="">
+                                                                        <div class="text-algin-img">
+                                                                            <header>
+                                                                                <a href="{{$val->location->url}}"><h2>{{$val->location->name}}</h2></a>
+                                                                            </header>
+                                                                            <article>
+                                                                                {{$description}}
+                                                                            </article>
+                                                                            <a href="{{$val->location->url}}"><i>{{$val->location->url}}</i></a>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+                                                                <!-- slide img -->
+                                                                <div class="row margin-none">
+                                                                    @if(count($val->location->album) >0)
+                                                                        <ul class="list-unstyled person-content-slide">
+                                                                            @foreach($val->location->album as $key=>$image)
+                                                                                @if($key<=6)
+                                                                                    <li><img src="{{URL::to('/').$image->thumbnail}}" alt=""></li>
+                                                                                @endif
+                                                                            @endforeach
+                                                                           <li class="text-right"> <a href="{{$val->location->url}}"><button class="btn btn-default">xem thêm</button></a></li>
+                                                                        </ul>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 <!-- comment - like - share -->
                                                 <div class="row margin-none">
                                                     <div class="person-text-assoc">
@@ -98,22 +154,18 @@
                                                 <div class="row margin-none person-command">
                                                     <div class="col-md-12 col-none-padding">
                                                         <a href=""><i class="icon-thumbs-up-alt"></i></a>
-                                                        <span>12</span> người thích điều này
+                                                        <span>{{$val->total_like}}</span> người thích điều này
                                                     </div>
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
-                                                            <img class="col-md-1 col-ms-1 avatar-pad2"
-                                                                 src="./img-data-demo/avatar-1.JPG" alt="">
-                                                            <input class="col-md-11 col-ms-11 col-xs-11" type="text"
-                                                                   placeholder="Viết bình luận...">
+                                                            <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
+                                                            <input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                     @endforeach
-
                                 </div>
-
                                 <div class="row action-view-more margin-none text-center text-1em2 choidau-font">
                                     Xem thêm hoạt động
                                 </div>
@@ -543,14 +595,20 @@
             });
             // END luuhoabk - load album inblog
 
-           var Album = function(){
-               return {
-                   show: function(object){
-                       var html = '';
-                        $('body').add(html);
-                   }
-               }
-           }
+            // luuhoabk - post status
+            $('.btn-post-status').on('click',function(){
+                
+            });
+            // END luuhoabk - post status
+
+//           var Album = function(){
+//               return {
+//                   show: function(object){
+//                       var html = '';
+//                        $('body').add(html);
+//                   }
+//               }
+//           }
         });
     </script>
 @stop

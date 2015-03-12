@@ -93,19 +93,8 @@ class BlogUserController extends BaseController {
         );
 
         // luuhoabk - danh sach hoat dong cua blog
-        $actions = $this->LoadBlogAction($user_blog->id);
-        foreach($actions as $key=>$val_action){
-            if($val_action['post_type'] != 'status'){
-                $location = Location::whereId($val_action['parent_id'])->get()->first();
-                $location['album'] = Location::find($location['id'])->images()->get();;
-                $actions[$key]['location'] = $location;
-            }else{
-                $actions[$key]['taotal_like'] = Post::find($val_action['id'])->totallikes();
-            }
-//
-            $actions[$key]['username'] = empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;
-            $actions[$key]['level'] = $user_blog->level_id;
-        }
+        $actions = $this->LoadBlogAction($user_blog,5);
+
         //END luuhoabk - danh sach hoat dong cua blog
 
         //luuhoabk - danh sach goi y ket ban
@@ -122,7 +111,7 @@ class BlogUserController extends BaseController {
         }
 
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        return View::make('site.user.blog.index',compact('user','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
+        return View::make('site.user.blog.index',compact('user_auth','user_blog','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
 
@@ -401,6 +390,142 @@ class BlogUserController extends BaseController {
         echo json_encode($list_friend);
     }
 
+//    /** luuhoabk - chon danh sach ban  **/
+//    public function getFriend($friend, $user_id, $friend_id){
+//        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->get()->first();
+//    }
+
+    /** luuhoabk - them ban  **/
+    public function addFriend($friend, $user_id, $friend_id, $state){
+        $friend->user_id    = $user_id;
+        $friend->friend_id  = $friend_id;
+        $friend->status_id  = $state;
+        $friend->created_at = date_format(date_create("now"),"Y-m-d H:i:s");
+        return $friend->save();
+    }
+
+    /** luuhoabk - xoa ban be  **/
+    public function deleteFriend($friend, $user_id, $friend_id){
+        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->delete();
+    }
+
+    /** luuhoabk - cap nhat ban be  **/
+    public function updateFriend($friend, $user_id, $friend_id, $state){
+        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->update(['status_id' => $state]);
+    }
+    /** luuhoabk - action ket ban **/
+    public function  postFriend(){
+        $this->user = Auth::user();
+        $data=Input::all();
+        if(Request::ajax())
+        {
+            $friend             = new Friend();
+            switch($data['type_edit']){
+                case "request_add_friend":
+                    echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '35');
+                    break;
+
+                case "request_confirm_friend":
+                    $this->updateFriend($friend, $data['friend_id'], $this->user->id, '34');
+//                    $num_friend = $this->getFriend($friend, $this->user->id, $data['friend_id']);
+                    $num_friend = $this->user->referFriend()->get();
+                    if(count($num_friend)>0){
+                        echo $this->updateFriend($friend, $this->user->id, $data['friend_id'], '34');
+                    }else{
+                        echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '34');
+                    }
+                    break;
+
+                case "request_delete_confirm_friend":
+                    echo $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
+                    break;
+
+                case "request_delete_friend":
+                         $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
+                         $this->deleteFriend($friend, $data['friend_id'], $this->user->id);
+                         echo 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    /** luuhoabk - danh sach ban **/
+    public function filterFriends($listFriend){
+        $list_id_friend_my=array();
+        $list_id_friend_my2=array();
+            foreach($listFriend as $item){
+                if($item->friend_id == $this->user->id){
+                    $list_id_friend_my[]=$item->user_id;
+                }else{
+                    $list_id_friend_my[]=$item->friend_id;
+                }
+                if($item->user_id==$this->user->id){
+                  //  $list_id_friend_my[]=$item->friend_id;
+                }else{
+                   $list_id_friend_my[]=$item->user_id;
+                }
+            }
+            foreach($list_id_friend_my as $item){
+                if(!in_array($item,$list_id_friend_my2) && $item!=$this->user->id){
+                    $list_id_friend_my2[]=$item;
+                }
+            }
+        return $list_id_friend_my2;
+    }
+
+    /** luuhoabk - danh sach ban chung **/
+    public function filterMutualFriend($user_1,$user_2){
+        $list_friend_user_1 = $user_1->friends()->get();
+        $list_id_friend_user_1 = $this->filterFriends($list_friend_user_1);
+        $list_friend_user_2=$user_2->friends()->get();
+        $list_id_friend_user_2=$this->filterFriends($list_friend_user_2);
+        $list_id_friend_mutual=array();
+        $list_item_friend_mutual=array();
+        foreach($list_id_friend_user_1 as $item){
+            if(in_array($item,$list_id_friend_user_2)){
+                $user_tam=User::where('id','=',$item)->first();
+                $list_id_friend_mutual[]=$user_tam->id;
+                $list_item_friend_mutual[]=$user_tam;
+            }
+        }
+        $kq['list_id_friend_mutual']=$list_id_friend_mutual;
+        $kq['list_item_friend_mutual']=$list_item_friend_mutual;
+        return $kq;
+    }
+
+    /** luuhoabk - lay danh sach cac hoat dongcua blog **/
+    public function LoadBlogAction($user_blog,$offset){
+        $arr_action = Post::orderBy('updated_at','desc')->whereUser_id($user_blog->id)->whereIn('post_type',array('status','like','checkin','review','location'))->take($offset)->skip(0)->get();
+        foreach($arr_action as $key=>$val_action){
+            if($val_action['post_type'] != 'status'){
+                $location = Location::whereId($val_action['parent_id'])->get()->first();
+                if(is_null($location) || empty($location)){
+                    $location['album'] = null;
+                    $location['url'] = null;
+                    $arr_action[$key]['location'] = null;
+                    $arr_action[$key]['total_like'] = 0;
+                }else{
+                    $location['album'] = Location::find($location['id'])->images()->get();;
+                    $location['url'] = Location::find($location['id'])->url();
+                    $arr_action[$key]['location'] = $location;
+                    $arr_action[$key]['total_like'] = Location::find($location['id'])->totallike();
+                }
+            }else{
+                $arr_action[$key]['total_like'] = Post::find($val_action['id'])->totallikes();
+            }//
+            $arr_action[$key]['username'] = empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;
+            $arr_action[$key]['level'] = Option::find($user_blog->level_id)->description;
+        }
+        return $arr_action;
+    }
+}
+
+
+
+
 //    public function  getListPhoto(){
 //        $data=Input::all();
 //        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
@@ -442,83 +567,6 @@ class BlogUserController extends BaseController {
 //
 //    }
 
-    /**-- get list check in loation end----*/
-
-
-
-//    /** get list location  yêu thích*/
-//
-//    public function  getListLocationLike(){
-//
-//        $data=Input::all();
-//        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
-//        $list_location=$user_blog->location_like()->get();
-//        $html_location='';
-//        foreach($list_location as $item){
-//
-//            $html_location.=$this->loadLocationLike_2($item->id,$user_blog->id);
-//        }
-//        $arrReturn['html']=$html_location;
-//        echo  json_encode($arrReturn);
-//
-//    }
-
-    /** end---get list location like yêu thích*/
-    public function deleteFriend($friend, $user_id, $friend_id){
-        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->delete();
-    }
-    public function updateFriend($friend, $user_id, $friend_id, $state){
-        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->update(['status_id' => $state]);
-    }
-    public function getFriend($friend, $user_id, $friend_id){
-        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->get()->first();
-    }
-    public function addFriend($friend, $user_id, $friend_id, $state){
-        $friend->user_id    = $user_id;
-        $friend->friend_id  = $friend_id;
-        $friend->status_id  = $state;
-        $friend->created_at = date_format(date_create("now"),"Y-m-d H:i:s");
-        return $friend->save();
-    }
-
-    /** luuhoabk action ket ban */
-    public function  postFriend(){
-        $this->user = Auth::user();
-        $data=Input::all();
-        if(Request::ajax())
-        {
-            $friend             = new Friend();
-            switch($data['type_edit']){
-                case "request_add_friend":
-                    echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '35');
-                    break;
-
-                case "request_confirm_friend":
-                    $this->updateFriend($friend, $data['friend_id'], $this->user->id, '34');
-                    $num_friend = $this->getFriend($friend, $this->user->id, $data['friend_id']);
-                    if(count($num_friend)>0){
-                        echo $this->updateFriend($friend, $this->user->id, $data['friend_id'], '34');
-                    }else{
-                        echo $this->addFriend($friend, $this->user->id, $data['friend_id'], '34');
-                    }
-                    break;
-
-                case "request_delete_confirm_friend":
-                    echo $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
-                    break;
-
-                case "request_delete_friend":
-                         $this->deleteFriend($friend, $this->user->id, $data['friend_id']);
-                         $this->deleteFriend($friend, $data['friend_id'], $this->user->id);
-                         echo 1;
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-    }
 
 //    public  function loadItemStatus2($id_status_slug){
 //        $post= Post::find($id_status_slug);
@@ -585,9 +633,9 @@ class BlogUserController extends BaseController {
 //        }
 //        return View::make('site.partials.itemComment',compact('listCommentPost_ok'));
 //    }
-    /*
-     *load bai review người dùng trả về html của một bài review
-     * ***/
+/*
+ *load bai review người dùng trả về html của một bài review
+ * ***/
 //    public function loadReviewLocation($id){
 //
 //        $post= Review::find($id);
@@ -641,10 +689,10 @@ class BlogUserController extends BaseController {
 //        return View::make('site.user.blog.item_status_review',compact('userAuthor','userAuth','listStatusPost','postIn','review'));
 //    }
 
-    /**
-     * Load checin của người dùng từng trả vè html của bài checkin
-     *
-    */
+/**
+ * Load checin của người dùng từng trả vè html của bài checkin
+ *
+ */
 //    public function loadCheckIn($id_check_in){
 //
 //
@@ -708,7 +756,7 @@ class BlogUserController extends BaseController {
 //        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
 //
 //    }
-    /*load item check in location by id location id user*/
+/*load item check in location by id location id user*/
 //    public function loadCheckInByLocation($id_check_in,$id_user){
 //
 //        $location=Location::find($id_check_in);
@@ -772,15 +820,15 @@ class BlogUserController extends BaseController {
 //        }
 //    }
 
-    /* load item end*/
+/* load item end*/
 
 
 
 
-    /**
-     * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
-     *
-     */
+/**
+ * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
+ *
+ */
 //    public function loadLikeLocation($id_like_location){
 //
 //
@@ -843,13 +891,13 @@ class BlogUserController extends BaseController {
 //    }
 
 
-    /**---------end Load checin   */
+/**---------end Load checin   */
 
 
-    /**
-     * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
-     *
-     */
+/**
+ * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
+ *
+ */
 //    public function loadLocationLike_2($id_like_location,$id){
 //
 //
@@ -863,99 +911,4 @@ class BlogUserController extends BaseController {
 //    }
 
 
-    /**---------end Load checin   */
-
-
-
-    public function filterFriends($listFriend){
-        $list_id_friend_my=array();
-        $list_id_friend_my2=array();
-            foreach($listFriend as $item){
-                if($item->friend_id==$this->user->id){
-                    $list_id_friend_my[]=$item->user_id;
-                }else{
-                    $list_id_friend_my[]=$item->friend_id;
-                }
-                if($item->user_id==$this->user->id){
-                  //  $list_id_friend_my[]=$item->friend_id;
-                }else{
-                   $list_id_friend_my[]=$item->user_id;
-                }
-            }
-            foreach($list_id_friend_my as $item){
-                if(!in_array($item,$list_id_friend_my2) && $item!=$this->user->id){
-                    $list_id_friend_my2[]=$item;
-                }
-            }
-
-        return $list_id_friend_my2;
-        }
-
-    public function filterFriends_byBlog($listFriend,$id){
-        $list_id_friend_my=array();
-        $list_id_friend_my2=array();
-
-        foreach($listFriend as $item){
-            if($item->friend_id == $this->blogUser->id){
-                $list_id_friend_my[]=$item->user_id;
-            }else{
-                $list_id_friend_my[]=$item->friend_id;
-            }
-
-            if($item->user_id==$this->blogUser->id){
-                //  $list_id_friend_my[]=$item->friend_id;
-            }else{
-                $list_id_friend_my[]=$item->user_id;
-            }
-        }
-
-        foreach($list_id_friend_my as $item){
-            if((!in_array($item,$list_id_friend_my2) )){
-
-                if($item!=$id){
-                    $list_id_friend_my2[]=$item;
-                }
-            }
-        }
-
-        return $list_id_friend_my2;
-    }
-
-    public function filterMutualFriend($user_1,$user_2){
-
-            $list_friend_user_1=$user_1->friends()->get();
-            $list_id_friend_user_1=$this->filterFriends($list_friend_user_1);
-            $list_friend_user_2=$user_2->friends()->get();
-            $list_id_friend_user_2=$this->filterFriends($list_friend_user_2);
-            $list_id_friend_mutual=array();
-            $list_item_friend_mutual=array();
-            foreach($list_id_friend_user_1 as $item){
-                if(in_array($item,$list_id_friend_user_2)){
-                    $user_tam=User::where('id','=',$item)->first();
-                    $list_id_friend_mutual[]=$user_tam->id;
-                    $list_item_friend_mutual[]=$user_tam;
-                }
-            }
-            $kq['list_id_friend_mutual']=$list_id_friend_mutual;
-            $kq['list_item_friend_mutual']=$list_item_friend_mutual;
-
-            return $kq;
-
-        }
-
-
-
-    public function LoadBlogAction($user_id){
-        $arr_action = Post::orderBy('updated_at','desc')->whereUser_id($user_id)->whereIn('post_type',array('status','like','checkin','review','location'))->get();
-        return $arr_action;
-    }
-}
-//    public function ala($id_status_slug){
-//        echo $id_status_slug;
-//        $post_like=Post::where('id','=',131);
-//
-//     //   $post= Post::where('id','=',$id_status_slug)->get()->first();
-//            echo '<pre>';
-//          print_r($post_like);
-//        echo '</pre>';
-//    }
+/**---------end Load checin   */
