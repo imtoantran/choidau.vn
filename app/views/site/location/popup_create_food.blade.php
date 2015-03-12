@@ -42,7 +42,9 @@
                     </div>
                     <div class="form-group clearfix"><label for="location-food-typ" class="col-sm-2 control-label"><strong>Loại món:</strong></label>
                         <div class="col-sm-10">
-                            <select name="location-food-typ" id="slc-location-food-type" class="form-control" value="" required="required" title=""><option value="2">Thức ăn</option><option value="25">Nước uống</option></select>
+                            <select name="location-food-typ" id="slc-location-food-type" class="form-control" value="" required="required" title="">
+                                <option value="2">Thức ăn</option>
+                                <option value="25">Nước uống</option></select>
                         </div>
                     </div>
                     <div class="form-group clearfix">

@@ -51,9 +51,16 @@ class Location extends Eloquent {
 //		return $this->belongsToMany("Post")->whereLocationPostTypeId($this->getValuePostType('image'));
 //	}
 	public function food(){
-		return $this->belongsToMany("Food","location_food",'location_id','food_id');
+		return $this->belongsToMany("Food","location_food",'location_id','food_id')->withPivot("food_name");
 		// location_food: chi dinh lien ket khong theo thu tu a->z
 	}
+
+	/* imtoantran load location's food start */
+	public function foods(){
+		return $this->hasMany("LocationFood");
+	}
+	/* imtoantran load location's food stop */
+
 	public function utility(){
 		return $this->belongsToMany("Utility");
 	}

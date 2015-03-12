@@ -166,7 +166,7 @@
                     <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location"
                                                         aria-controls="settings" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Hình ảnh</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab"
+                    <li role="presentation" class=""><a href="#food" aria-controls="settings" role="tab"
                                                         data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
                 <!<!-- Tab panes -->
@@ -175,15 +175,15 @@
                         @include("site.location.review_item")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane active" id="event">
+                    <div role="tabpanel" class="tab-pane" id="event">
                         @if(Auth::check())
                             @if(Auth::user() == $location->owner)
-                            <div>
-                                <div class="text-right">
-                                    <button class="btn btn-xs edit btn-primary">Sửa</button>
-                                    <button class="btn btn-xs save btn-primary">Lưu</button>
+                                <div>
+                                    <div class="text-right">
+                                        <button class="btn btn-xs edit btn-primary">Sửa</button>
+                                        <button class="btn btn-xs save btn-primary">Lưu</button>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         @endif
                         <div id="event-content">
@@ -216,31 +216,15 @@
 
 
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
-
-
-                        <section class="person-images choidau-bg">
-                            <header>
-                                <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
-                                <i class="icon-camera"
-                                   style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
-
-                                <div class="text-1em2">Album ảnh</div>
-                            </header>
-                            <nav>
-                                <ul class="mix-filter">
-                                    <li data-filter="all" class="filter">Tất cả</li>
-                                    <li data-filter="category_avatar active" class="filter">Ảnh đại diện</li>
-                                    <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
-                                </ul>
-                            </nav>
-                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo">
-
-
+                    <div role="tabpanel" class="tab-pane" id="food">
+                        @if(Auth::check())
+                            <div class="text-right">
+                                <button class="btn btn-xs add" data-action="add"><i class="icon icon-plus"></i>Thêm món
+                                    ăn
+                                </button>
                             </div>
-                        </section>
-
-
+                        @endif
+                        @include("site.location.food")
                     </div>
 
                 </div>
@@ -330,23 +314,15 @@
 @section("bottomb")
     <!-- bai viet noi bat -->
     @include("site.blog.featured")
-
     <!-- bai viet noi bat end -->
     @include('site.location.popup_create_event')
     @include('site.location.popup_create_food')
+    @include('site.location.food_item_modal')
 @stop
 
 @section('style_plugin')
     <link media="all" type="text/css" rel="stylesheet"
           href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
-    <link media="all" type="text/css" rel="stylesheet"
-          href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
-    <link media="all" type="text/css" rel="stylesheet"
-          href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
-    <link media="all" type="text/css" rel="stylesheet"
-          href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
-    <link media="all" type="text/css" rel="stylesheet"
-          href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
     <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
     <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
 
@@ -364,16 +340,10 @@
 
 @section('js_plugin')
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-
     <!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
-
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
     <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
-
-
     <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
-
-
     <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
     <script src="https://apis.google.com/js/platform.js" async defer>
         {
@@ -401,24 +371,24 @@
                         plugins: [
                             "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                            "table contextmenu directionality emoticons template paste textcolor",
+                            "table contextmenu directionality emoticons template paste textcolor"
                         ],
-                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media | forecolor",
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media | forecolor"
                     });
 
                     /* imtoantran event editor stop */
                     $("#event .edit").on("click", function () {
                         tinyMCE.execCommand('mceAddEditor', false, 'event-content');
                     });
-                    $("#event .save").click(function(){
-                        if(tinyMCE.get("event-content")==null)
-                        return;
+                    $("#event .save").click(function () {
+                        if (tinyMCE.get("event-content") == null)
+                            return;
                         content = tinyMCE.get("event-content").getContent();
                         $.ajax({
-                            url:"{{URL::to("location/event/$location->id")}}",
-                            type:"post",
-                            data:{content:content},
-                            complete:function(data){
+                            url: "{{URL::to("location/event/$location->id")}}",
+                            type: "post",
+                            data: {content: content},
+                            complete: function (data) {
                                 tinyMCE.execCommand('mceRemoveEditor', false, 'event-content');
                             }
                         });
@@ -533,6 +503,93 @@
                         return false;
                     });
                     /* viet review end */
+
+                    /* imtoantran food edit start */
+                    $("#food_form").on("submit", function (e) {
+                        data = $(this).serialize();
+                        $.ajax({
+                            url:$(this).attr("action"),
+                            type:"post",
+                            data:data,
+                            dataType:"json",
+                            success:function(data){
+                                if(data.success){
+                                    if(data.action=="add")
+                                        $("#food table tbody").append(data.content);
+                                }
+                                $("#food-item-modal").modal("hide");
+                            }
+                        })
+                        return false;
+                    });
+                    $("#food").on("click", ".btn", function (e) {
+                        e.preventDefault();
+                        var _this = this;
+                        console.log($(this).data());
+                        var action = $(this).data("action");
+                        var data = {action: action};
+                        $("#food_form input[name=name]").val($(this).data("name"));
+                        $("#food_form input[name=price]").val($(this).data("price"));
+                        $("#food_form select[name=type]").val($(this).data("type"));
+                        $("#food_form input[name=id]").val($(this).data("id"));
+                        switch(action){
+                            case "delete":
+                                $.ajax({
+                                    url:"{{URL::to("location/$location->id/food/remove/")}}",
+                                    type:"post",
+                                    data:{id:$(this).data("id")},
+                                    dataType:"json",
+                                    success:function(data){
+                                        if(data.success){
+                                            $(_this).closest("tr").remove();
+                                        }
+                                    }
+                                })
+                                break;
+                            case "add":
+                                $("#food-item-modal").modal();
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                    $("#food table").on("click","td[data-id]",function(e){
+                        if(!$(this).find("input").length) {
+                            var input = $("<input/>", {
+                                class: "form-control input-sm",
+                                type: "text",
+                                "data-id": $(this).data("id"),
+                                name: $(this).data("name"),
+                                value: $(this).text()
+                            });
+                            $(this).html(input);
+                            input.focus();
+                        }
+                    });
+                    $("#food table").on("change","td[data-id] input",function(e){
+                        e.stopPropagation();
+                        var data = {};
+                        var _this = this;
+                        $(this).block();
+                        data.content = $(this).val();
+                        data.field = $(this).attr("name");
+                        data.id = $(this).data("id");
+                        $.ajax({
+                            url:"{{URL::to("location/$location->id/food/edit")}}",
+                            data:data,
+                            type:"post",
+                            dataType:"json",
+                            success:function(response){
+                                $(_this).parent().text(data.content);
+                                $(this).unblock();
+                            }
+                        })
+                    })
+                    $("#food table").on("blur","td[data-id] input",function(e){
+                        e.stopPropagation();
+                        $(this).parent().text($(this).val());
+                    });
+                    /* imtoantran food edit stop */
 
                     $('#date-start-event-location').datetimepicker({
                         format: 'DD/MM/YYYY h:mm:ss'

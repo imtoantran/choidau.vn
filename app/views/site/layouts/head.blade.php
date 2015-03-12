@@ -44,8 +44,6 @@
 @show
 <!-- Global styles END -->
 
-
-
 <!-- Page level plugin styles START -->
 @if (isset($style_plugin))
 {{$style_plugin}}

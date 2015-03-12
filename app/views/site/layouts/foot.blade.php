@@ -47,8 +47,7 @@
 <script src="{{asset('assets/global/plugins/rateit/jquery.rateit.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootbox/bootbox.min.js')}}"></script>
-
-<script src="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/datatables/bootstrap-select.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-alerts/jquery.alerts.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>

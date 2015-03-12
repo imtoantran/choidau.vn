@@ -254,7 +254,10 @@ class LocationController extends BaseController
                 $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
                 $reviews->setBaseUrl("/location/$location->id/reviews");
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
-                $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
+                $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
+                if(!Cache::has("food_type")){
+                    Cache::forever("food_type",Option::where(["name"=>"food_type"])->get(["id","description"]),24*60);
+                }
                 return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs"));
             }
 
@@ -366,6 +369,11 @@ class LocationController extends BaseController
 
     }
 
+    /**
+     * imtoantran
+     * @param $location
+     * @return \Illuminate\View\View
+     */
     public function getReviews($location)
     {
         $reviews = $location->reviews()->paginate(2);
@@ -549,24 +557,78 @@ class LocationController extends BaseController
     /****/
     public function postFood()
     {
-
+        if(Auth::guest()){
+            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        }
         $data = Input::all();
-
-        $location = Location::find($data['location_id']);
-        $value = array(
-            'food_name' => $data['food_name'],
-            'description' => $data['food_description'],
-            'user_id' => Auth::user()->id,
-            'location_id' => $data['location_id'],
-            'type_id' => $data['food_type'],
-
-            'price' => $data['food_price']
-
-
-        );
-        $location->food()->attach($data['food_name_id'], $value);
+        $food = "";
+        if(Input::has("food_id")){
+            $food = LocationFood::find($data["food_id"]);
+        }else{
+            $food = new LocationFood();
+            $food->location_id = $data["location_id"];
+        }
+        $food->food_name = $data['food_name'];
+        $food->description = $data['food_description'];
+        $food->user_id = Auth::id();
+        $food->type_id = $data['food_type'];
+        $food->price = $data['food_price'];
+        $food->save();
+        //return View::make("site.location.foot_item",compact("food"));
     }
     /***      * Đăng món ăn trong thực đơn locaiton--end    */
+    /* imtoantran save food start */
+    public function addFood($location)
+    {
+        if(Auth::guest()){
+            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        }
+        $data = Input::all();
+        $key = $location->foods()->count();
+        $action = "edit";
+        $food = "";
+        if(Input::has("id")){
+            $food = LocationFood::find($data["id"]);
+        }else{
+            $food = new LocationFood();
+            $food->location_id = $location->id;
+            $action = "add";
+        }
+        $food->food_name = $data['name'];
+        //$food->description = $data['description'];
+        $food->user_id = Auth::id();
+        $food->type_id = $data['type'];
+        $food->price = $data['price'];
+        if($food->save())
+            return Response::json(["action"=>$action,"success"=>true,"content" => View::make("site.location.food_item",compact("location","food","key"))->render()]);
+        return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
+    }
+    public function editFood()
+    {
+        if(Auth::guest()){
+            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        }
+        $data = Input::all();
+        if(Input::has("id")){
+            if($food = LocationFood::find($data["id"]))
+                $food[$data['field']] = $data['content'];
+            if($food->save())
+                return Response::json(["action"=>"edit","success"=>true]);
+        }
+        return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
+    }
+    /* imtoantran save food stop */
+    /* imtoantran remove food start */
+    public function removeFood(){
+        if(Auth::guest())
+            return Response::json(["success"=>false,"message"=>"Need login"]);
+        $id = Input::get("id");
+        if($food = LocationFood::find($id))
+            if($food->delete())
+                return Response::json(["success"=>true]);
+        return Response::json(["success"=>false,"message"=>"Not deleted"]);
+    }
+    /* imtoantran remove food stop */
 
 
 
