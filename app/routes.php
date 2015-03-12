@@ -120,7 +120,8 @@ Route::group(array('prefix' => 'post'), function () {
 #location start
 /* imtoantran save food start */
 Route::post("location/{location}/food/remove",'LocationController@removeFood');
-Route::post("location/food/{location}",'LocationController@postFoods');
+Route::post("location/{location}/food/add",'LocationController@addFood');
+Route::post("location/{location}/food/edit",'LocationController@editFood');
 /* imtoantran save food stop */
 Route::post("location/like/", 'LocationController@like');
 Route::post("location/checkin/", 'LocationController@checkin');

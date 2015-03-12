@@ -216,7 +216,7 @@
 
 
                     </div>
-                    <div role="tabpanel" class="tab-pane active" id="food">
+                    <div role="tabpanel" class="tab-pane" id="food">
                         @if(Auth::check())
                             <div class="text-right">
                                 <button class="btn btn-xs add" data-action="add"><i class="icon icon-plus"></i>Thêm món
@@ -553,12 +553,42 @@
                                 break;
                         }
                     })
-                    $("#food table td[data-id]").on("click",function(e){
-                        $(this).html($("<input/>",{type:"text","data-id":$(this).data("id"),name:$(this).data("name"),value:$(this).text()}));
+                    $("#food table").on("click","td[data-id]",function(e){
+                        if(!$(this).find("input").length) {
+                            var input = $("<input/>", {
+                                class: "form-control input-sm",
+                                type: "text",
+                                "data-id": $(this).data("id"),
+                                name: $(this).data("name"),
+                                value: $(this).text()
+                            });
+                            $(this).html(input);
+                            input.focus();
+                        }
                     });
-                    $("#food table td[data-id] input").on("change",function(e){
-                        console.log($(this).data());
+                    $("#food table").on("change","td[data-id] input",function(e){
+                        e.stopPropagation();
+                        var data = {};
+                        var _this = this;
+                        $(this).block();
+                        data.content = $(this).val();
+                        data.field = $(this).attr("name");
+                        data.id = $(this).data("id");
+                        $.ajax({
+                            url:"{{URL::to("location/$location->id/food/edit")}}",
+                            data:data,
+                            type:"post",
+                            dataType:"json",
+                            success:function(response){
+                                $(_this).parent().text(data.content);
+                                $(this).unblock();
+                            }
+                        })
                     })
+                    $("#food table").on("blur","td[data-id] input",function(e){
+                        e.stopPropagation();
+                        $(this).parent().text($(this).val());
+                    });
                     /* imtoantran food edit stop */
 
                     $('#date-start-event-location').datetimepicker({

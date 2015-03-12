@@ -13,7 +13,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">Món ăn</h4>
 			</div>
-            <form action="{{URL::to("location/food/$location->id")}}" id="food_form" method="POST" class="form-horizontal" role="form">
+            <form action="{{URL::to("location/$location->id/food/add")}}" id="food_form" method="POST" class="form-horizontal" role="form">
 			<div class="modal-body">
                     <div class="form-group">
                     	<label for="name" class="col-sm-2 control-label">Tên:</label>

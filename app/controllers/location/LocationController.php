@@ -578,7 +578,7 @@ class LocationController extends BaseController
     }
     /***      * Đăng món ăn trong thực đơn locaiton--end    */
     /* imtoantran save food start */
-    public function postFoods($location)
+    public function addFood($location)
     {
         if(Auth::guest()){
             return json_encode(["success"=>fasle,"message"=>"Need login"]);
@@ -601,6 +601,20 @@ class LocationController extends BaseController
         $food->price = $data['price'];
         if($food->save())
             return Response::json(["action"=>$action,"success"=>true,"content" => View::make("site.location.food_item",compact("location","food","key"))->render()]);
+        return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
+    }
+    public function editFood()
+    {
+        if(Auth::guest()){
+            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        }
+        $data = Input::all();
+        if(Input::has("id")){
+            if($food = LocationFood::find($data["id"]))
+                $food[$data['field']] = $data['content'];
+            if($food->save())
+                return Response::json(["action"=>"edit","success"=>true]);
+        }
         return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
     }
     /* imtoantran save food stop */
