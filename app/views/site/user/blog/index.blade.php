@@ -7,7 +7,7 @@
                 <div class="col-md-9 col-none-padding person-body-content">
 
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane " id="blog-tab-action">
+                        <div role="tabpanel" class="tab-pane active" id="blog-tab-action">
                             <section class="person-content choidau-bg">
                                 {{--post statetus--}}
                                 <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
@@ -38,12 +38,81 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="feed-blog-post-top">
+                                <div class="my-tab-content" style="background-color: #fff;">
+                                    <?php $object_action = json_decode($actions); ?>
+                                    @foreach($object_action as $key=>$val)
+                                        @if($val->post_type == 'status')
+                                        @else
+
+                                        @endif
+                                            <div class="row person-content-item">
+                                                <div class="col-md-12 col-none-padding">
+                                                    <div class="col-md-9 article-img-text col-none-padding">
+                                                        <img class="avatar-pad2" src="./img-data-demo/avatar-2.JPG" alt="">
+                                                        <div class="person-content-info">
+                                                            <div><a>{{$val->user_id}}</a><span> - Newbie</span></div>
+                                                            <span>đã check địa điểm này</span><br>
+                                                            <span>01/01/2014 - 05:15</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-none-padding text-right">
+                                                        <div class="btn-group person-type-scopy">
+                                                            <button type="button" class="btn btn-default btn-xs">Công khai</button>
+                                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <i class="icon-down-dir"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>Công khai</li>
+                                                                <li>Bạn bè</li>
+                                                                <li>Nhóm</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-none-padding person-content-article">
+                                                    <div class="row margin-none">
+                                                        <section class="article-img-text clearfix content-article-wrapper">
+                                                            <div class="text-algin-img">
+                                                                <article>
+                                                                    Trong thời tiết lạnh giá của mùa đông thế này, ngồi quay quần bên
+                                                                    chiếc bếp than hồng hay nồi lẩu bốc khói nghi ngút, hẳn là một lựa
+                                                                    chọn tuyệt vời cho các teen nhà mình phải không? Vì thế hôm nay
+                                                                    chúng tớ giới thiệu cho các bạn một địa chỉ mà chúng tớ mới khám phá
+                                                                    ra, đó là ...
+                                                                </article>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                                <!-- comment - like - share -->
+                                                <div class="row margin-none">
+                                                    <div class="person-text-assoc">
+                                                        <a href="#">Thích</a>
+                                                        <a href="#">Bình luận</a>
+                                                        <a href="#">Chia sẻ</a>
+                                                    </div>
+                                                </div>
+
+                                                <!-- comment - like - share -->
+                                                <div class="row margin-none person-command">
+                                                    <div class="col-md-12 col-none-padding">
+                                                        <a href=""><i class="icon-thumbs-up-alt"></i></a>
+                                                        <span>12</span> người thích điều này
+                                                    </div>
+                                                    <div class="col-md-12 article-img-text col-none-padding">
+                                                        <div class="row margin-none">
+                                                            <img class="col-md-1 col-ms-1 avatar-pad2"
+                                                                 src="./img-data-demo/avatar-1.JPG" alt="">
+                                                            <input class="col-md-11 col-ms-11 col-xs-11" type="text"
+                                                                   placeholder="Viết bình luận...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    @endforeach
 
                                 </div>
-
-
-                                {{$html_status}}
 
                                 <div class="row action-view-more margin-none text-center text-1em2 choidau-font">
                                     Xem thêm hoạt động
@@ -53,7 +122,7 @@
                         </div>
 
                         {{--luuhoabk tab photo --}}
-                        <div role="tabpanel" class="tab-pane active" id="blog-tab-photo">
+                        <div role="tabpanel" class="tab-pane" id="blog-tab-photo">
                             <section class="person-photo person-wrapper choidau-bg">
                                 <header class="blog-setting-header padding-5 margin-bottom-5 white">
                                     <div class="wrapper-header">
@@ -91,8 +160,6 @@
                             </section>
                         </div>
                         {{--END luuhoabk tab photo --}}
-
-
 
                         {{--luuhoabk tab location --}}
                         <div role="tabpanel" class="tab-pane" id="blog-tab-location">
@@ -371,6 +438,8 @@
         });
         jQuery(document).ready(function () {
             // luuhoabk - load location in blog
+            //hieu ung hinh anh
+            Portfolio.init();
             $('#btn-tag-blog-location').on('click', function () {
                 var tag_location = $('#blog-tab-location');
                 tag_location.find('.blog-content').html('');

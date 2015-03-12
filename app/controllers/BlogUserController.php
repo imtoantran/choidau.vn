@@ -44,76 +44,8 @@ class BlogUserController extends BaseController {
 	public function getIndex($user_slug)
 	{
         $user_blog = User::where('username','=',"$user_slug")->first();
-//        $blogUser  = $user_blog->blog()->first();
-
-
-        try{
-
-            $user_auth = Auth::user();
-
-            $this->user = $user_auth;
-            $this->blogUser=$user_blog;
-
-            $html_friends = '';
-
-            $list_friend=$user_blog->friends()->get();
-            $list_sus_friend=array();
-
-            $list_friend_my=$this->filterFriends_byBlog($list_friend,$user_auth->id);
-
-            foreach($list_friend_my as $item){
-                $user_tam=User::whereId($item)->first();
-                $list_friend_friend=$user_tam->friends()->get();
-                $list_id_friend_friend = $this->filterFriends_byBlog($list_friend_friend,$user_auth->id);
-                $i=0;
-
-                foreach($list_id_friend_friend as $item1){
-                    if(!in_array($item1,$list_sus_friend)){
-                        $user_tam_1=User::whereId($item1)->first();
-                        $list_sus_friend[$i]['id']=$item1;
-                        $item_friend=$this->filterMutualFriend($this->user,$user_tam_1);
-                        $list_sus_friend[$i]['mutual']=count($item_friend['list_id_friend_mutual']);
-                        $i++;
-                    }
-                }
-            }
-
-            $list_sus_friend2=array();
-            $html_friends.='';
-
-            foreach($list_sus_friend as $item){
-                if(!in_array($item['id'], $list_friend_my) && !in_array($item['id'], $list_sus_friend2)){
-                    $list_sus_friend2[]=$item['id'];
-                    $user_friend = User::whereId($item['id'])->first();
-                    $html_friends.='<li class="lab-btn-item-blog-friend"><div class = "row margin-none"><div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">';
-                        $html_friends.='<a href="'.$user_friend->url().'">';
-                            $html_friends.='<img class="avatar-pad2" src="'.$user_friend->avatar.'" alt="">';
-                        $html_friends.='</a>';
-                            $html_friends.='<div class="aside-items-text">';
-                                $html_friends.='<a href="'.$user_friend->url().'">';
-                                    $html_friends.='<b>'.(($user_friend->fullname)?$user_friend->fullname:$user_friend->username).'</b>';
-                                $html_friends.='</a>';
-                                $html_friends.= '<p>'.$item['mutual'].' bạn chung</p></div>';
-                            $html_friends.='</div>';
-                        $html_friends.='<div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">';
-
-                    $html_friends.='<button i_u="'.$user_friend->id.'" data-url="'.$user_friend->url().'" class="btn btn-default btn-aside-add-friend"> <i class="icon-user-add"> </i> Kết bạn</button>';
-
-//                    $status_id = Friend::whereUser_id($user_auth->id)->whereFriend_id($user_friend->id)->first()['status_id'];
-//                    if($status_id == null){
-//                            $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-add-friend"> <i class="icon-user-add"> </i> Kết bạn</button>';
-//                    }elseif($status_id == 35){
-//                            $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-delete-friend"> <i class="icon-user-add"> </i> Đang đợi/Hủy</button>';
-//                    }else{
-//                        $html_friends.='<button i_u="'.$user_friend->id.'"  class="btn btn-default btn-aside-delete-friend"> <i class="icon-user-add"> </i> H</button>';
-//                    }
-
-                    $html_friends.='</div></div></li>';
-
-                }
-            }
-
-        }catch (Exception $e){}
+        $this->blogUser = $user_blog;
+        $user_auth = Auth::user();
 
         $style_plugin=$this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
@@ -121,14 +53,10 @@ class BlogUserController extends BaseController {
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css',
             'assets/global/plugins/jquery-file-upload/css/image-manager.min.css',
             'assets/frontend/pages/css/portfolio.css'
-
         ));
-        $style_page=$this->Style(array('assets/global/css/plugins.css'
-           ));
-
+        $style_page=$this->Style(array('assets/global/css/plugins.css'));
 
         $js_plugin=$this->JScript(array(
-
             'assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js',
             'assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js',
@@ -144,14 +72,8 @@ class BlogUserController extends BaseController {
             'assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js',
              'assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js'
         ));
-        $js_page=$this->JScript(array('assets/admin/pages/scripts/form-fileupload.js',
-                                      'assets/frontend/pages/scripts/portfolio.js'));
-        $js_script='
-                var id_blo='.$this->blogUser->id.';
-                FormFileUpload.init();
-                 Portfolio.init();
-        ';
 
+        $js_page=$this->JScript(array('assets/admin/pages/scripts/form-fileupload.js', 'assets/frontend/pages/scripts/portfolio.js'));
         $user_birthday      = new DateTime($user_blog->birthday);
         $user_birthday      = date_format($user_birthday,'d/m/Y');
 
@@ -164,42 +86,26 @@ class BlogUserController extends BaseController {
             'level'=> Option::find($user_blog->level_id)->description,
             'birthday'=>$user_birthday,
             'province'=>Province::getName($user_blog->province_id),
-            'friend_sus'=>$html_friends,
             'total_like'=>$user_blog->getTotalLikeLocation(),
             'id_auth'=>$user_auth->id,
             'state_user'=>$this->getStatus($user_auth->id, $user_blog->id),
             'state_friend'=>$this->getStatus($user_blog->id, $user_auth->id),
         );
-        // hoatest
+
         // luuhoabk - danh sach hoat dong cua blog
-             $listStatus_2 =Post::orderBy('updated_at','DESC')->whereUser_id($user_blog->id)->wherePost_type('status')->get();
-             $html_status='';
-//        var_dump($listStatus_2); exit;
-            /*---- get html item status*/
-            foreach($listStatus_2 as $item){
-                $id= $item->post_id;
-
-                switch($item->blog_post_type_id){
-                    case "43":
-                       $html_status.= $this->loadItemStatus2($id);
-                        break;
-                    case "44":
-                        $html_status.=$this->loadLikeLocation($id);
-
-                        break;
-                    case "41":
-                        $html_status.=$this->loadCheckIn($id);
-                        break;
-                    case "42":
-
-                      $html_status.=$this->loadReviewLocation($id);
-                        break;
-                    default :
-
-                        break;
-                }
+        $actions = $this->LoadBlogAction($user_blog->id);
+        foreach($actions as $key=>$val_action){
+            if($val_action['post_type'] != 'status'){
+                $location = Location::whereId($val_action['parent_id'])->get()->first();
+                $location['album'] = Location::find($location['id'])->images()->get();;
+                $actions[$key]['location'] = $location;
+            }else{
+                $actions[$key]['taotal_like'] = Post::find($val_action['id'])->totallikes();
             }
-
+//
+            $actions[$key]['username'] = empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;
+            $actions[$key]['level'] = $user_blog->level_id;
+        }
         //END luuhoabk - danh sach hoat dong cua blog
 
         //luuhoabk - danh sach goi y ket ban
@@ -208,21 +114,24 @@ class BlogUserController extends BaseController {
         $arrFiltered = $this->getSuggestlFriend($arrUserBlog, $arrUserLogin, $user_auth->id);
         $arrFriendSuggset = User::whereIn('id',$arrFiltered)->get();
         foreach($arrFriendSuggset as $key=>$val){
-            $user_friend_suggest      = User::whereId($val['id'])->first();
+            $user_friend_suggest  = User::whereId($val['id'])->first();
             $arr_friend_suggest   = $user_friend_suggest->referFriend()->get(['id']);
             $arrFriendSuggset[$key]['num_muatal'] = count($this->getCountMutualFriend($arr_friend_suggest, $arrUserLogin));
             $arrFriendSuggset[$key]['state_user'] = $this->getStatus($user_auth->id, $val['id']);
             $arrFriendSuggset[$key]['state_friend'] = $this->getStatus($val['id'], $user_auth->id);;
         }
 
-       $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-       return View::make('site.user.blog.index',compact('user','html_status','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
+        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+        return View::make('site.user.blog.index',compact('user','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
+
+    //luuhoabk lay duoc trang thai ban be
     public function getStatus($user_id, $friend_id){
         return Friend::whereUser_id($user_id)->whereFriend_id($friend_id)->get(['status_id'])->first();
     }
 
+    //luuhoabk lay duoc danh sach goi y ket ban
     public function getSuggestlFriend($arr1, $arr2, $user_log_id)
     {
         $arr1_tam[] = '';
@@ -234,7 +143,6 @@ class BlogUserController extends BaseController {
         foreach ($arr2 as $key => $val) {
             $arr2_tam[$key] = $val['id'];
         }
-
         foreach($arr1_tam as $key=>$val){
             if(!in_array($val, $arr2_tam) && $val != $user_log_id){
                 $arr3_tam[]= $val;
@@ -470,20 +378,16 @@ class BlogUserController extends BaseController {
     foreach($arr2 as $key=>$val){
         $arr2_tam[$key] = $val['id'];
     }
-
     return array_intersect($arr1_tam ,$arr2_tam);
 }
 
     public function  getListFriend(){
-
         $data           = Input::all();
         $user_blog      = User::whereId($data['userBlog_id'])->first();
         $list_friend    = $user_blog->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get(['id','username','avatar', 'fullname']);
         $arrTemp = $list_friend;
         $user = Auth::user();
-
         $arr_user_friend  = $user->referFriend()->get(['id']);
-
         foreach($arrTemp as $key=>$val){
             $user_blog_friend      = User::whereId($val['id'])->first();
             $arr_blog_friend  = $user_blog_friend->referFriend()->get(['id']);
@@ -493,79 +397,71 @@ class BlogUserController extends BaseController {
             //kiem tra user_login coquan he voi user friend_blog_item khong
             $list_friend[$key]['state_user'] = Friend::whereUser_id($user->id)->whereFriend_id($val['id'])->get(['status_id'])->first();
             $list_friend[$key]['state_friend'] = Friend::whereUser_id($val['id'])->whereFriend_id($user->id)->get(['status_id'])->first();
-
         }
         echo json_encode($list_friend);
     }
 
-    public function  getListPhoto(){
-        $data=Input::all();
-        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
-        $list_photo=Post::where('user_id','=',$user_blog->id)->where('post_type','=','image')->get();
-        $html_photo='';
-        foreach($list_photo as $item){
-            $category='';
-            $url='';
-
-            $url=$item->getMetaKey('url');
-            $category='category_'.$item->getMetaKey('type_use');
-            $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
-
-            $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
-            $html_photo.='<div class="mix-details choidau-bg-light-a9">';
-            $html_photo.='<h4 class="choidau-font-fff"></h4>';
-            $html_photo.='<p></p>';
-            $html_photo.='<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
-            $html_photo.='<a data-rel="fancybox-button" title="Project Name" href="'.$url.'" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
-            $html_photo.=' </div> </div></div>';
-
-            $a=4;
-        }
-        $arrReturn['html']=$html_photo;
-        echo  json_encode($arrReturn);
-
-    }
+//    public function  getListPhoto(){
+//        $data=Input::all();
+//        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
+//        $list_photo=Post::where('user_id','=',$user_blog->id)->where('post_type','=','image')->get();
+//        $html_photo='';
+//        foreach($list_photo as $item){
+//            $url=$item->getMetaKey('url');
+//            $category='category_'.$item->getMetaKey('type_use');
+//            $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
+//            $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
+//            $html_photo.='<div class="mix-details choidau-bg-light-a9">';
+//            $html_photo.='<h4 class="choidau-font-fff"></h4>';
+//            $html_photo.='<p></p>';
+//            $html_photo.='<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
+//            $html_photo.='<a data-rel="fancybox-button" title="Project Name" href="'.$url.'" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
+//            $html_photo.=' </div> </div></div>';
+//
+//        }
+//        $arrReturn['html']=$html_photo;
+//        echo  json_encode($arrReturn);
+//    }
 
 
-    /**
-     * get list check in location
-     *
-    */
-    public function  getListCheckIn(){
-
-        $data=Input::all();
-        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
-        $list_location=$user_blog->checkin()->get();
-        $html_checkin='';
-        foreach($list_location as $item){
-
-            $html_checkin.=$this->loadCheckInByLocation($item->id,$user_blog->id);
-        }
-        $arrReturn['html']=$html_checkin;
-        echo  json_encode($arrReturn);
-
-    }
+//    /**
+//     * get list check in location
+//     *
+//    */
+//    public function  getListCheckIn(){
+//        $data=Input::all();
+//        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
+//        $list_location=$user_blog->checkin()->get();
+//        $html_checkin='';
+//        foreach($list_location as $item){
+//
+//            $html_checkin.=$this->loadCheckInByLocation($item->id,$user_blog->id);
+//        }
+//        $arrReturn['html']=$html_checkin;
+//        echo  json_encode($arrReturn);
+//
+//    }
 
     /**-- get list check in loation end----*/
 
 
 
-    /** get list location  yêu thích*/
-
-    public function  getListLocationLike(){
-
-        $data=Input::all();
-        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
-        $list_location=$user_blog->location_like()->get();
-        $html_location='';
-        foreach($list_location as $item){
-
-            $html_location.=$this->loadLocationLike_2($item->id,$user_blog->id);
-        }
-        $arrReturn['html']=$html_location;
-        echo  json_encode($arrReturn);
-
-    }
+//    /** get list location  yêu thích*/
+//
+//    public function  getListLocationLike(){
+//
+//        $data=Input::all();
+//        $user_blog=User::where('id','=',$data['id_user_blog'])->first();
+//        $list_location=$user_blog->location_like()->get();
+//        $html_location='';
+//        foreach($list_location as $item){
+//
+//            $html_location.=$this->loadLocationLike_2($item->id,$user_blog->id);
+//        }
+//        $arrReturn['html']=$html_location;
+//        echo  json_encode($arrReturn);
+//
+//    }
 
     /** end---get list location like yêu thích*/
     public function deleteFriend($friend, $user_id, $friend_id){
@@ -624,259 +520,257 @@ class BlogUserController extends BaseController {
 
     }
 
+//    public  function loadItemStatus2($id_status_slug){
+//        $post= Post::find($id_status_slug);
+//        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+//        $user_author=$post->author;
+//        $userAuth=array();
+//        if(Auth::check()){
+//            $user_auth = Auth::user();
+//            $userAuth['id']=$user_auth->id;
+//
+//            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+//
+//            $userAuth['like_content']='Thích';
+//            $userAuth['avatar']=$user_auth->avatar;
+//            $userAuth['type_action_like']='type_action_like';
+//            if($isLike!=0){
+//                $userAuth['like_content']='Đã thích';
+//                $userAuth['type_action_like']='type_action_dislike';
+//            }
+//
+//        }
+//
+//        $userAuthor['username']=$user_author->username;
+//        $userAuthor['avatar']=$user_author->avatar;
+//        $userAuthor['level']=Option::find($user_author->level_id)->description;
+//        $userAuthor['id']=$user_author->id;
+//
+//        $postIn['id']=$post->id;
+//        $postIn['content']=$post->content;
+//        $postIn['privacy']=$post->privacy;
+//        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
+//        $postIn['privacy_description']=Option::find($post->privacy)->description;
+//        $postIn['privacy_id']=$post->privacy;
+//        $postIn['comment']=$this->loadComment($post->id);
+//        $postIn['number_comment']=$post->comments()->count();
+//        if($post->updated_at!='0000-00-00 00:00:00'){
+//           // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
+//            $postIn['post_date']=String::showTimeAgo($post->updated_at());
+//            $postIn['post_type_user']='Đã cập nhật trạng thái :';
+//        }else{
+//            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
+//            $postIn['post_date']=String::showTimeAgo($post->created_at());
+//            $postIn['post_type_user']='Đã đăng trạng thái  :';
+//        }
+//            return View::make('site.user.blog.item_status_blog',compact('userAuthor','userAuth','listStatusPost','postIn'));
+//    }
 
-    public  function loadItemStatus2($id_status_slug){
-        $post= Post::find($id_status_slug);
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        $user_author=$post->author;
-        $userAuth=array();
-        if(Auth::check()){
-            $user_auth = Auth::user();
-            $userAuth['id']=$user_auth->id;
-
-            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
-
-            $userAuth['like_content']='Thích';
-            $userAuth['avatar']=$user_auth->avatar;
-            $userAuth['type_action_like']='type_action_like';
-            if($isLike!=0){
-                $userAuth['like_content']='Đã thích';
-                $userAuth['type_action_like']='type_action_dislike';
-            }
-
-        }
-
-        $userAuthor['username']=$user_author->username;
-        $userAuthor['avatar']=$user_author->avatar;
-        $userAuthor['level']=Option::find($user_author->level_id)->description;
-        $userAuthor['id']=$user_author->id;
-
-        $postIn['id']=$post->id;
-        $postIn['content']=$post->content;
-        $postIn['privacy']=$post->privacy;
-        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
-        $postIn['privacy_description']=Option::find($post->privacy)->description;
-        $postIn['privacy_id']=$post->privacy;
-        $postIn['comment']=$this->loadComment($post->id);
-        $postIn['number_comment']=$post->comments()->count();
-        if($post->updated_at!='0000-00-00 00:00:00'){
-           // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
-            $postIn['post_date']=String::showTimeAgo($post->updated_at());
-            $postIn['post_type_user']='Đã cập nhật trạng thái :';
-        }else{
-            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
-            $postIn['post_date']=String::showTimeAgo($post->created_at());
-            $postIn['post_type_user']='Đã đăng trạng thái  :';
-        }
-            return View::make('site.user.blog.item_status_blog',compact('userAuthor','userAuth','listStatusPost','postIn'));
-    }
-
-
-    public function loadComment($id_comment_post_slug){
-      //  $listCommentPost=Post::where('parent_id','=',$id_comment_post_slug)->where('post_type','=','comment')->get();
-        $post=Post::find($id_comment_post_slug);
-        $listCommentPost=$post->comments()->get();
-        $listCommentPost_ok=array();
-        foreach($listCommentPost as $item){
-            $user_item=$item->author()->get()->first();
-            $item['avatar_user']=$user_item->avatar;
-            $item['username']=$user_item->username;
-            $date=new DateTime($item->created_at);
-            $item['updated_at_2']= String::showTimeAgo($item->created_at());//date_format($date,'H:i d-m-Y');
-            $item['id_comment']=$item->id;
-            $item['id_user']=$user_item->id;
-            $item['content']=$item->content;
-            $listCommentPost_ok []= $item;
-        }
-        return View::make('site.partials.itemComment',compact('listCommentPost_ok'));
-    }
+//
+//    public function loadComment($id_comment_post_slug){
+//      //  $listCommentPost=Post::where('parent_id','=',$id_comment_post_slug)->where('post_type','=','comment')->get();
+//        $post=Post::find($id_comment_post_slug);
+//        $listCommentPost=$post->comments()->get();
+//        $listCommentPost_ok=array();
+//        foreach($listCommentPost as $item){
+//            $user_item=$item->author()->get()->first();
+//            $item['avatar_user']=$user_item->avatar;
+//            $item['username']=$user_item->username;
+//            $date=new DateTime($item->created_at);
+//            $item['updated_at_2']= String::showTimeAgo($item->created_at());//date_format($date,'H:i d-m-Y');
+//            $item['id_comment']=$item->id;
+//            $item['id_user']=$user_item->id;
+//            $item['content']=$item->content;
+//            $listCommentPost_ok []= $item;
+//        }
+//        return View::make('site.partials.itemComment',compact('listCommentPost_ok'));
+//    }
     /*
      *load bai review người dùng trả về html của một bài review
      * ***/
-    public function loadReviewLocation($id){
-
-        $post= Review::find($id);
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        $user_author=$post->author;
-
-        $userAuth=array();
-        if(Auth::check()){
-            $user_auth = Auth::user();
-            $userAuth['id']=$user_auth->id;
-
-            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
-
-            $userAuth['like_content']='Thích';
-            $userAuth['avatar']=$user_auth->avatar;
-            $userAuth['type_action_like']='type_action_like';
-            if($isLike!=0){
-                $userAuth['like_content']='Đã thích';
-                $userAuth['type_action_like']='type_action_dislike';
-            }
-
-        }
-
-
-
-        $userAuthor['username']=$user_author->username;
-        $userAuthor['avatar']=$user_author->avatar;
-        $userAuthor['level']=Option::find($user_author->level_id)->description;
-        $userAuthor['id']=$user_author->id;
-
-        $postIn['id']=$post->id;
-        $postIn['content']=$post->content;
-        $postIn['privacy']=$post->privacy;
-        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
-        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
-        $postIn['privacy_id']=$post->privacy;
-        $postIn['comment']=$this->loadComment($post->id);
-        $postIn['number_comment']=$post->comments()->count();
-      //  echo $post->id;
-
-        if($post->updated_at!='0000-00-00 00:00:00'){
-            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
-            $postIn['post_date']=String::showTimeAgo($post->updated_at());
-            $postIn['post_type_user']='Đã cập nhật trạng thái :';
-        }else{
-            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
-            $postIn['post_date']=String::showTimeAgo($post->created_at());
-            $postIn['post_type_user']='Đã đăng trạng thái  :';
-        }
-        $review=Review::find($id);
-        return View::make('site.user.blog.item_status_review',compact('userAuthor','userAuth','listStatusPost','postIn','review'));
-    }
+//    public function loadReviewLocation($id){
+//
+//        $post= Review::find($id);
+//        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+//        $user_author=$post->author;
+//
+//        $userAuth=array();
+//        if(Auth::check()){
+//            $user_auth = Auth::user();
+//            $userAuth['id']=$user_auth->id;
+//
+//            $isLike=$post->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+//
+//            $userAuth['like_content']='Thích';
+//            $userAuth['avatar']=$user_auth->avatar;
+//            $userAuth['type_action_like']='type_action_like';
+//            if($isLike!=0){
+//                $userAuth['like_content']='Đã thích';
+//                $userAuth['type_action_like']='type_action_dislike';
+//            }
+//
+//        }
+//
+//
+//
+//        $userAuthor['username']=$user_author->username;
+//        $userAuthor['avatar']=$user_author->avatar;
+//        $userAuthor['level']=Option::find($user_author->level_id)->description;
+//        $userAuthor['id']=$user_author->id;
+//
+//        $postIn['id']=$post->id;
+//        $postIn['content']=$post->content;
+//        $postIn['privacy']=$post->privacy;
+//        $postIn['number_like']=$post->userAction()->where('post_user_type_id','=','31')->count();
+//        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
+//        $postIn['privacy_id']=$post->privacy;
+//        $postIn['comment']=$this->loadComment($post->id);
+//        $postIn['number_comment']=$post->comments()->count();
+//      //  echo $post->id;
+//
+//        if($post->updated_at!='0000-00-00 00:00:00'){
+//            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
+//            $postIn['post_date']=String::showTimeAgo($post->updated_at());
+//            $postIn['post_type_user']='Đã cập nhật trạng thái :';
+//        }else{
+//            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
+//            $postIn['post_date']=String::showTimeAgo($post->created_at());
+//            $postIn['post_type_user']='Đã đăng trạng thái  :';
+//        }
+//        $review=Review::find($id);
+//        return View::make('site.user.blog.item_status_review',compact('userAuthor','userAuth','listStatusPost','postIn','review'));
+//    }
 
     /**
      * Load checin của người dùng từng trả vè html của bài checkin
      *
     */
-    public function loadCheckIn($id_check_in){
-
-
-       $post_check_in=Checkin::find($id_check_in);
-       $location=$post_check_in->location();
-
-
-        $album_location=$location->images()->get();
-
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        $user_author=$post_check_in->author;
-
-        $userAuth=array();
-        if(Auth::check()){
-            $user_auth = Auth::user();
-            $userAuth['id']=$user_auth->id;
-
-            $isLike=$post_check_in->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
-
-            $userAuth['like_content']='Thích';
-            $userAuth['avatar']=$user_auth->avatar;
-            $userAuth['type_action_like']='type_action_like';
-            if($isLike!=0){
-                $userAuth['like_content']='Đã thích';
-                $userAuth['type_action_like']='type_action_dislike';
-            }
-
-        }
-
-
-
-        $userAuthor['username']=$user_author->username;
-        $userAuthor['avatar']=$user_author->avatar;
-        $userAuthor['level']=Option::find($user_author->level_id)->description;
-        $userAuthor['id']=$user_author->id;
-        $userAuthor['text_status']='đã đến địa điểm này';
-
-
-        $postIn['id']=$post_check_in->id;
-        $postIn['content']=$post_check_in->content;
-        $postIn['privacy']=$post_check_in->privacy;
-        $postIn['number_like']=$post_check_in->userAction()->where('post_user_type_id','=','31')->count();
-        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
-        $postIn['privacy_id']=$post_check_in->privacy;
-        $postIn['comment']=$this->loadComment($post_check_in->id);
-        $postIn['number_comment']=$post_check_in->comments()->count();
-        //  echo $post->id;
-
-        if($post_check_in->updated_at!='0000-00-00 00:00:00'){
-            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
-            $postIn['post_date']=String::showTimeAgo($post_check_in->updated_at());
-            $postIn['post_type_user']='Đã cập nhật trạng thái :';
-        }else{
-            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
-            $postIn['post_date']=String::showTimeAgo($post_check_in->created_at());
-            $postIn['post_type_user']='Đã đăng trạng thái  :';
-        }
-        $review=$post_check_in;
-
-
-        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
-
-    }
+//    public function loadCheckIn($id_check_in){
+//
+//
+//       $post_check_in=Checkin::find($id_check_in);
+//       $location=$post_check_in->location();
+//
+//
+//        $album_location=$location->images()->get();
+//
+//        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+//        $user_author=$post_check_in->author;
+//
+//        $userAuth=array();
+//        if(Auth::check()){
+//            $user_auth = Auth::user();
+//            $userAuth['id']=$user_auth->id;
+//
+//            $isLike=$post_check_in->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+//
+//            $userAuth['like_content']='Thích';
+//            $userAuth['avatar']=$user_auth->avatar;
+//            $userAuth['type_action_like']='type_action_like';
+//            if($isLike!=0){
+//                $userAuth['like_content']='Đã thích';
+//                $userAuth['type_action_like']='type_action_dislike';
+//            }
+//
+//        }
+//
+//
+//
+//        $userAuthor['username']=$user_author->username;
+//        $userAuthor['avatar']=$user_author->avatar;
+//        $userAuthor['level']=Option::find($user_author->level_id)->description;
+//        $userAuthor['id']=$user_author->id;
+//        $userAuthor['text_status']='đã đến địa điểm này';
+//
+//
+//        $postIn['id']=$post_check_in->id;
+//        $postIn['content']=$post_check_in->content;
+//        $postIn['privacy']=$post_check_in->privacy;
+//        $postIn['number_like']=$post_check_in->userAction()->where('post_user_type_id','=','31')->count();
+//        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
+//        $postIn['privacy_id']=$post_check_in->privacy;
+//        $postIn['comment']=$this->loadComment($post_check_in->id);
+//        $postIn['number_comment']=$post_check_in->comments()->count();
+//        //  echo $post->id;
+//
+//        if($post_check_in->updated_at!='0000-00-00 00:00:00'){
+//            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_check_in->updated_at());
+//            $postIn['post_type_user']='Đã cập nhật trạng thái :';
+//        }else{
+//            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_check_in->created_at());
+//            $postIn['post_type_user']='Đã đăng trạng thái  :';
+//        }
+//        $review=$post_check_in;
+//
+//
+//        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
+//
+//    }
     /*load item check in location by id location id user*/
-    public function loadCheckInByLocation($id_check_in,$id_user){
-
-
-        $location=Location::find($id_check_in);
-        $post_check_in=Checkin::where('parent_id','=',$location->id)->where('user_id','=',$id_user)->first();
-        if(isset($post_check_in)){
-
-        $album_location=$location->images()->get();
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-
-        $user_author=$post_check_in->author;
-
-        $userAuth=array();
-        if(Auth::check()){
-            $user_auth = Auth::user();
-            $userAuth['id']=$user_auth->id;
-
-            $isLike=$post_check_in->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
-
-            $userAuth['like_content']='Thích';
-            $userAuth['avatar']=$user_auth->avatar;
-            $userAuth['type_action_like']='type_action_like';
-            if($isLike!=0){
-                $userAuth['like_content']='Đã thích';
-                $userAuth['type_action_like']='type_action_dislike';
-            }
-
-        }
-
-
-
-        $userAuthor['username']=$user_author->username;
-        $userAuthor['avatar']=$user_author->avatar;
-        $userAuthor['level']=Option::find($user_author->level_id)->description;
-        $userAuthor['id']=$user_author->id;
-        $userAuthor['text_status']='Đã đến địa điểm này';
-
-
-        $postIn['id']=$post_check_in->id;
-        $postIn['content']=$post_check_in->content;
-        $postIn['privacy']=$post_check_in->privacy;
-        $postIn['number_like']=$post_check_in->userAction()->where('post_user_type_id','=','31')->count();
-        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
-        $postIn['privacy_id']=$post_check_in->privacy;
-        $postIn['comment']=$this->loadComment($post_check_in->id);
-        $postIn['number_comment']=$post_check_in->comments()->count();
-        //  echo $post->id;
-
-        if($post_check_in->updated_at!='0000-00-00 00:00:00'){
-            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
-            $postIn['post_date']=String::showTimeAgo($post_check_in->updated_at());
-            $postIn['post_type_user']='Đã cập nhật trạng thái :';
-        }else{
-            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
-            $postIn['post_date']=String::showTimeAgo($post_check_in->created_at());
-            $postIn['post_type_user']='Đã đăng trạng thái  :';
-        }
-        $review=$post_check_in;
-
-
-        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
-        }
-    }
+//    public function loadCheckInByLocation($id_check_in,$id_user){
+//
+//        $location=Location::find($id_check_in);
+//        $post_check_in=Checkin::where('parent_id','=',$location->id)->where('user_id','=',$id_user)->first();
+//        if(isset($post_check_in)){
+//
+//        $album_location=$location->images()->get();
+//        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+//
+//        $user_author=$post_check_in->author;
+//
+//        $userAuth=array();
+//        if(Auth::check()){
+//            $user_auth = Auth::user();
+//            $userAuth['id']=$user_auth->id;
+//
+//            $isLike=$post_check_in->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+//
+//            $userAuth['like_content']='Thích';
+//            $userAuth['avatar']=$user_auth->avatar;
+//            $userAuth['type_action_like']='type_action_like';
+//            if($isLike!=0){
+//                $userAuth['like_content']='Đã thích';
+//                $userAuth['type_action_like']='type_action_dislike';
+//            }
+//
+//        }
+//
+//
+//
+//        $userAuthor['username']=$user_author->username;
+//        $userAuthor['avatar']=$user_author->avatar;
+//        $userAuthor['level']=Option::find($user_author->level_id)->description;
+//        $userAuthor['id']=$user_author->id;
+//        $userAuthor['text_status']='Đã đến địa điểm này';
+//
+//
+//        $postIn['id']=$post_check_in->id;
+//        $postIn['content']=$post_check_in->content;
+//        $postIn['privacy']=$post_check_in->privacy;
+//        $postIn['number_like']=$post_check_in->userAction()->where('post_user_type_id','=','31')->count();
+//        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
+//        $postIn['privacy_id']=$post_check_in->privacy;
+//        $postIn['comment']=$this->loadComment($post_check_in->id);
+//        $postIn['number_comment']=$post_check_in->comments()->count();
+//        //  echo $post->id;
+//
+//        if($post_check_in->updated_at!='0000-00-00 00:00:00'){
+//            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_check_in->updated_at());
+//            $postIn['post_type_user']='Đã cập nhật trạng thái :';
+//        }else{
+//            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_check_in->created_at());
+//            $postIn['post_type_user']='Đã đăng trạng thái  :';
+//        }
+//        $review=$post_check_in;
+//
+//
+//        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
+//        }
+//    }
 
     /* load item end*/
 
@@ -887,66 +781,66 @@ class BlogUserController extends BaseController {
      * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
      *
      */
-    public function loadLikeLocation($id_like_location){
-
-
-        $post_like_location=Status::find($id_like_location);
-        $location=Location::find($post_like_location->parent_id);
-        $album_location=$location->images()->get();
-
-        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        $user_author=$post_like_location->author;
-
-        $userAuth=array();
-        if(Auth::check()){
-            $user_auth = Auth::user();
-            $userAuth['id']=$user_auth->id;
-
-            $isLike=$post_like_location->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
-
-            $userAuth['like_content']='Thích';
-            $userAuth['avatar']=$user_auth->avatar;
-            $userAuth['type_action_like']='type_action_like';
-            if($isLike!=0){
-                $userAuth['like_content']='Đã thích';
-                $userAuth['type_action_like']='type_action_dislike';
-            }
-
-        }
-
-
-
-        $userAuthor['username']=$user_author->username;
-        $userAuthor['avatar']=$user_author->avatar;
-        $userAuthor['level']=Option::find($user_author->level_id)->description;
-        $userAuthor['id']=$user_author->id;
-        $userAuthor['text_status']='đã thích địa điểm này';
-
-        $postIn['id']=$post_like_location->id;
-        $postIn['content']=$post_like_location->content;
-        $postIn['privacy']=$post_like_location->privacy;
-        $postIn['number_like']=$post_like_location->userAction()->where('post_user_type_id','=','31')->count();
-        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
-        $postIn['privacy_id']=$post_like_location->privacy;
-        $postIn['comment']=$this->loadComment($post_like_location->id);
-        $postIn['number_comment']=$post_like_location->comments()->count();
-        //  echo $post->id;
-
-        if($post_like_location->updated_at!='0000-00-00 00:00:00'){
-            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
-            $postIn['post_date']=String::showTimeAgo($post_like_location->updated_at());
-            $postIn['post_type_user']='Đã cập nhật trạng thái :';
-        }else{
-            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
-            $postIn['post_date']=String::showTimeAgo($post_like_location->created_at());
-            $postIn['post_type_user']='Đã đăng trạng thái  :';
-        }
-        $review=$post_like_location;
-
-
-        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
-
-    }
+//    public function loadLikeLocation($id_like_location){
+//
+//
+//        $post_like_location=Status::find($id_like_location);
+//        $location=Location::find($post_like_location->parent_id);
+//        $album_location=$location->images()->get();
+//
+//        $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+//        $user_author=$post_like_location->author;
+//
+//        $userAuth=array();
+//        if(Auth::check()){
+//            $user_auth = Auth::user();
+//            $userAuth['id']=$user_auth->id;
+//
+//            $isLike=$post_like_location->userAction()->where('post_user_type_id','=','31')->where('user_id','=',$user_auth->id)->count();
+//
+//            $userAuth['like_content']='Thích';
+//            $userAuth['avatar']=$user_auth->avatar;
+//            $userAuth['type_action_like']='type_action_like';
+//            if($isLike!=0){
+//                $userAuth['like_content']='Đã thích';
+//                $userAuth['type_action_like']='type_action_dislike';
+//            }
+//
+//        }
+//
+//
+//
+//        $userAuthor['username']=$user_author->username;
+//        $userAuthor['avatar']=$user_author->avatar;
+//        $userAuthor['level']=Option::find($user_author->level_id)->description;
+//        $userAuthor['id']=$user_author->id;
+//        $userAuthor['text_status']='đã thích địa điểm này';
+//
+//        $postIn['id']=$post_like_location->id;
+//        $postIn['content']=$post_like_location->content;
+//        $postIn['privacy']=$post_like_location->privacy;
+//        $postIn['number_like']=$post_like_location->userAction()->where('post_user_type_id','=','31')->count();
+//        $postIn['privacy_description']='Cộng đồng';//Option::find($post->privacy)->description;
+//        $postIn['privacy_id']=$post_like_location->privacy;
+//        $postIn['comment']=$this->loadComment($post_like_location->id);
+//        $postIn['number_comment']=$post_like_location->comments()->count();
+//        //  echo $post->id;
+//
+//        if($post_like_location->updated_at!='0000-00-00 00:00:00'){
+//            // $postIn['post_date']=date_format($post->updated_at,'d-m').' lúc '.date_format($post->updated_at,'H:i');//date_format($post->updated_at,'d-m-Y lúc H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_like_location->updated_at());
+//            $postIn['post_type_user']='Đã cập nhật trạng thái :';
+//        }else{
+//            //$postIn['post_date']=date_format($post->created_at,'d-m').' lúc '.date_format($post->created_at,'H:i');
+//            $postIn['post_date']=String::showTimeAgo($post_like_location->created_at());
+//            $postIn['post_type_user']='Đã đăng trạng thái  :';
+//        }
+//        $review=$post_like_location;
+//
+//
+//        return View::make('site.user.blog.item_status_checkin',compact('userAuthor','userAuth','listStatusPost','postIn','review','location','album_location'));
+//
+//    }
 
 
     /**---------end Load checin   */
@@ -956,17 +850,17 @@ class BlogUserController extends BaseController {
      * Load checin của người dùng từng trả vè html của bài checkin tag hoạt động
      *
      */
-    public function loadLocationLike_2($id_like_location,$id){
-
-
-
-        $location=Location::find($id_like_location);
-
-
-
-        return View::make('site.user.blog.item_tab_like_location',compact('location'));
-
-    }
+//    public function loadLocationLike_2($id_like_location,$id){
+//
+//
+//
+//        $location=Location::find($id_like_location);
+//
+//
+//
+//        return View::make('site.user.blog.item_tab_like_location',compact('location'));
+//
+//    }
 
 
     /**---------end Load checin   */
@@ -974,22 +868,14 @@ class BlogUserController extends BaseController {
 
 
     public function filterFriends($listFriend){
-
         $list_id_friend_my=array();
         $list_id_friend_my2=array();
-
             foreach($listFriend as $item){
-             //   echo $item->user_id.'->'.$item->friend_id.'<br>';
-
-
                 if($item->friend_id==$this->user->id){
                     $list_id_friend_my[]=$item->user_id;
-
                 }else{
                     $list_id_friend_my[]=$item->friend_id;
                 }
-
-
                 if($item->user_id==$this->user->id){
                   //  $list_id_friend_my[]=$item->friend_id;
                 }else{
@@ -1057,14 +943,19 @@ class BlogUserController extends BaseController {
 
         }
 
-    public function ala($id_status_slug){
-        echo $id_status_slug;
-        $post_like=Post::where('id','=',131);
 
-     //   $post= Post::where('id','=',$id_status_slug)->get()->first();
-            echo '<pre>';
-          print_r($post_like);
-        echo '</pre>';
+
+    public function LoadBlogAction($user_id){
+        $arr_action = Post::orderBy('updated_at','desc')->whereUser_id($user_id)->whereIn('post_type',array('status','like','checkin','review','location'))->get();
+        return $arr_action;
     }
-
 }
+//    public function ala($id_status_slug){
+//        echo $id_status_slug;
+//        $post_like=Post::where('id','=',131);
+//
+//     //   $post= Post::where('id','=',$id_status_slug)->get()->first();
+//            echo '<pre>';
+//          print_r($post_like);
+//        echo '</pre>';
+//    }
