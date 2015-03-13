@@ -106,6 +106,19 @@ class Location extends Eloquent {
     public function images(){
         return $this->belongsToMany('Image','location_post','location_id','post_id');
     }
+	/* imtoantran images from reviews start */
+	public function reviewsImages(){
+		$reviewsImages = [];
+		$review = $this->reviews();
+		if($review->count()){
+			foreach($review->get() as $key => $review){
+				$reviewsImages = array_merge($reviewsImages,(array)$review->images());
+			}
+		}
+		return $reviewsImages;
+	}
+	/* imtoantran images from reviews stop */
+
 	public function totalCheckIn(){
 		return $this->userAction()->whereAction_type("checkin")->count();
 	}
