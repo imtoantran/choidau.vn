@@ -236,3 +236,9 @@
 	display: none;
 }
 #member .thumbnail img{ width: 100%}
+#photo-tab-member .thumbnail a:first-child{
+	display: block;
+}
+#photo-tab-member .thumbnail a{
+	display: none;
+}

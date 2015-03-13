@@ -586,6 +586,16 @@
                     @endif
                     @endif
                     /* imtoantran food edit stop */
+                    /* imtoantran location photo start */
+                    $(".fancybox").fancybox({
+                        openEffect	: 'none',
+                        closeEffect	: 'none',
+                        helpers: {
+                            thumbs: {
+                            }
+                        }
+                    });
+                    /* imtoantran location photo stop */
 
                     $('#date-start-event-location').datetimepicker({
                         format: 'DD/MM/YYYY h:mm:ss'

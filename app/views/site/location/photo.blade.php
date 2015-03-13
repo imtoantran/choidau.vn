@@ -10,55 +10,77 @@
 
         <ul class="nav nav-tabs blog-tabs" data-tabs="tabs">
             <li>
-                <a aria-expanded="false" href="#photo-tab-all" data-toggle="tab">Tất cả
-                    <span class="badge circle tab-avatar">1</span>
-                </a>
-            </li>
-            <li>
                 <a aria-expanded="false" href="#photo-tab-avatar" data-toggle="tab">Ảnh đại diện
                     <span class="badge circle tab-avatar">1</span>
                 </a>
             </li>
             <li>
                 <a aria-expanded="true" href="#photo-tab-location" data-toggle="tab">Ảnh địa điểm
-                    <span class="badge circle tab-location">3</span>
+                    <span class="badge circle tab-location">{{$location->images()->count()}}</span>
                 </a>
             </li>
             <li>
                 <a aria-expanded="true" href="#photo-tab-member" data-toggle="tab">Ảnh từ thành viên
-                    <span class="badge circle tab-location">3</span>
+                    <span class="badge circle tab-location">{{count($reviewsImages)}}</span>
                 </a>
             </li>
         </ul>
         <div id="my-tab-content" style="padding: 10px 5px 10px 5px;" class="tab-content">
-            <div class="tab-pane" id="photo-tab-all">
-                @foreach($reviewsImages as $image)
-
-                @endforeach
-            </div>
             <div class="tab-pane" id="photo-tab-avatar">
-                @foreach($reviewsImages as $image)
-
-                @endforeach
-            </div>
-            <div class="tab-pane" id="photo-tab-location">
-                @foreach($location->images() as $image)
-                    
-                @endforeach
-            </div>
-            <div class="tab-pane active" id="photo-tab-member">
-                <div class="row thumbnails margin-none ">
-                    <div class="col-md-3 col-sm-6 padding-lr-5 margin-bottom-10">
-                        <div class="s" style="position: relative">
-                            <span class="badge-num-image">4</span>
-
-                            <div class="badge-name">dia diem moi</div>
-                            <img class="avatar-pad2"
-                                 src="http://choidau.net/upload/media_user/5/foody-the-chapel-restaurant-869-635564030638738641.JPG"
-                                 alt="" width="100%"></div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="thumbnail">
+                            <a href="@if(File::exists(public_path().$location->avatar)){{$location->avatar}} @else /assets/global/img/no-image.png @endif"
+                               class="fancybox" rel="location-avatar"
+                               title="{{$location->name}}">
+                                <img width="100%" class="media-object"
+                                     src="@if(File::exists(public_path().$location->avatar)){{$location->avatar}} @else /assets/global/img/no-image.png @endif"
+                                     alt="{{$location->name}}">
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="hidden box-fancy"></div>
+            </div>
+
+            <div class="tab-pane" id="photo-tab-location">
+                <div class="row">
+                    @foreach($location->images()->get() as $image)
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="thumbnail">
+                                <a href="{{$image->guid}}" class="fancybox" rel="location-photo"
+                                   title="{{$image->author->display_name()}} - đã đăng: {{$image->title}}">
+                                    <img width="100%" class="media-object" src="{{$image->thumbnail}}"
+                                         alt="{{$image->title}}">
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="tab-pane active" id="photo-tab-member">
+                <div class="row">
+                    @foreach($location->reviews()->get() as $review)
+                        @if(count($review->images()))
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="thumbnail tooltips" data-original-title="{{$review->content}}">
+                                    @foreach($review->images() as $image)
+                                        <a href="{{$image->guid}}" class="fancybox"
+                                           data-thumbnail = "{{$image->thumbnail}}"
+                                           rel="reviews-photo-{{$review->id}}"
+                                           title="{{$image->author->display_name()}} - đã đăng: {{$image->title}}">
+                                            <img width="100%" class="media-object" src="{{$image->thumbnail}}"
+                                                 alt="{{$image->title}}">
+                                        </a>
+                                    @endforeach
+                                    <div class="text-center"><a
+                                                href="{{$review->author->url()}}">{{$review->author->display_name()}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>

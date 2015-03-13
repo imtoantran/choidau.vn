@@ -26,7 +26,7 @@ class Review extends Post {
 		if($meta->count()){
 			return Image::whereIn("id",$meta->orderBy("created_at","asc")->lists("meta_value"))->get();
 		}
-		return false;
+		return [];
 	}
 	public function recentImage(){
 		$meta = $this->getMeta("review_image");
