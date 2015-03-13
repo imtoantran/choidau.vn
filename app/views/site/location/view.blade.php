@@ -157,7 +157,7 @@
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
                     <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab"
                                                               data-toggle="tab" aria-expanded="true">Review</a></li>
-                    <li role="presentation" class=""><a href="#tag-member-location-content" class="btn-member-location"
+                    <li role="presentation" class=""><a href="#member" class="btn-member-location"
                                                         aria-controls="messages" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Thành viên</a></li>
                     <li role="presentation" class=""><a href="#event" class="btn-event-location"
@@ -192,21 +192,8 @@
                             @endif
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
-
-                        <section class="person-friends choidau-bg">
-                            <header class="">
-                                Tất cả bạn bè <span class="person-friends-list-total">2</span>
-                            </header>
-
-                            <div class="row person-friends-list lab-location-list-member margin-none" is_val="0">
-
-                            </div>
-
-
-                        </section>
-
-
+                    <div role="tabpanel" class="tab-pane" id="member">
+                        @include("site.location.member")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tag-event-location-content">
 
@@ -505,16 +492,18 @@
                     /* viet review end */
 
                     /* imtoantran food edit start */
+                    @if(Auth::check())
+                    @if(Auth::user() == $location->owner)
                     $("#food_form").on("submit", function (e) {
                         data = $(this).serialize();
                         $.ajax({
-                            url:$(this).attr("action"),
-                            type:"post",
-                            data:data,
-                            dataType:"json",
-                            success:function(data){
-                                if(data.success){
-                                    if(data.action=="add")
+                            url: $(this).attr("action"),
+                            type: "post",
+                            data: data,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.success) {
+                                    if (data.action == "add")
                                         $("#food table tbody").append(data.content);
                                 }
                                 $("#food-item-modal").modal("hide");
@@ -532,15 +521,15 @@
                         $("#food_form input[name=price]").val($(this).data("price"));
                         $("#food_form select[name=type]").val($(this).data("type"));
                         $("#food_form input[name=id]").val($(this).data("id"));
-                        switch(action){
+                        switch (action) {
                             case "delete":
                                 $.ajax({
-                                    url:"{{URL::to("location/$location->id/food/remove/")}}",
-                                    type:"post",
-                                    data:{id:$(this).data("id")},
-                                    dataType:"json",
-                                    success:function(data){
-                                        if(data.success){
+                                    url: "{{URL::to("location/$location->id/food/remove/")}}",
+                                    type: "post",
+                                    data: {id: $(this).data("id")},
+                                    dataType: "json",
+                                    success: function (data) {
+                                        if (data.success) {
                                             $(_this).closest("tr").remove();
                                         }
                                     }
@@ -553,8 +542,8 @@
                                 break;
                         }
                     })
-                    $("#food table").on("click","td[data-id]",function(e){
-                        if(!$(this).find("input").length) {
+                    $("#food table").on("click", "td[data-id]", function (e) {
+                        if (!$(this).find("input").length) {
                             var input = $("<input/>", {
                                 class: "form-control input-sm",
                                 type: "text",
@@ -566,7 +555,7 @@
                             input.focus();
                         }
                     });
-                    $("#food table").on("change","td[data-id] input",function(e){
+                    $("#food table").on("change", "td[data-id] input", function (e) {
                         e.stopPropagation();
                         var data = {};
                         var _this = this;
@@ -575,20 +564,30 @@
                         data.field = $(this).attr("name");
                         data.id = $(this).data("id");
                         $.ajax({
-                            url:"{{URL::to("location/$location->id/food/edit")}}",
-                            data:data,
-                            type:"post",
-                            dataType:"json",
-                            success:function(response){
+                            url: "{{URL::to("location/$location->id/food/edit")}}",
+                            data: data,
+                            type: "post",
+                            dataType: "json",
+                            success: function (response) {
                                 $(_this).parent().text(data.content);
                                 $(this).unblock();
                             }
                         })
                     })
-                    $("#food table").on("blur","td[data-id] input",function(e){
+                    $("#food table").on("blur", "td[data-id] input", function (e) {
                         e.stopPropagation();
                         $(this).parent().text($(this).val());
                     });
+                    $("#food-thumbail").mediaupload({
+                        url: "{{URL::to("media/upload")}}",
+                        "multi-select": false,
+                        complete: function (data) {
+                            $("#food_form #food-thumbail").attr("src", data[0].thumbnail);
+                            $("#food_form input[name=image]").val(data[0].thumbnail);
+                        }
+                    });
+                    @endif
+                    @endif
                     /* imtoantran food edit stop */
 
                     $('#date-start-event-location').datetimepicker({

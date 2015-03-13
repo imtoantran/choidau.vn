@@ -4,7 +4,7 @@
         <tr>
             <th width="20">STT</th>
             <th>Tên</th>
-            {{--<th>Hình ảnh</th>--}}
+            <th>Hình ảnh</th>
             <th width="100">Giá</th>
             @if(Auth::check())
                 @if(Auth::user() == $location->owner)

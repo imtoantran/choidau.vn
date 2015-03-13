@@ -237,4 +237,8 @@ class User extends Eloquent implements ConfideUserInterface {
     public function referLocation(){
         return  $this->belongsToMany("User","locations","user_id","user_id");
     }
+
+    public function display_name(){
+        return empty($this->fullname)?$this->username:$this->fullname;
+    }
 }

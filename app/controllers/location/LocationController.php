@@ -258,6 +258,9 @@ class LocationController extends BaseController
                 if(!Cache::has("food_type")){
                     Cache::forever("food_type",Option::where(["name"=>"food_type"])->get(["id","description"]),24*60);
                 }
+                /* load members start  */
+                $members = $location->members()->get();
+                /* load members stop */
                 return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs"));
             }
 
