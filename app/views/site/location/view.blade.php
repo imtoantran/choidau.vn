@@ -163,7 +163,7 @@
                     <li role="presentation" class=""><a href="#event" class="btn-event-location"
                                                         aria-controls="event" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Sự kiện</a></li>
-                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location"
+                    <li role="presentation" class=""><a href="#photo" class="btn-photo-location"
                                                         aria-controls="settings" role="tab" data-toggle="tab"
                                                         aria-expanded="false">Hình ảnh</a></li>
                     <li role="presentation" class=""><a href="#food" aria-controls="settings" role="tab"
@@ -174,7 +174,9 @@
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @include("site.location.review_item")
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                    <div role="tabpanel" class="tab-pane" id="photo">
+                        @include("site.location.photo")
+                    </div>
                     <div role="tabpanel" class="tab-pane" id="event">
                         @if(Auth::check())
                             @if(Auth::user() == $location->owner)
@@ -196,11 +198,6 @@
                         @include("site.location.member")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tag-event-location-content">
-
-                        <div class="lab-location-list-event">
-
-                        </div>
-
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="food">

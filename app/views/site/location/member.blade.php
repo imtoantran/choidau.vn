@@ -1,3 +1,4 @@
+<div class="row">
 @foreach($location->members()->get() as $member)
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div class="thumbnail">
@@ -9,3 +10,4 @@
         </div>
     </div>
 @endforeach
+</div>
