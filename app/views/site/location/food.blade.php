@@ -8,7 +8,7 @@
             <th width="100">Giá</th>
             @if(Auth::check())
                 @if(Auth::user() == $location->owner)
-                    <th width="50" class="text-center"></th>
+                    <th width="100" class="text-center"></th>
                 @endif
             @endif
         </tr>

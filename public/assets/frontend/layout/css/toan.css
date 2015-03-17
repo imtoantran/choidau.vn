@@ -242,3 +242,33 @@
 #photo-tab-member .thumbnail a{
 	display: none;
 }
+/* review start */
+.review-image{
+	width: 20%;
+	padding: 1%;
+	float: left;
+	position: relative;
+}
+
+.review-image-container{
+	overflow: auto;
+	background: #eee;
+}
+.review-image i{
+	position: absolute;
+	font-size: 20px;
+	right:1%;
+	top:1%;
+	color: #5afe42;
+	cursor: pointer;
+}
+.review-image i:hover{
+	color: #e0210a;
+}
+/* review stop */
+#food table tbody tr {
+	cursor: pointer;
+}
+#food table td{
+	vertical-align: middle;
+}

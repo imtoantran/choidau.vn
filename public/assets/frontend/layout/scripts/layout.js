@@ -1764,17 +1764,17 @@ $.fn.confirmFriend = function(userOptions){
 // END luuhoabk confirm friend
 /* imtoantran social action start */
 $.fn.social = function(options){
-    $(this).on("click",function(e){
+    $(this).on("click",".social-btn",function(e){
         e.preventDefault();
-        var _this = this;
-        url = $(this).attr("href");
+        var _this = this;_this.disabled = true;
+        controller = $(this).data("controller");
         if(options) {
             if (options.controller) {
-                url = options.controller + "/" + $(this).data("id")+"/";
+                controller = options.controller + "/" + $(this).data("id")+"/";
             }
         }
         $.ajax({
-            url:url,
+            url:controller,
             type:"post",
             data:$(this).data(),
             dataType:"json",
@@ -1789,7 +1789,10 @@ $.fn.social = function(options){
                         if(data.totalLikes)
                             $(_this).find(".total-liked").text(data.totalLikes);
                     }
+                    _this.disabled = false;
                 }
+            },complete:function(){
+                _this.disabled = false;
             }
         });
         return false;

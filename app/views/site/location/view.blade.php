@@ -1,24 +1,10 @@
 @extends('site.layouts.default')
-{{--imtoantran--}}
-@section("topa")
-    <!-- banner -->
-    <div class="row margin-top-10 margin-bottom-10">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="banner-top text-center">
-                <img width="100%" src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive"
-                     alt="Image">
-            </div>
-        </div>
-    </div>
-    <!-- banner end -->
-@stop
-
 @section("topb")
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div style="overflow: hidden;" id="location-slider">
-                {{--@include("site.location.slider")--}}
+            <div id="location-slider">
+
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
@@ -143,7 +129,7 @@
             </div>
         </div>
     </div>
-    @include("site.location.review")
+    @include("site.location.review_modal")
     @include("site.location.edit")
 @stop
 
@@ -172,7 +158,7 @@
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
                     <div role="tabpanel" class="tab-pane active" id="review">
-                        @include("site.location.review_item")
+                        @include("site.location.review")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="photo">
                         @include("site.location.photo")
@@ -201,7 +187,7 @@
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="food">
-                        @if(Auth::check())
+                        @if(Auth::check()&&Auth::user()==$location->owner)
                             <div class="text-right">
                                 <button class="btn btn-xs add" data-action="add"><i class="icon icon-plus"></i>Thêm món
                                     ăn
@@ -337,6 +323,8 @@
 @stop
 
 @section('js_page')
+    <script src="{{asset('assets/frontend/pages/scripts/jquery.ag.js')}}"></script>
+    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
     <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
     <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
     <script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
@@ -472,52 +460,113 @@
                     });
                     /* imtoantran add image for review stop */
                     /* save review */
-                    $("#review-form").submit(function () {
-                        var form = $(this);
+                    $("#review-form").submit(function (e) {
+                        e.preventDefault();
+                        var _this = this;
                         $.ajax({
                             url: "{{URL::to("location/$location->id/review")}}",
                             type: "POST",
-                            data: form.serialize(),
-                            complete: function () {
-                                document.getElementById("review-form").reset();
-                                $(".review-image").remove();
-                                $('.modal').modal("hide");
+                            dataType: "json",
+                            data: $(this).serialize(),
+                            success: function (data) {
+                                if (data.success) {
+                                    $('.modal').modal("hide");
+                                    _this.reset();
+                                    $(".review-image").remove();
+                                    $("#review").prepend(data.content);
+                                    $("#review textarea[data-id="+data.id+"]").ag();
+                                }
                             }
                         });
                         return false;
                     });
+
+                    $('#review').on('click', '.pagination a', function (event) {
+                        event.preventDefault();
+                        if ($(this).attr('href') != '#') {
+                            $('#review').load($(this).attr('href'), function () {
+                                $("#review textarea").ag();
+                                location.href = "#review";
+                            });
+                        }
+                    });
+                    /* like, report spam */
+                    $("#review").social();
+
                     /* viet review end */
+                    /* imtoantran review comments start */
+                    $("#review").on("click", ".btn-post-comment", function () {
+                        txt = $("#review textarea[data-id=" + $(this).data("id") + "]").focus();
+                    });
+                    $("#review").on("click", ".view-more", function (e) {
+                        e.stopPropagation();
+                        $(".more-" + $(this).data("id")).toggleClass("hidden");
+                    });
+                    $("#review textarea").ag();
+                    $("#reviewModal").on("shown.bs.modal", function (e) {
+                        $("#reviewModal textarea").ag();
+                    });
+                    $("#review").on("keydown", "textarea", function (e) {
+                        @if(Auth::check())
+                        var _t = this;
+                        if (e.which == 13) {
+                            _t.disabled = true;
+                            $.ajax({
+                                url: "{{URL::to('post/comments')}}/" + $(this).data("id"),
+                                data: {content: $(this).val()},
+                                type: "post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.success) {
+                                        _t.value = "";
+                                        _t.disabled = false;
+                                        $(_t).before("<div class='media'>" + data.content + "</div>");
+                                    }
+                                },
+                                complete: function () {
+                                    _t.disabled = false;
+                                }
+                            })
+                            return false;
+                        }
+                        @else
+                            this.value = "";
+                        @endif
+
+
+
+
+                    });
+                    /* imtoantran review comments stop */
 
                     /* imtoantran food edit start */
                     @if(Auth::check())
                     @if(Auth::user() == $location->owner)
                     $("#food_form").on("submit", function (e) {
-                        data = $(this).serialize();
+                       var data = $(this).serialize();
                         $.ajax({
                             url: $(this).attr("action"),
                             type: "post",
                             data: data,
                             dataType: "json",
-                            success: function (data) {
-                                if (data.success) {
-                                    if (data.action == "add")
-                                        $("#food table tbody").append(data.content);
+                            success: function (response) {
+                                if (response.success) {
+                                    if(response.action == "add") {
+                                        $("#food table tbody").append($(response.content).hide(function(){$(this).fadeIn("slow")}));
+                                    }else{
+                                        $("#food table tbody tr[data-id="+response.id+"]").fadeOut("slow",function(){$(this).replaceWith(response.content).fadeIn();});
+                                    }
                                 }
                                 $("#food-item-modal").modal("hide");
                             }
-                        })
+                        });
                         return false;
                     });
                     $("#food").on("click", ".btn", function (e) {
                         e.preventDefault();
                         var _this = this;
-                        console.log($(this).data());
                         var action = $(this).data("action");
                         var data = {action: action};
-                        $("#food_form input[name=name]").val($(this).data("name"));
-                        $("#food_form input[name=price]").val($(this).data("price"));
-                        $("#food_form select[name=type]").val($(this).data("type"));
-                        $("#food_form input[name=id]").val($(this).data("id"));
                         switch (action) {
                             case "delete":
                                 $.ajax({
@@ -527,53 +576,34 @@
                                     dataType: "json",
                                     success: function (data) {
                                         if (data.success) {
-                                            $(_this).closest("tr").remove();
+                                            $(_this).closest("tr").fadeOut("slow",function(){$(this).remove()});
                                         }
                                     }
                                 })
                                 break;
                             case "add":
+                                $("#food_form input[name=name]").val('');
+                                $("#food_form input[name=price]").val('');
+                                $("#food_form select[name=type]").val('');
+                                $("#food_form input[name=id]").val('');
+                                $("#food_form input[name=image]").val("/assets/global/img/no-image.png");
+                                $("#food_form img").attr("src","/assets/global/img/no-image.png");
+                                $("#food-item-modal").modal();
+                                break;
+                            case "edit":
+                                var tr = $(this).closest("tr");
+                                $("#food_form input[name=name]").val($(this).data("name"));
+                                $("#food_form input[name=price]").val($(this).data("price"));
+                                $("#food_form select[name=type]").val($(this).data("type"));
+                                $("#food_form input[name=id]").val($(this).closest("tr").data("id"));
+                                $("#food_form input[name=image]").val($(this).data("image"));
+                                $("#food_form input[name=key]").val($(this).data("key"));
+                                $("#food_form img").attr("src",$(this).data("image"));
                                 $("#food-item-modal").modal();
                                 break;
                             default:
                                 break;
-                        }
-                    })
-                    $("#food table").on("click", "td[data-id]", function (e) {
-                        if (!$(this).find("input").length) {
-                            var input = $("<input/>", {
-                                class: "form-control input-sm",
-                                type: "text",
-                                "data-id": $(this).data("id"),
-                                name: $(this).data("name"),
-                                value: $(this).text()
-                            });
-                            $(this).html(input);
-                            input.focus();
-                        }
-                    });
-                    $("#food table").on("change", "td[data-id] input", function (e) {
-                        e.stopPropagation();
-                        var data = {};
-                        var _this = this;
-                        $(this).block();
-                        data.content = $(this).val();
-                        data.field = $(this).attr("name");
-                        data.id = $(this).data("id");
-                        $.ajax({
-                            url: "{{URL::to("location/$location->id/food/edit")}}",
-                            data: data,
-                            type: "post",
-                            dataType: "json",
-                            success: function (response) {
-                                $(_this).parent().text(data.content);
-                                $(this).unblock();
-                            }
-                        })
-                    })
-                    $("#food table").on("blur", "td[data-id] input", function (e) {
-                        e.stopPropagation();
-                        $(this).parent().text($(this).val());
+                        };
                     });
                     $("#food-thumbail").mediaupload({
                         url: "{{URL::to("media/upload")}}",
@@ -588,11 +618,10 @@
                     /* imtoantran food edit stop */
                     /* imtoantran location photo start */
                     $(".fancybox").fancybox({
-                        openEffect	: 'none',
-                        closeEffect	: 'none',
+                        openEffect: 'none',
+                        closeEffect: 'none',
                         helpers: {
-                            thumbs: {
-                            }
+                            thumbs: {}
                         }
                     });
                     /* imtoantran location photo stop */

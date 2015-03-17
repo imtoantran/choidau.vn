@@ -273,29 +273,29 @@ class PostController extends BaseController {
 	/* imtoantran social action start */
 	public function social($post){
 		if(Auth::guest())
-			return ["success"=>false,"message"=>"Need login"];
+			return Response::json(["success"=>false,"message"=>"Need login"]);
 		$user = Auth::user();
 		$params = Input::all();
 		if(!in_array($params['action'],['like','spam'])){
-			return ["success"=>false];
+			return Response::json(["success"=>false]);
 		}
 		$meta = $post->meta()->whereMetaKey($params['action'])->whereMetaValue($user->id);
 		if($meta->count()){
 			if($meta->delete()){
-				return json_encode(["success"=>true,"value"=>false,"totalLikes"=>$post->totalLikes()]);
+				return Response::json(["success"=>true,"value"=>false,"totalLikes"=>$post->totalLikes()]);
 			}
 		}else{
 			$meta = new PostMeta($params['action'],$user->id);
 			$post->meta()->save($meta);
-			return json_encode(["success"=>true,"value"=>true,"totalLikes"=>$post->totalLikes()]);
+			return Response::json(["success"=>true,"value"=>true,"totalLikes"=>$post->totalLikes()]);
 		}
-		return json_encode(["success"=>false]);
+		return Response::json(["success"=>false]);
 	}
 	/* imtoantran social action stop */
 	/* imtoantran save comment start */
 	public function postComments($post){
 		if(Auth::guest()){
-			return;
+			return Response::json(["success"=>false,"message"=>"Need login"]);
 		}
 		if(Input::has("content")){
 			$user = Auth::user();
@@ -303,14 +303,19 @@ class PostController extends BaseController {
 			$comment -> user_id = $user->id;
 			$comment -> parent_id = $post->id;
 			$comment -> content = Input::get("content");
-			$comment -> save();
+			if($comment -> save()){
+				return Response::json(["success"=>true,"content"=>View::make("post.comment_item",compact("comment"))->render()]);
+			};
 		}
+		return Response::json(["success"=>false,"message"=>"Not saved"]);
 	}
 	/* imtoantran save comment stop */
 	/* imtoantran load comment start */
 	public function getComments($post){
-		$comments = $post->comments()->get();
-		return View::make("",compact("comments"));
+		/* imtoantran comments start*/
+		$t = $post->post_type;
+		$$t = $post;
+		return Response::json(["success"=>true,"content"=>View::make("post.comment",compact($t))->render()]);
 	}
 	/* imtoantran load comment stop */
 
