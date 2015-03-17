@@ -100,7 +100,8 @@ Route::group(array('prefix' => 'post'), function () {
     Route::post("social/{post}","PostController@social");
     /* imtoantran social action route stop */
     /* imtoantran comment start */
-    Route::post("comment/{post}","PostController@postComments");
+    Route::post("comments/{post}","PostController@postComments");
+    Route::get("comments/{post}","PostController@getComments");
     /* imtoantran comment stop */
 
     /* action */

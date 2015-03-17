@@ -26,6 +26,7 @@
                                 <input type="text" name="name" class="form-control" value="" title="" required="required">
                                 <input type="hidden" name="id"/>
                                 <input type="hidden" name="_token" value="{{Session::token()}}"/>
+                                <input type="hidden" name="key" value=""/>
                             </div>
                         </div>
                         <div class="form-group">

@@ -58,7 +58,7 @@
     <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
         <button class="btn text-primary btn-xs do-post-review" @if(Auth::check()) data-toggle="modal"
                 data-target="#reviewModal" @endif
-        type="submit">Viết bình luận <i class="icon-edit"></i></button>
+        type="submit">Viết đánh giá <i class="icon-edit"></i></button>
     </div>
 
 

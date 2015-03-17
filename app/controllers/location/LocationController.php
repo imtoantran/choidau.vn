@@ -126,7 +126,7 @@ class LocationController extends BaseController
         // kiem tra neu luu thanh cong
         if ($isSaveLocation) {
             /* imtoantran create unique slug start */
-            $location->slug = Str::slug($location->name)."-".$location->id;
+            $location->slug = Str::slug($location->name) . "-" . $location->id;
             $location->save();
             /* imtoantran create unique slug end */
             // kiem tra va insert table location_post 'them album'
@@ -255,14 +255,14 @@ class LocationController extends BaseController
                 $reviews->setBaseUrl("/location/$location->id/reviews");
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
-                if(!Cache::has("food_type")){
-                    Cache::forever("food_type",Option::where(["name"=>"food_type"])->get(["id","description"]),24*60);
+                if (!Cache::has("food_type")) {
+                    Cache::forever("food_type", Option::where(["name" => "food_type"])->get(["id", "description"]), 24 * 60);
                 }
                 /* load location's images start  */
                 $profile_image = $location->avatar;
                 $reviewsImages = $location->reviewsImages();
                 /* load location's images stop  */
-                return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs","reviewsImages"));
+                return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs", "reviewsImages"));
             }
 
         }
@@ -382,7 +382,7 @@ class LocationController extends BaseController
     {
         $reviews = $location->reviews()->paginate(2);
         $reviews->setBaseUrl("/location/$location->id/reviews");
-        return View::make("site.location.review_item",compact("reviews"));
+        return View::make("site.location.review", compact("reviews"));
     }
 
     public function getReview()
@@ -396,7 +396,7 @@ class LocationController extends BaseController
      */
     public function postReview($location)
     {
-        if(Auth::guest()) return json_encode(["succes"=>false,"message"=>"Need login"]);
+        if (Auth::guest()) return Response::json(["succes" => false, "message" => "Need login"]);
 
         $user = Auth::user();
         $data = Input::all();
@@ -404,9 +404,11 @@ class LocationController extends BaseController
         $review = new Review();
         $review->title = $data['title'];
         $review->content = $data['content'];
+        $review->privacy = 18;
         $review->user_id = $user->id;
         /* save location review */
-        if(!$location->reviews()->save($review)) return;
+        if (!$location->reviews()->save($review))
+            return Response::json(["success" => false, "message" => "Not saved"]);
 
         /* review meta start */
         $meta[] = new PostMeta("review_rating", $data["review_rating"]);
@@ -415,17 +417,19 @@ class LocationController extends BaseController
         $meta[] = new PostMeta("review_visit_again", $data["review_visit_again"]);
         /* review meta stop */
         /* review images start */
-        foreach($data["images"] as $image){
-            $meta[] = new PostMeta("review_image",$image);
+        if(Input::has("images")) {
+            foreach ($data["images"] as $image) {
+                $meta[] = new PostMeta("review_image", $image);
+            }
         }
         /* review images start */
         $review->meta()->saveMany($meta);
         /* review images stop */
 
         /* review meta end */
-
+        return Response::json(["id"=>$review->id,"success"=>true,"content"=>View::make("site.location.review_item",compact("review"))->render()]);
     }
-    /* imtoantran save location end */
+    /* imtoantran save location review end */
 
 
     /*-------load  member*/
@@ -534,22 +538,22 @@ class LocationController extends BaseController
 
     public function postEvent($location)
     {
-        if(Auth::guest()){
-            return json_encode(["success"=>false,"message"=>"Need login"]);
+        if (Auth::guest()) {
+            return json_encode(["success" => false, "message" => "Need login"]);
         }
         $event = $location->event;
-        if(!$event){
+        if (!$event) {
             $event = new EventLocation();
             $event->parent_id = $location->id;
         }
-        if(Input::has("content")){
+        if (Input::has("content")) {
             $event->content = Input::get("content");
-            if($event->save()){
-                return json_encode(["success"=>true]);
+            if ($event->save()) {
+                return json_encode(["success" => true]);
             };
-            return json_encode(["success"=>false]);
+            return json_encode(["success" => false]);
         }
-        return json_encode(["success"=>false]);
+        return json_encode(["success" => false]);
     }
     /**-end-------     * Đăng một sự kiện mới cho location     */
 
@@ -561,14 +565,14 @@ class LocationController extends BaseController
     /****/
     public function postFood()
     {
-        if(Auth::guest()){
-            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        if (Auth::guest()) {
+            return Response::json(["success" => fasle, "message" => "Need login"]);
         }
         $data = Input::all();
         $food = "";
-        if(Input::has("food_id")){
+        if (Input::has("food_id")) {
             $food = LocationFood::find($data["food_id"]);
-        }else{
+        } else {
             $food = new LocationFood();
             $food->location_id = $data["location_id"];
         }
@@ -584,16 +588,16 @@ class LocationController extends BaseController
     /* imtoantran save food start */
     public function addFood($location)
     {
-        if(Auth::guest()){
-            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        if (Auth::guest()) {
+            return Response::json(["success" => fasle, "message" => "Need login"]);
         }
         $data = Input::all();
-        $key = $location->foods()->count();
+
         $action = "edit";
         $food = "";
-        if(Input::has("id")){
+        if (Input::has("id")) {
             $food = LocationFood::find($data["id"]);
-        }else{
+        } else {
             $food = new LocationFood();
             $food->location_id = $location->id;
             $action = "add";
@@ -603,40 +607,50 @@ class LocationController extends BaseController
         $food->user_id = Auth::id();
         $food->type_id = $data['type'];
         $food->price = $data['price'];
-        if($food->save())
-            return Response::json(["action"=>$action,"success"=>true,"content" => View::make("site.location.food_item",compact("location","food","key"))->render()]);
-        return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
+        $food->image = $data['image'];
+        if($action == "add"){
+            $key = $location->foods()->count();
+        }
+        else{
+            $key = Input::get("key");
+        }
+        if ($food->save())
+            return Response::json(["id"=>$food->id,"action" => $action, "success" => true, "content" => View::make("site.location.food_item", compact("location", "food", "key"))->render()]);
+        return Response::json(["success" => fasle, "message" => "Not food saved"]);
     }
+
     public function editFood()
     {
-        if(Auth::guest()){
-            return json_encode(["success"=>fasle,"message"=>"Need login"]);
+        if (Auth::guest()) {
+            return json_encode(["success" => fasle, "message" => "Need login"]);
         }
         $data = Input::all();
-        if(Input::has("id")){
-            if($food = LocationFood::find($data["id"]))
+        if (Input::has("id")) {
+            if ($food = LocationFood::find($data["id"]))
                 $food[$data['field']] = $data['content'];
-            if($food->save())
-                return Response::json(["action"=>"edit","success"=>true]);
+            if ($food->save())
+                return Response::json(["action" => "edit", "success" => true]);
         }
-        return json_encode(["success"=>fasle,"message"=>"Not food saved"]);
+        return json_encode(["success" => fasle, "message" => "Not food saved"]);
     }
     /* imtoantran save food stop */
     /* imtoantran remove food start */
-    public function removeFood(){
-        if(Auth::guest())
-            return Response::json(["success"=>false,"message"=>"Need login"]);
+    public function removeFood()
+    {
+        if (Auth::guest())
+            return Response::json(["success" => false, "message" => "Need login"]);
         $id = Input::get("id");
-        if($food = LocationFood::find($id))
-            if($food->delete())
-                return Response::json(["success"=>true]);
-        return Response::json(["success"=>false,"message"=>"Not deleted"]);
+        if ($food = LocationFood::find($id))
+            if ($food->delete())
+                return Response::json(["success" => true]);
+        return Response::json(["success" => false, "message" => "Not deleted"]);
     }
+
     /* imtoantran remove food stop */
 
 
-
-    public function filterLocation(){
+    public function filterLocation()
+    {
         $data = Input::all();
         $arr_location = array();
         $arr_location['posted'] = $this->addUrl(Location::whereUser_id($data['userBlog_id'])->get());
@@ -647,8 +661,10 @@ class LocationController extends BaseController
         $arr_location['like'] = $this->addUrl($user_blog->location_like()->get());
         echo json_encode($arr_location);
     }
-    public function addUrl($arr){
-        foreach($arr as $key=>$val){
+
+    public function addUrl($arr)
+    {
+        foreach ($arr as $key => $val) {
             $location = Location::whereId($val['id'])->get()->first();
             $arr[$key]['url'] = $location->url();
         }
@@ -656,10 +672,11 @@ class LocationController extends BaseController
     }
 
 //    luuhoabk load album for location
-    public function filterAlbums(){
+    public function filterAlbums()
+    {
         $data = Input::all();
         $arr_location = Location::whereUser_id($data['id_user_blog'])->get();
-        foreach($arr_location as $key=>$val){
+        foreach ($arr_location as $key => $val) {
             $arr_location[$key]['album'] = Location::find($val['id'])->images()->get();
         }
         echo json_encode($arr_location);
