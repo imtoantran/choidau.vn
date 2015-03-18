@@ -1399,7 +1399,7 @@ div.content-form-page .checkbox-list {
 	margin-bottom: 0;
 }
 .nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	background: #F4F4F4;
+	/*background: #F4F4F4;*/
 	color: #647484;
 	border-radius: 0;
 	padding: 5px 15px 4px;
@@ -2112,7 +2112,7 @@ Demo Utils
 	margin-bottom: 20px;
 }
 #topcontrol {
-	z-index: 99999;
+	z-index: 8000;
 }
 
 /* faq page */
@@ -3777,15 +3777,18 @@ background-color: #f9f9f9;
 	font-style: italic;
 	font-size: 0.9em;
 	font-weight: 600;
-
 }
+.fancybox-overlay{z-index: 8000!important;}
+a.fancybox-close{right:0px;}
 .home-content-row .separator{height: 5px; background-color: green; margin-bottom: 5px;}
 
 .login-face-btn{background-color: #6d85b4; color: #fff; border-bottom: 1px solid #3F5E99;}
 .login-face-btn:hover{background-color: #5e729a; color: #fff; border-bottom: 1px solid #375184;}
-
+.updateting{font-weight: normal!important; font-style: italic; color: #ccc;}
+.blog-info-lbl{width: 100px;font-weight: 600;}
 .italic{font-style: italic;}
 .underline{text-decoration: underline;}
+.ver-mid{vertical-align: middle;}
 .text-grey{color: #ababab;}
 .text-justify{text-align: justify;}
 .img-border-light{border: 1px solid #f1f1f1;}
@@ -3801,6 +3804,7 @@ background-color: #f9f9f9;
 .padding-right-10{padding-right: 10px;}
 .padding-right-20{padding-right: 20px;}
 .padding-lr-0{padding-right: 0px; padding-left: 0px;}
+.padding-lr-5{padding-right: 5px; padding-left: 5px;}
 .padding-tb-0{padding-top: 0px; padding-bottom: 0px;}
 .margin-top-5{margin-top: 5px;}
 .margin-left-10{margin-left: 10px;}

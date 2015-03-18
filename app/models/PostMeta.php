@@ -11,4 +11,7 @@ class PostMeta extends Eloquent {
 		$this->meta_key = $key;
 		$this->meta_value = $value;
 	}
+	public function set($value){
+		$this->meta_value = $value;
+	}
 }

@@ -177,113 +177,6 @@
                                  alt="Image 1">
                         </div>
                     </li>
-
-                    <!-- THE THIRD SLIDE -->
-                    <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400"
-                        data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
-                        <img src="{{asset("assets/frontend/pages/img/revolutionslider/bg3.jpg")}}" alt="">
-
-                        <div class="caption lfl slide_item_left"
-                             data-x="30"
-                             data-y="95"
-                             data-speed="400"
-                             data-start="1500"
-                             data-easing="easeOutBack">
-                            <iframe src="http://player.vimeo.com/video/56974716?portrait=0" width="420" height="240"
-                                    style="border:0" allowFullScreen></iframe>
-                        </div>
-                        <div class="caption lfr slide_title"
-                             data-x="470"
-                             data-y="100"
-                             data-speed="400"
-                             data-start="2000"
-                             data-easing="easeOutExpo">
-                            Responsive Video Support
-                        </div>
-                        <div class="caption lfr slide_subtitle"
-                             data-x="470"
-                             data-y="170"
-                             data-speed="400"
-                             data-start="2500"
-                             data-easing="easeOutExpo">
-                            Youtube, Vimeo and others.
-                        </div>
-                        <div class="caption lfr slide_desc"
-                             data-x="470"
-                             data-y="220"
-                             data-speed="400"
-                             data-start="3000"
-                             data-easing="easeOutExpo">
-                            Lorem ipsum dolor sit amet, consectetuer elit sed diam<br> nonummy amet euismod dolore.
-                        </div>
-                        <a class="caption lfr btn yellow slide_btn" href=""
-                           data-x="470"
-                           data-y="280"
-                           data-speed="400"
-                           data-start="3500"
-                           data-easing="easeOutExpo">
-                            Watch more Videos!
-                        </a>
-                    </li>
-
-                    <!-- THE FORTH SLIDE -->
-                    <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400"
-                        data-thumb="{{asset("assets/frontend/pages/img/revolutionslider/thumbs/thumb2.jpg")}}">
-                        <!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
-                        <img src="{{asset("assets/frontend/pages/img/revolutionslider/bg4.jpg")}}" alt="">
-
-                        <div class="caption lft slide_title"
-                             data-x="30"
-                             data-y="105"
-                             data-speed="400"
-                             data-start="1500"
-                             data-easing="easeOutExpo">
-                            What else included ?
-                        </div>
-                        <div class="caption lft slide_subtitle"
-                             data-x="30"
-                             data-y="180"
-                             data-speed="400"
-                             data-start="2000"
-                             data-easing="easeOutExpo">
-                            The Most Complete Admin Theme
-                        </div>
-                        <div class="caption lft slide_desc"
-                             data-x="30"
-                             data-y="225"
-                             data-speed="400"
-                             data-start="2500"
-                             data-easing="easeOutExpo">
-                            Lorem ipsum dolor sit amet, consectetuer elit sed diam<br> nonummy amet euismod dolore.
-                        </div>
-                        <a class="caption lft slide_btn btn red slide_item_left"
-                           href="http://www.keenthemes.com/preview/index.php?theme=metronic_admin" target="_blank"
-                           data-x="30"
-                           data-y="300"
-                           data-speed="400"
-                           data-start="3000"
-                           data-easing="easeOutExpo">
-                            Learn More!
-                        </a>
-
-                        <div class="caption lft start"
-                             data-x="670"
-                             data-y="55"
-                             data-speed="400"
-                             data-start="2000"
-                             data-easing="easeOutBack">
-                            <img src="../../assets/frontend/pages/img/revolutionslider/iphone_left.png" alt="Image 2">
-                        </div>
-
-                        <div class="caption lft start"
-                             data-x="850"
-                             data-y="55"
-                             data-speed="400"
-                             data-start="2400"
-                             data-easing="easeOutBack">
-                            <img src="../../assets/frontend/pages/img/revolutionslider/iphone_right.png" alt="Image 3">
-                        </div>
-                    </li>
                 </ul>
                 <div class="tp-bannertimer tp-bottom"></div>
             </div>
@@ -356,7 +249,7 @@
                     <h1>Admin Giới thiệu</h1>
                 </header>
                 <article>
-                    @if(!is_null($topBlog))
+                    @if(!isset($topBlog))
                     <img class="padding-2 img-border-light" src="{{$topBlog->thumbnail}}" height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
                         <a href="#"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
@@ -436,10 +329,14 @@
                                 </ul>
                             </div>
                             <div class="absolute-top-right bg-primary">
-                                <span href="#"
-                                      class="like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif "
-                                      data-id="{{$location->id}}"><i class="icon-heart"></i></span>
-                                <i class="icon-export"></i>
+                                <span class="tooltips like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-original-title ='@if(Auth::check()&&$location->isLiked(Auth::user()->id)) Bỏ thích @else thích @endif'
+                                     data-id="{{$location->id}}">
+                                    <i class="icon-heart"></i>
+                                </span>
+
+                                <span class="tooltips"  data-original-title = "Chia sẻ" >
+                                     <i class="icon-export "></i>
+                                </span>
                             </div>
                         </div>
                     </a>
@@ -487,7 +384,7 @@
                                 @if($location->totalLike())
                                     @foreach($location->whoLiked()->take(3)->get() as $userLiked)
                                         <a href="{{URL::to($userLiked->url())}}">
-                                            <img class="img-circle" src="{{asset($userLiked->avatar)}}"/>
+                                            <img class="img-circle tooltips" src="{{asset($userLiked->avatar)}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>
                                         </a>
                                     @endforeach
                                 @else
@@ -553,7 +450,12 @@
                 success: function (response) {
                     if (response.success) {
                         el.toggleClass("active");
-                        el.closest(".location-item").find(".quantity-like span").text(response.totalFavourites);
+                        el.closest(".home-content-item").find(".quantity-like span").text(response.totalFavourites);
+                        if(response.canLike){
+                            el.attr('data-original-title','Thích');
+                        }else{
+                            el.attr('data-original-title','Bỏ thích');
+                        }
                     }
                 },
                 complete: function () {

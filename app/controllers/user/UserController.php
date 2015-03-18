@@ -351,6 +351,15 @@ class UserController extends BaseController {
         echo Auth::check();
     }
 
+
+    public function getTotalLikeLocation(){
+        return User::getTotalLikeLocation();
+    }
+
+
+//    luuhoabk
+
+
     public function loginWithFacebook() {
         // get data from input
         $code = Input::get( 'code' );
@@ -374,9 +383,9 @@ class UserController extends BaseController {
             $fb_email = $result['email'];
             $fb_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($fb_id)->count()){
+            if(User::whereEmail($fb_email)->count()){
                 // ton tai
-                $user = User::whereUsername($fb_id)->first();
+                $user = User::whereEmail($fb_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
             }else{
@@ -397,7 +406,7 @@ class UserController extends BaseController {
                 );
 
                 if($kq){
-                    $user = User::whereUsername($fb_id)->first();
+                    $user = User::whereEmail($fb_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
@@ -414,7 +423,6 @@ class UserController extends BaseController {
         }
 
     }
-
     public function loginWithGoogle() {
         // get data from input
         $code = Input::get( 'code' );
@@ -438,9 +446,9 @@ class UserController extends BaseController {
             $google_email = $result['email'];
             $google_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($google_id)->count()){
+            if(User::whereEmail($google_email)->count()){
                 // ton tai
-                $user = User::whereUsername($google_id)->first();
+                $user = User::whereEmail($google_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
             }else{
@@ -455,13 +463,13 @@ class UserController extends BaseController {
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                         'fullname' => $google_name,
-                        'level_id' => 3,
+                        'level_id' => 28,
                         'status_marriage_id' => 0
                     )
                 );
 
                 if($kq){
-                    $user = User::whereUsername($google_id)->first();
+                    $user = User::whereEmail($google_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
@@ -478,4 +486,14 @@ class UserController extends BaseController {
         }
 
     }
+    public function getFriendConfirm(){
+        $user = Auth::user();
+        echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id','=', 35)->get());
+    }
+
+    public function getLocation(){
+        $user = Auth::user();
+        echo json_encode($user->referLocation()->get());
+    }
+// end luuhoabk
 }

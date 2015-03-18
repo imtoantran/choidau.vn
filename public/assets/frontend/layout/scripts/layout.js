@@ -16,27 +16,11 @@ var Auth = function () {
                 }
             });
             return result;
-        },
-        check_2: function () {
-            //  alert('chào nha 2');
         }
     };
 
 }();
 
-//luuhoabk
-var iconload = function() {
-    return {
-        load: function(tag, iclass){
-            tag.removeClass(iclass);
-            tag.addClass('animate-spin icon-spin3');
-        },
-        unload: function(tag, iclass){
-            tag.addClass(iclass);
-            tag.removeClass('animate-spin icon-spin3');
-        }
-    }
-}();
 var Layout = function () {
     // IE mode
     var isRTL = false;
@@ -461,32 +445,32 @@ var Layout = function () {
 
                 switch (type_insert) {
                     case "location_load_avatar": //luuhoabk (location/location.js)
-                        Location.loadAvatar();
+                        //Location.loadAvatar();
                         break;
                     case "location_load_album": //luuhoabk (location/location.js)
-                        result = Location.loadAlbum();
+                        //result = Location.loadAlbum();
                         break;
 
                     case "location_insert_album": //luuhoabk (location/location.js)
-                        result = Location.insertAlbum();
+                        //result = Location.insertAlbum();
                         break;
-
-                    case "insert_one_img":
-                        $(".abc").html(img);
-
-                        break;
-
-                    case "insert_multi_img":
-                        $(".abc").append(img);
-                        break;
-
-                    case "insert_one_url":
-                        break;
-                    case "insert_one_url_location":
-
-                        //   Location::abc(url);
-                        //  $(".abc").html(url);
-                        break;
+                    //
+                    //case "insert_one_img":
+                    //    $(".abc").html(img);
+                    //
+                    //    break;
+                    //
+                    //case "insert_multi_img":
+                    //    $(".abc").append(img);
+                    //    break;
+                    //
+                    //case "insert_one_url":
+                    //    break;
+                    //case "insert_one_url_location":
+                    //
+                    //    //   Location::abc(url);
+                    //    //  $(".abc").html(url);
+                    //    break;
 
                     case "insert_one_img_anh_bia":
                         $(".person-header-bg").attr('style', 'background-image: url(' + url + ')');
@@ -504,7 +488,7 @@ var Layout = function () {
                         break;
                 }
             } else {
-                bootbox.alert('bạn chưa chọn hình ảnh !');
+                //bootbox.alert('bạn chưa chọn hình ảnh !');
                 result = false;
             }
             return result;
@@ -568,7 +552,7 @@ var Layout = function () {
     }
 
     var handleBlog = function () {
-        var id_user_blog = $('.person-header-username').attr('id_u_blo');
+        var userBlog_id = $('.person-header-username').attr('id_u_blo');
         var id_user_auth = $(".item-status-value").attr('user_auth_id');
 
 
@@ -587,10 +571,10 @@ var Layout = function () {
                     'content': content_status,
                     'privacy': privacy_status,
                     'type_edit': 'add_status',
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
-                sync: true,
+                async: true,
                 success: function (data) {
                     $.ajax({
                         type: "POST",
@@ -634,7 +618,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -681,7 +665,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -722,7 +706,7 @@ var Layout = function () {
                     'user_author_id': user_author_id,
                     'type_edit': 'like_status',
                     'type_action_like': type_action_like,
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: false,
@@ -777,7 +761,7 @@ var Layout = function () {
                         'post_id': post_id,
                         'type_edit': 'comment_post',
                         'content_comment': content_comment,
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
 
                     },
                     dataType: 'JSON',
@@ -801,7 +785,6 @@ var Layout = function () {
 
         });
 
-
         $(document).on("click", "div.btn-blog-post-comment-delete", function () {
             var parent_post_element = $(this).parents("div.person-content-item");
             var parent_item_element = $(this).parents("div.lab-blog-post-item-comment");
@@ -817,7 +800,7 @@ var Layout = function () {
                     'id_user': id_user,
                     'id_parent_comment': id_parent_comment,
                     'type_edit': 'comment_delete',
-                    'id_user_blog': id_user_blog
+                    'userBlog_id': userBlog_id
 
                 },
                 sync: true,
@@ -829,6 +812,7 @@ var Layout = function () {
             });
 
         });
+
         $(document).on("click", "li.btn-blog-post-status-delete", function () {
             var parent_item_element = $(this).parents('div.person-content-item');
             var input_element = parent_item_element.find('input.item-status-value');
@@ -843,7 +827,7 @@ var Layout = function () {
                         data: {
                             'id_status': id_status,
                             'type_edit': 'status_delete',
-                            'id_user_blog': id_user_blog
+                            'userBlog_id': userBlog_id
                         },
                         sync: true,
                         success: function (data_1) {
@@ -859,32 +843,7 @@ var Layout = function () {
 
         });
 
-        /**
-         * Gửi lời mới kết bạn
-         * */
-        $(document).on("click", "button.btn-aside-add-friend", function () {
-            var id_friend = $(this).attr('i_u');
-            var parent_item_element = $(this).parents("li.lab-btn-item-blog-friend");
-            //alert(id_friend);
-
-            $.ajax({
-                type: "POST",
-                url: URL + "/trang-ca-nhan/ban-be.html",
-                data: {
-                    'id_friend': id_friend,
-                    'type_edit': 'request_add_friend',
-                    'id_user_blog': id_user_blog
-                },
-                sync: false,
-                success: function (data_1) {
-                    parent_item_element.hide(200);
-                }
-            });
-
-
-        });
-
-
+        
         /****
          *
          *TagMenu Bạn Bè Blog
@@ -892,37 +851,76 @@ var Layout = function () {
          *
          * ------------------------------------------------------------------*/
 
+        $('.btn-friend').loadActionFriend();
+        $('.btn-friend-suggest').loadActionFriend();
+
         $("#btn-tag-blog-friend").click(function () {
-            var element_list_friend = $(".person-friends-list").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var tagListFriend = $(".person-friends-list");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
+            $.ajax({
+                type: "POST",
+                url: URL + "/trang-ca-nhan/list-ban-be.html",
+                dataType: 'JSON',
+                data: {
+                    'userBlog_id': userBlog_id
+                },
+                success: function (respon) {
+                    if(respon.length>0){
+                        $("span.person-friends-list-total").html(respon.length);
+                        var html = '';
+                        $.each(respon, function(key, val){
+                            html += '<article class="person-friends-item col-md-4 col-sm-6 col-xs-12">';
+                                html += '<div class="media">';
+                                html += '<a href="'+URL+'/trang-ca-nhan/'+val.username+'.html" class="pull-left"><img src="'+val.avatar+'" alt="" class="media-object"> </a>';
+                                    html += '<div class="media-body">';
+                                        html += '<header><a href="'+URL+'/trang-ca-nhan/'+val.username+'.html" class="media-heading text-1em2">'+((val.fullname)?val.fullname:val.username)+'</a></header>';
+                                        if(val.user_login_id != val.id){
+                                            html += '<p>'+val.mutual_friend_count+' bạn chung</p>';
+                                            html += '<div style="margin-top: -5px;">';
+                                                var state_user = val.state_user;
+                                                var state_friend = val.state_friend;
 
-            var is_val = $(".person-friends-list").attr('is_val');
-            //  alert('asdsad'+element_list_friend);
+                                                if(state_user != null){
+                                                    html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="delete" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>';
+                                                    if(state_user['status_id'] == 35){
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã gửi lời mời</span>';
+                                                    }else{
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>'
+                                                    }
+                                                }else if(state_friend !=null){
+                                                    if(state_friend['status_id'] == 35){
+                                                        html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="confirm" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-add" style="font-size: 1.2em;"></i>Chấp nhận</button>';
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đang chờ</span>';
+                                                    }else{
+                                                        html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="delete" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-delete" style="font-size: 1.2em;"></i>Hủy</button>';
+                                                        html += '<span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>'
+                                                    }
+                                                }else{
+                                                    html += '<button class="btn btn-default btn-sm-8 btn-friend" data-type="add" friend_id="'+val.id+'" style="margin:0px;" ><i class="icon-user-add" style="font-size: 1.2em;"></i>Kết bạn</button>';
+                                                    html += '<span class="italic text-grey font-10px sub-alert"></span>'
+                                                }
+                                            html += '</div>';
+                                        }
+                                    html += '</div>';
+                                html += '</div>';
+                            html += '</article>';
+                        });
+                        tagListFriend.html(html);
+                        $('.btn-friend').loadActionFriend();
+                        //luuhoanote
 
-            if (is_val != '1') {
-                $('.person-friends-list').html('<i class="icon-spin4 animate-spin"></i> loading...');
-                $.ajax({
-                    type: "POST",
-                    url: URL + "/trang-ca-nhan/list-ban-be.html",
-                    data: {
-                        'id_user_blog': id_user_blog
-                    },
-                    sync: false,
-                    success: function (data_1) {
-
-                        //  parent_item_element.hide(200);
-                        $(".person-friends-list").html(data_1.html);
-                        $(".person-friends-list").attr('is_val', '1');
-                        $("span.person-friends-list-total").html(data_1.total);
-                    },
-                    dataType: 'JSON'
-                });
-            }
+                    }
+                    else{
+                        tagListFriend.html('<div style="background-color: #fff; padding: 10px;"><i class="icon-warning-empty"></i>Chưa có bạn.</div>');
+                        $("span.person-friends-list-total").html('');
+                    }
+                }
+            });
         });
 
         $("#btn-tag-blog-photo").click(function () {
             var element_list_friend = $(".blog-photo-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-photo-list-content").attr('is_val');
             if (is_val != '1') {
@@ -931,7 +929,7 @@ var Layout = function () {
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-hinh-anh.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'id_user_blog': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
@@ -952,7 +950,7 @@ var Layout = function () {
         $("#btn-tag-blog-checkin").click(function () {
 
             var element_list_friend = $(".blog-checkin-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-checkin-list-content").attr('is_val');
 
@@ -962,7 +960,7 @@ var Layout = function () {
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-check-in.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
@@ -985,23 +983,21 @@ var Layout = function () {
         $("#btn-tag-blog-location-like").click(function () {
 
             var element_list_friend = $(".blog-photo-list-content").html();
-            var id_user_blog = $(".person-header-username").attr("id_u_blo");
+            var userBlog_id = $(".person-header-username").attr("id_u_blo");
 
             var is_val = $(".blog-location-like-list-content").attr('is_val');
-
             if (is_val != '1') {
                 $('.blog-location-like-list-content').html('<i class="icon-spin4 animate-spin"></i> loading...');
                 $.ajax({
                     type: "POST",
                     url: URL + "/trang-ca-nhan/list-location-like.html",
                     data: {
-                        'id_user_blog': id_user_blog
+                        'userBlog_id': userBlog_id
                     },
                     sync: false,
                     success: function (data_1) {
                         $(".blog-location-like-list-content").html(data_1.html);
                         $(".blog-location-like-list-content").attr('is_val', '1');
-
                     },
                     dataType: 'JSON'
                 });
@@ -1011,71 +1007,12 @@ var Layout = function () {
 
         });
 
-        /**end Tab location like*/
-
-
-        /****
-         *
-         *End Tag Bạn Bè Blog
-         *
-         *--------------------------------------------------------------------*/
-
-        /*
-         $(".btn-blog-post-comment").click(function(){
-         var parent_item_element=$(this).parents('div.person-content-item');
-         var input_comment_element=parent_item_element.find('input.txt-blog-post-comment');
-         input_comment_element.focus();
-
-
-         });
-
-
-
-         $('.txt-blog-post-comment').keyup(function(e) {
-         if (e.keyCode == 13) {
-         var parent_item_element=$(this).parents('div.person-content-item');
-         var input_element=parent_item_element.find('input.item-status-value');
-         var parent_vt_element=parent_item_element.find("div.list-blog-post-comment");
-
-         var post_id=input_element.attr('post_id');
-         var content_comment=$(this).val();
-         //    alert(parent_vt_element.html());
-         $.ajax({
-         type: "POST",
-         url: URL+"/trang-ca-nhan/trang-thai.html",
-         data: {
-         'post_id':post_id,
-         'type_edit':'comment_post',
-         'content_comment':content_comment
-
-         },
-         dataType:'JSON',
-         success: function(data_1){
-         //    alert(data_1.date_at);
-         var html_item_comment='   <div class="col-md-12 article-img-text col-none-padding">';
-         html_item_comment+='     <div class="row margin-none">';
-         html_item_comment+='       <img class="col-md-1 col-ms-1 avatar-pad2" src="'+data_1.avatar_user+'" alt="">';
-         html_item_comment+='           <a style="font-size: 16px" class="lab-blog-post-content-comment" >'+data_1.username+'</a>'+data_1.date_at;
-         html_item_comment+='             <span class="col-md-11 col-ms-11 col-xs-11 txt-blog-post-comment" value="" >'+data_1.content+'</span>';
-         html_item_comment+='       </div> </div>';
-         //  alert(data_1);
-         parent_vt_element.append(html_item_comment);
-         }
-         });
-
-
-
-         }
-         });*/
-
-
-        /*-------------end comment*/
-
 
     };
     //luuhoabk
     var handleUser = function () {
         $(".btn-login-popup-choidau").click(function () {
+            var btnlogin = $(this);
             var alert = '';
             var email = $("#username_popup_login").val();
             var password = $("#password_popup_login").val();
@@ -1095,7 +1032,8 @@ var Layout = function () {
             }
 
             var tag_icon =  $('.btn-login-popup-choidau i');
-            iconload.load(tag_icon, 'icon-login-2');
+            tag_icon.iconLoad('icon-login-2');
+            btnlogin.attr('disabled','disabled');
             $.ajax({
                 type: "POST",
                 url: URL + "/thanh-vien/dang-nhap.html",
@@ -1113,6 +1051,8 @@ var Layout = function () {
                         $('.modal').modal("hide");
                         window.location.replace(data.url);
                     }else{
+                        alert_login.fadeOut().fadeIn();
+
                         switch(data.err_msg){
                             case 0:
                                 alert_login.html('<div class="alert alert-danger margin-none padding-5 "><div class="text-center">Bạn đăng nhập sai quá nhiều lần. Vui lòng kiểm tra lại.</div></div>').fadeIn();
@@ -1130,7 +1070,8 @@ var Layout = function () {
                     }
                 },
                 complete: function () {
-                    iconload.unload(tag_icon, 'icon-login-2');
+                    btnlogin.removeAttr('disabled');
+                    tag_icon.iconUnload('icon-login-2');
                 }
             });
 
@@ -1138,9 +1079,11 @@ var Layout = function () {
 
         //login facebook
         $('.login-face-btn').click(function(){
+            var btnlogin_fb = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-face-btn i');
-            iconload.load(tag_icon, 'icon-facebook');
+            tag_icon.iconLoad('icon-facebook');
+            btnlogin_fb.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-facebook",
                 type : 'post',
@@ -1150,15 +1093,18 @@ var Layout = function () {
                     window.location.assign(response);
                 },
                 complete : function(r) {
-                    //iconload.unload(tag_icon, 'icon-facebook');
+                    btnlogin_fb.removeAttr('disabled');
+                    tag_icon.iconUnload('icon-facebook');
                 }
             });
         })
 
         $('.login-google-btn').click(function(){
+            var btnlogin_gg = $(this);
             var current_url = $(this).attr('data-url');
             var tag_icon =  $('.login-google-btn i');
-            iconload.load(tag_icon, 'icon-googleplus-rect-1');
+            tag_icon.iconLoad('icon-googleplus-rect-1');
+            btnlogin_gg.attr('disabled','disabled')
             $.ajax({
                 url: URL + "/thanh-vien/login-google",
                 type : 'post',
@@ -1169,10 +1115,12 @@ var Layout = function () {
                     window.location.assign(response);
                 },
                 complete : function(r) {
-                    //iconload.unload(tag_icon, 'icon-facebook');
+                    btnlogin_gg.removeAttr('disabled');
                 }
             });
         })
+
+
     }
 
 
@@ -1356,7 +1304,7 @@ var Layout = function () {
             handleCalendar();
             handleMobiMenu();
             handleMobiSearch();
-            handleMediaBrowser();
+            //handleMediaBrowser();
             handleComponentLayout();
             handleBlog();
             handlePostAction();
@@ -1475,7 +1423,7 @@ var Layout = function () {
                 pagination: false,
                 navigation: true,
                 items: 4,
-                addClassActive: true,
+                addClassActive: true
             });
 
             $(".owl-carousel3").owlCarousel({
@@ -1562,245 +1510,64 @@ var Layout = function () {
                 $('.grid-v1').mixitup();
             });
         },
-        initSliderLocation: function () {
-
+        initSliderLocation: function (containerId) {
 
             var _SlideshowTransitions = [
                 //Fade in L
-                {
-                    $Duration: 1200,
-                    x: 0.3,
-                    $During: {$Left: [0.3, 0.7]},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                {$Duration: 1200, x: 0.3, $During: { $Left: [0.3, 0.7] }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade out R
-                , {
-                    $Duration: 1200,
-                    x: -0.3,
-                    $SlideOut: true,
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, x: -0.3, $SlideOut: true, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade in R
-                , {
-                    $Duration: 1200,
-                    x: -0.3,
-                    $During: {$Left: [0.3, 0.7]},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, x: -0.3, $During: { $Left: [0.3, 0.7] }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade out L
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    $SlideOut: true,
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, x: 0.3, $SlideOut: true, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
 
                 //Fade in T
-                , {
-                    $Duration: 1200,
-                    y: 0.3,
-                    $During: {$Top: [0.3, 0.7]},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, y: 0.3, $During: { $Top: [0.3, 0.7] }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade out B
-                , {
-                    $Duration: 1200,
-                    y: -0.3,
-                    $SlideOut: true,
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, y: -0.3, $SlideOut: true, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade in B
-                , {
-                    $Duration: 1200,
-                    y: -0.3,
-                    $During: {$Top: [0.3, 0.7]},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, y: -0.3, $During: { $Top: [0.3, 0.7] }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade out T
-                , {
-                    $Duration: 1200,
-                    y: 0.3,
-                    $SlideOut: true,
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, y: 0.3, $SlideOut: true, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
 
                 //Fade in LR
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    $Cols: 2,
-                    $During: {$Left: [0.3, 0.7]},
-                    $ChessMode: {$Column: 3},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, x: 0.3, $Cols: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Column: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade out LR
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    $Cols: 2,
-                    $SlideOut: true,
-                    $ChessMode: {$Column: 3},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, x: 0.3, $Cols: 2, $SlideOut: true, $ChessMode: { $Column: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade in TB
-                , {
-                    $Duration: 1200,
-                    y: 0.3,
-                    $Rows: 2,
-                    $During: {$Top: [0.3, 0.7]},
-                    $ChessMode: {$Row: 12},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, y: 0.3, $Rows: 2, $During: { $Top: [0.3, 0.7] }, $ChessMode: { $Row: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade out TB
-                , {
-                    $Duration: 1200,
-                    y: 0.3,
-                    $Rows: 2,
-                    $SlideOut: true,
-                    $ChessMode: {$Row: 12},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, y: 0.3, $Rows: 2, $SlideOut: true, $ChessMode: { $Row: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
 
                 //Fade in LR Chess
-                , {
-                    $Duration: 1200,
-                    y: 0.3,
-                    $Cols: 2,
-                    $During: {$Top: [0.3, 0.7]},
-                    $ChessMode: {$Column: 12},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, y: 0.3, $Cols: 2, $During: { $Top: [0.3, 0.7] }, $ChessMode: { $Column: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade out LR Chess
-                , {
-                    $Duration: 1200,
-                    y: -0.3,
-                    $Cols: 2,
-                    $SlideOut: true,
-                    $ChessMode: {$Column: 12},
-                    $Easing: {$Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, y: -0.3, $Cols: 2, $SlideOut: true, $ChessMode: { $Column: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade in TB Chess
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    $Rows: 2,
-                    $During: {$Left: [0.3, 0.7]},
-                    $ChessMode: {$Row: 3},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, x: 0.3, $Rows: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Row: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade out TB Chess
-                , {
-                    $Duration: 1200,
-                    x: -0.3,
-                    $Rows: 2,
-                    $SlideOut: true,
-                    $ChessMode: {$Row: 3},
-                    $Easing: {$Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, x: -0.3, $Rows: 2, $SlideOut: true, $ChessMode: { $Row: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
 
                 //Fade in Corners
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    y: 0.3,
-                    $Cols: 2,
-                    $Rows: 2,
-                    $During: {$Left: [0.3, 0.7], $Top: [0.3, 0.7]},
-                    $ChessMode: {$Column: 3, $Row: 12},
-                    $Easing: {
-                        $Left: $JssorEasing$.$EaseInCubic,
-                        $Top: $JssorEasing$.$EaseInCubic,
-                        $Opacity: $JssorEasing$.$EaseLinear
-                    },
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, x: 0.3, y: 0.3, $Cols: 2, $Rows: 2, $During: { $Left: [0.3, 0.7], $Top: [0.3, 0.7] }, $ChessMode: { $Column: 3, $Row: 12 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
                 //Fade out Corners
-                , {
-                    $Duration: 1200,
-                    x: 0.3,
-                    y: 0.3,
-                    $Cols: 2,
-                    $Rows: 2,
-                    $During: {$Left: [0.3, 0.7], $Top: [0.3, 0.7]},
-                    $SlideOut: true,
-                    $ChessMode: {$Column: 3, $Row: 12},
-                    $Easing: {
-                        $Left: $JssorEasing$.$EaseInCubic,
-                        $Top: $JssorEasing$.$EaseInCubic,
-                        $Opacity: $JssorEasing$.$EaseLinear
-                    },
-                    $Opacity: 2,
-                    $Outside: true
-                }
+                , { $Duration: 1200, x: 0.3, y: 0.3, $Cols: 2, $Rows: 2, $During: { $Left: [0.3, 0.7], $Top: [0.3, 0.7] }, $SlideOut: true, $ChessMode: { $Column: 3, $Row: 12 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
 
                 //Fade Clip in H
-                , {
-                    $Duration: 1200,
-                    $Delay: 20,
-                    $Clip: 3,
-                    $Assembly: 260,
-                    $Easing: {$Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, $Delay: 20, $Clip: 3, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade Clip out H
-                , {
-                    $Duration: 1200,
-                    $Delay: 20,
-                    $Clip: 3,
-                    $SlideOut: true,
-                    $Assembly: 260,
-                    $Easing: {$Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, $Delay: 20, $Clip: 3, $SlideOut: true, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade Clip in V
-                , {
-                    $Duration: 1200,
-                    $Delay: 20,
-                    $Clip: 12,
-                    $Assembly: 260,
-                    $Easing: {$Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, $Delay: 20, $Clip: 12, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
                 //Fade Clip out V
-                , {
-                    $Duration: 1200,
-                    $Delay: 20,
-                    $Clip: 12,
-                    $SlideOut: true,
-                    $Assembly: 260,
-                    $Easing: {$Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear},
-                    $Opacity: 2
-                }
+                , { $Duration: 1200, $Delay: 20, $Clip: 12, $SlideOut: true, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
             ];
 
             var options = {
                 $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
                 $AutoPlayInterval: 1500,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
-                $PauseOnHover: 1,                                //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
-
+                $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
                 $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
                 $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
                 $SlideDuration: 800,                                //Specifies default duration (swipe) for slide in milliseconds
@@ -1809,26 +1576,25 @@ var Layout = function () {
                     $Class: $JssorSlideshowRunner$,                 //[Required] Class to create instance of slideshow
                     $Transitions: _SlideshowTransitions,            //[Required] An array of slideshow transitions to play slideshow
                     $TransitionsOrder: 1,                           //[Optional] The way to choose transition to play slide, 1 Sequence, 0 Random
-                    $ShowLink: true                                    //[Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
+                    $ShowLink: true                                 //[Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
                 },
 
-                $ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
-                    $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
-                    $ChanceToShow: 1                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+                    $Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+                    $ChanceToShow: 1                                //[Required] 0 Never, 1 Mouse Over, 2 Always
                 },
 
                 $ThumbnailNavigatorOptions: {                       //[Optional] Options to specify and enable thumbnail navigator or not
                     $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
                     $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
-
                     $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
                     $SpacingX: 8,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
                     $DisplayPieces: 10,                             //[Optional] Number of pieces to display, default value is 1
-                    $ParkingPosition: 360                          //[Optional] The offset position to park thumbnail
+                    $ParkingPosition: 360                           //[Optional] The offset position to park thumbnail
                 }
             };
 
-            var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+            var jssor_slider1 = new $JssorSlider$(containerId, options);
             //responsive code begin
             //you can remove responsive code if you don't want the slider scales while window resizes
             function ScaleSlider() {
@@ -1836,17 +1602,228 @@ var Layout = function () {
                 if (parentWidth)
                     jssor_slider1.$ScaleWidth(Math.max(Math.min(parentWidth, 800), 300));
                 else
-                    window.setTimeout(ScaleSlider, 30);
+                    $Jssor$.$Delay(ScaleSlider, 30);
             }
 
-            //ScaleSlider();
+            ScaleSlider();
+            $Jssor$.$AddEvent(window, "load", ScaleSlider);
 
-            $(window).bind("load", ScaleSlider);
-            $(window).bind("resize", ScaleSlider);
-            $(window).bind("orientationchange", ScaleSlider);
+            $Jssor$.$AddEvent(window, "resize", $Jssor$.$WindowResizeFilter(window, ScaleSlider));
+            $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
             //responsive code end
-
-
         }
     };
 }();
+
+//-----luuhoabk ------
+$.fn.iconLoad = function(iclass){
+    $(this).removeClass(iclass).addClass('animate-spin icon-spin3');
+}
+$.fn.iconUnload = function(iclass){
+    $(this).removeClass('animate-spin icon-spin3').addClass(iclass);
+}
+
+var iconload = function() {
+    return {
+        load: function(tag, iclass){
+            tag.removeClass(iclass);
+            tag.addClass('animate-spin icon-spin3');
+        },
+        unload: function(tag, iclass){
+            tag.removeClass('animate-spin icon-spin3');
+            tag.addClass(iclass);
+        }
+    }
+}();
+// luuhoabk - action friend
+$.fn.loadActionFriend = function(){
+    $(this).on('click',function(){
+        var self = $(this);
+        var friend_type = $(this).attr('data-type');
+        if(friend_type == 'add'){
+            self.addFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Hủy');
+                    self.attr('data-type','delete');
+                    self.parent().find('.sub-alert').html(' Đã gửi lời mời');
+                }
+            }});
+        }else if(friend_type == 'delete'){
+            self.delFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Kết bạn');
+                    self.attr('data-type','add');
+                    self.parent().find('.sub-alert').html(' Chưa kết bạn');
+                }
+            }});
+        }else if(friend_type == 'confirm'){
+            self.confirmFriend({callback: function(respon){
+                if(respon){
+                    self.html('<i class="icon-user-add black"> </i>Hủy');
+                    self.attr('data-type','delete');
+                    self.parent().find('.sub-alert').html(' Đã kết bạn');
+                }
+            }});
+        }
+        if($('.total-confirm-friends')[0]){
+            var tagConfirm = $('.total-confirm-friends');
+            var totalConfirm = parseInt(tagConfirm.text())-1;
+            if(totalConfirm > 0){
+                tagConfirm.text(totalConfirm);
+            }else{
+                $('.wrapper-confirm-friends').html('');
+            }
+        }
+
+
+    });
+}
+// luuhoabk - add friend
+$.fn.addFriend = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var friend_id = $(this).attr('friend_id');
+        self.find('i').iconLoad('icon-user-add');
+        $.ajax({
+             type: "POST",
+             url: URL + "/trang-ca-nhan/ban-be.html",
+             data: {
+                 'friend_id': friend_id,
+                 'type_edit': 'request_add_friend'
+             },
+             success: function (respon) {
+                 options.callback.call(null,respon);
+             },
+             complete: function(){
+                 self.find('i').iconUnload('icon-user-delete');
+             }
+        });
+    });
+};
+// END luuhoabk - add friend
+
+// luuhoabk - delete friend
+$.fn.delFriend = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var r = confirm("Bạn thật sự muốn hủy?");
+        if(r == true){
+            var friend_id = $(this).attr('friend_id');
+            self.find('i').iconLoad('icon-user-delete');
+            $.ajax({
+                type: "POST",
+                url: URL + "/trang-ca-nhan/ban-be.html",
+                data: {
+                    'friend_id': friend_id,
+                    'type_edit': 'request_delete_friend'
+                },
+                success: function (respon) {
+                    options.callback.call(null,respon);
+                },
+                complete: function(){
+                    self.find('i').iconUnload('icon-user-add');
+                }
+            });
+        }
+    });
+};
+// END luuhoabk - delete friend
+
+// luuhoabk - confirm friend
+$.fn.confirmFriend = function(userOptions){
+    $.extend(options, userOptions);
+    var options = $.extend(null,userOptions);
+
+    return $(this).each(function(){
+        var self = $(this);
+        var friend_id = $(this).attr('friend_id');
+        self.find('i').iconLoad('icon-user-add');
+        $.ajax({
+            type: "POST",
+            url: URL + "/trang-ca-nhan/ban-be.html",
+            data: {
+                'friend_id': friend_id,
+                'type_edit': 'request_confirm_friend'
+            },
+            success: function (respon) {
+                options.callback.call(null,respon);
+            },
+            complete: function(){
+                self.find('i').iconUnload('icon-user-delete');
+            }
+        });
+
+    });
+};
+// END luuhoabk confirm friend
+/* imtoantran social action start */
+$.fn.social = function(options){
+    $(this).on("click",".social-btn",function(e){
+        e.preventDefault();
+        var _this = this;_this.disabled = true;
+        controller = $(this).data("controller");
+        if(options) {
+            if (options.controller) {
+                controller = options.controller + "/" + $(this).data("id")+"/";
+            }
+        }
+        $.ajax({
+            url:controller,
+            type:"post",
+            data:$(this).data(),
+            dataType:"json",
+            success:function(data){
+                if(data.success){
+                    if(data.value){
+                        $(_this).addClass("true");
+                    }else{
+                        $(_this).removeClass("true");
+                    }
+                    if($(_this).data("action")=="like"){
+                        //if(data.totalLikes)
+                            $(_this).find(".total-liked").text(data.totalLikes);
+                    }
+                    _this.disabled = false;
+                }
+            },complete:function(){
+                _this.disabled = false;
+            }
+        });
+        return false;
+    });
+};
+/* imtoantran social action stop */
+/* comment start */
+$.fn.comments = function(options) {
+    var _this = this;
+    var controller = $(this).attr("href");
+    if(options) {
+        if (options.controller) {
+            controller = options.controller + "/" + $(this).data("id");
+        }
+    }
+    $(this).on("keyup", function (e) {
+        if (e.which == 13) {
+            $.ajax({
+                type:"post",
+                url:controller,
+                data:{content:this.value},
+                success:function(data){
+                    this.value = "";
+                    if(data){
+                        if(data.success){
+
+                        }
+                    }
+                }
+            })
+        }
+    });
+};
+/* comment stop */

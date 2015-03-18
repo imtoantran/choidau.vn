@@ -148,8 +148,6 @@ class Post extends Eloquent
 		return $this->hasOne("Option","status");
 	}
 
-
-
     public function getMetaKey($meta_key){
 		if($this->meta()->whereMeta_key($meta_key)->count())
         	return $this->meta()->whereMeta_key($meta_key)->first()->meta_value;
@@ -168,7 +166,9 @@ class Post extends Eloquent
 	 * @return string
      */
 	public function thumbnail(){
-		return 'upload/media_user/'.$this->author->id."/thumbnail/".$this->thumbnail;
+		if(File::exists(public_path().$this->thumbnail))
+			return $this->thumbnail;
+		return "/assets/global/img/no-image.png";
 	}
 
 	public function totalView(){
@@ -176,6 +176,7 @@ class Post extends Eloquent
 			return $this->meta()->whereMetaKey("blog_view")->first()->meta_value;
 		return 0;
 	}
+
 	public function updateTotalView(){
 		if($totalView = $this->totalView()){
 			$view = $this->meta()->whereMetaKey("blog_view")->first();
@@ -189,7 +190,50 @@ class Post extends Eloquent
     public function countLike(){
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','31')->count();
     }
+
     public function countDisLike(){
         return $this->belongsToMany('User','post_user','post_id','user_id')->where('post_user_type_id','=','32')->count();
     }
+
+	/**
+	 * @param $key
+	 * @return mixed
+     */
+	public function getMeta($key){
+		return $this->meta()->whereMetaKey($key);
+	}
+
+	/**
+	 * @return mixed
+     */
+	public function getFeaturedImage(){
+		$temp = $this->getMeta("featured_image");
+		if($temp->count()){
+			return Image::find($temp->first()->meta_value);
+		}
+	}
+
+	/* imtoantran check if user like this post start */
+	public function isLiked(){
+		if(Auth::guest()){
+			return false;
+		}
+		$user = Auth::user();
+		return($this->meta()->where(["meta_key"=>"like","meta_value"=>$user->id])->count());
+	}
+	/* imtoantran check if user like this post stop */
+	/* imtoantran check if user like this post start */
+	public function isReportedSpam(){
+		if(Auth::guest()){
+			return false;
+		}
+		$user = Auth::user();
+		return($this->meta()->where(["meta_key"=>"spam","meta_value"=>$user->id])->count());
+	}
+	/* imtoantran check if user like this post stop */
+	/* imtoantran get total like start */
+	public function totalLikes(){
+		return $this->meta()->where(["meta_key"=>"like"])->count();
+	}
+	/* imtoantran get total like stop */
 }

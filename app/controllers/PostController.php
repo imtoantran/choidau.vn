@@ -270,7 +270,53 @@ class PostController extends BaseController {
 
     }
 
-
-
+	/* imtoantran social action start */
+	public function social($post){
+		if(Auth::guest())
+			return Response::json(["success"=>false,"message"=>"Need login"]);
+		$user = Auth::user();
+		$params = Input::all();
+		if(!in_array($params['action'],['like','spam'])){
+			return Response::json(["success"=>false]);
+		}
+		$meta = $post->meta()->whereMetaKey($params['action'])->whereMetaValue($user->id);
+		if($meta->count()){
+			if($meta->delete()){
+				return Response::json(["success"=>true,"value"=>false,"totalLikes"=>$post->totalLikes()]);
+			}
+		}else{
+			$meta = new PostMeta($params['action'],$user->id);
+			$post->meta()->save($meta);
+			return Response::json(["success"=>true,"value"=>true,"totalLikes"=>$post->totalLikes()]);
+		}
+		return Response::json(["success"=>false]);
+	}
+	/* imtoantran social action stop */
+	/* imtoantran save comment start */
+	public function postComments($post){
+		if(Auth::guest()){
+			return Response::json(["success"=>false,"message"=>"Need login"]);
+		}
+		if(Input::has("content")){
+			$user = Auth::user();
+			$comment = new Comment();
+			$comment -> user_id = $user->id;
+			$comment -> parent_id = $post->id;
+			$comment -> content = Input::get("content");
+			if($comment -> save()){
+				return Response::json(["success"=>true,"content"=>View::make("post.comment_item",compact("comment"))->render()]);
+			};
+		}
+		return Response::json(["success"=>false,"message"=>"Not saved"]);
+	}
+	/* imtoantran save comment stop */
+	/* imtoantran load comment start */
+	public function getComments($post){
+		/* imtoantran comments start*/
+		$t = $post->post_type;
+		$$t = $post;
+		return Response::json(["success"=>true,"content"=>View::make("post.comment",compact($t))->render()]);
+	}
+	/* imtoantran load comment stop */
 
 }

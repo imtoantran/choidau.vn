@@ -27,9 +27,15 @@
 <!-- Global styles START -->
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/fontello.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fontello/css/animation.css')}}">
-<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
+{{--<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css')}}">--}}
+{{--<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css')}}">--}}
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/global/plugins/rateit/rateit.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.css')}}">
 @if (isset($style_global))
 {{$style_global}}
 @endif
@@ -37,8 +43,6 @@
 @section('style_global')
 @show
 <!-- Global styles END -->
-
-
 
 <!-- Page level plugin styles START -->
 @if (isset($style_plugin))
@@ -52,7 +56,6 @@
 
 
 <!-- Theme styles START -->
-<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/css/components.css')}}">
 <link rel="stylesheet" href="{{asset('assets/frontend/layout/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('assets/frontend/pages/css/style-choidau.css')}}">
@@ -76,3 +79,4 @@
 {{-- imtoantran add style section from blade template start --}}
 @yield('styles')
 {{-- imtoantran add style section from blade template end --}}
+<script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>

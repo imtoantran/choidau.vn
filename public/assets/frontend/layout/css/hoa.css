@@ -38,15 +38,7 @@ button.btn-xs{text-transform: inherit;}
 #choidau-person .person-header-username{margin: -50px 0px 20px 5px; font-size: 2em; font-weight:bold; color: #fff; text-shadow: 0px 1px 5px #aaa;}
 #choidau-person .person-header-avatar{margin-top: -110px; padding: 0px 10px 0px 0px;}
 #choidau-person .person-header-avatar img{padding: 5px;}
-/*nav.person-header-nav{margin-top: 5px;}*/
-/*nav.person-header-nav ul{border: 2px solid #0a7a05;}*/
-/*nav.person-header-nav ul li{text-align: center;	padding: 5px 0;	font-size: 1.1em; font-weight: bold; border-right: 1px solid;}*/
-/*nav.person-header-nav ul li:last-child{border-right:none;}*/
-/*nav.person-header-nav ul li.active, nav.person-header-nav ul li:hover{color:#fff; background-color: #0a7a05;}*/
-nav.person-header-nav ul{float: right; list-style: none; display: block; position: relative; padding: 0; margin: 0;  }
-nav.person-header-nav ul li{margin: 2px; border: 1px solid #0a7a05; background-color: #fff;  float:left; padding: 6px 48px; font-weight: bold; color: #0a7a05; }
-/*nav.person-header-nav ul li:last-child{margin-right: 2px;}*/
-nav.person-header-nav ul li:hover{background-color: #0a7a05; color:#fff; cursor: pointer;}
+nav.person-header-nav>ul li a{border: 1px solid #0a7a05!important}
 /* end person - header */
 
 /*pesonal - aside*/
@@ -62,7 +54,7 @@ section.aside-wrapper ul.aside-info li>div{padding: 0px 5px 10px 10px;}
 section.aside-wrapper ul.aside-items img{max-width: 60px ;max-height: 60px;}
 section.aside-wrapper ul.aside-items .aside-items-text{font-size: 0.9em; margin-top: 5px;}
 section.aside-wrapper ul.aside-items .aside-items-text p{font-size: 0.8em;}
-section.aside-wrapper ul.aside-items .btn-aside-add-friend{margin-top:10px;font-size: 0.8em; padding: 2px 6px 2px 2px; border-bottom: 1px solid #d2d2d2;}
+section.aside-wrapper ul.aside-items .btn-aside-add-friend, .person-friends-list .btn-tag-delete-friend, .btn-sm-8{text-transform:inherit; margin-top:10px;font-size: 0.8em; padding: 2px 6px 2px 2px; border-bottom: 1px solid #d2d2d2;}
 section.aside-wrapper .aside-item-viewmore{margin: 5px;}
 
 section.aside-wrapper ul.aside-items .aside-link-web{margin-top:20px;font-size: 0.9em;}
@@ -86,7 +78,7 @@ section.person-content .person-content-item .person-type-scopy ul.dropdown-menu 
     padding: 5px;
 }
 section.person-content .person-content-item .person-type-scopy ul.dropdown-menu li:hover{
-    background: aqua;
+    background-color: #4f4f4f; color: #fff;
 }
 
 section.person-content .article-img-text>img{width: 70px; height: 70px;}
@@ -106,7 +98,7 @@ section.person-content .content-article-wrapper article{text-align: justify;}
 
 section.person-content ul.person-content-slide {margin: 5px 0 0 0;}
 section.person-content ul.person-content-slide li{display: inline-block; padding-right: 4px; margin: 5px 0px;}
-section.person-content ul.person-content-slide li img{width: 81px; height: 80px; padding: 2px; border: 1px solid #d5d5d5;}
+section.person-content ul.person-content-slide li img{  width: 88px; height: 80px; padding: 2px; border: 1px solid #d5d5d5;}
 section.person-content ul.person-content-slide li:last-child{padding-right: 0px;}
 section.person-content ul.person-content-slide li:last-child button{background-color: #e5e5e5; width:80px; height: 80px; font-size: 0.8em}
 
@@ -124,12 +116,12 @@ section.person-content .person-command .article-img-text div input{height: 32px;
 #choidau-person .person-friends>header{margin-left: 5px; font-size: 1.1em;	font-weight: 600; color: #fff;}
 #choidau-person .person-friends-item{padding: 5px;}
 #choidau-person .person-friends-item .media{background-color: #fff; padding: 5px;}
-#choidau-person .person-friends-item .media header{margin-top: 10px; color: #444;}
+#choidau-person .person-friends-item .media header{margin-top: 5px; color: #444;}
 #choidau-person .person-friends-item .media a img{width: 70px; height: 70px;}
 /*end person - friends*/
 
 /*person - location*/
-#choidau-person .person-location{padding: 5px;}
+#choidau-person .person-wrapper{padding: 5px;}
 #choidau-person .person-location-list{padding: 0;}
 #choidau-person .person-location-item{padding: 5px; background-color: #fff;}
 #choidau-person .person-location-item .media img{width: 200px; height: 120px;overflow: hidden;}
@@ -156,4 +148,63 @@ section.person-content .person-command .article-img-text div input{height: 32px;
 #choidau-person .action-view-more{padding: 5px; background-color: #fff; font-size: 1em; }
 
 /*end person action*/
+
+/*blog setting info*/
+.tab-content .blog-setting-wrapper{padding: 5px;}
+.tab-content .blog-setting-content{padding: 5px; background-color: #fff;}
+/*end blog setting info*/
+
+/* blog location */
+.blog-setting-header .wrapper-header i.blog-icon-bg{color: #fff; font-size: 2.2em;}
+.blog-setting-header .wrapper-header i.blog-icon-content{margin-left: -34px; margin-top: 9px; position: absolute;}
+.blog-setting-header .wrapper-header span{text-transform: uppercase;}
+
+.mix-filter>li.filter span.badge.circle{background-color: #fff; color: #444; margin-left: 5px;}
+.mix-filter>li.filter{background: transparent; color: #fff;}
+.mix-filter>li.filter.active{background-color: #3ec753;}
+.blog-wrapper{padding: 5px;}
+.blog-content{background-color: #fff;}
+.mix-grid .mix{margin: 0px 0px 10px 0px; padding: 10px 10px 0px 10px;}
+.mix-grid .mix{margin: 0px 0px 10px 0px; padding: 10px 10px 0px 10px;}
+.mix-grid .mix img{position: relative;}
+.mix-grid .mix .title{position: absolute; bottom: 0; color: #fff; background-color: rgba(24,24,24,.5) !important; border-top: 1px solid rgba(221,221,221,.4);	width: 100%; padding: 5px;}
+ul.blog-navigation{
+
+}
+ul.blog-navigation>li{border: none; padding-right: 2px;}
+ul.blog-navigation>li{border: none;}
+ul.blog-navigation>li a{border: 1px solid green;}
+ul.blog-navigation>li a:hover,ul.blog-navigation>li.active a{border: 1px solid green!important; background-color: green; color: #fff;}
+ul.blog-navigation>li a:hover i,ul.blog-navigation>li.active a i{color: #fff!important;}
+/* end blog location */
+
+/*luuhoabk - blog-photo*/
+#blog-tab-photo ul.blog-tabs {margin-bottom: 5px;}
+ul.blog-tabs {text-transform: inherit!important;}
+ul.blog-tabs > li a{color: #fff;}
+ul.blog-tabs > li > a .badge{color: #444!important; background-color: #fff;!important;}
+ul.blog-tabs >li.active a, ul.blog-tabs >li>:hover{background-color: #3ec753!important; color: #fff;}
+#photo-tab-location .badge-name{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	font-size: 0.9em;
+	width: 100%;
+	padding: 10px;
+	background-color: rgba(0,0,0,0.5);
+	font-weight: 600;
+	color: rgb(255,255,255);
+}
+#photo-tab-location .badge-num-image{
+	position: absolute;
+	right: 0;
+	padding: 2px 6px;
+	background-color: #b4b4b4;
+	font-weight: 600;
+	text-shadow: 0px 0px 16px #000;
+	color: #fff;
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #eee;
+}
+/*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\URL;
 class EventLocation extends Post {
     protected $table = "posts";
     protected $attributes = array(
-        'post_type' => 'event_location'
+        'post_type' => 'event'
     );
     protected $id_location;
     /**
@@ -16,16 +16,11 @@ class EventLocation extends Post {
      */
 
     public function newQuery($excludeDeleted = true)
-    { $this->title;
-        return parent::newQuery()->wherePost_type("event_location");
+    {
+        return parent::newQuery()->wherePost_type("event");
     }
 
     public function location(){
         return $this->belongsToMany('Location','location_post','post_id','location_id');
     }
-
-    /*  public function getUrc(){
-          return $this->meta()->whereMeta_key('url')->first()->meta_value;
-      }*/
-
 }
