@@ -247,16 +247,20 @@ class LocationController extends BaseController
                 $total_checkin = $location->totalCheckIn();
                 $isLike = false;
                 $isCheckin = false;
+
+
                 if(Auth::check()){
                     $user = Auth::user();
+//                    var_dump($location->isCheckin($user->id)); exit;
                     $isLike = ($location->isLiked($user->id))? true: false;
                     $isCheckin = ($location->isCheckin($user->id))? true: false;
                 }
-
                 /* bat session location start*/
                 Session::push("location", $location);
                 /* bat session location end*/
+
                 $location_nearly = $this->getClosePosition($location);
+
                 $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
                 $reviews->setBaseUrl("/location/$location->id/reviews");
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
@@ -268,7 +272,7 @@ class LocationController extends BaseController
                 $profile_image = $location->avatar;
                 $reviewsImages = $location->reviewsImages();
                 /* load location's images stop  */
-                return View::make("site/location/view", compact("location", "location_nearly", "reviews", "options", "blogs", "reviewsImages"));
+                return View::make("site/location/view", compact("location", "total_like", "total_checkin", "isLike", "isCheckin", "location_nearly", "reviews", "options", "blogs", "reviewsImages"));
             }
 
         }
@@ -280,6 +284,7 @@ class LocationController extends BaseController
     {
         $arrPosition = explode(',', $location_one->position);
         $location_province = Location::whereProvince_id($location_one->province_id)->where('id', '<>', $location_one->id)->get();
+
         if(count($location_province)){
             foreach ($location_province as $k => $v) {
                 $arrPosition_v = explode(',', $v->position);
@@ -287,6 +292,8 @@ class LocationController extends BaseController
             }
             return $this->objectRSort($location_province, "distance");
         }
+
+
 
     }
 
@@ -317,7 +324,7 @@ class LocationController extends BaseController
                 $save = $location->itemSave($user, 'like');
                 if(empty($save)){
                     echo $location->totalLike();
-                    $isPost = Post::whereUser_id($user->id)->wherePost_type('like_location')->whereParent_id($location->id);
+                    $isPost = Post::whereUser_id($user->id)->wherePost_type('like-location')->whereParent_id($location->id);
                     if(!$isPost->count()){
                         $post =new Post();
                         $post->title        = "like-location";

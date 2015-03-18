@@ -244,7 +244,7 @@
 
 @section("bottoma")
     <!-- dia diem lan can -->
-    @if($location_nearly->count())
+    @if(count($location_nearly))
         <div class="row location">
             <div class="col-lg-12">
                 <div class="container-fluid bg-primary">
@@ -279,8 +279,8 @@
                 </div>
             </div>
         </div>
-        @endif
-                <!-- dia diem lan can end -->
+    @endif
+    <!-- dia diem lan can end -->
 @stop
 
 @section("bottomb")
@@ -675,7 +675,7 @@
                                         'action_type': action_type
                                     },
                                     success: function (respon) {
-//                                        console.log(respon);
+                                        console.log(respon);
                                         if(respon != -1){
                                             switch(action_type){
                                                 case 'like':
@@ -690,13 +690,14 @@
                                                     break;
                                                 case 'checkin':
                                                     self.parent().find('i').removeClass('white').addClass('yellow');
-                                                    self.attr('data-type', 'unlike');
+                                                    self.attr('data-type', 'checkout');
                                                     self.parent().find('.total-checkin').text(respon);
                                                     break;
                                                     break;
                                                 default: break;
                                             }
                                         }else{console.log('da co loi xay ra.');}
+                                        console.log(icon_class);
                                         self.parent().find('i').iconUnload(icon_class);
                                     }
                                 });

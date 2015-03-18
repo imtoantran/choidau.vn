@@ -105,11 +105,6 @@ class Location extends Eloquent
         return $ratings->count() ? ceil($ratings->sum("meta_value") / $ratings->count()) : 0;
     }
 
-    public function isLiked($userId)
-    {
-        return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
-    }
-
     public function address()
     {
         $address = isset($this->address_detail) ? $this->address_detail : "";
@@ -178,4 +173,19 @@ class Location extends Eloquent
         return $this->hasOne("EventLocation", "parent_id");
     }
     /* imtoantran event */
+
+    public function itemSave($user, $action_type){
+        return $this->userAction()->attach($user, ['action_type' => $action_type, 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);
+    }
+    public function itemDelete($userId,$type){
+        return $this->userAction()->withPivot("action_type")->wherePivot('action_type' , '=', $type)->detach($userId);
+    }
+    public function isLiked($userId)
+    {
+        return $this->userAction()->whereUserId($userId)->whereActionType("like")->count();
+    }
+    public function isCheckin($userId)
+    {
+        return $this->userAction()->whereUserId($userId)->whereActionType("checkin")->count();
+    }
 }

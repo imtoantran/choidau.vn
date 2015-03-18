@@ -501,6 +501,22 @@ class BlogUserController extends BaseController {
                     $post_action[$key]['location'] = $location;
                 }
             }
+
+            $relate_comment = Post::find($val_action['id'])->comments();
+            $post_comment = $relate_comment->get();
+            if($relate_comment->count()){
+                foreach($post_comment as $key_comment=>$val_comment){
+                    $post_comment[$key_comment]['user'] = User::whereId($val_comment['user_id'])->get(['username', 'fullname', 'avatar'])->first();
+                    $post_comment[$key_comment]['total_like'] = Post::find($val_comment['id'])->totalLikes();
+                    $is_like_comment = $user->isAction('like', $val_comment['id'])->count();
+                    $post_comment[$key_comment]['is_like_comment'] = ($is_like_comment)?'unlike':'like';
+
+                }
+
+
+            }
+            $post_action[$key]['post_comment'] = $post_comment;
+
             $is_like = $user->isAction('like', $val_action['id'])->count();
             $post_action[$key]['total_like'] = Post::find($val_action['id'])->totalLikes();
             $post_action[$key]['is_like'] = ($is_like)?'unlike':'like';
@@ -508,6 +524,7 @@ class BlogUserController extends BaseController {
             $post_action[$key]['level'] = Option::find($user_blog->level_id)->description;
             $post_action[$key]['privacy_description'] = Option::find($val_action->privacy)->description;
         }
+//exit;
         return $post_action;
     }
 }

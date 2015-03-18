@@ -206,5 +206,21 @@ ul.blog-tabs >li.active a, ul.blog-tabs >li>:hover{background-color: #3ec753!imp
 	border-bottom: 1px solid #eee;
 	border-left: 1px solid #eee;
 }
+
+.total-comment.badge.badge-default{
+	font-weight: 600;
+	height: 14px;
+	color: #fff;
+	background-color: rgb(10, 122, 5);
+	font-size: 10px !important;
+	border-radius: 2px !important;
+	padding: 2px 4px 2px 3px;
+	box-shadow: 0px 1px 1px #444;
+}
+ul.blog-comment-wrapper{list-style: none; padding: 0px;}
+ul.blog-comment-wrapper img{width: 36px!important; height: 36px!important;}
+ul.blog-comment-wrapper .content-comment{font-size: 1em!important; font-weight: 500!important;}
+ul.blog-comment-wrapper a.action-comment-like{font-weight: 600; font-size: 0.9em;}
+ul.blog-comment-wrapper .total-comment-like{font-size: 0.9em;}
 /*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/

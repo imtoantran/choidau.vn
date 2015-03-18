@@ -546,6 +546,21 @@ class UserController extends BaseController
         }
     }
 
+// luuhoabk - comment post
+    public function postComment(){
+        $user = Auth::user();
+        $data = Input::all();
+        $post =new Post();
+        $post->title        = "comment";
+        $post->parent_id    =  $data['post_id'];
+        $post->content      = $data['comment_content'];
+        $post->privacy      = 18;
+        $post->post_type    = 'comment';
+        $post->user_id      = $user->id;
+        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+        echo $post->save();
+    }
 
 }
 

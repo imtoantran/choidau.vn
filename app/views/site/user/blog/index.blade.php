@@ -149,15 +149,35 @@
                                                 <!-- comment - like - share -->
                                                 <div class="row margin-none">
                                                     <div class="person-text-assoc">
-                                                        <a href="#" class="action-assoc" data-action="{{$val->is_like}}" data-user-id="{{$user_auth->id}}" data-post-id="{{$val->id}}">
+                                                        <a href="#" class="action-assoc" data-action="{{$val->is_like}}" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="{{$val->id}}">
                                                             @if($val->is_like == 'like') Thích @else Bỏ thích @endif
                                                         </a>
-                                                        <a href="#">Bình luận</a>
+                                                        <a href="#">Bình luận <span class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
                                                         <a href="#">Chia sẻ</a>
                                                     </div>
                                                 </div>
 
                                                 <!-- comment - like - share -->
+                                                    <ul class="row margin-none blog-comment-wrapper">
+                                                        @if(count($val->post_comment)>0)
+                                                            @foreach($val->post_comment as $key=>$val_comment)
+                                                                <li class="margin-bottom-10 clearfix">
+                                                                    <div class="col-md-12 article-img-text col-none-padding">
+                                                                        <img class="avatar-pad2" src="{{URL::to('/').$val_comment->user->avatar}}" alt="">
+                                                                        <div class="person-content-info">
+                                                                            <div>
+                                                                                <a>@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a> -
+                                                                                <span class="content-comment"> {{$val_comment->content}} </span>
+                                                                            </div>
+                                                                            <span class="grey">{{date_format(new DateTime($val_comment->updated_at),'H:i d/m/Y')}}</span> -
+                                                                            <span> <a href="#" class="action-assoc" data-action="{{$val_comment->is_like_comment}}" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="{{$val_comment->id}}">@if($val_comment->is_like_comment == 'like') Thích @else Bỏ thích @endif</a></span> -
+                                                                            <span class="click-like-comment"><i class=" icon-thumbs-up-alt "></i></span><span class="total-comment-like">{{$val_comment->total_like}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
+                                                    </ul>
                                                 <div class="row margin-none person-command">
                                                     <div class="col-md-12 col-none-padding">
                                                         <a href="#" class= "click-like"><i class="@if($val->is_like == 'like') icon-thumbs-up-alt @else icon-thumbs-down-alt @endif"></i></a>
@@ -166,7 +186,7 @@
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
                                                             <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
-                                                            <input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">
+                                                            <input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="{{$val->id}}" type="text" placeholder="Viết bình luận...">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -602,45 +622,6 @@
             /**--- END luuhoabk - load album inblog ---**/
 
 //------------------------
-
-
-            // like
-            $('.action-assoc').on('click', function(e){
-                e.preventDefault();
-                blogLike($(this));
-            });
-            //event dup like
-            $('.click-like').click(function(e){
-                e.preventDefault();
-                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
-
-
-            /**---- END luuhoabk - action more ---**/
-            function blogLike(self){
-                var action = self.attr('data-action');
-                var tag_icon = self.closest('.person-content-item').find('.click-like i');
-                    tag_icon.iconLoad(tag_icon.attr('class'));
-                    self.like({callback: function(respon){
-                        console.log(respon);
-                        if(respon != -1){
-                            if(action == 'like'){
-                                self.text('Bỏ thích');
-                                self.attr('data-action', 'unlike');
-                                self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
-                            }else if(action == 'unlike'){
-                                self.text('Thích');
-                                self.attr('data-action', 'like');
-                                self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
-                            }
-                            self.closest('.person-content-item').find('.total-like').text(respon);
-                        }
-                    }});
-            }
-
-
-
-
-
             /**---- luuhoabk - post status ---**/
             $('.btn-post-status').on('click',function(){
                 var content_status = $('#content-status').val();
@@ -704,7 +685,7 @@
                             <!-- comment - like - share -->
                             html += '<div class="row margin-none">';
                             html += '<div class="person-text-assoc">';
-                            html += '<a href="#" class="action-assoc" data-action="like" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
+                            html += '<a href="#" class="action-assoc" data-action="like" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
                             html += '<a href="#">Bình luận</a>';
                             html += '<a href="#">Chia sẻ</a>';
                             html += '</div>';
@@ -896,7 +877,7 @@
                                 <!-- comment - like - share -->
                                 html +='<div class="row margin-none">';
                                 html +='<div class="person-text-assoc">';
-                                html += '<a href="#" class="action-assoc" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
+                                html += '<a href="#" class="action-assoc" data-type="post_item" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
                                 html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
                                 html += '</a>';
 
@@ -960,6 +941,96 @@
                 });
             });
             /**---- END luuhoabk - action more ---**/
+
+//----------------------------
+            // like
+            $('.action-assoc').on('click', function(e){
+                e.preventDefault();
+                blogLike($(this));
+            });
+            //event dup like
+            $('.click-like').click(function(e){
+                e.preventDefault();
+                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
+
+            // trigger event enter comment
+            $('.comment').keypress(function(e){
+                comment($(this), e);
+            });
+
+            /**---- END luuhoabk - action more ---**/
+            function blogLike(self){
+                var action = self.attr('data-action');
+                var type = self.attr('data-type');
+                if(type=='post_item'){
+                    var tag_icon = self.closest('.person-content-item').find('.click-like i');
+                }else{
+                    var tag_icon = self.closest('.article-img-text').find('.click-like-comment i');
+                }
+                    tag_icon.iconLoad(tag_icon.attr('class'));
+                    self.like({callback: function(respon){
+                        console.log(respon);
+                        if(respon != -1){
+                            if(type = 'post_item'){
+                                if(action == 'like'){
+                                    self.text('Bỏ thích');
+                                    self.attr('data-action', 'unlike');
+                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
+                                }else if(action == 'unlike'){
+                                    self.text('Thích');
+                                    self.attr('data-action', 'like');
+                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
+                                }
+                                self.closest('.person-content-item').find('.total-like').text(respon);
+                            }else{
+                                if(action == 'like'){
+                                    self.text('Bỏ thích');
+                                    self.attr('data-action', 'unlike');
+                                    self.closest('.article-img-text').find('.click-like-comment i').iconUnload('icon-thumbs-down-alt');
+                                }else if(action == 'unlike'){
+                                    self.text('Thích');
+                                    self.attr('data-action', 'like');
+                                    self.closest('.article-img-text').find('.click-like-comment i').iconUnload('icon-thumbs-up-alt');
+                                }
+                                self.closest('.article-img-text').find('.total-comment-like').text(respon);
+                            }
+
+                        }
+                    }});
+            }
+
+            /**---- luuhoabk - handle event comment ---**/
+            function comment(self, event){
+                    var code = event.keyCode || event.which;
+                    if(code == 13) { //Enter keycode
+                        var comment_content = self.val();
+                        var post_id = self.attr('data-post-id');
+                        if(comment_content.length <= 0){
+                            alert('Bình luận không được để trống');
+                        }else{
+                            $.ajax({
+                                type: "POST",
+                                url: "{{URL::to('thanh-vien/comment-post')}}",
+                                data: {
+                                    'comment_content': comment_content,
+                                    'post_id': post_id
+                                },
+                                dataType: 'json',
+                                success: function (respon) {
+                                    if(respon){
+                                        self.val('');
+                                    }
+                                }
+                            });
+                        }
+                    }
+            }
+
+
+            /**---- luuhoabk - handle event like comment ---**/
+
+            /**---- END luuhoabk - handle event like comment ---**/
+
 
         });
     </script>
