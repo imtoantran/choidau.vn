@@ -55,6 +55,7 @@
 <script src="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/frontend/pages/scripts/media-manager.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/frontend/pages/scripts/jquery.ag.js')}}"></script>
 
 
 @if (isset($js_plugin))

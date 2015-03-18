@@ -79,7 +79,7 @@ class BlogController extends BaseController {
 		}
 		$post -> updateTotalView();
 		// Get this post comments
-		$comments = $post->comments()->orderBy('created_at', 'ASC')->get();
+		$comments = $post->comments()->orderBy('created_at', 'DESC')->get()->reverse();
 
         // Get current user and check permission
         $user = $this->user->currentUser();
@@ -190,4 +190,20 @@ class BlogController extends BaseController {
 		return json_encode(["success"=>true]);
 	}
 	/* imtoantran save comment end*/
+	public function postComments($post){
+		if(Auth::guest()){
+			return Response::json(["success"=>false,"message"=>"Need login"]);
+		}
+		if(Input::has("content")){
+			$user = Auth::user();
+			$comment = new Comment();
+			$comment -> user_id = $user->id;
+			$comment -> parent_id = $post->id;
+			$comment -> content = Input::get("content");
+			if($comment -> save()){
+				return Response::json(["totalComments"=>$post->comments()->count(),"success"=>true,"content"=>View::make("site.blog.comment_item",compact("comment"))->render()]);
+			};
+		}
+		return Response::json(["success"=>false,"message"=>"Not saved"]);
+	}
 }

@@ -29,9 +29,8 @@
                     @foreach ($posts as $post)
                         <div class="margin-bottom-10 item-blog ">
                             <div class="col-md-3 col-none-padding-left col-sm-3 margin-bottom-10 ">
-                                <a href="{{{ $post->url() }}}" class="fancybox-button" title="Image Title"
-                                   data-rel="fancybox-button thumbnail">
-                                    <img class="img-responsive" src="http://placehold.it/260x180" alt="">
+                                <a href="{{{ $post->url() }}}" title="{{$post->title}}">
+                                    <img class="img-responsive" src="@if(($post->getFeaturedImage())) {{$post->getFeaturedImage()->thumbnail260x180()}} @else http://placehold.it/260x180 @endif" alt="{{$post->title}}">
                                 </a>
                             </div>
                             <div class="col-md-9 col-sm-9">
@@ -42,13 +41,13 @@
                                     {{ date_format($post->created_at,"d/m/Y - H:m:i") }}
                                     <i class = "icon-smile"></i>{{$post->totalView()}} lượt xem
                                     <i class = "icon-comment-empty"></i>{{$post->totalComment()}} thảo luận
-                                    <i class = "icon-heart-empty"></i>{{$post->totalLiked()}} thích
+                                    <i class = "icon-heart-empty"></i>{{$post->totalLikes()}} thích
 
                                 </p>
 
-                                <p class="margin-bottom-10">{{ String::tidy(Str::limit($post->content, 200)) }}</p>
+                                <p class="margin-bottom-10">{{ String::tidy(Str::limit($post->excerpt(), 200)) }}</p>
 
-                                <p><a class="more" href="#">Xem thêm<i class="icon-angle-right"></i></a></p>
+                                <p><a class="more" href="{{$post->url()}}">Xem thêm<i class="icon-angle-right"></i></a></p>
                             </div>
                             <div class="clearfix"></div>
                             <hr>

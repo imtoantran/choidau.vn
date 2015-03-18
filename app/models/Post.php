@@ -165,7 +165,7 @@ class Post extends Eloquent
 	/**
 	 * @return string
      */
-	public function thumbnail(){
+	public function thumbnail($width=100,$height=100){
 		if(File::exists(public_path().$this->thumbnail))
 			return $this->thumbnail;
 		return "/assets/global/img/no-image.png";
@@ -211,6 +211,7 @@ class Post extends Eloquent
 		if($temp->count()){
 			return Image::find($temp->first()->meta_value);
 		}
+		return false;
 	}
 
 	/* imtoantran check if user like this post start */
@@ -236,4 +237,9 @@ class Post extends Eloquent
 		return $this->meta()->where(["meta_key"=>"like"])->count();
 	}
 	/* imtoantran get total like stop */
+	/* imtoantran post excerpt start */
+	public function excerpt(){
+		return Purifier::clean($this->content,'excerpt');
+	}
+	/* imtoantran post excerpt stop */
 }

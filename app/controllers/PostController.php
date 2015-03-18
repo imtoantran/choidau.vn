@@ -304,7 +304,7 @@ class PostController extends BaseController {
 			$comment -> parent_id = $post->id;
 			$comment -> content = Input::get("content");
 			if($comment -> save()){
-				return Response::json(["success"=>true,"content"=>View::make("post.comment_item",compact("comment"))->render()]);
+				return Response::json(["totalComments"=>$post->comments()->count(),"success"=>true,"content"=>View::make("post.comment_item",compact("comment"))->render()]);
 			};
 		}
 		return Response::json(["success"=>false,"message"=>"Not saved"]);

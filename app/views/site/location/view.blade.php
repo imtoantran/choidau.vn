@@ -325,7 +325,6 @@
 @stop
 
 @section('js_page')
-    <script src="{{asset('assets/frontend/pages/scripts/jquery.ag.js')}}"></script>
     <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
     <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
     <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>

@@ -339,4 +339,16 @@ class MediaController extends BaseController
         header("Content-Type: ".$file->getMimeType());
         $image->output();
     }
+
+    public function thumbnailx($w,$h,$filename)
+    {
+
+        $inputFile = public_path().Config::get("upload.path").$filename;
+        $image = new ImageManipulation($inputFile);
+        $image->load($inputFile);
+        $image->crop($w,$h);
+        $file = new \Symfony\Component\HttpFoundation\File\File($inputFile);
+        header("Content-Type: ".$file->getMimeType());
+        $image->output();
+    }
 }

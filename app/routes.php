@@ -94,7 +94,7 @@ Route::group(array('prefix' => 'qtri-choidau'), function () {
 
 });
 
-/* imtoantran start */
+/* imtoantran post start */
 Route::group(array('prefix' => 'post'), function () {
     /* imtoantran social action route start */
     Route::post("social/{post}","PostController@social");
@@ -117,6 +117,8 @@ Route::group(array('prefix' => 'post'), function () {
     Route::controller('/', 'PostController');
 
 });
+
+Route::post("blog/comments/{post}","BlogController@postComments");
 
 #location start
 /* imtoantran save food start */
@@ -261,6 +263,7 @@ Route::get('language/{lang}',
     )
 );
 /* imtoantran image thumnnail start */
+Route::get("upload/thumbnail/{w}x{h}-{file}", "MediaController@thumbnailx")->where(["w"=>"[0-9]+","h"=>"[0-9]+"]);
 Route::get("upload/thumbnail/{file}", "MediaController@thumbnail");
 /* imtoantran image thumnnail stop */
 Route::get("location/{location}/reviews", "LocationController@getReviews");
