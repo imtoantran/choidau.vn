@@ -1786,7 +1786,7 @@ $.fn.social = function(options){
                         $(_this).removeClass("true");
                     }
                     if($(_this).data("action")=="like"){
-                        if(data.totalLikes)
+                        //if(data.totalLikes)
                             $(_this).find(".total-liked").text(data.totalLikes);
                     }
                     _this.disabled = false;

@@ -4,7 +4,7 @@
     <td>
         <a class="fancybox" rel="food" href=@if(empty($food->image)) /assets/global/img/no-image.png @else {{$food->image}} @endif>
         <img height="50"
-             src= @if(empty($food->image)) /assets/global/img/no-image.png @else {{$food->image}} @endif />
+             src= @if(empty($food->thumbnail)) /assets/global/img/no-image.png @else {{$food->thumbnail}} @endif />
         </a>
     </td>
     <td class="control-label">{{$food->price}}</td>

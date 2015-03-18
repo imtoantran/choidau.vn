@@ -607,7 +607,10 @@ class LocationController extends BaseController
         $food->user_id = Auth::id();
         $food->type_id = $data['type'];
         $food->price = $data['price'];
-        $food->image = $data['image'];
+        if(Input::has('thumbnail'))
+            $food->thumbnail = $data['thumbnail'];
+        if(Input::has('image'))
+            $food->image = $data['image'];
         if($action == "add"){
             $key = $location->foods()->count();
         }

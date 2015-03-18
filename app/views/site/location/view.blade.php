@@ -605,12 +605,13 @@
                                 break;
                         };
                     });
-                    $("#food-thumbail").mediaupload({
+                    $("#food_form #food-thumbail").mediaupload({
                         url: "{{URL::to("media/upload")}}",
                         "multi-select": false,
                         complete: function (data) {
-                            $("#food_form #food-thumbail").attr("src", data[0].thumbnail);
-                            $("#food_form input[name=image]").val(data[0].thumbnail);
+                            $("#food_form #food-thumbail").attr("src", data[0].src);
+                            $("#food_form input[name=image]").val(data[0].src);
+                            $("#food_form input[name=thumbnail]").val(data[0].thumbnail);
                         }
                     });
                     @endif

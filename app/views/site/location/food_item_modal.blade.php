@@ -56,6 +56,7 @@
                     		<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
                                 <img id="food-thumbail" src="/assets/global/img/no-image.png" class="img-responsive" style="max-height:150px;">
                     			<input type="hidden" name="image">
+                    			<input type="hidden" name="thumbnail">
                     		</div>
                     	</div>
                     </div>
