@@ -241,4 +241,8 @@ class User extends Eloquent implements ConfideUserInterface {
     public function display_name(){
         return empty($this->fullname)?$this->username:$this->fullname;
     }
+    
+    public function isAction($post_type, $post_id){
+        return PostMeta::whereMeta_key($post_type)->whereMeta_value($this->id)->wherePost_id($post_id);
+    }
 }

@@ -93,17 +93,19 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
                         Location activities
                         <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like"
-                                  data-original-title="Thích"></span>
-
-                            <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
+                            <span class="icon-border-square tooltips require-login-items location-action" style="cursor:pointer;" data-original-title="Thích"
+                                  data-type=@if($isLike){{'unlike'}} @else {{'like'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}">
+                                <i class="icon-heart @if($isLike) yellow @else white @endif" style="font-size: 23px;"></i>
+                            </span>
+                            <p class="total-like">{{$total_like}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <span class="icon-location icon-border-square tooltips" style="cursor:pointer;"
-                                  id="do-checkin" data-original-title="Đánh dấu"></span>
-
-                            <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
+                            <span class="icon-border-square tooltips require-login-items location-action" data-original-title="Checkin" style="cursor:pointer;"
+                                  data-type=@if($isCheckin){{'checkout'}} @else {{'checkin'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}" >
+                                <i class="icon-location @if($isCheckin) yellow @else white @endif" style="font-size: 23px;"></i>
+                            </span>
+                            <p class="total-checkin">{{$total_checkin}}</p>
                         </div>
                         <div class="col-md-6">
                             <span class="icon-star icon-border-square tooltips"
@@ -643,53 +645,75 @@
                     });
 
                     /***--end thời gian sự kiện location*/
+                    //luuhoabk - kiem tra login de checkin
+                    $(".require-login-items").click(function (e) {
+                        e.preventDefault();
+                        var self = $(this);
 
+                        var type = self.attr('data-type');
+                        var icon_class = (type == 'checkin' || type == 'checkout') ? 'icon-location': 'icon-heart';
+                            self.parent().find('i').iconLoad(icon_class);
 
-                    /* imtoantran do like */
-                    $("#do-like").click(function (e) {
-                        var like_btn = $(this);
-                        $(this).attr('disabled', true);
-                        $.ajax({
-                            type: "post",
-                            url: "{{URL::to("location/like")}}",
-                            data: {id: "{{$location->id}}"},
-                            dataType: "json",
-                            success: function (response) {
-                                $(".like-count").text(response['totalFavourites']);
-                                if (response['canLike']) {
+                        var url = $(this).attr('data-url');
 
+                        $(this).login({callback: function(respon_login){
+                            if(respon_login){
+                                var action = self.attr('data-action');
+                                var location_id = self.attr('data-location');
+                                var action_type = self.attr('data-type');
+                                // dang nhap thanh cong thi like + checkin
+                                if(action_type == 'checkout'){
+                                    alert('Bạn đã checkin địa điểm này rồi.');
+                                    self.parent().find('i').iconUnload(icon_class);
+                                    return false;
                                 }
-                                like_btn.attr('disabled', false);
-                            }
-                        });
-                    });
-                    /* imtoantran do like */
-                    /* do checkin start */
-                    $("#do-checkin").click(function (e) {
-                        var checkin_btn = $(this);
-                        checkin_btn.attr('disabled', true);
-                        $.ajax({
-                            type: "post",
-                            url: "{{URL::to("location/checkin")}}",
-                            data: {id: "{{$location->id}}"},
-                            dataType: "json",
-                            success: function (response) {
-                                if (response['success']) {
-                                    $(".checkin-count").text(response['totalCheckedIn']);
-                                } else {
-                                    alert(response['message']);
+                                $.ajax({
+                                    type: "POST",
+                                    url: URL + "/dia-diem/action",
+                                    data: {
+                                        'location_id': location_id,
+                                        'action_type': action_type
+                                    },
+                                    success: function (respon) {
+//                                        console.log(respon);
+                                        if(respon != -1){
+                                            switch(action_type){
+                                                case 'like':
+                                                    self.parent().find('i').removeClass('white').addClass('yellow');
+                                                    self.attr('data-type', 'unlike');
+                                                    self.parent().find('.total-like').text(respon);
+                                                    break;
+                                                case 'unlike':
+                                                    self.parent().find('i').removeClass('yellow').addClass('white');
+                                                    self.attr('data-type', 'like');
+                                                    self.parent().find('.total-like').text(respon);
+                                                    break;
+                                                case 'checkin':
+                                                    self.parent().find('i').removeClass('white').addClass('yellow');
+                                                    self.attr('data-type', 'unlike');
+                                                    self.parent().find('.total-checkin').text(respon);
+                                                    break;
+                                                    break;
+                                                default: break;
+                                            }
+                                        }else{console.log('da co loi xay ra.');}
+                                        self.parent().find('i').iconUnload(icon_class);
+                                    }
+                                });
+                            }else{
+                                var cf = confirm('Bạn cần đăng nhập để thực hiện tác vụ này.');
+                                if(cf){
+                                    $('#popup-login').modal('show');
                                 }
-                                checkin_btn.attr('disabled', false);
+                                self.parent().find('i').iconUnload(icon_class);
                             }
-                        });
+
+                        }});
                     });
-                    /* do checkin end */
-                    /* load reviews start */
-                    /* load reviews end */
-                    /* viet review start*/
 
-                    /**
+                    /**---- luuhoabk - checkin dia diem -------**/
 
+                    /**---- END luuhoabk - checkin dia diem -------**/
 
                      /*------------Tag Thanh vien Loacation-*/
                     $(".btn-member-location").click(function () {
@@ -807,7 +831,6 @@
                                 'date_start_event': date_start_event
                             },
                             success: function (response) {
-
                             },
                             complete: function (response) {
                                 $("#form-ada-event-location")[0].reset();
@@ -816,9 +839,7 @@
                         });
 
                     });
-
                     /***---Btn Add sự kiện location--end--*/
-
 
                     /*** Btn Add Thực đơn ---start--*/
 
@@ -830,9 +851,7 @@
                         $("#txt-location-food-name").attr('data-food-suggest-id', end_val);
                     });
 
-
                     $(".btn-add-food-location").click(function () {
-
                         var element_input_data_location = $("#input-data-value-location");
                         var location_id = element_input_data_location.attr('i_l');
                         var food_name = $("#txt-location-food-name").val();

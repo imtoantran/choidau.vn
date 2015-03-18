@@ -15,15 +15,12 @@
                                             <header class="action-comment-subject text-weight600">Cập nhật trạng thái
                                             </header>
                                             <div class="action-comment-input">
-                                                <textarea name="content-status" id="content-status"
-                                                          placeholder="bạn đang nghỉ gì ?" rows="3"
-                                                          style="width: 100%;padding: 0; border: none;">
-                                                </textarea>
+                                                <textarea name="content-status" id="content-status" minlength="5" data-required="1" rows="2" style="width: 100%; padding: 5px; border: none;" placeholder=" Bạn đang nghĩ gì?" required></textarea>
                                             </div>
                                             <div class="text-right action-comment-submit">
                                                 <div class="btn-group person-type-scopy margin-none">
-                                                    <button type="button" id="privacy-status" value_id="18"
-                                                            class="btn btn-default btn-xs">Công khai
+                                                    <button type="button" id="main-status" value_id="18" class="btn btn-default btn-xs">
+                                                        Cộng đồng
                                                     </button>
                                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                         <i class="icon-down-dir"></i>
@@ -39,7 +36,11 @@
                                         </div>
                                     </div>
                                     @endif
+                                <div class="anchor_load text-center hidden">
+                                    <span class="white">.:: <i class="icon-spin4 animate-spin white" style=" font-size: 18px; margin-bottom: 10px;"></i> ::.</span>
+                                </div>
                                 <div class="my-tab-content" style="background-color: #fff;">
+                                    <div id="anchor_top"></div>
                                     <?php $object_action = json_decode($actions); ?>
                                     @foreach($object_action as $key=>$val)
                                         {{--chuan bi du lieu --}}
@@ -51,9 +52,11 @@
                                                     $note = 'Đã check in địa điểm này.';
                                                     $description = $val->location->description;
                                                     break;
-                                                case 'like'   :
+                                                case 'like-location'   :
                                                     $note = 'Đã thích địa điểm này.';
-                                                    $description = $val->location->description;
+                                                    if(!is_null($val->location)){
+                                                        $description = $val->location->description;
+                                                    }
                                                     break;
                                                 case 'review' :
                                                     $note = 'Đã nhận xét địa điểm này.';
@@ -79,18 +82,20 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-none-padding text-right">
-                                                        <div class="btn-group person-type-scopy">
-                                                            <button type="button" class="btn btn-default btn-xs">Công khai</button>
-                                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle"
-                                                                    data-toggle="dropdown">
-                                                                <i class="icon-down-dir"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li>Công khai</li>
-                                                                <li>Bạn bè</li>
-                                                                <li>Nhóm</li>
-                                                            </ul>
-                                                        </div>
+                                                        @if($user_blog->id == $user_auth->id)
+                                                            <div class="btn-group person-type-scopy">
+                                                                <button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="{{$val->id}}" value_id="{{$val->privacy}}">{{$val->privacy_description}}</button>
+                                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">
+                                                                    <i class="icon-down-dir"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu btn-privacy-change" role="menu">
+                                                                    <li value_id="15">Chỉ mình tôi</li>
+                                                                    <li value_id="16">Bạn bè</li>
+                                                                    <li value_id="17">Bạn của bạn tôi</li>
+                                                                    <li value_id="18">Cộng đồng</li>
+                                                                </ul>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
 
@@ -144,7 +149,9 @@
                                                 <!-- comment - like - share -->
                                                 <div class="row margin-none">
                                                     <div class="person-text-assoc">
-                                                        <a href="#">Thích</a>
+                                                        <a href="#" class="action-assoc" data-action="{{$val->is_like}}" data-user-id="{{$user_auth->id}}" data-post-id="{{$val->id}}">
+                                                            @if($val->is_like == 'like') Thích @else Bỏ thích @endif
+                                                        </a>
                                                         <a href="#">Bình luận</a>
                                                         <a href="#">Chia sẻ</a>
                                                     </div>
@@ -153,8 +160,8 @@
                                                 <!-- comment - like - share -->
                                                 <div class="row margin-none person-command">
                                                     <div class="col-md-12 col-none-padding">
-                                                        <a href=""><i class="icon-thumbs-up-alt"></i></a>
-                                                        <span>{{$val->total_like}}</span> người thích điều này
+                                                        <a href="#" class= "click-like"><i class="@if($val->is_like == 'like') icon-thumbs-up-alt @else icon-thumbs-down-alt @endif"></i></a>
+                                                        <span class="total-like">{{$val->total_like}}</span> người thích điều này
                                                     </div>
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
@@ -165,8 +172,9 @@
                                                 </div>
                                             </div>
                                     @endforeach
+                                        <div id="anchor_bottom" data-offet="5"></div>
                                 </div>
-                                <div class="row action-view-more margin-none text-center text-1em2 choidau-font">
+                                <div class="btn green btn-block btn-action-more">
                                     Xem thêm hoạt động
                                 </div>
                             </section>
@@ -489,9 +497,10 @@
             data: {"_token": "{{Session::getToken()}}"}
         });
         jQuery(document).ready(function () {
-            // luuhoabk - load location in blog
             //hieu ung hinh anh
             Portfolio.init();
+
+            /**--- luuhoabk - load location in blog ---**/
             $('#btn-tag-blog-location').on('click', function () {
                 var tag_location = $('#blog-tab-location');
                 tag_location.find('.blog-content').html('');
@@ -513,7 +522,6 @@
                     }
                 });
             });
-
                 //type: "posted, like, checkin"
                 var getHtmlItem = function (arrObject, type) {
                 var html_item = '';
@@ -534,9 +542,9 @@
                 })
                 return html_item;
             }
-            // end luuhoabk - load location in blog
+            /**--- END luuhoabk - load location in blog ---**/
 
-            // luuhoabk - load album in blog
+            /**--- luuhoabk - load album in blog ---**/
             $('#btn-tag-blog-photo').on('click', function () {
                 var photo_location = $('#photo-tab-location .row');
                 var photo_avatar = $('#photo-tab-avatar');
@@ -547,7 +555,6 @@
                     data: {'id_user_blog': '{{$blog_info['id']}}'},
                     dataType: 'json',
                     success: function (respon) {
-                        console.log(respon);
                         var tab_photo = $('#blog-tab-photo');
                             tab_photo.find('span.tab-location').text(respon.length);
                         if(!(respon.length >0)){
@@ -584,31 +591,376 @@
                                         autoScale   : true,
                                         fitToView   : true
                                     });
-                                    $('.fancybox-thumb').first().trigger('click');                                }
+                                    $('.fancybox-thumb').first().trigger('click');
+                                }
                             });
                             photo_location.append(tag_html);
                         });
-
-
                     }
                 });
             });
-            // END luuhoabk - load album inblog
+            /**--- END luuhoabk - load album inblog ---**/
 
-            // luuhoabk - post status
-            $('.btn-post-status').on('click',function(){
-                
+//------------------------
+
+
+            // like
+            $('.action-assoc').on('click', function(e){
+                e.preventDefault();
+                blogLike($(this));
             });
-            // END luuhoabk - post status
+            //event dup like
+            $('.click-like').click(function(e){
+                e.preventDefault();
+                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
 
-//           var Album = function(){
-//               return {
-//                   show: function(object){
-//                       var html = '';
-//                        $('body').add(html);
-//                   }
-//               }
-//           }
+
+            /**---- END luuhoabk - action more ---**/
+            function blogLike(self){
+                var action = self.attr('data-action');
+                var tag_icon = self.closest('.person-content-item').find('.click-like i');
+                    tag_icon.iconLoad(tag_icon.attr('class'));
+                    self.like({callback: function(respon){
+                        console.log(respon);
+                        if(respon != -1){
+                            if(action == 'like'){
+                                self.text('Bỏ thích');
+                                self.attr('data-action', 'unlike');
+                                self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
+                            }else if(action == 'unlike'){
+                                self.text('Thích');
+                                self.attr('data-action', 'like');
+                                self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
+                            }
+                            self.closest('.person-content-item').find('.total-like').text(respon);
+                        }
+                    }});
+            }
+
+
+
+
+
+            /**---- luuhoabk - post status ---**/
+            $('.btn-post-status').on('click',function(){
+                var content_status = $('#content-status').val();
+                if(content_status.length <= 0){
+                    alert('Trạng thái không được rỗng   .');
+                    $('#content-status').focus();
+                    return false;
+                }
+                var privacy_status = $('#main-status').attr('value_id');
+                var anchor_load = $('.anchor_load');
+                anchor_load.removeClass('hidden').fadeIn;
+                $.ajax({
+                    type: "POST",
+                    url: URL + "/trang-ca-nhan/trang-thai.html",
+                    data: {
+                        'content_status': content_status,
+                        'privacy_status': privacy_status,
+                        'type_edit': 'add_status',
+                        'blog_id': '{{$user_blog->id}}'
+                    },
+//                    async: true,
+                    success: function (data) {
+                        data = $.parseJSON(data);
+                        if(data.success){
+                            var html = ' <div class="row person-content-item">';
+                            html += '<div class="col-md-12 col-none-padding">';
+                            html += '<div class="col-md-9 article-img-text col-none-padding">';
+                            html += '<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                            html += '<div class="person-content-info">';
+                            html += '<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$blog_info['level']}}</span></div>';
+                            html += '<span>Đã cập nhật trạng thái.</span><br>';
+                            html += '<span>'+data.updated_date+'</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '<div class="col-md-3 col-none-padding text-right">';
+                            html += '<div class="btn-group person-type-scopy">';
+                            html += '<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+data.id+'" value_id="'+data.privacy+'">'+data.privacy_description+'</button>';
+                            html += '<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">';
+                            html += '<i class="icon-down-dir"></i>';
+                            html += '</button>';
+                            html += '<ul class="dropdown-menu btn-privacy-change" role="menu">';
+                            html += '<li value_id="15">Chỉ mình tôi</li>';
+                            html += '<li value_id="16">Bạn bè</li>';
+                            html += '<li value_id="17">Bạn của bạn tôi</li>';
+                            html += '<li value_id="18">Cộng đồng</li>';
+                            html += '</ul>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '<div class="col-md-12 col-none-padding person-content-article">';
+                            html += '<div class="row margin-none">';
+                            html += '<section class="article-img-text clearfix content-article-wrapper">';
+                            html += '<div class="text-algin-img">';
+                            html += '<article>';
+                            html += data.content;
+                            html += '</article>';
+                            html += '</div>';
+                            html += '</section>';
+                            html += '</div>';
+                            html += '</div>';
+                            <!-- comment - like - share -->
+                            html += '<div class="row margin-none">';
+                            html += '<div class="person-text-assoc">';
+                            html += '<a href="#" class="action-assoc" data-action="like" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
+                            html += '<a href="#">Bình luận</a>';
+                            html += '<a href="#">Chia sẻ</a>';
+                            html += '</div>';
+                            html += '</div>';
+
+                            <!-- comment - like - share -->
+                            html += '<div class="row margin-none person-command">';
+                            html += '<div class="col-md-12 col-none-padding">';
+                            html += '<a href="#" class="click-like"><i class="icon-thumbs-up-alt"></i></a>';
+                            html += '<span class="total-like">0</span> người thích điều này';
+                            html += '</div>';
+                            html += '<div class="col-md-12 article-img-text col-none-padding">';
+                            html += '<div class="row margin-none">';
+                            html += '<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                            html += '<input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+
+
+                            var item_person = $('<div/>').append(html);
+                            // bat su kien thay doi quyen post
+                            item_person.find('ul.btn-privacy-change li').on('click', function(){
+                                var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
+                                var privacy_text = tag_privacy_val.text();
+                                var privacy_id = tag_privacy_val.attr('value_id');
+
+                                tag_privacy_val.attr('value_id', $(this).attr('value_id'));
+                                tag_privacy_val.text($(this).text());
+                                tag_privacy_val.blogPrivacy({callback: function(respon){
+                                    if(!respon){
+                                        tag_privacy_val.text(privacy_text);
+                                        tag_privacy_val.attr('value_id',privacy_id);
+                                    }
+                                }});
+                            });
+
+                            item_person.find('.action-assoc').on('click', function(e){
+                                e.preventDefault();
+                                blogLike($(this));
+                            });
+                            //event dup like
+                            item_person.find('.click-like').click(function(e){
+                                e.preventDefault();
+                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
+
+                            $('#anchor_top').after(item_person);
+                        }else{
+                            alert('Cập nhật trạng thái thất bại. Xin vui lòng thử lại.');
+                        }
+                    },
+                    complete: function(){
+                        anchor_load.addClass('hidden').fadeOut;
+                    }
+                });
+                $("#content-status").val('');
+            });
+            /**---- END luuhoabk - post status ---**/
+
+            /**---- luuhoabk - action more ---**/
+                // change privace
+            $('ul.btn-privacy-change li').on('click', function(){
+                $(this).closest('.person-type-scopy').find('.btn-privacy-val').blogPrivacy({callback: function(respon) {
+                    console.log($.parseJSON(respon));
+                }});
+            });
+            /**---- END luuhoabk - action more ---**/
+
+            /**---- luuhoabk - action more ---**/
+            $('.btn-action-more').on('click', function(){
+                var btb_action = $(this);
+                var anchor_bottom = $('#anchor_bottom');
+                var data_offset = anchor_bottom.attr('data-offet');
+                $.ajax({
+                    type: "POST",
+                    url: URL + "/trang-ca-nhan/trang-thai.html",
+                    data: {
+                        'type_edit': 'action_more',
+                        'blog_id': '{{$blog_info['id']}}',
+                        'data_offset': data_offset
+                    },
+                    async: true,
+                    success: function (respon) {
+
+                        var data = $.parseJSON(respon);
+                        if(data.length > 0){
+                            var html = '';
+                            var note = '';
+                            var description = '';
+                            $.each(data, function(key, val) {
+                                switch (val.post_type) {
+                                    case 'checkin':
+                                        note = 'Đã check in địa điểm này.';
+                                        description = val.location.description;
+                                        break;
+                                    case 'like'   :
+                                        note = 'Đã thích địa điểm này.';
+                                        description = val.location.description;
+                                        break;
+                                    case 'review' :
+                                        note = 'Đã nhận xét địa điểm này.';
+                                        description = val.content;
+                                        break;
+                                    default :
+                                        note = 'Đã cập nhật trạng thái.';
+                                        description = val.content;
+                                        break;
+                                }
+
+                                var date_updated = formatDate(val.updated_at);
+
+                                html +='<div class="row person-content-item">';
+                                html +='<div class="col-md-12 col-none-padding">';
+                                html +='<div class="col-md-9 article-img-text col-none-padding">';
+                                html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                                html +='<div class="person-content-info">';
+                                html +='<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - '+val.level+'</span></div>';
+                                html +='<span>' + note + '</span><br>';
+                                html +='<span>' + date_updated + '</span>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='<div class="col-md-3 col-none-padding text-right">';
+                                @if($user_blog->id == $user_auth->id)
+                                html +='<div class="btn-group person-type-scopy">';
+                                html +='<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+val.id+'"  value_id="'+val.privacy+'">'+val.privacy_description+'</button>';
+                                html +='<button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">';
+                                html +='<i class="icon-down-dir"></i>';
+                                html +='</button>';
+                                html +='<ul class="dropdown-menu btn-privacy-change" role="menu">';
+                                html +='<li value_id="15">Chỉ mình tôi</li>';
+                                html +='<li value_id="16">Bạn bè</li>';
+                                html +='<li value_id="17">Bạn của bạn tôi</li>';
+                                html +='<li value_id="18">Cộng đồng</li>';
+                                html +='</ul>';
+                                html +='</div>';
+                                @endif
+                                html +='</div>';
+                                html +='</div>';
+                                if (val.post_type == 'status') {
+                                    if (description!= null && description != ""){
+                                        html += '<div class="col-md-12 col-none-padding person-content-article">';
+                                        html += '<div class="row margin-none">';
+                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
+                                        html += '<div class="text-algin-img">';
+                                        html += '<article>';
+                                        html += description;
+                                        html += '</article>';
+                                        html += '</div>';
+                                        html += '</section>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                    }
+                                }else {
+                                    html += '<div class="col-md-12 col-none-padding person-content-article">';
+                                    if (val.location != null) {
+                                        html += '<div class="row margin-none">';
+                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
+                                        html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
+                                        html += '<div class="text-algin-img">';
+                                        html += '<header>';
+                                        html += '<a href="'+val.location.url+'"><h2>'+val.location.name+'</h2></a>';
+                                        html += '</header>';
+                                        html += '<article>';
+                                        html += description;
+                                        html += '</article>';
+                                        html += '<a href="' + val.location.url + '"><i>' + val.location.url + '</i></a>';
+                                        html += '</div>';
+                                        html += '</section>';
+                                        html += '</div>';
+                                        <!-- slide img -->
+                                        html += '<div class="row margin-none">';
+                                        if (val.location.album.length > 0) {
+                                            html += '<ul class="list-unstyled person-content-slide">';
+                                            $.each(val.location.album, function (key, image) {
+                                                if (key <= 6) {
+                                                    html += '<li><img src="{{URL::to('/')}}'+image.thumbnail + '" alt=""></li>';
+                                                }
+                                            });
+                                            html += '<li class="text-right"> <a href="' + val.location.url + '"><button class="btn btn-default">xem thêm</button></a></li>';
+                                            html += '</ul>';
+                                        }
+                                        html += '</div>';
+                                    }
+                                    html += '</div>';
+                                }
+
+                                <!-- comment - like - share -->
+                                html +='<div class="row margin-none">';
+                                html +='<div class="person-text-assoc">';
+                                html += '<a href="#" class="action-assoc" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
+                                html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
+                                html += '</a>';
+
+                                html +='<a href="#">Bình luận</a>';
+                                html +='<a href="#">Chia sẻ</a>';
+                                html +='</div>';
+                                html +='</div>';
+
+                                <!-- comment - like - share -->
+                                html +='<div class="row margin-none person-command">';
+                                html +='<div class="col-md-12 col-none-padding">';
+                                html +='<a href="#" class = "click-like">';
+                                html +=(val.is_like == 'like')? '<i class="icon-thumbs-up-alt"></i>' : '<i class="icon-thumbs-down-alt"></i>';
+                                html +='</a>';
+                                html +='<span class="total-like">'+val.total_like+'</span> người thích điều này';
+                                html +='</div>';
+                                html +='<div class="col-md-12 article-img-text col-none-padding">';
+                                html +='<div class="row margin-none">';
+                                html +='<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                                html +='<input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>'
+                            })
+                            var item_person = $('<div/>').append(html);
+
+                            // bat su kien cho item action load more
+                            item_person.find('ul.btn-privacy-change li').on('click', function(){
+                                var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
+                                var privacy_text = tag_privacy_val.text();
+                                var privacy_id = tag_privacy_val.attr('value_id');
+
+                                tag_privacy_val.attr('value_id', $(this).attr('value_id'));
+                                tag_privacy_val.text($(this).text());
+
+                                tag_privacy_val.blogPrivacy({callback: function(respon) {
+                                    if(!respon){
+                                        tag_privacy_val.text(privacy_text);
+                                        tag_privacy_val.attr('value_id',privacy_id);
+                                    }
+                                }});
+                            });
+                            anchor_bottom.before(item_person).attr('data-offet',parseInt(data_offset)+5);
+
+                            // bat su kien like cho item load more
+                            item_person.find('.action-assoc').on('click', function(e){
+                                e.preventDefault();
+                                blogLike($(this));
+                            })
+
+                            //event dup like
+                            item_person.find('.click-like').click(function(e){
+                                e.preventDefault();
+                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
+                        }
+                        else{
+                            btb_action.addClass('disabled').text('.:: Kết thúc ::.');
+                        }
+                    }
+                });
+            });
+            /**---- END luuhoabk - action more ---**/
+
         });
     </script>
 @stop

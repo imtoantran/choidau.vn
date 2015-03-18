@@ -187,10 +187,6 @@ class LocationController extends BaseController
         return Location::find($location_id)->deleteImageAlbum($post_id);
     }
 
-//        $province_id = Input::get('dataForm');
-//        $a = array($province_id['location_timeAction']);
-//        print_r($a); exit;
-//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
     /* imtoantran delete images start */
     public function deleteImages($location)
     {
@@ -247,6 +243,16 @@ class LocationController extends BaseController
             // neu khong co danh muc thi hien thi dia diem
             if (Location::whereSlug($slug)->count()) {
                 $location = Location::whereSlug($slug)->first();
+                $total_like = $location->totalLike();
+                $total_checkin = $location->totalCheckIn();
+                $isLike = false;
+                $isCheckin = false;
+                if(Auth::check()){
+                    $user = Auth::user();
+                    $isLike = ($location->isLiked($user->id))? true: false;
+                    $isCheckin = ($location->isCheckin($user->id))? true: false;
+                }
+
                 /* bat session location start*/
                 Session::push("location", $location);
                 /* bat session location end*/
@@ -274,12 +280,14 @@ class LocationController extends BaseController
     {
         $arrPosition = explode(',', $location_one->position);
         $location_province = Location::whereProvince_id($location_one->province_id)->where('id', '<>', $location_one->id)->get();
-
-        foreach ($location_province as $k => $v) {
-            $arrPosition_v = explode(',', $v->position);
-            $location_province[$k]['distance'] = pow(($arrPosition[0] - $arrPosition_v[0]), 2) + pow(($arrPosition[1] - $arrPosition_v[1]), 2);
+        if(count($location_province)){
+            foreach ($location_province as $k => $v) {
+                $arrPosition_v = explode(',', $v->position);
+                $location_province[$k]['distance'] = pow(($arrPosition[0] - $arrPosition_v[0]), 2) + pow(($arrPosition[1] - $arrPosition_v[1]), 2);
+            }
+            return $this->objectRSort($location_province, "distance");
         }
-        return $this->objectRSort($location_province, "distance");
+
     }
 
     //luuhoabk sap xep mang doi tuong tam thoi
@@ -298,80 +306,133 @@ class LocationController extends BaseController
         }
         return $object;
     }
-
-    function like()
-    {
-        $id = Input::get("id");
-        $location = Location::find($id);
+    function action(){
         $user = Auth::user();
-        $blog_user = $user->blog()->first();
-        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
-        $response = [];
-        if ($count) {
-            $location->userAction()->detach($user, ['action_type' => 'like']);
-            $post_like = Status::where('parent_id', '=', $location->id)->where('user_id', '=', $user->id)->first();
-            $blog_post = BlogPost::where('post_id', '=', $post_like->id)->where('user_id', '=', $user->id)
-                ->where('blog_post_type_id', '=', '44')->where('blog_id', '=', $blog_user->id);
+        $data = Input::all();
+        $location = Location::find($data['location_id']);
 
-            $blog_post->delete();
-//            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
-            $post_like->delete();
-            $response['canLike'] = true;
-        } else {
-            $location->userAction()->attach($user, ['action_type' => 'like', 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);
-            $date = date_create("now");
-            $date = date_format($date, "Y-m-d H:i:s");
-
-
-            $post_like = new Status();
-            $post_like->user_id = $user->id;
-            $post_like->parent_id = $location->id;
-            $post_like->save();
-            $blog_user->status()->attach($user, ['blog_post_type_id' => 44, 'post_id' => $post_like->id, 'blog_id' => $blog_user->id, 'created_at' => $date, 'updated_at' => $date]);
-
-            $response['canLike'] = false;
+        switch($data['action_type']){
+            case 'like':
+                if($location->isLiked($user->id)){ echo -1; break; }
+                $save = $location->itemSave($user, 'like');
+                if(empty($save)){
+                    echo $location->totalLike();
+                    $isPost = Post::whereUser_id($user->id)->wherePost_type('like_location')->whereParent_id($location->id);
+                    if(!$isPost->count()){
+                        $post =new Post();
+                        $post->title        = "like-location";
+                        $post->parent_id    = $location->id;
+                        $post->content      = "like-location";
+                        $post->privacy      = 18;
+                        $post->post_type    = 'like-location';
+                        $post->user_id      = $user->id;
+                        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->save();
+                    }
+                } else{ echo -1;}
+                break;
+            case 'unlike':
+                if($location->isLiked($user->id)){
+                    if($location->itemDelete($user->id, 'like')){  echo $location->totalLike(); } else{ echo -1;}
+                }else{echo -1;}
+                break;
+            case 'checkin':
+                if($location->isCheckin($user->id)){ echo -1; break; }
+                $save = $location->itemSave($user, 'checkin');
+                if(empty($save)){
+                    echo $location->totalCheckIn();
+                    $isPost = Post::whereUser_id($user->id)->wherePost_type('checkin')->whereParent_id($location->id);
+                    if(!$isPost->count()){
+                        $post =new Post();
+                        $post->title        = "checkin";
+                        $post->parent_id    = $location->id;
+                        $post->content      = "checkin";
+                        $post->privacy      = 18;
+                        $post->post_type    = 'checkin';
+                        $post->user_id      = $user->id;
+                        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->save();
+                    }
+                } else{ echo -1;}
+                break;
+            default: break;
         }
-        $response['totalFavourites'] = $location->totalLike();
-        $response['success'] = true;
-        return json_encode($response);
     }
 
-    function checkin()
-    {
-        $id = Input::get("id");
-        $location = Location::find($id);
-        $user = Auth::user();
-        $response = [];
-        if ($location->totalCheckIn()) {
-            $response['success'] = false;
-            $response['message'] = "Bạn đã đến đây";
-        } else {
-            $date = date_create("now");
-            $date = date_format($date, "Y-m-d H:i:s");
+//
+//    function like()
+//    {
+//        $user = Auth::user();
+//        $id = Input::get("id");
+//        $location = Location::find($id);
+//        $blog_user = $user->blog()->first();
+//        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
+//        $response = [];
+//        if ($count) {
+//            $location->userAction()->detach($user, ['action_type' => 'like']);
+//            $post_like = Status::where('parent_id', '=', $location->id)->where('user_id', '=', $user->id)->first();
+//            $blog_post = BlogPost::where('post_id', '=', $post_like->id)->where('user_id', '=', $user->id)
+//                ->where('blog_post_type_id', '=', '44')->where('blog_id', '=', $blog_user->id);
+//
+//            $blog_post->delete();
+////            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
+//            $post_like->delete();
+//            $response['canLike'] = true;
+//        } else {
+//            $location->userAction()->attach($user, ['action_type' => 'like', 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);
+//            $date = date_create("now");
+//            $date = date_format($date, "Y-m-d H:i:s");
+//
+//
+//            $post_like = new Status();
+//            $post_like->user_id = $user->id;
+//            $post_like->parent_id = $location->id;
+//            $post_like->save();
+//            $blog_user->status()->attach($user, ['blog_post_type_id' => 44, 'post_id' => $post_like->id, 'blog_id' => $blog_user->id, 'created_at' => $date, 'updated_at' => $date]);
+//
+//            $response['canLike'] = false;
+//        }
+//        $response['totalFavourites'] = $location->totalLike();
+//        $response['success'] = true;
+//        return json_encode($response);
+//    }
 
-            $location->userAction()->attach($user, ['action_type' => 'checkin', 'created_at' => $date, 'updated_at' => $date]);
+//    function checkin()
+//    {
+//        $id = Input::get("id");
+//        $location = Location::find($id);
+//        $user = Auth::user();
+//        $response = [];
+//        if ($location->totalCheckIn()) {
+//            $response['success'] = false;
+//            $response['message'] = "Bạn đã đến đây";
+//        } else {
+//            $date = date_create("now");
+//            $date = date_format($date, "Y-m-d H:i:s");
+//            $location->userAction()->attach($user, ['action_type' => 'checkin', 'created_at' => $date, 'updated_at' => $date]);
+//            $blog_user = $user->blog()->first();
+//
+//            $post_check_in = new Checkin();
+//            $post_check_in->user_id = $user->id;
+//            $post_check_in->parent_id = $location->id;
+//            $post_check_in->save();
+//
+//            $blog_user->status()->attach($user, ['blog_post_type_id' => 41, 'blog_id' => $blog_user->id, 'post_id' => $post_check_in->id, 'created_at' => $date, 'updated_at' => $date]);
+//
+//
+//            $response['success'] = true;
+//        }
+//        $response['totalCheckedIn'] = $location->totalCheckIn();
+//
+//        return json_encode($response);
+//    }
 
-            $blog_user = $user->blog()->first();
-
-            $post_check_in = new Checkin();
-            $post_check_in->user_id = $user->id;
-            $post_check_in->parent_id = $location->id;
-            $post_check_in->save();
-
-            $blog_user->status()->attach($user, ['blog_post_type_id' => 41, 'blog_id' => $blog_user->id, 'post_id' => $post_check_in->id, 'created_at' => $date, 'updated_at' => $date]);
-
-
-            $response['success'] = true;
-        }
-        $response['totalCheckedIn'] = $location->totalCheckIn();
-
-        return json_encode($response);
-    }
-
-    private function userAction()
-    {
-
-    }
+//    private function userAction()
+//    {
+//
+//    }
 
     /**
      * imtoantran

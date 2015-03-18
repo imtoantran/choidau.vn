@@ -93,8 +93,7 @@ class BlogUserController extends BaseController {
         );
 
         // luuhoabk - danh sach hoat dong cua blog
-        $actions = $this->LoadBlogAction($user_blog,5);
-
+        $actions = $this->LoadBlogAction($user_blog,0);
         //END luuhoabk - danh sach hoat dong cua blog
 
         //luuhoabk - danh sach goi y ket ban
@@ -263,100 +262,46 @@ class BlogUserController extends BaseController {
         }
     }
 
-    public function postStatusBlogUser(){
+    public function postStatusBlog(){
         $data=Input::all();
         $user =  Auth::user();
-        $this->blogUser=$user->blog()->first();
-
-        $user_blog=User::find($data['id_user_blog']);
-        $blog_user=$user_blog->blog()->first();
-
-        $type_edit=$data['type_edit'];
-        if(Request::ajax())
-        {
-            switch($type_edit){
-                case "add_status":
-                    $post =new Post();
-                    $post->title="status";
-                    $post->content=$data['content'];
-                    $post->privacy =$data['privacy'];
-                    $post->post_type='status';
-                    $post->user_id=$user->id;
-                    $post->save();
-                    $date=date_create("now");
-                    $date=  date_format($date,"Y-m-d H:i:s");
-                    $post->userAction()->attach($user,['post_user_type_id'=>33,'created_at'=>$date]);
-                    $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id,'created_at'=>$date,'updated_at'=>$date]);
-                    echo $post->id;
-                    break;
-                case "like_status":
-                  //  $user=Auth::user();
-                    $date=date_create("now");
-                    $date=  date_format($date,"Y-m-d H:i:s");
-
-                    $post_like=Post::where('id','=',$data['post_id'])->first();
-                    $type_action_like=$data['type_action_like'];
-
-                    if($type_action_like=="type_action_like"){
-                        $post_like->userAction()->attach($user,['post_user_type_id'=>31,'created_at'=>$date]);
-
+        $blog_id =  $data['blog_id'];
+        switch($data['type_edit']){
+            case 'add_status':
+                $now = date_create("now");
+                $post =new Post();
+                $post->user_id      = $user->id;
+                $post->title        = "status";
+                $post->post_type    ='status';
+                $post->content      = $data['content_status'];
+                $post->privacy      = $data['privacy_status'];
+                $post->created_at   = date_format($now,"Y-m-d H:i:s");
+                $post->updated_at   = date_format($now,"Y-m-d H:i:s");
+                    if($post->save()){
+                        $post['success'] = 1;
+                        $post['privacy_description'] = Option::find($post->privacy)->description;
+                        $post['updated_date'] = date_format($now,'H:i d/m/Y');
+                        echo json_encode($post);
                     }else{
-                        $post_like->userAction()->detach($user,['post_user_type_id'=>31,'created_at'=>$date]);
+                        echo $post['success'] = 0;
                     }
-                    $number_like=$post_like->userAction()->where('post_user_type_id','=','31')->count();
-                    $data_1=array(
-                        'type_action_like'=>$type_action_like,
-                        'number_like'=>$number_like
-                    );
-
-                  //  echo $type_action_like.'-'.$number_like;
-                    echo json_encode($data_1);
-                    break;
-                case "comment_post":
-                    $post_id=$data['post_id'];
-                    $content_comment=$data['content_comment'];
-
-                    $post= new Post();
-                    $post->content=$data['content_comment'];
-                    $post->parent_id=$data['post_id'];
-                    $post->post_type='comment';
-                    $post->user_id=$user->id;
-                    $post->save();
-                    $post_parent=Post::where('id','=',$post_id)->first();
-
-                    $data_1=array(
-                        'avatar_user'=>$user->avatar,
-                        'username'=>$user->username,
-                        'content'=>$data['content_comment'],
-                        'date_at'=>String::showTimeAgo($post->created_at()),
-                        'id_user'=>$user->id,
-                        'id_comment'=>$post->id,
-                        'number_comment'=>$post_parent->comments()->count()
-                    );
-                    echo json_encode($data_1);
-                    break;
-                case "comment_delete":
-
-                    $post=Post::where('id','=',$data['id_comment'])->where('post_type','=','comment')->get()->first();
-                    $post->delete();
-                    $post_parent=Post::where('id','=',$data['id_parent_comment'])->first();
-                    echo $inum_comment=$post_parent->comments()->count();
-                    break;
-                case "status_delete":
-                    $post=Post::where('id','=',$data['id_status'])->where('post_type','=','status')->first();
-                    $listComment=$post->comments()->delete();
-                    $blog_user->status()->detach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id]);
-
-                    $post->delete();
-                    break;
-            }
-
+                break;
+            case 'action_more':
+                $user_blog = User::find($blog_id);
+                echo json_encode($this->LoadBlogAction($user_blog, $data['data_offset']));
+                break;
+            case 'request_privacy': //hanh dong phan quyen bai viet
+                if(isset($data['post_id']) && isset($data['value_id'])){
+                    echo Post::whereId($data['post_id'])->update(['privacy'=>$data['value_id']]);
+                }else{
+                    echo 0;
+                }
+                break;
+            default: break;
 
         }
 
-
     }
-    //luuhoabk
 
     public function getCountMutualFriend($arr1, $arr2){
     $arr1_tam[] ='';
@@ -390,10 +335,17 @@ class BlogUserController extends BaseController {
         echo json_encode($list_friend);
     }
 
-//    /** luuhoabk - chon danh sach ban  **/
-//    public function getFriend($friend, $user_id, $friend_id){
-//        return $friend->whereUser_id($user_id)->whereFriend_id($friend_id)->get()->first();
-//    }
+
+
+    /** luuhoabk - danh sach da ket ban  **/
+    public function friendList($user){
+        return $user->referFriend()->withPivot("status_id")->wherePivot('status_id' , '=', 34)->get();
+    }
+
+    /** luuhoabk - ket ban hay chua ?  **/
+    public function isFriend($user, $friend){
+        return Friend::whereUser_id($user->id)->whereFriend_id($friend->id)->whereStatus_id(34)->count();
+    }
 
     /** luuhoabk - them ban  **/
     public function addFriend($friend, $user_id, $friend_id, $state){
@@ -427,7 +379,6 @@ class BlogUserController extends BaseController {
 
                 case "request_confirm_friend":
                     $this->updateFriend($friend, $data['friend_id'], $this->user->id, '34');
-//                    $num_friend = $this->getFriend($friend, $this->user->id, $data['friend_id']);
                     $num_friend = $this->user->referFriend()->get();
                     if(count($num_friend)>0){
                         echo $this->updateFriend($friend, $this->user->id, $data['friend_id'], '34');
@@ -496,34 +447,161 @@ class BlogUserController extends BaseController {
         return $kq;
     }
 
+    /** luuhoabk - tong luot like **/
+    public function totalLike($post_type, $parent_id){
+       return Post::wherePost_type($post_type)->whereParent_id($parent_id)->count();
+    }
+
     /** luuhoabk - lay danh sach cac hoat dongcua blog **/
     public function LoadBlogAction($user_blog,$offset){
-        $arr_action = Post::orderBy('updated_at','desc')->whereUser_id($user_blog->id)->whereIn('post_type',array('status','like','checkin','review','location'))->take($offset)->skip(0)->get();
-        foreach($arr_action as $key=>$val_action){
-            if($val_action['post_type'] != 'status'){
+        $user =  Auth::user();
+        $post_type_action = array('status','like-location','checkin','review','location');
+        $arr_post_hidden = array();
+        // lay duoc mang cac id cua bai viet ma user dang online ko duoc quyen xem. ->privacy
+
+        $refer = Post::orderBy('updated_at','desc')->whereUser_id($user_blog->id)->whereIn('post_type', $post_type_action);
+        if($user->id != $user_blog->id){
+            foreach($refer->get() as $key=>$val){
+                switch($val['privacy']){
+                    case 15: //chi minh toi
+                        if($user->id != $user_blog->id){$arr_post_hidden[] = $val->id;}
+                        break;
+                    case 16: // ban be
+                        if(!$this->isFriend($user_blog, $user)){$arr_post_hidden[] = $val->id;}
+                        break;
+                    case 17: //ban cua ban toi
+                        if(!$this->isFriend($user_blog, $user)){$arr_post_hidden[] = $val->id; break;}
+
+                        $valid = false;
+                        $list_friend = $this->friendList($user_blog);
+                        foreach($list_friend as $key=>$val){
+                            if($this->isFriend($val, $user)){ $valid = true; }
+                        }
+                        if(!$valid){$arr_post_hidden[] = $val->id;}
+                        break;
+                    default: break;
+                }
+            }
+        }
+
+        // danh sach bai viet hoat dong cua blog
+        $post_action = $refer->whereNotIn('id',$arr_post_hidden)->take(5)->skip($offset)->get();
+
+        foreach($post_action as $key=>$val_action){
+            $post_type = $val_action['post_type'];
+            if($post_type != 'status'){
                 $location = Location::whereId($val_action['parent_id'])->get()->first();
                 if(is_null($location) || empty($location)){
                     $location['album'] = null;
                     $location['url'] = null;
-                    $arr_action[$key]['location'] = null;
-                    $arr_action[$key]['total_like'] = 0;
+                    $post_action[$key]['location'] = null;
                 }else{
-                    $location['album'] = Location::find($location['id'])->images()->get();;
+                    $location['album'] = Location::find($location['id'])->images()->get();
                     $location['url'] = Location::find($location['id'])->url();
-                    $arr_action[$key]['location'] = $location;
-                    $arr_action[$key]['total_like'] = Location::find($location['id'])->totallike();
+                    $post_action[$key]['location'] = $location;
                 }
-            }else{
-                $arr_action[$key]['total_like'] = Post::find($val_action['id'])->totallikes();
-            }//
-            $arr_action[$key]['username'] = empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;
-            $arr_action[$key]['level'] = Option::find($user_blog->level_id)->description;
+            }
+            $is_like = $user->isAction('like', $val_action['id'])->count();
+            $post_action[$key]['total_like'] = Post::find($val_action['id'])->totalLikes();
+            $post_action[$key]['is_like'] = ($is_like)?'unlike':'like';
+            $post_action[$key]['username'] = empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;
+            $post_action[$key]['level'] = Option::find($user_blog->level_id)->description;
+            $post_action[$key]['privacy_description'] = Option::find($val_action->privacy)->description;
         }
-        return $arr_action;
+        return $post_action;
     }
 }
 
-
+//    public function postStatusBlogUser(){
+//        $data=Input::all();
+//        $user =  Auth::user();
+//        $this->blogUser=$user->blog()->first();
+//
+//        $user_blog=User::find($data['id_user_blog']);
+//        $blog_user=$user_blog->blog()->first();
+//
+//        $type_edit=$data['type_edit'];
+//        if(Request::ajax())
+//        {
+//            switch($type_edit){
+//                case "add_status":
+//                    $post =new Post();
+//                    $post->title="status";
+//                    $post->content=$data['content'];
+//                    $post->privacy =$data['privacy'];
+//                    $post->post_type='status';
+//                    $post->user_id=$user->id;
+//                    $post->save();
+//                    $date=date_create("now");
+//                    $date=  date_format($date,"Y-m-d H:i:s");
+//                    $post->userAction()->attach($user,['post_user_type_id'=>33,'created_at'=>$date]);
+//                    $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id,'created_at'=>$date,'updated_at'=>$date]);
+//                    echo $post->id;
+//                    break;
+////                case "like_status":
+////                  //  $user=Auth::user();
+////                    $date=date_create("now");
+////                    $date=  date_format($date,"Y-m-d H:i:s");
+////
+////                    $post_like=Post::where('id','=',$data['post_id'])->first();
+////                    $type_action_like=$data['type_action_like'];
+////
+////                    if($type_action_like=="type_action_like"){
+////                        $post_like->userAction()->attach($user,['post_user_type_id'=>31,'created_at'=>$date]);
+////
+////                    }else{
+////                        $post_like->userAction()->detach($user,['post_user_type_id'=>31,'created_at'=>$date]);
+////                    }
+////                    $number_like=$post_like->userAction()->where('post_user_type_id','=','31')->count();
+////                    $data_1=array(
+////                        'type_action_like'=>$type_action_like,
+////                        'number_like'=>$number_like
+////                    );
+////
+////                  //  echo $type_action_like.'-'.$number_like;
+////                    echo json_encode($data_1);
+////                    break;
+////                case "comment_post":
+////                    $post_id=$data['post_id'];
+////                    $content_comment=$data['content_comment'];
+////
+////                    $post= new Post();
+////                    $post->content=$data['content_comment'];
+////                    $post->parent_id=$data['post_id'];
+////                    $post->post_type='comment';
+////                    $post->user_id=$user->id;
+////                    $post->save();
+////                    $post_parent=Post::where('id','=',$post_id)->first();
+////
+////                    $data_1=array(
+////                        'avatar_user'=>$user->avatar,
+////                        'username'=>$user->username,
+////                        'content'=>$data['content_comment'],
+////                        'date_at'=>String::showTimeAgo($post->created_at()),
+////                        'id_user'=>$user->id,
+////                        'id_comment'=>$post->id,
+////                        'number_comment'=>$post_parent->comments()->count()
+////                    );
+////                    echo json_encode($data_1);
+////                    break;
+////                case "comment_delete":
+////
+////                    $post=Post::where('id','=',$data['id_comment'])->where('post_type','=','comment')->get()->first();
+////                    $post->delete();
+////                    $post_parent=Post::where('id','=',$data['id_parent_comment'])->first();
+////                    echo $inum_comment=$post_parent->comments()->count();
+////                    break;
+//                case "status_delete":
+//                    $post=Post::where('id','=',$data['id_status'])->where('post_type','=','status')->first();
+//                    $listComment=$post->comments()->delete();
+//                    $blog_user->status()->detach($blog_user->id,['blog_post_type_id'=>43,'user_id'=>$user->id,'obj_id'=>$post->id]);
+//
+//                    $post->delete();
+//                    break;
+//            }
+//        }
+//    }
+//luuhoabk
 
 
 //    public function  getListPhoto(){

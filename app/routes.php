@@ -174,6 +174,8 @@ Route::group(array('prefix' => 'dia-diem', 'before' => 'auth'), function () {
     Route::get('loc-dia-diem', 'LocationController@filterLocation');
     Route::post('loc-hinh-anh', 'LocationController@filterAlbums');
     Route::get('loc-hinh-anh', 'LocationController@filterAlbums');
+    Route::get('action', 'LocationController@action');
+    Route::post('action', 'LocationController@action');
 
 //    Route::controller('/', 'LocationController'); // run contruct function
 });
@@ -194,27 +196,26 @@ Route::group(array('prefix' => 'thanh-vien'), function () {
     Route::post('login-google', 'UserController@loginWithGoogle');
     Route::post('xac-thuc', 'UserController@getFriendConfirm');
     Route::get('xac-thuc', 'UserController@getFriendConfirm');
+    Route::get('like-post', 'UserController@postLike');
+    Route::post('like-post', 'UserController@postLike');
     Route::get('/', 'UserController@getIndex');
-//  Route::controller('/', 'LocationController'); // run contruct function
 });
-
 /** -------------------End Site User-------------------**/
 /** -------------------Site blog: -------------**/
 Route::group(array('prefix' => 'trang-ca-nhan', 'before' => 'auth'), function () {
 
     Route::get('/chinh-sua-thong-tin.html', 'BlogUserController@getEditBlogUser');
     Route::post('/chinh-sua-thong-tin.html', 'BlogUserController@postEditBlogUser');
-    Route::post('/trang-thai.html', 'BlogUserController@postStatusBlogUser');
-    Route::get('/trang-thai.html', 'BlogUserController@postStatusBlogUser');
-    Route::any('/load-item-status-{id_status_slug}', 'BlogUserController@loadItemStatus2');
+    Route::post('/trang-thai.html', 'BlogUserController@postStatusBlog');
+    Route::get('/trang-thai.html', 'BlogUserController@postStatusBlog');
     Route::any('/load-item-comment-{id_comment_post_slug}', 'BlogUserController@loadComment');
     Route::any('/load-item-statusz-{id_status_slug}', 'BlogUserController@ala');
     Route::post('/list-ban-be.html', 'BlogUserController@getListFriend');
     Route::post('/list-hinh-anh.html', 'BlogUserController@getListPhoto');
-    Route::post('/list-check-in.html', 'BlogUserController@getListCheckIn');
+//    Route::post('/list-check-in.html', 'BlogUserController@getListCheckIn');
     Route::post('/list-location-like.html', 'BlogUserController@getListLocationLike');
     Route::post('/ban-be.html', 'BlogUserController@postFriend');
-    Route::any('/load-item-checkin-{id_check_in}', 'BlogUserController@loadCheckIn');
+//    Route::any('/load-item-checkin-{id_check_in}', 'BlogUserController@loadCheckIn');
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
 });
 

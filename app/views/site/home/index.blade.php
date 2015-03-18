@@ -249,8 +249,8 @@
                     <h1>Admin Giới thiệu</h1>
                 </header>
                 <article>
-                    @if(!isset($topBlog))
-                    <img class="padding-2 img-border-light" src="{{$topBlog->thumbnail}}" height="100px" width="100px"/>
+                    @if(isset($topBlog))
+                    <img class="padding-2 img-border-light" src="{{ isset($topBlog->thumbnail)?($topBlog->thumbnail) : (URL::to('assets/global/img/noimage.png'))}}" height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
                         <a href="#"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
 

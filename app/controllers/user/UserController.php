@@ -1,7 +1,8 @@
 <?php
 
 //use ChoiDau\Extensions\View\Factory;
-class UserController extends BaseController {
+class UserController extends BaseController
+{
 
     /**
      * User Model
@@ -33,8 +34,10 @@ class UserController extends BaseController {
      */
     public function getIndex()
     {
-        list($user,$redirect) = $this->user->checkAuthAndRedirect('user');
-        if($redirect){return $redirect;}
+        list($user, $redirect) = $this->user->checkAuthAndRedirect('user');
+        if ($redirect) {
+            return $redirect;
+        }
 
         // Show the page
         return View::make('site/user/index', compact('user'));
@@ -48,7 +51,7 @@ class UserController extends BaseController {
     {
         $user = $this->userRepo->signup(Input::all());
 
-        if ($user->id&&false) {//imtoantran
+        if ($user->id && false) {//imtoantran
             if (Config::get('confide::signup_email')) {
                 Mail::queueOn(
                     Config::get('confide::email_queue'),
@@ -103,7 +106,7 @@ class UserController extends BaseController {
 
         if ($this->userRepo->save($user)) {
             return Redirect::to('thanh-vien')
-                ->with( 'success', Lang::get('user/user.user_account_updated') );
+                ->with('success', Lang::get('user/user.user_account_updated'));
         } else {
             $error = $user->errors()->all(':message');
             return Redirect::to('thanh-vien')
@@ -119,39 +122,41 @@ class UserController extends BaseController {
      */
     public function getCreate()
     {
-        $page_title='Đăng ký thành viên choidau.net';
-        $seoarray=array('metakey'=>'aasd,asd,asd,','metades'=>'asd ada asd a sdads');
-        $js_script='
+        $page_title = 'Đăng ký thành viên choidau.net';
+        $seoarray = array('metakey' => 'aasd,asd,asd,', 'metades' => 'asd ada asd a sdads');
+        $js_script = '
         Layout.btnSelection();
         ';
 
 
-             $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
-              $listProvince=Province::orderBy('name','ASC')->get();
-             $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+        $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+        $listProvince = Province::orderBy('name', 'ASC')->get();
+        $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
 
-   //     $listTinh='abc';
-        return View::make('site/user/create',compact('page_title','js_script','seoarray','listProvince','listTTHN','listStatusPost'));
+        //     $listTinh='abc';
+        return View::make('site/user/create', compact('page_title', 'js_script', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
 
     }
-    public function postCreate(){
+
+    public function postCreate()
+    {
         $user = Auth::user();
-        if(!empty($user->id)){
+        if (!empty($user->id)) {
             return Redirect::to('/');
         }
-        $data=Input::all();
+        $data = Input::all();
 
-            $user_singup= $this->userRepo->signup($data);
-        if(!$user_singup){
-            $listProvince=Province::orderBy('name','ASC')->get();
-            $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
+        $user_singup = $this->userRepo->signup($data);
+        if (!$user_singup) {
+            $listProvince = Province::orderBy('name', 'ASC')->get();
+            $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
 
-            $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
+            $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
 
-            return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
+            return View::make('site/user/create', compact('page_title', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
 
-        }else{
-              return View::make('site/user/login',compact('page_title'));
+        } else {
+            return View::make('site/user/login', compact('page_title'));
 
         }
 
@@ -164,13 +169,13 @@ class UserController extends BaseController {
      */
     public function getLogin()
     {
-        $page_title='';
+        $page_title = '';
         $user = Auth::user();
-        if(!empty($user->id)){
+        if (!empty($user->id)) {
             return Redirect::to('/');
         }
 
-        return View::make('site/user/login',compact('page_title'));
+        return View::make('site/user/login', compact('page_title'));
     }
 
     /**
@@ -187,7 +192,7 @@ class UserController extends BaseController {
             $arr['url'] = Session::get('url_link_current');
 
         } else {
-            $arr['url'] ="";
+            $arr['url'] = "";
             if ($this->userRepo->isThrottled($input)) {
                 $err_msg = 0;
             } elseif ($this->userRepo->existsButNotConfirmed($input)) {
@@ -210,15 +215,12 @@ class UserController extends BaseController {
      */
     public function getConfirm($code)
     {
-        if ( Confide::confirm( $code ) )
-        {
+        if (Confide::confirm($code)) {
             return Redirect::to('user/login')
-                ->with( 'notice', Lang::get('confide::confide.alerts.confirmation') );
-        }
-        else
-        {
+                ->with('notice', Lang::get('confide::confide.alerts.confirmation'));
+        } else {
             return Redirect::to('user/login')
-                ->with( 'error', Lang::get('confide::confide.alerts.wrong_confirmation') );
+                ->with('error', Lang::get('confide::confide.alerts.wrong_confirmation'));
         }
     }
 
@@ -253,11 +255,11 @@ class UserController extends BaseController {
      * Shows the change password form with the given token
      *
      */
-    public function getReset( $token )
+    public function getReset($token)
     {
 
         return View::make('site/user/reset')
-            ->with('token',$token);
+            ->with('token', $token);
     }
 
 
@@ -269,9 +271,9 @@ class UserController extends BaseController {
     {
 
         $input = array(
-            'token'                 =>Input::get('token'),
-            'password'              =>Input::get('password'),
-            'password_confirmation' =>Input::get('password_confirmation'),
+            'token' => Input::get('token'),
+            'password' => Input::get('password'),
+            'password_confirmation' => Input::get('password_confirmation'),
         );
 
         // By passing an array with the token, password and confirmation
@@ -281,7 +283,7 @@ class UserController extends BaseController {
                 ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-            return Redirect::to('user/reset', array('token'=>$input['token']))
+            return Redirect::to('user/reset', array('token' => $input['token']))
                 ->withInput()
                 ->with('error', $error_msg);
         }
@@ -310,8 +312,7 @@ class UserController extends BaseController {
         $user = $userModel->getUserByUsername($username);
 
         // Check if the user exists
-        if (is_null($user))
-        {
+        if (is_null($user)) {
             return App::abort(404);
         }
 
@@ -320,8 +321,10 @@ class UserController extends BaseController {
 
     public function getSettings()
     {
-        list($user,$redirect) = User::checkAuthAndRedirect('user/settings');
-        if($redirect){return $redirect;}
+        list($user, $redirect) = User::checkAuthAndRedirect('user/settings');
+        if ($redirect) {
+            return $redirect;
+        }
 
         return View::make('site/user/profile', compact('user'));
     }
@@ -333,26 +336,27 @@ class UserController extends BaseController {
      * @param $url3
      * @return string
      */
-    public function processRedirect($url1,$url2,$url3)
+    public function processRedirect($url1, $url2, $url3)
     {
         $redirect = '';
-        if( ! empty( $url1 ) )
-        {
+        if (!empty($url1)) {
             $redirect = $url1;
-            $redirect .= (empty($url2)? '' : '/' . $url2);
-            $redirect .= (empty($url3)? '' : '/' . $url3);
+            $redirect .= (empty($url2) ? '' : '/' . $url2);
+            $redirect .= (empty($url3) ? '' : '/' . $url3);
         }
         return $redirect;
     }
 
-    public function checkLogin(){
-        $data=Input::get('url');
+    public function checkLogin()
+    {
+        $data = Input::get('url');
         Session::put('url_link_current', $data);
         echo Auth::check();
     }
 
 
-    public function getTotalLikeLocation(){
+    public function getTotalLikeLocation()
+    {
         return User::getTotalLikeLocation();
     }
 
@@ -360,41 +364,42 @@ class UserController extends BaseController {
 //    luuhoabk
 
 
-    public function loginWithFacebook() {
+    public function loginWithFacebook()
+    {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = Input::get('code');
 
         // get fb service
-        $fb = OAuth::consumer('Facebook' );
+        $fb = OAuth::consumer('Facebook');
 
         // check if code is valid
 
         // if code is provided get user data and sign in
-        if ( !empty( $code ) ) {
-            $current_url =  Session::get('url_link_current');
+        if (!empty($code)) {
+            $current_url = Session::get('url_link_current');
             // This was a callback request from facebook, get the token
-            $token = $fb->requestAccessToken( $code );
+            $token = $fb->requestAccessToken($code);
 
             // Send a request with it
-            $result = json_decode( $fb->request( '/me' ), true );
+            $result = json_decode($fb->request('/me'), true);
 
-            $fb_id = '[FB]'.$result['id'];
+            $fb_id = '[FB]' . $result['id'];
             $fb_name = $result['name'];
             $fb_email = $result['email'];
             $fb_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereEmail($fb_email)->count()){
+            if (User::whereEmail($fb_email)->count()) {
                 // ton tai
                 $user = User::whereEmail($fb_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
-            }else{
+            } else {
                 $kq = DB::table('users')->insert(
                     array(
                         'username' => $fb_id,
                         'email' => $fb_email,
                         'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
-                        'gender' => ($fb_gender == 'male')? 1 : 0,
+                        'gender' => ($fb_gender == 'male') ? 1 : 0,
                         'confirmation_code' => md5(uniqid(mt_rand(), true)),
                         'confirmed' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
@@ -405,59 +410,59 @@ class UserController extends BaseController {
                     )
                 );
 
-                if($kq){
+                if ($kq) {
                     $user = User::whereEmail($fb_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
             }
-        }
-
-        // if not ask for permission first
+        } // if not ask for permission first
         else {
             // get fb authorization
             $current_url = Input::get('current_url');
             Session::put('url_link_current', $current_url);
             $url = $fb->getAuthorizationUri();
-            echo  $url;
+            echo $url;
         }
 
     }
-    public function loginWithGoogle() {
+
+    public function loginWithGoogle()
+    {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = Input::get('code');
 
         // get fb service
-        $google = OAuth::consumer('Google' );
+        $google = OAuth::consumer('Google');
 
         // check if code is valid
 
         // if code is provided get user data and sign in
-        if ( !empty( $code ) ) {
-            $current_url =  Session::get('url_link_current');
+        if (!empty($code)) {
+            $current_url = Session::get('url_link_current');
             // This was a callback request from google, get the token
-            $token = $google->requestAccessToken( $code );
+            $token = $google->requestAccessToken($code);
 
             // Send a request with it
-            $result = json_decode( $google->request('https://www.googleapis.com/oauth2/v1/userinfo'), true );
+            $result = json_decode($google->request('https://www.googleapis.com/oauth2/v1/userinfo'), true);
 
-            $google_id = '[GG]'.$result['id'];
+            $google_id = '[GG]' . $result['id'];
             $google_name = $result['name'];
             $google_email = $result['email'];
             $google_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereEmail($google_email)->count()){
+            if (User::whereEmail($google_email)->count()) {
                 // ton tai
                 $user = User::whereEmail($google_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
-            }else{
+            } else {
                 $kq = DB::table('users')->insert(
                     array(
                         'username' => $google_id,
                         'email' => $google_email,
                         'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
-                        'gender' => ($google_gender == 'male')? 1 : 0,
+                        'gender' => ($google_gender == 'male') ? 1 : 0,
                         'confirmation_code' => md5(uniqid(mt_rand(), true)),
                         'confirmed' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
@@ -468,32 +473,80 @@ class UserController extends BaseController {
                     )
                 );
 
-                if($kq){
+                if ($kq) {
                     $user = User::whereEmail($google_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
             }
-        }
-
-        // if not ask for permission first
+        } // if not ask for permission first
         else {
             // get fb authorization
             $current_url = Input::get('current_url');
             Session::put('url_link_current', $current_url);
             $url = $google->getAuthorizationUri();
-            echo  $url;
+            echo $url;
         }
 
     }
-    public function getFriendConfirm(){
+
+    public function getFriendConfirm()
+    {
         $user = Auth::user();
-        echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id','=', 35)->get());
+        echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id', '=', 35)->get());
     }
 
-    public function getLocation(){
+    public function getLocation()
+    {
         $user = Auth::user();
         echo json_encode($user->referLocation()->get());
     }
 // end luuhoabk
+
+//luuhoabk - like post
+    public function postLike()
+    {
+        $user = Auth::user();
+        $data = Input::all();
+        $isPost = $user->isAction('like', $data['post_id']);
+        switch ($data['data_action']) {
+            case 'like':
+                if ($isPost->count()) {
+                    echo -1;
+                    break;
+                } // neu ton tai like roi thi bao loi : -1
+                $now = date_create("now");
+//
+                $meta = new PostMeta();
+                $meta->post_id = $data['post_id'];
+                $meta->meta_value = $data['user_id'];
+                $meta->meta_key = 'like';
+                $meta->created_at = date_format($now, "Y-m-d H:i:s");
+
+                if (!$meta->save()) {
+                    echo -1;
+                    break;
+                } // neu luu khong thanh cong
+                    echo Post::find($data['post_id'])->totalLikes();
+                break;
+
+            case 'unlike':
+                if (!$isPost->count()) {
+                    echo -1;
+                    break;
+                } // neu ko ton tai
+                if (!$isPost->delete()) {
+                    echo -1;
+                    break;
+                } // neu ton tai ma xoa ko thanh cong
+                    echo Post::find($data['post_id'])->totalLikes();
+                break;
+            default;
+                break;
+        }
+    }
+
+
 }
+
+
