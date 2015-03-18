@@ -27,11 +27,12 @@
           type="text/css"/>
     <link href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css')}}" rel="stylesheet"
           type="text/css"/>
+    <link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
     {{--    <link href="{{asset('assets/global/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css"/>--}}
-    {{--    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet"
+          type="text/css"/>
     <link href="{{asset('assets/global/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet" type="text/css"/>
     {{--    <link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css"/>--}}
     {{--    <link href="{{asset('assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>--}}
@@ -534,15 +535,15 @@
                     </ul>
                 </li>
 
-                <li>
+                <li @if(Route::has("location")) class="open active" @endif>
                     <a href="#"><i class="icon-location-7"></i><span class="title"> ĐỊA ĐIỂM</span>
 
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Danh sách địa điểm</a>
+                        <li><a href="{{URL::to("qtri-choidau/location/")}}">Danh sách địa điểm</a>
                         </li>
-                        <li><a href="#">Review</a>
+                        <li><a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
                         </li>
                         <li><a href="#">
                                 Thêm địa điểm</a>
@@ -1624,15 +1625,18 @@
 <script src="{{asset("assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js")}}"
         type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js")}}"
+        type="text/javascript"></script>
 {{--<script src="{{asset("assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")}}" type="text/javascript"></script>--}}
 <script src="{{asset("assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")}}"
         type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.blockui.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.cokie.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/uniform/jquery.uniform.min.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/tinymce/tinymce.min.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js")}}" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="{{asset("assets/global/scripts/metronic.js")}}" type="text/javascript"></script>

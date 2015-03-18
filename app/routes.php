@@ -87,6 +87,10 @@ Route::group(array('prefix' => 'qtri-choidau'), function () {
     Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
     Route::controller('roles', 'AdminRolesController');
 
+    /* imtoantran location management route start */
+    Route::controller("location","AdminLocationsController");
+    /* imtoantran loction management route stop */
+
     # Admin Dashboard
     Route::controller('/das', 'AdminDashboardController');
     //  Route::get('/', 'AdminDashboardController');
