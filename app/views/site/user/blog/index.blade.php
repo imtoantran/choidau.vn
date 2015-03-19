@@ -524,6 +524,56 @@
         jQuery(document).ready(function () {
             //hieu ung hinh anh
             Portfolio.init();
+            /**--- luuhoabk - update - bacground  ---**/
+            $("#btn-blog-bg").mediaupload({
+                url: "{{URL::to("media/upload")}}",
+                token: "{{Session::token()}}",
+                "multi-select":false,
+                complete: function (images) {
+                    var url_bg = '/upload/thumbnail/1140x180-'+images[0].name;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
+                        data: {
+                            'uptate_type':'background',
+                            'url_bg':url_bg
+                        },
+                        dataType: 'json',
+                        success: function (respon) {
+                            console.log(respon);
+                            if(respon){
+                                $('.person-header-bg').css('background-image','url("'+url_bg+'")');
+                            }
+                        }
+                    });
+                }
+            });
+            /**--- END luuhoabk - update - bacground  ---**/
+
+            /**--- luuhoabk - update - avatar  ---**/
+            $("#btn-blog-avatar").mediaupload({
+                token: "{{Session::token()}}",
+                "multi-select":false,
+                complete: function (images) {
+                    var url_bg = '/upload/thumbnail/150x150-'+images[0].name;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
+                        data: {
+                            'uptate_type':'avatar',
+                            'url_bg':url_bg
+                        },
+                        dataType: 'json',
+                        success: function (respon) {
+                            console.log(respon);
+                            if(respon){
+                                $('.blog-img-avatar').attr('src', url_bg);
+                            }
+                        }
+                    });
+                }
+            });
+            /**--- END luuhoabk - update - avatar  ---**/
 
             /**--- luuhoabk - load location in blog ---**/
             $('#btn-tag-blog-location').on('click', function () {
@@ -628,7 +678,6 @@
 
 //------------------------
             /**---- luuhoabk - post status ---**/
-
             $('.btn-post-status').on('click',function(){
                 postStatus();
             });
@@ -891,7 +940,6 @@
                 comment($(this), e);
             });
 
-
             //action view more comment
             $('.action-view-more').on('click', function(e){
                 e.preventDefault();
@@ -1137,6 +1185,7 @@
                     self.attr('type', 'show');
                 }
             }
+
         });
     </script>
 @stop
