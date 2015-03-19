@@ -577,29 +577,26 @@
                 <li>
                     <a href="#"><i class="icon-lifebuoy-1"></i><span class="title"> HỔ TRỢ</span></a>
                 </li>
-                <li>
-
-
+                <li @if(Request::is("qtri-choidau/users*")) class="open active" @endif>
                     <a href="#"><i class="icon-user-outline"></i><span class="title"> THÀNH VIÊN</span>
-
-                        <span class="arrow "></span>
+                        <span class="arrow @if(Request::is("qtri-choidau/users")) open @endif"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Danh sách thành viên</a>
+                        <li @if(Request::is("qtri-choidau/users")) class="active" @endif>
+                            <a @if(!Request::is("qtri-choidau/users")) href="{{URL::to("qtri-choidau/users")}}" @endif >Danh sách thành viên</a>
                         </li>
-
                         <li><a href="#">
                                 Thêm thành viên</a>
                         </li>
-                        <li><a href="#">Nhóm thành viên</a>
-                        </li>
-
-
                     </ul>
-
-
                 </li>
 
+                <li @if(Request::is("qtri-choidau/roles*")) class="active" @endif>
+                    <a @if(!Request::is("qtri-choidau/roles")) href="{{URL::to("qtri-choidau/roles")}}" @endif>
+                        <i class="icon icon-group"></i>
+                        Nhóm thành viên
+                    </a>
+                </li>
 
                 <li>
 
