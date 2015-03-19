@@ -569,6 +569,20 @@ class UserController extends BaseController
         }
         echo json_encode($post);
     }
+    //luuhoabk - update info
+    public function updateInfo(){
+        $user = Auth::user();
+        $data = Input::all();
+        switch($data['uptate_type']){
+            case 'background':
+                echo User::whereId($user->id)->update(['background'=>$data['url_bg']]);
+                break;
+            case 'avatar':
+                echo User::whereId($user->id)->update(['avatar'=>$data['url_bg']]);
+                break;
+            default: break;
+        }
+    }
 
 }
 

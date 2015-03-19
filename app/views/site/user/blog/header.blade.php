@@ -29,7 +29,7 @@
             </span>
         @endif
     </div>
-    <div  id="iM_user_slide" type_insert="insert_one_img_anh_bia" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 15px;  left: 20px;">
+    <div  id="btn-blog-bg" class="single-picture-wrapper change-img" style="top: 15px;  left: 20px;">
         @if(Auth::check()&&Auth::user()->id==$blog_info['id'])
         <i class="icon-camera"></i>
         @endif
@@ -44,15 +44,14 @@
         <div class="col-md-2 text-right person-header-avatar">
 
             @if(isset($blog_info['avatar']) && !empty($blog_info['avatar']))
-                <img class="avatar-pad2" src="{{$blog_info['avatar']}}" width="150" height="150" alt="">
+                <img class="avatar-pad2 blog-img-avatar" src="{{$blog_info['avatar']}}" width="150" height="150" alt="">
             @else
-                <img class="avatar-pad2" src="{{URL::asset('/assets/global/img/no-image.png')}}" width="150" height="150" alt="">
+                <img class="avatar-pad2 blog-img-avatar" src="{{URL::asset('/assets/global/img/no-image.png')}}" width="150" height="150" alt="">
             @endif
 
-            <div  id="iM_user_slide" type_insert="insert_one_img_avatar" class="single-picture-wrapper imageManager_openModal insertMedia change-img"  data-toggle="modal" data-target="#imageManager_modal"  style="top: 10px;  left: 40px;">
+            <div  id="btn-blog-avatar"  class="single-picture-wrapper change-img" style="top: 10px;  left: 40px;">
                 @if(Auth::check() && Auth::user()->id == $blog_info['id'])
                     <i class="icon-camera" style="font-size: 18px;"></i>
-                    {{--<span style="color: #fff; font-size: 0.9em;">Cập nhật ảnh đại diện</span>--}}
                 @endif
             </div>
             <div class="change-img btn-save-avatar"  data-toggle="modal"  style="top: 5px;  left: 78px;display: none">
@@ -101,4 +100,59 @@
         </div>
     </div>
 </div>
+{{--luuhoabk--}}
+@section('scripts')
+    <script type="text/javascript">
+        $.ajaxSetup({
+            data: {"_token": "{{Session::getToken()}}"}
+        });
+        jQuery(document).ready(function(){
+            $("#btn-blog-bg").mediaupload({
+                url: "{{URL::to("media/upload")}}",
+                token: "{{Session::token()}}",
+                "multi-select":false,
+                complete: function (images) {
+                    var url_bg = '/upload/thumbnail/1140x180-'+images[0].name;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
+                        data: {
+                            'uptate_type':'background',
+                            'url_bg':url_bg
+                        },
+                        dataType: 'json',
+                        success: function (respon) {
+                            console.log(respon);
+                            if(respon){
+                                $('.person-header-bg').css('background-image','url("'+url_bg+'")');
+                            }
+                        }
+                    });
+                }
+            });
+            $("#btn-blog-avatar").mediaupload({
+                token: "{{Session::token()}}",
+                "multi-select":false,
+                complete: function (images) {
+                    var url_bg = '/upload/thumbnail/150x150-'+images[0].name;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
+                        data: {
+                            'uptate_type':'avatar',
+                            'url_bg':url_bg
+                        },
+                        dataType: 'json',
+                        success: function (respon) {
+                            console.log(respon);
+                            if(respon){
+                                $('.blog-img-avatar').attr('src', url_bg);
+                            }
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+@stop
 <!-- end choidau-person-header -->
