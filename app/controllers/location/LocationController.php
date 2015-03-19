@@ -248,7 +248,6 @@ class LocationController extends BaseController
                 $isLike = false;
                 $isCheckin = false;
 
-
                 if(Auth::check()){
                     $user = Auth::user();
 //                    var_dump($location->isCheckin($user->id)); exit;

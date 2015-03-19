@@ -6,16 +6,19 @@
         <div class="col-md-10 ">
             <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
 
-            <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i
-                        class="icon-help-circled-1"></i>
+            <h1>
+                {{$location->name}}
+                @if($location->isVerified())
+                    <i class="icon-ok-circled-2" title="Đã xác thực"></i>
+                @else
+                    <i class="icon-help-circled-1" title="Chưa xác thực"></i>
+                @endif
             </h1>
-            <ul class="list-unstyled list-inline ul-list-rating">
-                <li><i class="icon-star-filled"></i></li>
-                <li><i class="icon-star-filled"></i></li>
-                <li><i class="icon-star-filled"></i></li>
-                <li><i class="icon-star-1"></i></li>
-                <li><i class="icon-star-1"></i></li>
-            </ul>
+            <i class="icon-star-filled"></i>
+            <i class="icon-star-filled"></i>
+            <i class="icon-star-filled"></i>
+            <i class="icon-star-1"></i>
+            <i class="icon-star-1"></i>
         </div>
         <div class="col-md-2">
             <div class="g-plusone" data-size="medium"></div>

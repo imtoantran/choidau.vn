@@ -535,9 +535,8 @@
                     </ul>
                 </li>
 
-                <li @if(Route::has("location")) class="open active" @endif>
+                <li @if(Request::is("qtri-choidau/location*")) class="open active" @endif>
                     <a href="#"><i class="icon-location-7"></i><span class="title"> ĐỊA ĐIỂM</span>
-
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
@@ -545,11 +544,6 @@
                         </li>
                         <li><a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
                         </li>
-                        <li><a href="#">
-                                Thêm địa điểm</a>
-                        </li>
-
-
                     </ul>
 
 

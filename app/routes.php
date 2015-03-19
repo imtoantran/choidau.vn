@@ -47,7 +47,7 @@ Route::post("changePorvince", function () {
  *  Admin Routes
  *  ------------------------------------------
  */
-Route::group(array('prefix' => 'qtri-choidau'), function () {
+Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () {
 
     /* Route::get('/', function()
      {
@@ -134,6 +134,8 @@ Route::post("location/like/", 'LocationController@like');
 Route::post("location/checkin/", 'LocationController@checkin');
 Route::get("location/review/{id}", 'LocationController@getReview');
 Route::post("location/{location}/review", 'LocationController@postReview');
+Route::post("location/{location}/verify", 'AdminLocationsController@postVerify');
+Route::post("location/{location}/delete", 'AdminLocationsController@postDelete');
 Route::post("location/load-member", 'LocationController@loadMember');
 Route::post("location/load-event", 'LocationController@loadEvent');
 Route::post("location/event/{location}", 'LocationController@postEvent');

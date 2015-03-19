@@ -173,6 +173,16 @@ class Location extends Eloquent
         return $this->hasOne("EventLocation", "parent_id");
     }
     /* imtoantran event */
+    /* imtoantran l status */
+    public function isVerified(){
+        if(!empty($this->status_id)){
+            $status = Option::findOrFail($this->status_id);
+            if($status)
+                return $status->value == "verified";
+        }
+        return fasle;
+    }
+    /* imtoantran l status end*/
 
     public function itemSave($user, $action_type){
         return $this->userAction()->attach($user, ['action_type' => $action_type, 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);

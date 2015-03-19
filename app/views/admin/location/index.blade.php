@@ -6,7 +6,7 @@
             <th>Tên</th>
             <th>Người tạo</th>
             <th>Tạo lúc</th>
-            <th width="100">{{{ Lang::get('table.actions') }}}</th>
+            <th width="150">{{{ Lang::get('table.actions') }}}</th>
         </tr>
         </thead>
         <tbody>
@@ -28,7 +28,40 @@
                 "bServerSide": true,
                 "ajax": "{{ URL::to('qtri-choidau/location/data') }}",
                 "fnDrawCallback": function (oSettings) {
+
                 }
+            });
+            $('#locations').on("click", "[data-action]", function (e) {
+                var _t = this;
+                if ($(_t).data("action") == "delete")
+                    if (!confirm("Bạn chắc chắn muốn xóa", "Có", "Không"))
+                        return;
+                $.ajax({
+                    url: $(this).data("controller"),
+                    data: $(this).data(),
+                    type: "post",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            switch ($(_t).data("action")) {
+                                case "verify":
+                                    if (response.success)
+                                        $(_t).fadeOut("slow", function () {
+                                            $(_t).replaceWith(response.content)
+                                        });
+                                    break;
+                                case "delete":
+                                    if (response.success)
+                                        $(_t).closest("tr").fadeOut("slow", function () {
+                                            $(this).remove();
+                                        });
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                })
             });
         });
     </script>
