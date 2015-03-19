@@ -550,6 +550,7 @@ class UserController extends BaseController
     public function postComment(){
         $user = Auth::user();
         $data = Input::all();
+        $now = date_create("now");
         $post =new Post();
         $post->title        = "comment";
         $post->parent_id    =  $data['post_id'];
@@ -557,9 +558,16 @@ class UserController extends BaseController
         $post->privacy      = 18;
         $post->post_type    = 'comment';
         $post->user_id      = $user->id;
-        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
-        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
-        echo $post->save();
+        $post->created_at   = date_format($now,"Y-m-d H:i:s");
+        $post->updated_at   = date_format($now,"Y-m-d H:i:s");
+        if($post->save()){
+            $post['success'] = 1;
+            $post['post_id'] = $post->id;
+            $post['updated_date'] = date_format($now,'H:i d/m/Y');
+        }else{
+            $post['success'] = 0;
+        }
+        echo json_encode($post);
     }
 
 }

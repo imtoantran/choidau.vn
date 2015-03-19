@@ -217,10 +217,22 @@ ul.blog-tabs >li.active a, ul.blog-tabs >li>:hover{background-color: #3ec753!imp
 	padding: 2px 4px 2px 3px;
 	box-shadow: 0px 1px 1px #444;
 }
-ul.blog-comment-wrapper{list-style: none; padding: 0px;}
+ul.blog-comment-wrapper{padding: 0px;}
+ul.blog-comment-wrapper li{list-style: none!important; }
 ul.blog-comment-wrapper img{width: 36px!important; height: 36px!important;}
 ul.blog-comment-wrapper .content-comment{font-size: 1em!important; font-weight: 500!important;}
 ul.blog-comment-wrapper a.action-comment-like{font-weight: 600; font-size: 0.9em;}
 ul.blog-comment-wrapper .total-comment-like{font-size: 0.9em;}
+ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
+.action-view-more{
+	font-weight: 700;
+	font-size: 0.8em!important;
+	font-style: italic;
+	text-decoration: underline;
+}
+.action-view-more:hover{
+	color: #ccc;
+	text-decoration: none;
+}
 /*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/

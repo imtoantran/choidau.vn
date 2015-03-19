@@ -510,10 +510,7 @@ class BlogUserController extends BaseController {
                     $post_comment[$key_comment]['total_like'] = Post::find($val_comment['id'])->totalLikes();
                     $is_like_comment = $user->isAction('like', $val_comment['id'])->count();
                     $post_comment[$key_comment]['is_like_comment'] = ($is_like_comment)?'unlike':'like';
-
                 }
-
-
             }
             $post_action[$key]['post_comment'] = $post_comment;
 
@@ -524,7 +521,6 @@ class BlogUserController extends BaseController {
             $post_action[$key]['level'] = Option::find($user_blog->level_id)->description;
             $post_action[$key]['privacy_description'] = Option::find($val_action->privacy)->description;
         }
-//exit;
         return $post_action;
     }
 }

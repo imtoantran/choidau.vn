@@ -158,26 +158,31 @@
                                                 </div>
 
                                                 <!-- comment - like - share -->
+                                                <div class="box-comment">
                                                     <ul class="row margin-none blog-comment-wrapper">
                                                         @if(count($val->post_comment)>0)
                                                             @foreach($val->post_comment as $key=>$val_comment)
-                                                                <li class="margin-bottom-10 clearfix">
+                                                                <li class="margin-bottom-10 clearfix @if($key < count($val->post_comment)-3) hidden @endif">
                                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                                         <img class="avatar-pad2" src="{{URL::to('/').$val_comment->user->avatar}}" alt="">
-                                                                        <div class="person-content-info">
+                                                                        <div class="person-content-info blog-comment-item">
                                                                             <div>
-                                                                                <a>@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a> -
+                                                                                <a href="{{URL::to('/trang-ca-nhan/'.$val_comment->user->username.'.html')}}">@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a> -
                                                                                 <span class="content-comment"> {{$val_comment->content}} </span>
                                                                             </div>
                                                                             <span class="grey">{{date_format(new DateTime($val_comment->updated_at),'H:i d/m/Y')}}</span> -
                                                                             <span> <a href="#" class="action-assoc" data-action="{{$val_comment->is_like_comment}}" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="{{$val_comment->id}}">@if($val_comment->is_like_comment == 'like') Thích @else Bỏ thích @endif</a></span> -
-                                                                            <span class="click-like-comment"><i class=" icon-thumbs-up-alt "></i></span><span class="total-comment-like">{{$val_comment->total_like}}</span>
+                                                                            <span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">{{$val_comment->total_like}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                             @endforeach
                                                         @endif
                                                     </ul>
+                                                    @if(count($val->post_comment)>3)
+                                                        <div class="margin-bottom-10">...<a href="#" class="action-view-more" type="show">Xem thêm</a></div>
+                                                    @endif
+                                                </div>
                                                 <div class="row margin-none person-command">
                                                     <div class="col-md-12 col-none-padding">
                                                         <a href="#" class= "click-like"><i class="@if($val->is_like == 'like') icon-thumbs-up-alt @else icon-thumbs-down-alt @endif"></i></a>
@@ -623,7 +628,368 @@
 
 //------------------------
             /**---- luuhoabk - post status ---**/
+
             $('.btn-post-status').on('click',function(){
+                postStatus();
+            });
+            $('#content-status').keypress(function(event){
+                var code = event.keyCode || event.which;
+                if(code == 13) { //Enter keycode
+                    event.preventDefault();
+                    postStatus();
+                }
+            });
+            /**---- END luuhoabk - post status ---**/
+
+            /**---- luuhoabk - action more ---**/
+                // change privace
+            $('ul.btn-privacy-change li').on('click', function(){
+                $(this).closest('.person-type-scopy').find('.btn-privacy-val').blogPrivacy({callback: function(respon) {
+                }});
+            });
+            /**---- END luuhoabk - action more ---**/
+
+            /**---- luuhoabk - action more ---**/
+            $('.btn-action-more').on('click', function(){
+                var btb_action = $(this);
+                var anchor_bottom = $('#anchor_bottom');
+                var data_offset = anchor_bottom.attr('data-offet');
+                $.ajax({
+                    type: "POST",
+                    url: URL + "/trang-ca-nhan/trang-thai.html",
+                    data: {
+                        'type_edit': 'action_more',
+                        'blog_id': '{{$blog_info['id']}}',
+                        'data_offset': data_offset
+                    },
+                    async: true,
+                    success: function (respon) {
+                        var data = $.parseJSON(respon);
+                        console.log(data);
+                        if(data.length > 0){
+                            var html = '';
+                            var note = '';
+                            var description = '';
+                            $.each(data, function(key, val) {
+                                switch (val.post_type) {
+                                    case 'checkin':
+                                        note = 'Đã check in địa điểm này.';
+                                        description = val.location.description;
+                                        break;
+                                    case 'like'   :
+                                        note = 'Đã thích địa điểm này.';
+                                        description = val.location.description;
+                                        break;
+                                    case 'review' :
+                                        note = 'Đã nhận xét địa điểm này.';
+                                        description = val.content;
+                                        break;
+                                    default :
+                                        note = 'Đã cập nhật trạng thái.';
+                                        description = val.content;
+                                        break;
+                                }
+
+                                var date_updated = formatDate(val.updated_at);
+
+                                html +='<div class="row person-content-item">';
+                                html +='<div class="col-md-12 col-none-padding">';
+                                html +='<div class="col-md-9 article-img-text col-none-padding">';
+                                html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                                html +='<div class="person-content-info">';
+                                html +='<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - '+val.level+'</span></div>';
+                                html +='<span>' + note + '</span><br>';
+                                html +='<span>' + date_updated + '</span>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='<div class="col-md-3 col-none-padding text-right">';
+                                @if($user_blog->id == $user_auth->id)
+                                html +='<div class="btn-group person-type-scopy">';
+                                html +='<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+val.id+'"  value_id="'+val.privacy+'">'+val.privacy_description+'</button>';
+                                html +='<button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">';
+                                html +='<i class="icon-down-dir"></i>';
+                                html +='</button>';
+                                html +='<ul class="dropdown-menu btn-privacy-change" role="menu">';
+                                html +='<li value_id="15">Chỉ mình tôi</li>';
+                                html +='<li value_id="16">Bạn bè</li>';
+                                html +='<li value_id="17">Bạn của bạn tôi</li>';
+                                html +='<li value_id="18">Cộng đồng</li>';
+                                html +='</ul>';
+                                html +='</div>';
+                                @endif
+                                html +='</div>';
+                                html +='</div>';
+                                if (val.post_type == 'status') {
+                                    if (description!= null && description != ""){
+                                        html += '<div class="col-md-12 col-none-padding person-content-article">';
+                                        html += '<div class="row margin-none">';
+                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
+                                        html += '<div class="text-algin-img">';
+                                            if(description.length >0){
+                                                html += '<article>';
+                                                html += description;
+                                                html += '</article>';
+                                            }
+                                        html += '</div>';
+                                        html += '</section>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                    }
+                                }else {
+                                    html += '<div class="col-md-12 col-none-padding person-content-article">';
+                                    if (val.location != null) {
+                                        html += '<div class="row margin-none">';
+                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
+                                        html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
+                                        html += '<div class="text-algin-img">';
+                                        html += '<header>';
+                                        html += '<a href="'+val.location.url+'"><h2>'+val.location.name+'</h2></a>';
+                                        html += '</header>';
+                                        html += '<article>';
+                                        html += description;
+                                        html += '</article>';
+                                        html += '<a href="' + val.location.url + '"><i>' + val.location.url + '</i></a>';
+                                        html += '</div>';
+                                        html += '</section>';
+                                        html += '</div>';
+                                        <!-- slide img -->
+                                        html += '<div class="row margin-none">';
+                                        if (val.location.album.length > 0) {
+                                            html += '<ul class="list-unstyled person-content-slide">';
+                                            $.each(val.location.album, function (key, image) {
+                                                if (key <= 6) {
+                                                    html += '<li><img src="{{URL::to('/')}}'+image.thumbnail + '" alt=""></li>';
+                                                }
+                                            });
+                                            html += '<li class="text-right"> <a href="' + val.location.url + '"><button class="btn btn-default">xem thêm</button></a></li>';
+                                            html += '</ul>';
+                                        }
+                                        html += '</div>';
+                                    }
+                                    html += '</div>';
+                                }
+
+                                <!-- comment - like - share -->
+                                html +='<div class="row margin-none">';
+                                html +='<div class="person-text-assoc">';
+                                html += '<a href="#" class="action-assoc" data-type="post_item" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
+                                html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
+                                html += '</a>';
+                                html +='<a href="#">Bình luận <span class="total-comment badge badge-default">'+val.post_comment.length+'</span></a>';
+                                html +='<a href="#">Chia sẻ</a>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='<div class="box-comment">';
+                                html +='<ul class="row margin-none blog-comment-wrapper">';
+                                if(val.post_comment.length >0){
+                                    $.each(val.post_comment, function(key_comment, val_commnent){
+                                        var type_appear = (key_comment < val.post_comment.length -3)? "hidden": "";
+                                        html +='<li class="margin-bottom-10 clearfix '+type_appear+'" style="list-style: none!important;">';
+                                        html +='<div class="col-md-12 article-img-text col-none-padding">';
+                                        html +='<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/')}}'+val_commnent.user.avatar+'" alt="">';
+                                        html +='<div class="person-content-info blog-comment-item">';
+                                        html +='<div>';
+                                        html +='<a href="'+URL+'/trang-ca-nhan/'+val_commnent.user.username+'.html">'+((val_commnent.user.fullname == null) ? (val_commnent.user.username) : (val_commnent.user.fullname))+'</a>';
+                                        html +='<span class="content-comment" style="font-weight: 500; font-size: 1em;"> - '+val_commnent.content+'</span>';
+                                        html +='</div>';
+                                        html +='<span class="grey">'+val_commnent.updated_at+'</span> -';
+                                        html +='<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="'+val_commnent.id+'">Thích</a></span> -';
+                                        html +='<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
+                                        html +='</div>';
+                                        html +='</div>';
+                                        html +='</li>';
+                                    });
+                                }
+                                html +='</ul>';
+
+                                if(val.post_comment.length>3){
+                                    html +=' <div class="margin-bottom-10">...<a href="#" class="action-view-more" type="show">Xem thêm</a></div>';
+                                }
+
+            <!-- comment - like - share -->
+                                html +='</div>';
+                                html +='<div class="row margin-none person-command">';
+                                html +='<div class="col-md-12 col-none-padding">';
+                                html +='<a href="#" class = "click-like">';
+                                html +=(val.is_like == 'like')? '<i class="icon-thumbs-up-alt"></i>' : '<i class="icon-thumbs-down-alt"></i>';
+                                html +='</a>';
+                                html +='<span class="total-like">'+val.total_like+'</span> người thích điều này';
+                                html +='</div>';
+                                html +='<div class="col-md-12 article-img-text col-none-padding">';
+                                html +='<div class="row margin-none">';
+                                html +='<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                                html +='<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="'+val.id+'" type="text" placeholder="Viết bình luận...">';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>'
+                            })
+                            var item_person = $('<div/>').append(html);
+
+                            // bat su kien cho item action load more
+                            item_person.find('ul.btn-privacy-change li').on('click', function(){
+                                var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
+                                var privacy_text = tag_privacy_val.text();
+                                var privacy_id = tag_privacy_val.attr('value_id');
+
+                                tag_privacy_val.attr('value_id', $(this).attr('value_id'));
+                                tag_privacy_val.text($(this).text());
+
+                                tag_privacy_val.blogPrivacy({callback: function(respon) {
+                                    if(!respon){
+                                        tag_privacy_val.text(privacy_text);
+                                        tag_privacy_val.attr('value_id',privacy_id);
+                                    }
+                                }});
+                            });
+                            anchor_bottom.before(item_person).attr('data-offet',parseInt(data_offset)+5);
+
+                            // bat su kien like cho item load more
+                            item_person.find('.action-assoc').on('click', function(e){
+                                e.preventDefault();
+                                blogLike($(this));
+                            })
+
+                            //event dup like
+                            item_person.find('.click-like').click(function(e){
+                                e.preventDefault();
+//                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');
+                            });
+
+//                            trigger event enter comment
+                            item_person.find('.comment').keypress(function(e){
+                                comment($(this), e);
+                            });
+
+                            item_person.find('.action-view-more').on('click', function(e){
+                                e.preventDefault();
+                                loadCommentItem($(this));
+                            });
+                        }
+                        else{
+                            btb_action.addClass('disabled').text('.:: Kết thúc ::.');
+                        }
+                    }
+                });
+            });
+            /**---- END luuhoabk - action more ---**/
+
+//----------------------------
+            // like
+            $('.action-assoc').on('click', function(e){
+                e.preventDefault();
+                blogLike($(this));
+            });
+            //event dup like
+            $('.click-like').click(function(e){
+                e.preventDefault();
+//                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');
+            });
+
+            // trigger event enter comment
+            $('.comment').keypress(function(e){
+                comment($(this), e);
+            });
+
+
+            //action view more comment
+            $('.action-view-more').on('click', function(e){
+                e.preventDefault();
+                loadCommentItem($(this));
+            });
+
+            /**---- END luuhoabk - action more ---**/
+            function blogLike(self){
+                var action = self.attr('data-action');
+                var type = self.attr('data-type');
+                if(type=='post_item'){
+                    var tag_icon = self.closest('.person-content-item').find('.click-like i');
+                }else{
+                    var tag_icon = self.closest('.blog-comment-item').find('.click-like-comment i');
+                }
+                    tag_icon.iconLoad(tag_icon.attr('class'));
+                    self.like({callback: function(respon){
+                        console.log(respon);
+                        if(respon != -1){
+                            if(type == 'post_item'){
+                                if(action == 'like'){
+                                    self.text('Bỏ thích');
+                                    self.attr('data-action', 'unlike');
+                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
+                                }else if(action == 'unlike'){
+                                    self.text('Thích');
+                                    self.attr('data-action', 'like');
+                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
+                                }
+                                self.closest('.person-content-item').find('.total-like').text(respon);
+                            }else{
+                                if(action == 'like'){
+                                    self.text('Bỏ thích');
+                                    self.attr('data-action', 'unlike');
+                                    self.closest('.blog-comment-item').find('.click-like-comment i').iconUnload('icon-thumbs-up');
+                                }else if(action == 'unlike'){
+                                    self.text('Thích');
+                                    self.attr('data-action', 'like');
+                                    self.closest('.blog-comment-item').find('.click-like-comment i').iconUnload('icon-thumbs-up');
+                                }
+                                self.closest('.blog-comment-item').find('.total-comment-like').text(respon);
+                            }
+
+                        }
+                    }});
+            }
+
+            /**---- luuhoabk - handle event comment ---**/
+            function comment(self, event){
+                    var code = event.keyCode || event.which;
+                    if(code == 13) { //Enter keycode
+                        var comment_content = self.val();
+                        var post_id = self.attr('data-post-id');
+                        if(comment_content.length <= 0){
+                            alert('Bình luận không được để trống');
+                        }else{
+                            $.ajax({
+                                type: "POST",
+                                url: "{{URL::to('thanh-vien/comment-post')}}",
+                                data: {
+                                    'comment_content': comment_content,
+                                    'post_id': post_id
+                                },
+                                dataType: 'json',
+                                success: function (respon) {
+                                    if(respon.success){
+                                        self.val('');
+                                        var html = '';
+                                        html +='<div class="col-md-12 article-img-text col-none-padding">';
+                                        html +='<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                                        html +='<div class="person-content-info blog-comment-item">';
+                                        html +='<div>';
+                                        html +='<a href="'+URL+'/trang-ca-nhan/{{$user_auth->username}}.html">@if(isset($user_auth->fullname)) {{$user_auth->fullname}} @else {{$user_auth->username}} @endif</a> -';
+                                        html +='<span class="content-comment" style="font-weight: 500; font-size: 1em;">'+comment_content+'</span>';
+                                        html +='</div>';
+                                        html +='<span class="grey">'+respon.updated_date+'</span> -';
+                                        html +='<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="'+respon.post_id+'">Thích</a></span> -';
+                                        html +='<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
+                                        html +='</div>';
+                                        html +='</div>';
+
+                                        var tag_comment = $('<li/>',{'class':'margin-bottom-10 clearfix','style':'list-style: none!important;'}).append(html);
+                                        tag_comment.find('.action-assoc').on('click', function(e){
+                                            e.preventDefault();
+                                            blogLike($(this));
+                                        });
+                                        self.closest('.person-content-item').find('ul.blog-comment-wrapper').append(tag_comment);
+                                        var total_comment = self.closest('.person-content-item').find('.total-comment');
+                                        total_comment.text(parseInt(total_comment.text())+1);
+                                    }
+                                }
+                            });
+                        }
+                    }
+            }
+
+            /**---- luuhoabk - handle event like comment ---**/
+            function postStatus(self){
                 var content_status = $('#content-status').val();
                 if(content_status.length <= 0){
                     alert('Trạng thái không được rỗng   .');
@@ -686,12 +1052,14 @@
                             html += '<div class="row margin-none">';
                             html += '<div class="person-text-assoc">';
                             html += '<a href="#" class="action-assoc" data-action="like" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
-                            html += '<a href="#">Bình luận</a>';
+                            html += '<a href="#">Bình luận <span class="total-comment badge badge-default">0</span></a>';
                             html += '<a href="#">Chia sẻ</a>';
                             html += '</div>';
                             html += '</div>';
 
                             <!-- comment - like - share -->
+                            html += '<ul class="row margin-none blog-comment-wrapper">';
+                            html += '</ul>';
                             html += '<div class="row margin-none person-command">';
                             html += '<div class="col-md-12 col-none-padding">';
                             html += '<a href="#" class="click-like"><i class="icon-thumbs-up-alt"></i></a>';
@@ -700,7 +1068,7 @@
                             html += '<div class="col-md-12 article-img-text col-none-padding">';
                             html += '<div class="row margin-none">';
                             html += '<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
-                            html += '<input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">';
+                            html += '<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="'+data.id+'" type="text" placeholder="Viết bình luận...">';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
@@ -734,6 +1102,10 @@
                                 e.preventDefault();
                                 $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
 
+                            item_person.find('.comment').keypress(function(e){
+                                comment($(this), e);
+                            });
+
                             $('#anchor_top').after(item_person);
                         }else{
                             alert('Cập nhật trạng thái thất bại. Xin vui lòng thử lại.');
@@ -743,295 +1115,28 @@
                         anchor_load.addClass('hidden').fadeOut;
                     }
                 });
+//                $("#content-status").attr('value',null);
                 $("#content-status").val('');
-            });
-            /**---- END luuhoabk - post status ---**/
+                $("#content-status").focus();
+            }
 
-            /**---- luuhoabk - action more ---**/
-                // change privace
-            $('ul.btn-privacy-change li').on('click', function(){
-                $(this).closest('.person-type-scopy').find('.btn-privacy-val').blogPrivacy({callback: function(respon) {
-                    console.log($.parseJSON(respon));
-                }});
-            });
-            /**---- END luuhoabk - action more ---**/
-
-            /**---- luuhoabk - action more ---**/
-            $('.btn-action-more').on('click', function(){
-                var btb_action = $(this);
-                var anchor_bottom = $('#anchor_bottom');
-                var data_offset = anchor_bottom.attr('data-offet');
-                $.ajax({
-                    type: "POST",
-                    url: URL + "/trang-ca-nhan/trang-thai.html",
-                    data: {
-                        'type_edit': 'action_more',
-                        'blog_id': '{{$blog_info['id']}}',
-                        'data_offset': data_offset
-                    },
-                    async: true,
-                    success: function (respon) {
-
-                        var data = $.parseJSON(respon);
-                        if(data.length > 0){
-                            var html = '';
-                            var note = '';
-                            var description = '';
-                            $.each(data, function(key, val) {
-                                switch (val.post_type) {
-                                    case 'checkin':
-                                        note = 'Đã check in địa điểm này.';
-                                        description = val.location.description;
-                                        break;
-                                    case 'like'   :
-                                        note = 'Đã thích địa điểm này.';
-                                        description = val.location.description;
-                                        break;
-                                    case 'review' :
-                                        note = 'Đã nhận xét địa điểm này.';
-                                        description = val.content;
-                                        break;
-                                    default :
-                                        note = 'Đã cập nhật trạng thái.';
-                                        description = val.content;
-                                        break;
-                                }
-
-                                var date_updated = formatDate(val.updated_at);
-
-                                html +='<div class="row person-content-item">';
-                                html +='<div class="col-md-12 col-none-padding">';
-                                html +='<div class="col-md-9 article-img-text col-none-padding">';
-                                html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
-                                html +='<div class="person-content-info">';
-                                html +='<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - '+val.level+'</span></div>';
-                                html +='<span>' + note + '</span><br>';
-                                html +='<span>' + date_updated + '</span>';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='<div class="col-md-3 col-none-padding text-right">';
-                                @if($user_blog->id == $user_auth->id)
-                                html +='<div class="btn-group person-type-scopy">';
-                                html +='<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+val.id+'"  value_id="'+val.privacy+'">'+val.privacy_description+'</button>';
-                                html +='<button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">';
-                                html +='<i class="icon-down-dir"></i>';
-                                html +='</button>';
-                                html +='<ul class="dropdown-menu btn-privacy-change" role="menu">';
-                                html +='<li value_id="15">Chỉ mình tôi</li>';
-                                html +='<li value_id="16">Bạn bè</li>';
-                                html +='<li value_id="17">Bạn của bạn tôi</li>';
-                                html +='<li value_id="18">Cộng đồng</li>';
-                                html +='</ul>';
-                                html +='</div>';
-                                @endif
-                                html +='</div>';
-                                html +='</div>';
-                                if (val.post_type == 'status') {
-                                    if (description!= null && description != ""){
-                                        html += '<div class="col-md-12 col-none-padding person-content-article">';
-                                        html += '<div class="row margin-none">';
-                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
-                                        html += '<div class="text-algin-img">';
-                                        html += '<article>';
-                                        html += description;
-                                        html += '</article>';
-                                        html += '</div>';
-                                        html += '</section>';
-                                        html += '</div>';
-                                        html += '</div>';
-                                    }
-                                }else {
-                                    html += '<div class="col-md-12 col-none-padding person-content-article">';
-                                    if (val.location != null) {
-                                        html += '<div class="row margin-none">';
-                                        html += '<section class="article-img-text clearfix content-article-wrapper">';
-                                        html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
-                                        html += '<div class="text-algin-img">';
-                                        html += '<header>';
-                                        html += '<a href="'+val.location.url+'"><h2>'+val.location.name+'</h2></a>';
-                                        html += '</header>';
-                                        html += '<article>';
-                                        html += description;
-                                        html += '</article>';
-                                        html += '<a href="' + val.location.url + '"><i>' + val.location.url + '</i></a>';
-                                        html += '</div>';
-                                        html += '</section>';
-                                        html += '</div>';
-                                        <!-- slide img -->
-                                        html += '<div class="row margin-none">';
-                                        if (val.location.album.length > 0) {
-                                            html += '<ul class="list-unstyled person-content-slide">';
-                                            $.each(val.location.album, function (key, image) {
-                                                if (key <= 6) {
-                                                    html += '<li><img src="{{URL::to('/')}}'+image.thumbnail + '" alt=""></li>';
-                                                }
-                                            });
-                                            html += '<li class="text-right"> <a href="' + val.location.url + '"><button class="btn btn-default">xem thêm</button></a></li>';
-                                            html += '</ul>';
-                                        }
-                                        html += '</div>';
-                                    }
-                                    html += '</div>';
-                                }
-
-                                <!-- comment - like - share -->
-                                html +='<div class="row margin-none">';
-                                html +='<div class="person-text-assoc">';
-                                html += '<a href="#" class="action-assoc" data-type="post_item" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
-                                html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
-                                html += '</a>';
-
-                                html +='<a href="#">Bình luận</a>';
-                                html +='<a href="#">Chia sẻ</a>';
-                                html +='</div>';
-                                html +='</div>';
-
-                                <!-- comment - like - share -->
-                                html +='<div class="row margin-none person-command">';
-                                html +='<div class="col-md-12 col-none-padding">';
-                                html +='<a href="#" class = "click-like">';
-                                html +=(val.is_like == 'like')? '<i class="icon-thumbs-up-alt"></i>' : '<i class="icon-thumbs-down-alt"></i>';
-                                html +='</a>';
-                                html +='<span class="total-like">'+val.total_like+'</span> người thích điều này';
-                                html +='</div>';
-                                html +='<div class="col-md-12 article-img-text col-none-padding">';
-                                html +='<div class="row margin-none">';
-                                html +='<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
-                                html +='<input class="col-md-11 col-ms-11 col-xs-11" type="text" placeholder="Viết bình luận...">';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='</div>'
-                            })
-                            var item_person = $('<div/>').append(html);
-
-                            // bat su kien cho item action load more
-                            item_person.find('ul.btn-privacy-change li').on('click', function(){
-                                var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
-                                var privacy_text = tag_privacy_val.text();
-                                var privacy_id = tag_privacy_val.attr('value_id');
-
-                                tag_privacy_val.attr('value_id', $(this).attr('value_id'));
-                                tag_privacy_val.text($(this).text());
-
-                                tag_privacy_val.blogPrivacy({callback: function(respon) {
-                                    if(!respon){
-                                        tag_privacy_val.text(privacy_text);
-                                        tag_privacy_val.attr('value_id',privacy_id);
-                                    }
-                                }});
-                            });
-                            anchor_bottom.before(item_person).attr('data-offet',parseInt(data_offset)+5);
-
-                            // bat su kien like cho item load more
-                            item_person.find('.action-assoc').on('click', function(e){
-                                e.preventDefault();
-                                blogLike($(this));
-                            })
-
-                            //event dup like
-                            item_person.find('.click-like').click(function(e){
-                                e.preventDefault();
-                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
-                        }
-                        else{
-                            btb_action.addClass('disabled').text('.:: Kết thúc ::.');
-                        }
-                    }
-                });
-            });
-            /**---- END luuhoabk - action more ---**/
-
-//----------------------------
-            // like
-            $('.action-assoc').on('click', function(e){
-                e.preventDefault();
-                blogLike($(this));
-            });
-            //event dup like
-            $('.click-like').click(function(e){
-                e.preventDefault();
-                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
-
-            // trigger event enter comment
-            $('.comment').keypress(function(e){
-                comment($(this), e);
-            });
-
-            /**---- END luuhoabk - action more ---**/
-            function blogLike(self){
-                var action = self.attr('data-action');
-                var type = self.attr('data-type');
-                if(type=='post_item'){
-                    var tag_icon = self.closest('.person-content-item').find('.click-like i');
+            function loadCommentItem(self){
+                if(self.attr('type') == 'show'){
+                    self.closest('.box-comment').find('li.hidden').removeClass('hidden');
+                    self.text('Thu gọn');
+                    self.attr('type', 'hidden');
                 }else{
-                    var tag_icon = self.closest('.article-img-text').find('.click-like-comment i');
+                    var length_tag = self.closest('.box-comment').find('li').length;
+                    self.closest('.box-comment').find('li').each(function(key,val){
+                        var index = $(this).index();
+                        if(index <= length_tag-4){
+                            $(this).addClass('hidden');
+                        }
+                    })
+                    self.text('Xem thêm');
+                    self.attr('type', 'show');
                 }
-                    tag_icon.iconLoad(tag_icon.attr('class'));
-                    self.like({callback: function(respon){
-                        console.log(respon);
-                        if(respon != -1){
-                            if(type = 'post_item'){
-                                if(action == 'like'){
-                                    self.text('Bỏ thích');
-                                    self.attr('data-action', 'unlike');
-                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
-                                }else if(action == 'unlike'){
-                                    self.text('Thích');
-                                    self.attr('data-action', 'like');
-                                    self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
-                                }
-                                self.closest('.person-content-item').find('.total-like').text(respon);
-                            }else{
-                                if(action == 'like'){
-                                    self.text('Bỏ thích');
-                                    self.attr('data-action', 'unlike');
-                                    self.closest('.article-img-text').find('.click-like-comment i').iconUnload('icon-thumbs-down-alt');
-                                }else if(action == 'unlike'){
-                                    self.text('Thích');
-                                    self.attr('data-action', 'like');
-                                    self.closest('.article-img-text').find('.click-like-comment i').iconUnload('icon-thumbs-up-alt');
-                                }
-                                self.closest('.article-img-text').find('.total-comment-like').text(respon);
-                            }
-
-                        }
-                    }});
             }
-
-            /**---- luuhoabk - handle event comment ---**/
-            function comment(self, event){
-                    var code = event.keyCode || event.which;
-                    if(code == 13) { //Enter keycode
-                        var comment_content = self.val();
-                        var post_id = self.attr('data-post-id');
-                        if(comment_content.length <= 0){
-                            alert('Bình luận không được để trống');
-                        }else{
-                            $.ajax({
-                                type: "POST",
-                                url: "{{URL::to('thanh-vien/comment-post')}}",
-                                data: {
-                                    'comment_content': comment_content,
-                                    'post_id': post_id
-                                },
-                                dataType: 'json',
-                                success: function (respon) {
-                                    if(respon){
-                                        self.val('');
-                                    }
-                                }
-                            });
-                        }
-                    }
-            }
-
-
-            /**---- luuhoabk - handle event like comment ---**/
-
-            /**---- END luuhoabk - handle event like comment ---**/
-
-
         });
     </script>
 @stop
