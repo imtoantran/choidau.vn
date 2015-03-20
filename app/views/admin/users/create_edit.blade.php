@@ -9,7 +9,7 @@
 	<!-- ./ tabs -->
 
 	{{-- Create User Form --}}
-	<form class="form-horizontal" method="post" action="@if (isset($user)){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
+	<form class="form-horizontal" method="post" action="@if (isset($user)){{ URL::to('qtri-choidau/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -107,8 +107,7 @@
 		<!-- Form Actions -->
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
-				<element class="btn-cancel close_popup">Cancel</element>
-				<button type="reset" class="btn btn-default">Reset</button>
+				<button type="reset" class="btn btn-default">Hủy</button>
 				<button type="submit" class="btn btn-success">OK</button>
 			</div>
 		</div>

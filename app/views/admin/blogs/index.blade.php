@@ -50,6 +50,7 @@
 {{--	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
 	<script type="text/javascript">
 		var oTable;
+		var _$ = "#blogs";
 		$(document).ready(function() {
 			oTable = $('#blogs').dataTable( {
 				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
@@ -68,6 +69,38 @@
 					location.href = "{{URL::to("qtri-choidau/blog/danh-muc-")}}"+$(this).val();
 				}
 			});
+			/* imtoantran user action start */
+			$(_$).on("click","[data-action]",function(e){
+				var _t = this;
+				switch ($(_t).data("action")) {
+					case "delete":
+						if(!confirm("Bạn chắc chắn muốn xóa?","Có","Không")) return false;
+						break;
+					default:break;
+				}
+				$.blockUI();
+				$.ajax({
+					url:$(this).data("controller"),
+					type:"post",
+					dataType:"json",
+					data:$(this).data(),
+					success:function(response){
+						if(response.success) {
+							switch ($(_t).data("action")) {
+								case "delete":
+									$(_t).closest("tr").fadeOut("slow",function(_){$(this).remove()});
+									break;
+								default:
+									break;
+							}
+						}
+					},
+					complete:function(_){
+						$.unblockUI();
+					}
+				});
+			});
+			/* imtoantran user action end */
 		});
 	</script>
 @stop

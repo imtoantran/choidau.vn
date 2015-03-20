@@ -130,7 +130,7 @@ class AdminUsersController extends AdminController
             }
 
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $this->user->id . '/edit')
+            return Redirect::to('qtri-choidau/users/' . $this->user->id . '/edit')
                 ->with('success', Lang::get('admin/users/messages.create.success'));
 
         } else {
@@ -138,7 +138,7 @@ class AdminUsersController extends AdminController
             // Get validation errors (see Ardent package)
             $error = $this->user->errors()->all();
 
-            return Redirect::to('admin/users/create')
+            return Redirect::to('qtri-choidau/users/create')
                 ->withInput(Input::except('password'))
                 ->with('error', $error);
         }
@@ -203,7 +203,7 @@ class AdminUsersController extends AdminController
                 $user->password_confirmation = $passwordConfirmation;
             } else {
                 // Redirect to the new user page
-                return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
+                return Redirect::to('qtri-choidau/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
             }
         }
 
@@ -215,7 +215,7 @@ class AdminUsersController extends AdminController
             // Save roles. Handles updating.
             $user->saveRoles(Input::get('roles'));
         } else {
-            return Redirect::to('admin/users/' . $user->id . '/edit')
+            return Redirect::to('qtri-choidau/users/' . $user->id . '/edit')
                 ->with('error', Lang::get('admin/users/messages.edit.error'));
         }
 
@@ -224,9 +224,9 @@ class AdminUsersController extends AdminController
 
         if (empty($error)) {
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('success', Lang::get('admin/users/messages.edit.success'));
+            return Redirect::to('qtri-choidau/users/' . $user->id . '/edit')->with('success', Lang::get('admin/users/messages.edit.success'));
         } else {
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.error'));
+            return Redirect::to('qtri-choidau/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.error'));
         }
     }
 
@@ -256,7 +256,8 @@ class AdminUsersController extends AdminController
         // Check if we are not trying to delete ourselves
         if ($user->id === Confide::user()->id) {
             // Redirect to the user management page
-            return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.impossible'));
+            return Response::json(["success"=>false,"message"=>Lang::get('admin/users/messages.delete.impossible')]);
+            return Redirect::to('qtri-choidau/users')->with('error', Lang::get('admin/users/messages.delete.impossible'));
         }
 
         AssignedRoles::where('user_id', $user->id)->delete();
@@ -268,9 +269,11 @@ class AdminUsersController extends AdminController
         $user = User::find($id);
         if (empty($user)) {
             // TODO needs to delete all of that user's content
-            return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.delete.success'));
+            return Response::json(["success"=>true,"message"=>Lang::get('admin/users/messages.delete.success')]);
+            return Redirect::to('qtri-choidau/users')->with('success', Lang::get('admin/users/messages.delete.success'));
         } else {
             // There was a problem deleting the user
+            return Response::json(["success"=>true,"message"=>Lang::get('admin/users/messages.delete.error')]);
             return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.error'));
         }
     }

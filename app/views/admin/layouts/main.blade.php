@@ -27,7 +27,8 @@
           type="text/css"/>
     <link href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css')}}" rel="stylesheet"
           type="text/css"/>
-    <link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
+    <link rel="stylesheet"
+          href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
     {{--    <link href="{{asset('assets/global/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
@@ -583,10 +584,13 @@
                     </a>
                     <ul class="sub-menu">
                         <li @if(Request::is("qtri-choidau/users")) class="active" @endif>
-                            <a @if(!Request::is("qtri-choidau/users")) href="{{URL::to("qtri-choidau/users")}}" @endif >Danh sách thành viên</a>
+                            <a @if(!Request::is("qtri-choidau/users")) href="{{URL::to("qtri-choidau/users")}}" @endif >
+                                <i class="icon icon-list"></i> Danh sách thành viên</a>
                         </li>
-                        <li><a href="#">
-                                Thêm thành viên</a>
+                        <li>
+                            <a href="{{URL::to("qtri-choidau/users/create")}}">
+                                <i class="glyphicon glyphicon-plus-sign"></i> Thêm thành viên
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -1621,7 +1625,8 @@
 {{--<script src="{{asset("assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")}}" type="text/javascript"></script>--}}
 <script src="{{asset("assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")}}"
         type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}"
+        type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/jquery.blockui.min.js")}}" type="text/javascript"></script>

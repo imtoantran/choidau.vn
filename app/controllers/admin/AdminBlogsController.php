@@ -258,7 +258,6 @@ class AdminBlogsController extends AdminController
 
         // Validate the inputs
         $validator = Validator::make(Input::all(), $rules);
-
         // Check if the form validates with success
         if ($validator->passes()) {
             $id = $post->id;
@@ -268,10 +267,12 @@ class AdminBlogsController extends AdminController
             $post = Post::find($id);
             if (empty($post)) {
                 // Redirect to the blog posts management page
+                return Response::json(["success" => true, "message" => Lang::get('admin/blogs/messages.delete.success')]);
                 return Redirect::to('qtri-choidau/blog')->with('success', Lang::get('admin/blogs/messages.delete.success'));
             }
         }
         // There was a problem deleting the blog post
+        return Response::json(["success" => false, "message" => Lang::get('admin/blogs/messages.delete.error')]);
         return Redirect::to('qtri-choidau/blog')->with('error', Lang::get('admin/blogs/messages.delete.error'));
     }
 
@@ -288,7 +289,7 @@ class AdminBlogsController extends AdminController
         return Datatables::of($posts)
             ->edit_column('comments', '{{ DB::table(\'posts\')->where(\'parent_id\', \'=\', $id)->count() }}')
             ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
+                <a data-controller="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger" data-id="{{$id}}" data-action="delete">{{{ Lang::get(\'button.delete\') }}}</a>
             ')
             ->remove_column('id')
             ->make();
