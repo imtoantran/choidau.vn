@@ -81,7 +81,6 @@
                             @if( $location->price_min > 0 && $location->price_max > 0 )
                                  {{number_format($location->price_min,0, ".",",")}}đ
                                     - {{number_format($location->price_max,0, ".",",")}}đ
-
                             @else
                                 Đang cập nhật.
                             @endif
@@ -677,7 +676,6 @@
                                         'action_type': action_type
                                     },
                                     success: function (respon) {
-                                        console.log(respon);
                                         if(respon != -1){
                                             switch(action_type){
                                                 case 'like':
@@ -699,7 +697,6 @@
                                                 default: break;
                                             }
                                         }else{console.log('da co loi xay ra.');}
-                                        console.log(icon_class);
                                         self.parent().find('i').iconUnload(icon_class);
                                     }
                                 });

@@ -328,9 +328,17 @@
                                 </ul>
                             </div>
                             <div class="absolute-top-right bg-primary">
-                                <span class="tooltips like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-original-title ='@if(Auth::check()&&$location->isLiked(Auth::user()->id)) Bỏ thích @else thích @endif'
-                                     data-id="{{$location->id}}">
-                                    <i class="icon-heart"></i>
+{{--                                <span class="tooltips like-action @if(Auth::check()&&$location->isLiked(Auth::user()->id)) active @endif " data-original-title ='@if(Auth::check()&&$location->isLiked(Auth::user()->id)) Bỏ thích @else thích @endif'--}}
+                                <span class="tooltips require-login-items like-action"
+                                      data-type="<?php
+                                        if(Auth::check()){
+                                            if($location->isLiked(Auth::user()->id)){echo 'unlike';}else{echo 'like';}
+                                        }else{ echo 'like';}
+                                      ?>"
+                                      data-location="{{$location->id}}" data-url="{{URL::current()}}"
+                                      data-original-title="Thích"
+                                      >
+                                    <i class="icon-heart @if(Auth::check()) @if($location->isLiked(Auth::user()->id)){{'yellow'}}@endif @endif"></i>
                                 </span>
 
                                 <span class="tooltips"  data-original-title = "Chia sẻ" >
@@ -379,10 +387,10 @@
 
                     <div class="row box-product-like">
                         <div class="col-md-10 col-xs-10 col-sm-10">
-                            <div class="row">
+                            <div class="row box-product-wrapper">
                                 @if($location->totalLike())
                                     @foreach($location->whoLiked()->take(3)->get() as $userLiked)
-                                        <a href="{{URL::to($userLiked->url())}}">
+                                        <a data-id="{{$userLiked->id}}" href="{{URL::to($userLiked->url())}}">
                                             <img class="img-circle tooltips" src="{{asset($userLiked->avatar)}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>
                                         </a>
                                     @endforeach
@@ -438,30 +446,105 @@
         });
 
         /* imtoatran like button start */
+
+
         $(".like-action").click(function (e) {
-            var el = $(this);
-            el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
-            $.ajax({
-                url: URL + "/location/like",
-                data: {id: $(this).attr("data-id")},
-                dataType: "json",
-                type: "post",
-                success: function (response) {
-                    if (response.success) {
-                        el.toggleClass("active");
-                        el.closest(".home-content-item").find(".quantity-like span").text(response.totalFavourites);
-                        if(response.canLike){
-                            el.attr('data-original-title','Thích');
-                        }else{
-                            el.attr('data-original-title','Bỏ thích');
-                        }
-                    }
-                },
-                complete: function () {
-                    el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
-                }
-            });
             e.preventDefault();
+            var self = $(this);
+
+            var type = self.attr('data-type');
+            var icon_class = 'icon-heart';
+            self.find('i').iconLoad(icon_class);
+//            var url = $(this).attr('data-url');
+
+            $(this).login({callback: function(respon_login){
+                if(respon_login){
+                    var location_id = self.attr('data-location');
+                    var action_type = self.attr('data-type');
+                    $.ajax({
+                        type: "POST",
+                        url: URL + "/dia-diem/action",
+                        data: {
+                            'location_id': location_id,
+                            'action_type': action_type
+                        },
+                        success: function (respon) {
+                            console.log(respon);
+                            if(respon !=-1){
+                                var tag_none_img = self.closest('.home-content-item').find('.icon-picture-outline');
+                                var tag_img_wrapper = self.closest('.home-content-item').find('.box-product-wrapper');
+                                if(action_type == 'like'){
+                                    self.closest('.home-content-item').find('.quantity-like span').text(respon);
+                                    self.attr('data-type', 'unlike');
+                                    self.find('i').addClass('yellow');
+                                    if(tag_none_img[0]){
+                                        tag_none_img.addClass('hidden');
+                                    }
+
+                                    var html = '';
+                                    @if(Auth::check())
+                                        html += '<a data-id="{{Auth::user()->id}}" href="{{URL::to("/trang-ca-nhan/").Auth::user()->username.'.html'}}">';
+                                        html += '<img class="img-circle tooltips" src="{{Auth::user()->avatar}}" data-original-title="{{(Auth::user()->fullname) ? (Auth::user()->fullname):(Auth::user()->username)}}" />';
+                                        html += '</a>';
+                                    @endif
+                                    tag_img_wrapper.prepend(html);
+                                    tag_img_wrapper.find('.tooltips').tooltip({  disabled: true });
+                                }else{
+                                    self.closest('.home-content-item').find('.quantity-like span').text(respon);
+                                    self.attr('data-type', 'like');
+                                    self.find('i').removeClass('yellow');
+                                    if(respon == 0){
+                                        tag_img_wrapper.prepend('<i class="icon-picture-outline pull-left text-grey font-24px"></i>');
+                                    }
+
+                                    @if(Auth::check())
+                                    tag_img_wrapper.find('a').each(function(){
+                                        if($(this).attr('data-id') == '{{Auth::user()->id}}'){
+                                            $(this).remove();
+                                        }
+                                    });
+                                    @endif
+
+                                }
+                            }
+                            self.find('i').iconUnload(icon_class);
+                        }
+                    });
+                }else{
+                    var cf = confirm('Bạn cần đăng nhập để thực hiện tác vụ này.');
+                    if(cf){
+                        $('#popup-login').modal('show');
+                    }
+                    self.find('i').iconUnload(icon_class);
+                }
+            }});
+
+
+
+
+//            var el = $(this);
+//            el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
+//            $.ajax({
+//                url: URL + "/location/like",
+//                data: {id: $(this).attr("data-id")},
+//                dataType: "json",
+//                type: "post",
+//                success: function (response) {
+//                    if (response.success) {
+//                        el.toggleClass("active");
+//                        el.closest(".home-content-item").find(".quantity-like span").text(response.totalFavourites);
+//                        if(response.canLike){
+//                            el.attr('data-original-title','Thích');
+//                        }else{
+//                            el.attr('data-original-title','Bỏ thích');
+//                        }
+//                    }
+//                },
+//                complete: function () {
+//                    el.find("i").toggleClass("icon-heart animate-spin icon-spin3");
+//                }
+//            });
+//            e.preventDefault();
         });
         /* imtoatran like button end */
 

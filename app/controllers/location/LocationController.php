@@ -633,7 +633,7 @@ class LocationController extends BaseController
     public function postFood()
     {
         if (Auth::guest()) {
-            return Response::json(["success" => fasle, "message" => "Need login"]);
+            return Response::json(["success" => false, "message" => "Need login"]);
         }
         $data = Input::all();
         $food = "";
@@ -656,7 +656,7 @@ class LocationController extends BaseController
     public function addFood($location)
     {
         if (Auth::guest()) {
-            return Response::json(["success" => fasle, "message" => "Need login"]);
+            return Response::json(["success" => false, "message" => "Need login"]);
         }
         $data = Input::all();
 
@@ -686,13 +686,13 @@ class LocationController extends BaseController
         }
         if ($food->save())
             return Response::json(["id"=>$food->id,"action" => $action, "success" => true, "content" => View::make("site.location.food_item", compact("location", "food", "key"))->render()]);
-        return Response::json(["success" => fasle, "message" => "Not food saved"]);
+        return Response::json(["success" => false, "message" => "Not food saved"]);
     }
 
     public function editFood()
     {
         if (Auth::guest()) {
-            return json_encode(["success" => fasle, "message" => "Need login"]);
+            return json_encode(["success" => false, "message" => "Need login"]);
         }
         $data = Input::all();
         if (Input::has("id")) {
@@ -701,7 +701,7 @@ class LocationController extends BaseController
             if ($food->save())
                 return Response::json(["action" => "edit", "success" => true]);
         }
-        return json_encode(["success" => fasle, "message" => "Not food saved"]);
+        return json_encode(["success" => falselike, "message" => "Not food saved"]);
     }
     /* imtoantran save food stop */
     /* imtoantran remove food start */

@@ -511,6 +511,11 @@ var Layout = function () {
 
     //luuhoabk
     var handleLogin = function () {
+        $('#frm-login-popup').submit(function(e){
+            e.preventDefault();
+            $(".btn-login-popup-choidau").trigger('click');
+        });
+
         $(".btn-login-popup-choidau").click(function () {
             var btnlogin = $(this);
             var alert = '';

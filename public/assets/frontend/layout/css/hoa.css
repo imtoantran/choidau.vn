@@ -104,9 +104,9 @@ section.person-content .content-article-wrapper article{text-align: justify;}
 
 section.person-content ul.person-content-slide {margin: 5px 0 0 0;}
 section.person-content ul.person-content-slide li{display: inline-block; padding-right: 4px; margin: 5px 0px;}
-section.person-content ul.person-content-slide li img{  width: 88px; height: 80px; padding: 2px; border: 1px solid #d5d5d5;}
+section.person-content ul.person-content-slide li img{  width: 92px; height: 92px; padding: 2px; border: 1px solid #d5d5d5;}
 section.person-content ul.person-content-slide li:last-child{padding-right: 0px;}
-section.person-content ul.person-content-slide li:last-child button{background-color: #e5e5e5; width:80px; height: 80px; font-size: 0.8em}
+section.person-content ul.person-content-slide li:last-child button{background-color: #e5e5e5; width:92px; height: 92px; font-size: 0.8em}
 
 section.person-content .person-text-assoc{margin: 10px 0px 5px 0px; }
 section.person-content .person-text-assoc a{margin-right:20px; font-weight: 600; font-size: 0.9em;}
@@ -191,19 +191,20 @@ ul.blog-tabs > li a{color: #fff;}
 ul.blog-tabs > li > a .badge{color: #444!important; background-color: #fff;!important;}
 ul.blog-tabs >li.active a, ul.blog-tabs >li>:hover{background-color: #3ec753!important; color: #fff;}
 #photo-tab-location .badge-name{
-	position: absolute;
-	bottom: 0;
-	left: 0;
+	/*position: absolute;*/
+	/*bottom: 0;*/
+	/*left: 0;*/
 	font-size: 0.9em;
 	width: 100%;
-	padding: 10px;
-	background-color: rgba(0,0,0,0.5);
+	padding: 5px 5px 0px 0px;
+	/*background-color: rgba(0,0,0,0.5);*/
 	font-weight: 600;
-	color: rgb(255,255,255);
+	color: green;
 }
 #photo-tab-location .badge-num-image{
 	position: absolute;
 	right: 0;
+	top: 0;
 	padding: 2px 6px;
 	background-color: #b4b4b4;
 	font-weight: 600;

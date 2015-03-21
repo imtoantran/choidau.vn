@@ -965,7 +965,7 @@
                 $.each(arrObject, function (key, val) {
                     html_item += '   <div class="col-md-4 col-sm-6 mix location-cat-' + type + '">';
                     html_item += '   <div class="mix-inner">';
-                    html_item += '   <img alt="" src="{{URL::to('/')}}' + val.avatar + '" class="img-responsive">';
+                    html_item += '   <img alt="" style="width: 258px; height: 184px;" src="{{URL::to('/')}}' + val.avatar + '" class="img-responsive">';
                     html_item += '   <div class="title">' + val.name + '</div>';
 
                     html_item += '   <div class="mix-details choidau-bg-light-a9">';
@@ -979,6 +979,8 @@
                 })
                 return html_item;
             }
+
+
             /**--- END luuhoabk - load location in blog ---**/
 
             /**--- luuhoabk - load album in blog ---**/
@@ -1003,10 +1005,11 @@
                         $.each(respon, function(key,val){
                             //--- photo-------
                             var html = '';
-                            html +='<div class="s" style="position: relative">';
+                            html +='<div class="avatar-pad2" style="position: relative">';
                             html +='<span class= "badge-num-image">'+val.album.length+'</span>';
-                            html +='<div class= "badge-name">'+val.name+'</div>';
-                            html +='<img class="avatar-pad2" width="100%" src="{{URL::to('/')}}' + val.avatar +'" alt="">';
+
+                            html +='<img class="" width="100%" src="{{URL::to('/')}}' + val.avatar +'" alt="">';
+                            html +='<div class= "badge-name"><i class="icon-picture"></i> '+val.name+'</div>';
                             html +='</div>';
 
                             var tag_html = $('<div/>',{class:'col-md-3 col-sm-6 padding-lr-5 margin-bottom-10'}).html(html);

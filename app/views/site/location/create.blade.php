@@ -152,7 +152,7 @@
                             <div class="col-sm-4 col-md-3 col-lg-3 location-wrapper-img">
                                     <div class="add-picture vertically-centered" style="">
                                         <button id="btn-add-profile-picture" type="button"
-                                                class="form-control yellow btn btn-warning text-left"><i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh
+                                                class="form-control yellow btn btn-warning text-left" style="color:#fff!important;"><i class="icon-picture" style="font-size: 1.3em;"></i> Chọn ảnh
                                         </button>
                                     </div>
                                     <div class="text-center">
@@ -174,7 +174,7 @@
                                          style="position: relative;" >
                                         <div class="add-picture vertically-centered" style="">
                                             <button id="btn-add-image" type="button"
-                                                    class="form-control yellow btn btn-warning text-left"><i
+                                                    class="form-control yellow btn btn-warning text-left" style="color:#fff!important;"><i
                                                         class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh
                                             </button>
                                         </div>
@@ -192,7 +192,7 @@
 
                             <div class="col-sm-4 col-md-3 col-lg-3">
                                 <button id="btn-update-position" type="button"
-                                        class="form-control yellow btn btn-warning"><i class="icon-location pull-left"
+                                        class="form-control yellow btn btn-warning" style="color:#fff!important;"><i class="icon-location pull-left"
                                                                                        style="font-size: 1.3em;"></i>
                                     Cập nhật vị trí
                                 </button>
@@ -584,7 +584,7 @@
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 padding-top-20">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <button type="submit" class="btn yellow btn-block"><strong>+ Thêm địa điểm</strong></button>
+                            <button type="submit" class="btn yellow btn-block" style="color:#fff!important;"><strong>+ Thêm địa điểm</strong></button>
                         </div>
                     </div>
                 </div>

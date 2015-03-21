@@ -180,7 +180,7 @@ class Location extends Eloquent
             if($status)
                 return $status->value == "verified";
         }
-        return fasle;
+        return false;
     }
     /* imtoantran l status end*/
 

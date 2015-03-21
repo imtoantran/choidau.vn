@@ -136,6 +136,7 @@ var Location = function () {
 					};
 
 					// submit them dia diem
+					//$.blockUI();
 					$.ajax({
 						url: URL+"/dia-diem/luu-dia-diem",
 						type: 'post',
@@ -153,6 +154,7 @@ var Location = function () {
 							}
 						},
 						complete: function(){
+							//$.unblockUI();
 						}
 					});
 				}

@@ -30,7 +30,7 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 				<div class="col-md-4" style="position: relative;">
 					<div class="add-picture vertically-centered" style="">
-						<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
+						<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left" style="color: #fff!important;"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
 					</div>
 				</div>
 			</div>

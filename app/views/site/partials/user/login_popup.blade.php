@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body" style="padding: 30px 20px 0px;">
 
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="frm-login-popup">
                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
                     <div class="form-group">
                         <label class="control-label col-sm-3">Tên đăng nhâp</label>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="form-group alert-popup-login display-none"></div>
-
+                    <input type="submit" class="hidden"/>
                 </form>
             </div>
             <div class="modal-footer" id="footer_login" style="padding: 15px 20px 15px;">
