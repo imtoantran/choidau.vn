@@ -26,12 +26,12 @@
                         </p>
                     @endif
                     @if(isset($location->phone) && $location->phone != "")
-                        <p class="icon-phone">(+84) {{$location->phone}}</p>
+                        <p class="icon-phone">{{$location->phone}}</p>
                     @endif
                     @if(isset($location->telphone) && $location->telphone != "")
                         <p class="icon-mobile">(+84) {{$location->telphone}}</p>
                     @endif
-                    @if(isset($location->website) && $location->website != ""))
+                    @if(isset($location->website) && $location->website != "")
                     <p><span class="icon-globe"></span> {{$location->website}}</p>
                     @endif
                 </div>
@@ -75,15 +75,15 @@
                     <div>
                         <p class="title">
                             <span class="icon-money"></span>
-                            <span class="text-primary">Giá trung bình</span>
+                            <span class="text-primary">Giá trung bình: </span>
                             {{--<small> 75 000đ - 350 000đ </small>--}}
 
                             @if( $location->price_min > 0 && $location->price_max > 0 )
-                                <small> {{number_format($location->price_min,0, ".",",")}}đ
+                                 {{number_format($location->price_min,0, ".",",")}}đ
                                     - {{number_format($location->price_max,0, ".",",")}}đ
-                                </small>
+
                             @else
-                                <small> Đang cập nhật.</small>
+                                Đang cập nhật.
                             @endif
                         </p>
                     </div>
@@ -91,40 +91,43 @@
 
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
-                        Location activities
-                        <div class="col-md-6 ">
+                        <div class="row margin-none">
+                            <div style=" font-size: 1.1em; font-weight: 600; padding: 10px 0px 20px 0px; color: #FFFFFF;">Location activities</div>
+                            <div class="col-md-6 ">
                             <span class="icon-border-square tooltips require-login-items location-action" style="cursor:pointer;" data-original-title="Thích"
                                   data-type=@if($isLike){{'unlike'}} @else {{'like'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}">
                                 <i class="icon-heart @if($isLike) yellow @else white @endif" style="font-size: 23px;"></i>
                             </span>
-                            <p class="total-like">{{$total_like}}</p>
+                                <p class="total-like">{{$total_like}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="icon-border-square tooltips require-login-items location-action" data-original-title="Checkin" style="cursor:pointer;"
+                                      data-type=@if($isCheckin){{'checkout'}} @else {{'checkin'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}" >
+                                    <i class="icon-ok @if($isCheckin) yellow @else white @endif" style="font-size: 23px;"></i>
+                                </span>
+                                    <p class="total-checkin">{{$total_checkin}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                <span class="icon-location icon-border-square tooltips"
+                                      data-original-title="Địa điểm lân cận">
+                                </span>
+                                    <p>{{count($location_nearly)}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
+                                <p>{{count($location->reviews()->get())}}</p>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <span class="icon-border-square tooltips require-login-items location-action" data-original-title="Checkin" style="cursor:pointer;"
-                                  data-type=@if($isCheckin){{'checkout'}} @else {{'checkin'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}" >
-                                <i class="icon-location @if($isCheckin) yellow @else white @endif" style="font-size: 23px;"></i>
-                            </span>
-                            <p class="total-checkin">{{$total_checkin}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="icon-star icon-border-square tooltips"
-                                  data-original-title="Địa điểm lân cận"></span>
-
-                            <p>{{$location->reviews()->count()}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
-
-                            <p>15</p>
-                        </div>
 
 
                     </div>
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
-                        <div id="gmap_marker"
-                             data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}"
-                             class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                        <div class="row margin-none padding-5">
+                            <div id="gmap_marker"
+                                 data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}"
+                                 class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location  margin-none">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -650,7 +653,7 @@
                         var self = $(this);
 
                         var type = self.attr('data-type');
-                        var icon_class = (type == 'checkin' || type == 'checkout') ? 'icon-location': 'icon-heart';
+                        var icon_class = (type == 'checkin' || type == 'checkout') ? 'icon-ok': 'icon-heart';
                             self.parent().find('i').iconLoad(icon_class);
 
                         var url = $(this).attr('data-url');

@@ -3,10 +3,19 @@ margin:0px;
 }
 
 .icon-border-square{
-padding: 7%;
-border: 2px solid;
-font-size: 24px;
-color: white;
+    padding: 7%;
+    font-size: 24px;
+    color: #fff;
+    border: 1px solid #00a700;
+    background-color: #009200;
+}
+.icon-border-square:hover{
+    padding: 7%;
+    font-size: 24px;
+    color: #fff;
+    transition: box-shadow 0.3s;
+    box-shadow: 0px 0px 5px #00c400;
+
 }
 .location-activitie{
 padding: 28px 21px 2px 2px;

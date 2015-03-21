@@ -749,20 +749,16 @@
                                                         <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
                                                             <img class="avatar-pad2" src="{{$val->avatar}}" alt="">
                                                         </a>
-
                                                         <div class="aside-items-text">
                                                             <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
                                                                 <b>@if(isset($val->fullname)){{$val->fullname}}@else{{$val->username}}@endif</b>
                                                             </a>
-
                                                             <p>{{$val->num_muatal}} bạn chung</p></div>
                                                     </div>
                                                     <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
                                                         @if(count($val->state_user)>0)
-                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
-                                                                    data-type="delete" friend_id="{{$val->id}}"><i
-                                                                        class="icon-user-delete"
-                                                                        style="font-size: 1.2em;"></i>Hủy
+                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>
+                                                                Hủy
                                                             </button>
                                                             </br>
                                                             @if($val->state_user->status_id == 35)
@@ -772,25 +768,20 @@
                                                             @endif
                                                         @elseif(count($val->state_friend)>0)
                                                             @if($val->state_friend->status_id == 35)
-                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
-                                                                        data-type="confirm" friend_id="{{$val->id}}"><i
-                                                                            class="icon-user-add"
-                                                                            style="font-size: 1.2em;"></i>Chấp nhận
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="confirm" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>
+                                                                    Chấp nhận
                                                                 </button>
                                                                 </br><span class="italic text-grey font-10px sub-alert"> Đang chờ</span>
                                                             @else
-                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
-                                                                        data-type="delete" friend_id="{{$val->id}}"><i
-                                                                            class="icon-user-delete"
-                                                                            style="font-size: 1.2em;"></i>Hủy
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>
+                                                                    Hủy
                                                                 </button>
                                                                 </br><span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
                                                             @endif
                                                         @else
                                                             <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
-                                                                    data-type="add" friend_id="{{$val->id}}"><i
-                                                                        class="icon-user-add"
-                                                                        style="font-size: 1.2em;"></i>Kết bạn
+                                                                    data-type="add" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>
+                                                                Kết bạn
                                                             </button>
                                                             </br><span class="italic text-grey font-10px sub-alert">Chưa kết bạn</span>
                                                         @endif
@@ -798,13 +789,14 @@
                                                 </div>
                                             </li>
                                         @endforeach
-                                        {{--                                        {{$blog_info['friend_sus']}}--}}
                                     </ul>
-                                    <div class="aside-item-viewmore">
-                                        <button class="btn btn-block default">
-                                            <i class="icon-down-dir"></i>
-                                        </button>
-                                    </div>
+                                    @if(count($arrFriendSuggset)>3)
+                                        <div class="aside-item-viewmore">
+                                            <button class="btn btn-block default tooltips" data-original-title="Xem thêm kết bạn">
+                                                <i class="icon-down-dir"></i>
+                                            </button>
+                                        </div>
+                                    @endif
                                 @else
                                     <div class="row margin-none">
                                         <div class="col-md-12 padding-top-5 padding-bottom-5 grey">

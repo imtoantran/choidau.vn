@@ -51,7 +51,7 @@ section.aside-wrapper .aside-list ul li:last-child>div{border-bottom: none;}
 section.aside-wrapper ul.aside-info span{font-weight: bold;}
 section.aside-wrapper ul.aside-info li>div{padding: 0px 5px 10px 10px;}
 
-section.aside-wrapper ul.aside-items img{max-width: 60px ;max-height: 60px;}
+section.aside-wrapper ul.aside-items img{width: 60px ;height: 60px;}
 section.aside-wrapper ul.aside-items .aside-items-text{font-size: 0.9em; margin-top: 5px;}
 section.aside-wrapper ul.aside-items .aside-items-text p{font-size: 0.8em;}
 section.aside-wrapper ul.aside-items .btn-aside-add-friend, .person-friends-list .btn-tag-delete-friend, .btn-sm-8{text-transform:inherit; margin-top:10px;font-size: 0.8em; padding: 2px 6px 2px 2px; border-bottom: 1px solid #d2d2d2;}
