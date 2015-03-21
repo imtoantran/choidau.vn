@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}">
 {{--<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css')}}">--}}
 {{--<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css')}}">--}}
+<link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker3.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/global/plugins/rateit/rateit.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}">

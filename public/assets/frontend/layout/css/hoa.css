@@ -59,6 +59,12 @@ section.aside-wrapper .aside-item-viewmore{margin: 5px;}
 
 section.aside-wrapper ul.aside-items .aside-link-web{margin-top:20px;font-size: 0.9em;}
 section.aside-wrapper ul.aside-items .aside-link-web>a{text-decoration: none; font-weight: bold;}
+section.aside-wrapper .box-right-title{
+	padding-right: 0px;
+	font-weight: 600;
+	font-size: 0.9em;
+
+}
 /*end pesonal - aside*/
 
 
@@ -234,5 +240,43 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 	color: #ccc;
 	text-decoration: none;
 }
+.person-info{border-bottom: 1px dotted #ddd;}
+.person-info label{font-size: 1em;}
+.wrapper-info{
+	padding: 20px;
+	border-radius: 4px!important;
+	-moz-border-radius: 4px!important;;
+	-webkit-border-radius: 4px!important;;
+	margin: 10px;
+}
+.wrapper-info:hover{background-color: #f6f6f6;}
+.infor-user-header{font-size: 1.2em; font-weight: 600; color: #777;  margin-bottom: 10px;}
+.infor-user-header i{font-size: 1.2em; color:#777; margin-bottom: 10px; }
+.person-info .wrapper-info .btn-sm, .person-acount .wrapper-info .btn-sm {text-transform: inherit;}
+
+.blog-setting-img{
+	width: 150px;
+	height: 150px;
+	margin-bottom: 10px;
+}
+.blog-setting-user .username, .blog-setting-user .level, .blog-setting-user .gift-point{font-weight: 600;}
+.blog-setting-user .level{color: #ffaa24;}
+.blog-setting-user .username{
+	font-size: 1.4em;
+	color: green;
+}
+.user-privacy{
+	padding: 2px;
+	font-size: 0.9em;
+}
+.block-ui{
+	padding: 10px;
+	font-size: 1.5em;
+	color: green;
+	font-weight: 600;
+}
+.block-ui i{font-size: 1.5em;}
+
+
 /*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/

@@ -3778,6 +3778,7 @@ background-color: #f9f9f9;
 	font-size: 0.9em;
 	font-weight: 600;
 }
+.pre-footer{margin-top:10px;}
 .fancybox-overlay{z-index: 8000!important;}
 a.fancybox-close{right:0px;}
 .home-content-row .separator{height: 5px; background-color: green; margin-bottom: 5px;}

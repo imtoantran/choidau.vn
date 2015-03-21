@@ -199,7 +199,6 @@ class User extends Eloquent implements ConfideUserInterface {
                                                        ->orWherePivot('post_type','=','status');
     }
 
-
     public function checkin(){
         return $this->belongsToMany("Location")->wherePivot('action_type','=','checkin');
     }
@@ -215,16 +214,6 @@ class User extends Eloquent implements ConfideUserInterface {
     public function getTotalLikeLocation(){
         return $this->location_like()->get()->count();
     }
-//
-//    public function getFriendsConfirm(){
-//        $user = Auth::user();
-//        $arryIdFriend = Friend::whereStatus_id(35)->whereFriend_id($user->id)->get();
-//        $arr = array();
-//        foreach($arryIdFriend as $key=>$val){
-//            $arr[$key] =  $val['user_id'];
-//        }
-//        return json_encode(User::WhereIn('id',$arr)->get());
-//    }
 
 //    luuhoabk
     public function referFriendConfirm(){
@@ -245,4 +234,24 @@ class User extends Eloquent implements ConfideUserInterface {
     public function isAction($post_type, $post_id){
         return PostMeta::whereMeta_key($post_type)->whereMeta_value($this->id)->wherePost_id($post_id);
     }
+    public function meta()
+    {
+        return $this->hasMany("UserMeta", "user_id");
+    }
+    public function referMeta($metakey){
+        return $this->meta()->whereMeta_key($metakey);
+    }
+    public function saveMeta($meta_key,$meta_value){
+        $user_meta = new UserMeta();
+        $user_meta->meta_key = $meta_key;
+        $user_meta->meta_value= $meta_value ;
+        $user_meta->user_id= $this->id ;
+        $user_meta->updated_at=  date_create("now") ;
+        $user_meta->created_at=  date_create("now") ;
+        return $user_meta->save();
+    }
+//    public function userPrivacy(){
+//        return $this->belongsToMany("User","user_meta", "user_id");
+//    }
+
 }

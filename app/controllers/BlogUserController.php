@@ -77,6 +77,20 @@ class BlogUserController extends BaseController {
         $user_birthday      = new DateTime($user_blog->birthday);
         $user_birthday      = date_format($user_birthday,'d/m/Y');
 
+        if(Cache::has('listPrivacy')){
+            $listPrivacy = Cache::get('listPrivacy');
+        }else{
+            $listPrivacy = Option::whereName('post_privacy')->get();
+            Cache::forever('listPrivacy', $listPrivacy);
+        }
+
+        $privacy_province           = $user_blog->meta()->whereMeta_key('province_id')->first();
+        $privacy_status_marriage    = $user_blog->meta()->whereMeta_key('status_marriage_id')->first();
+        $privacy_birthday           = $user_blog->meta()->whereMeta_key('birthday')->first();
+        $privacy_gender             = $user_blog->meta()->whereMeta_key('gender')->first();
+        $privacy_phone              = $user_blog->meta()->whereMeta_key('phone')->first();
+        $privacy_about              = $user_blog->meta()->whereMeta_key('about')->first();
+
         $blog_info =array(
             'username'=>$user_blog->username,
             'name'=>$user_blog->fullname,
@@ -90,8 +104,24 @@ class BlogUserController extends BaseController {
             'id_auth'=>$user_auth->id,
             'state_user'=>$this->getStatus($user_auth->id, $user_blog->id),
             'state_friend'=>$this->getStatus($user_blog->id, $user_auth->id),
-        );
+            'listPrivacy'=>$listPrivacy,
+            'marriage_status'=>Option::whereId($user_blog->status_marriage_id)->get(['description'])->first(),
 
+            'privacy_province'=> $privacy_province,
+            'privacy_status_marriage'=>$privacy_status_marriage,
+            'privacy_birthday'=>$privacy_birthday,
+            'privacy_gender'=>$privacy_gender,
+            'privacy_phone'=>$privacy_phone,
+            'privacy_about'=>$privacy_about,
+
+            'show_info_province'=> $this->isPrivacyInfo($privacy_province['meta_value'], $user_auth, $user_blog),
+            'show_info_marriage'=> $this->isPrivacyInfo($privacy_status_marriage['meta_value'], $user_auth, $user_blog),
+            'show_info_birthday'=> $this->isPrivacyInfo($privacy_birthday['meta_value'], $user_auth, $user_blog),
+            'show_info_gender'=> $this->isPrivacyInfo($privacy_gender['meta_value'], $user_auth, $user_blog),
+            'show_info_phone'=> $this->isPrivacyInfo($privacy_phone['meta_value'], $user_auth, $user_blog),
+            'show_info_about'=> $this->isPrivacyInfo($privacy_about['meta_value'], $user_auth, $user_blog),
+
+        );
         // luuhoabk - danh sach hoat dong cua blog
         $actions = $this->LoadBlogAction($user_blog,0);
         //END luuhoabk - danh sach hoat dong cua blog
@@ -113,6 +143,31 @@ class BlogUserController extends BaseController {
         return View::make('site.user.blog.index',compact('user_auth','user_blog','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
+    public function isPrivacyInfo($privacy, $user, $user_blog){
+        $result = 1;
+        if($user->id == $user_blog->id){return 1;}
+        switch($privacy){
+            case 15: //chi minh toi
+                if($user->id != $user_blog->id){$result = 0;}
+                break;
+            case 16: // ban be
+                if(!$this->isFriend($user_blog, $user)){$result = 0;}
+                break;
+            case 17: //ban cua ban toi
+                if(!$this->isFriend($user_blog, $user)){$result = 0;}
+
+                $valid = false;
+                $list_friend = $this->friendList($user_blog);
+                foreach($list_friend as $key=>$val){
+                    if($this->isFriend($val, $user)){ $valid = true; }
+                }
+                if(!$valid){$result = 0;}
+                break;
+            default: break;
+        }
+
+        return $result;
+    }
 
     //luuhoabk lay duoc trang thai ban be
     public function getStatus($user_id, $friend_id){

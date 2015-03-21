@@ -1,5 +1,7 @@
 @extends('site.layouts.default')
 @section('content')
+    <?php
+    ?>
     <div id="choidau-person">
         @include('site.user.blog.header')
         <div class="person-body">
@@ -8,15 +10,18 @@
                     <div class="tab-content col-none-padding">
                         <div role="tabpanel" class="tab-pane active" id="blog-tab-action">
                             <section class="person-content choidau-bg">
+
                                 {{--post statetus--}}
                                     @if($user_auth->id == $user_blog->id)
                                         <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
                                         <div class="action-comment">
+
                                             <header class="action-comment-subject text-weight600">Cập nhật trạng thái
                                             </header>
                                             <div class="action-comment-input">
                                                 <textarea name="content-status" id="content-status" minlength="5" data-required="1" rows="2" style="width: 100%; padding: 5px; border: none;" placeholder=" Bạn đang nghĩ gì?" required></textarea>
                                             </div>
+
                                             <div class="text-right action-comment-submit">
                                                 <div class="btn-group person-type-scopy margin-none">
                                                     <button type="button" id="main-status" value_id="18" class="btn btn-default btn-xs">
@@ -40,6 +45,7 @@
                                     <span class="white">.:: <i class="icon-spin4 animate-spin white" style=" font-size: 18px; margin-bottom: 10px;"></i> ::.</span>
                                 </div>
                                 <div class="my-tab-content" style="background-color: #fff;">
+
                                     <div id="anchor_top"></div>
                                     <?php $object_action = json_decode($actions); ?>
                                     @foreach($object_action as $key=>$val)
@@ -152,7 +158,7 @@
                                                         <a href="#" class="action-assoc" data-action="{{$val->is_like}}" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="{{$val->id}}">
                                                             @if($val->is_like == 'like') Thích @else Bỏ thích @endif
                                                         </a>
-                                                        <a href="#">Bình luận <span class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
+                                                        <a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
                                                         <a href="#">Chia sẻ</a>
                                                     </div>
                                                 </div>
@@ -293,12 +299,282 @@
                                     <div class="wrapper-header">
                                         <i class="blog-icon-bg icon-folder"></i>
                                         <i class="blog-icon-content icon-cog"></i>
-                                        <span class="text-1em2">Cập nhật thông tin</span>
+                                        <span class="text-1em2">Thiết lập</span>
                                     </div>
                                 </header>
                                 <div class="row blog-wrapper margin-none">
-                                    <div class="blog-content">
-                                        cap nhat thong tin
+                                    <div class="blog-content col-md-12 padding-bottom-10">
+                                        <div class="row">
+                                            {{----}}
+                                            <div class="col-md-3">
+                                                <div class="row blog-setting-user">
+                                                    <div class="col-md-12 text-center padding-top-20">
+                                                        <img class="avatar-pad2 blog-setting-img" src="{{URL::to("/").$user_blog->avatar}}" alt="">
+                                                    </div>
+                                                    <div class="col-md-12 text-center username">
+                                                        {{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}
+                                                    </div>
+                                                    <div class="col-md-12 text-center level">
+                                                       <i class="icon-sitemap grey tooltips" data-original-title="Cấp bậc"></i> -
+                                                        @if(isset($blog_info['level']) && !empty($blog_info['level']))
+                                                            {{$blog_info['level']}}
+                                                        @else
+                                                            <span class="updateting">Đang cập nhật</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-12 text-center gift-point">
+                                                        Điểm thưởng - <span class="badge badge-roundless badge-danger">{{$user_blog->giftpoint}} </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-9 col-none-padding">
+                                                <div class="person-info margin-right-10">
+                                                    <div class="row wrapper-info">
+                                                        <div class="col-md-12 infor-user-header">
+                                                            <i class="icon-vcard"></i>
+                                                            Thông tin cá nhân
+                                                        </div>
+                                                        <form action="#" id="frm-user-info" name="frm-user-info" class="form-horizontal">
+                                                            <div class="form-body">
+                                                                <input type="hidden" name="_token" value="{{Session::token()}}"/>
+                                                                {{--username --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label"><span class="required" aria-required="true">*</span> Họ tên </label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                        <span class="input-group-addon">
+                                                                        <i class="icon-user"></i>
+                                                                        </span>
+                                                                            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nhập họ tên." value="{{$user_blog->fullname}}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--address --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Địa chỉ</label>
+                                                                    <div class="col-md-6">
+                                                                        <textarea id="address" name="address" class="form-control" rows="2">{{$user_blog->street}}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--province --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label"><span class="required" aria-required="true">*</span>  Tỉnh/Thành phố</label>
+                                                                    <div class="col-md-6">
+                                                                        <select name="user-province" id="user-province" required class="form-control" title="Hãy chọn thành phố của bạn">
+                                                                            <option value="">-- Chọn Tỉnh/ Thành phố --</option>
+                                                                            @if (Cache::has('listProvince'))
+                                                                                <?php $listProvince = Cache::get('listProvince');?>
+                                                                            @else
+                                                                                <?php $listProvince = Province::all();?>
+                                                                                <?php Cache::forever('listProvince', $listProvince);?>
+                                                                            @endif
+
+                                                                            @foreach($listProvince as $item)
+                                                                                <option value="{{$item->id}}" @if($user_blog->province_id == $item->id) selected @endif>{{$item->name}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_province" id="privacy_province" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_province']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--province --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Tình trạng hôn nhân</label>
+                                                                    <div class="col-md-6">
+                                                                        <select name="status-marriage" id="status-marriage" class="form-control" title="">
+                                                                            <option value="">-- Chọn tình trạng hôn nhân --</option>
+                                                                            @if (Cache::has('listMarriage'))
+                                                                                <?php $listMarriage = Cache::get('listMarriage');?>
+                                                                            @else
+                                                                                <?php $listMarriage = Option::whereName('user_status_marriage')->get();?>
+                                                                                <?php Cache::forever('listMarriage', $listMarriage);?>
+                                                                            @endif
+
+                                                                            @foreach($listMarriage as $item)
+                                                                                <option value="{{$item->id}}" @if($item->id == $user_blog->status_marriage_id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_marriage" id="privacy_marriage" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_status_marriage']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--birthday--}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Ngày sinh</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                            <i class="icon-birthday"></i>
+                                                                            </span>
+                                                                            <input id="birthday" name="birthday" type="text" class="form-control" value="@if(isset($blog_info['birthday']) && !empty($blog_info['birthday'])) {{$blog_info['birthday']}} @endif" placeholder="Ngày sinh">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_birthday" id="privacy_birthday" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_birthday']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--gender--}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Giới tính</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <label class="radio-inline">
+                                                                                <input type="radio" name="gender" id="male" @if($user_blog->gender == 1) checked @endif value="1">Nam
+                                                                            </label>
+                                                                            <label class="radio-inline">
+                                                                                <input type="radio" name="gender"  id="female" @if($user_blog->gender == 0) checked @endif value="0">Nữ
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_gender" id="privacy_gender" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_gender']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--phone --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Điện thoại</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="icon-phone"></i>
+                                                                            </span>
+                                                                            <input type="number" id="phone" name="phone" class="form-control" placeholder="Điện thoại của bạn." value="{{$user_blog->phone}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_phone" id="privacy_phone" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_phone']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--about --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Giới thiệu bạn thân</label>
+                                                                    <div class="col-md-6">
+                                                                        <textarea class="form-control" rows="3" id="about" name="about">{{$user_blog->about}}</textarea>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select name="privacy_about" id="privacy_about" class="form-control user-privacy" title="">
+                                                                            @foreach($blog_info['listPrivacy'] as $item)
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_about']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="form-actions">
+                                                                <div class="row">
+                                                                    <div class="col-md-offset-3 col-md-8">
+                                                                        <button type="submit" class="btn green btn-sm">Thay đổi</button>
+                                                                        {{--<button type="reset" class="btn default btn-sm">Hủy</button>--}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                                {{--change password--}}
+
+                                                <div class="person-acount">
+                                                    <div class="row wrapper-info">
+                                                        <div class="col-md-12 infor-user-header">
+                                                            <i class="icon-key"></i>
+                                                            Mật khẩu
+                                                        </div>
+                                                        <form action="#" name="frm-acount-info" id="frm-acount-info" class="form-horizontal">
+                                                            <div class="form-body">
+                                                                <input type="hidden" name="_token" value="{{Session::token()}}"/>
+                                                                {{--username --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label">Tên tài khoản</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <label class="control-label" style="font-weight: 700;">{{$user_blog->username}}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label">Email</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <label class="control-label" style="font-weight: 700;">{{$user_blog->email}}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--username --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label">Mật khẩu mới</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="icon-key-inv"></i>
+                                                                            </span>
+                                                                            <input type="password"  name="password" id="password" class="form-control " required pattern="[a-z|A-z|0-9|\S]{6,40}" title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{--username --}}
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label">Xác nhận mật khẩu mới</label>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="icon-key-inv"></i>
+                                                                            </span>
+                                                                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required pattern="[a-z|A-z|0-9|\S]{6,40}" title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-actions">
+                                                                <div class="row">
+                                                                    <div class="col-md-offset-3 col-md-8">
+                                                                        <button type="submit" id="submit-pass" class="btn green btn-sm">Thay đổi</button>
+                                                                        <button type="reset" id="reset-pass" class="btn default btn-sm">Hủy</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -317,52 +593,143 @@
                                 Thông tin
                             </header>
                             <ul class="aside-info list-unstyled">
+                                {{--level--}}
                                 <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Cấp bậc</label>:
-                                        <span>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 col-sm-4 box-right-title">Cấp bậc</div>
+                                        <div class="col-md-8 col-sm-8 box-right-content">:
                                             @if(isset($blog_info['level']) && !empty($blog_info['level']))
                                                 {{$blog_info['level']}}
                                             @else
                                                 <span class="updateting">Đang cập nhật</span>
                                             @endif
-                                        </span>
+                                        </div>
                                     </div>
                                 </li>
+
+                                {{--address--}}
                                 <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Địa chỉ</label>:
-                                        <span>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 col-sm-4 box-right-title">Địa chỉ</div>
+                                        <div class="col-md-8 col-sm-8 box-right-content">:
+                                            @if(isset($user_blog->street) && !empty($user_blog->street))
+                                                {{$user_blog->street}}
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+
+                                {{--province--}}
+                                @if($blog_info['show_info_province'] == 1)
+                                <li>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 col-ms-4 box-right-title">Thành phố</div>
+                                        <div class="col-md-8 col-ms-8 box-right-content">:
                                             @if(isset($blog_info['province']) && !empty($blog_info['province']))
                                                 {{$blog_info['province']}}
                                             @else
                                                 <span class="updateting">Đang cập nhật</span>
                                             @endif
-                                        </span>
+                                        </div>
                                     </div>
                                 </li>
+                                @endif
+
+                                {{--birthday--}}
+                                @if($blog_info['show_info_birthday'] == 1)
                                 <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Ngày sinh</label>:
-                        <span>
-                            @if(isset($blog_info['birthday']) && !empty($blog_info['birthday']))
-                                {{$blog_info['birthday']}}
-                            @else
-                                <span class="updateting">Đang cập nhật</span>
-                            @endif
-                        </span>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 box-right-title">Ngày sinh</div>
+                                        <div class="col-md-8 box-right-content">:
+                                            @if(isset($blog_info['birthday']) && !empty($blog_info['birthday']))
+                                                {{$blog_info['birthday']}}
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </li>
+                                @endif
+
+                                {{--birthday--}}
+                                @if($blog_info['show_info_gender'] == 1)
                                 <li>
-                                    <div>
-                                        <label class="blog-info-lbl">Số lượt thích</label>:
-                                        @if(isset($blog_info['total_like']) && !empty($blog_info['total_like']))
-                                            <span>{{$blog_info['total_like']}} Địa điểm</span>
-                                        @else
-                                            <span class="updateting">Đang cập nhật</span>
-                                        @endif
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 box-right-title">Giới tính</div>
+                                        <div class="col-md-8 box-right-content">:
+                                            @if(isset($user_blog->gender))
+                                                @if($user_blog->gender == 0) Nữ @else Nam @endif
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </li>
+                                @endif
+
+                                {{--phone--}}
+                                @if($blog_info['show_info_phone'] == 1)
+                                <li>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 box-right-title">Điện thoại</div>
+                                        <div class="col-md-8 box-right-content">:
+                                            @if(isset($user_blog->phone) && !empty($user_blog->phone))
+                                                {{$user_blog->phone}}
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+
+                                {{--phone--}}
+                                @if($blog_info['show_info_marriage'] == 1)
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-4 box-right-title">Hôn nhân</div>
+                                            <div class="col-md-8 box-right-content">:
+                                                @if(isset($user_blog->status_marriage_id) && $user_blog->status_marriage_id !=0)
+                                                    {{$blog_info['marriage_status']['description']}}
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+
+                                <li>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-4 box-right-title">Lượt thích</div>
+                                        <div class="col-md-8 box-right-content">:
+                                            @if(isset($blog_info['total_like']) && !empty($blog_info['total_like']))
+                                                {{$blog_info['total_like']}} Địa điểm</span>
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+
+                                {{--about--}}
+                                @if($blog_info['show_info_about'] == 1)
+                                <li>
+                                    <div class="row margin-none padding-left-0 padding-right-0">
+                                        <div class="col-md-12 box-right-title margin-bottom-5">Về bản thân:</div>
+                                        <div class="col-md-12 box-right-content grey" style="text-align: justify;">
+                                            @if(isset($user_blog->about) && !empty($user_blog->about))
+                                                {{$user_blog->about}}
+                                            @else
+                                                <span class="updateting">Đang cập nhật</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+
                             </ul>
                         </div>
                         @if(isset($arrFriendSuggset))
@@ -448,6 +815,7 @@
                                 @endif
                             </div>
                             @endif
+
                                     <!-- online friend -->
                             <div class="aside-list">
                                 <header class="choidau-bg-font">
@@ -524,6 +892,9 @@
         jQuery(document).ready(function () {
             //hieu ung hinh anh
             Portfolio.init();
+            $('#birthday').datepicker({format: 'dd/mm/yyyy'});
+
+
             /**--- luuhoabk - update - bacground  ---**/
             $("#btn-blog-bg").mediaupload({
                 url: "{{URL::to("media/upload")}}",
@@ -535,7 +906,7 @@
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
                         data: {
-                            'uptate_type':'background',
+                            'update_type':'background',
                             'url_bg':url_bg
                         },
                         dataType: 'json',
@@ -560,12 +931,11 @@
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
                         data: {
-                            'uptate_type':'avatar',
+                            'update_type':'avatar',
                             'url_bg':url_bg
                         },
                         dataType: 'json',
                         success: function (respon) {
-                            console.log(respon);
                             if(respon){
                                 $('.blog-img-avatar').attr('src', url_bg);
                             }
@@ -681,6 +1051,7 @@
             $('.btn-post-status').on('click',function(){
                 postStatus();
             });
+
             $('#content-status').keypress(function(event){
                 var code = event.keyCode || event.which;
                 if(code == 13) { //Enter keycode
@@ -824,7 +1195,7 @@
                                 html += '<a href="#" class="action-assoc" data-type="post_item" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
                                 html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
                                 html += '</a>';
-                                html +='<a href="#">Bình luận <span class="total-comment badge badge-default">'+val.post_comment.length+'</span></a>';
+                                html +='<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">'+val.post_comment.length+'</span></a>';
                                 html +='<a href="#">Chia sẻ</a>';
                                 html +='</div>';
                                 html +='</div>';
@@ -910,6 +1281,12 @@
                                 comment($(this), e);
                             });
 
+                            //focus den binh luan
+                            item_person.find('.comment-hint').on('click', function(e){
+                                e.preventDefault();
+                                $(this).closest('.person-content-item').find('.comment').focus();
+                            });
+
                             item_person.find('.action-view-more').on('click', function(e){
                                 e.preventDefault();
                                 loadCommentItem($(this));
@@ -923,6 +1300,10 @@
             });
             /**---- END luuhoabk - action more ---**/
 
+            $('.comment-hint').on('click', function(e){
+                e.preventDefault();
+                $(this).closest('.person-content-item').find('.comment').focus();
+            });
 //----------------------------
             // like
             $('.action-assoc').on('click', function(e){
@@ -945,6 +1326,58 @@
                 e.preventDefault();
                 loadCommentItem($(this));
             });
+
+            //submit form blog infor
+            $('form#frm-user-info').submit(function(e){
+                e.preventDefault();
+                $.blockUI({message:'<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
+                    $.ajax({
+                        url: "{{URL::to('thanh-vien/update-info')}}",
+                        type: 'post',
+                        data: $(this).serialize()+'&update_type=user_info',
+                        success: function(respon){
+                            console.log(respon);
+//                            if(respon){
+//                                alert('Cập nhật thành công.');
+//                            }else{ alert('Cập nhật thất bại.');}
+                        },
+                        complete: function(){
+                            $.unblockUI();
+                        }
+
+                    });
+            });
+
+            //submit form acount infor
+            $('form#frm-acount-info').submit(function(e){
+                var self = $(this);
+                e.preventDefault();
+                if(self.find('#password').val() != self.find('#password_confirmation').val()){
+                    alert('Mật khẩu xác nhận không khớp. Xin vui lòng thử lại.');
+                    self.find('#password').focus();
+                    self.find('#reset-pass').trigger('click');
+                    return;
+                }
+                $.blockUI({message:'<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
+                $.ajax({
+                    url: "{{URL::to('thanh-vien/update-info')}}",
+                    type: 'post',
+                    data: $(this).serialize()+'&update_type=acount_info',
+                    success: function(respon){
+                        if(respon){
+                            alert('Cập nhật mật khẩu thành công.');
+                        }else{ alert('Cập nhật mật khẩu thất bại.');}
+                    },
+                    complete: function(){
+                        self.find('#password').focus();
+                        self.find('#reset-pass').trigger('click');
+                        $.unblockUI();
+                    }
+
+                });
+            });
+
+//--------------------------------
 
             /**---- END luuhoabk - action more ---**/
             function blogLike(self){
@@ -1100,7 +1533,7 @@
                             html += '<div class="row margin-none">';
                             html += '<div class="person-text-assoc">';
                             html += '<a href="#" class="action-assoc" data-action="like" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
-                            html += '<a href="#">Bình luận <span class="total-comment badge badge-default">0</span></a>';
+                            html += '<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">0</span></a>';
                             html += '<a href="#">Chia sẻ</a>';
                             html += '</div>';
                             html += '</div>';
@@ -1149,7 +1582,10 @@
                             item_person.find('.click-like').click(function(e){
                                 e.preventDefault();
                                 $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
-
+                            item_person.find('.comment-hint').on('click', function(e){
+                                e.preventDefault();
+                                $(this).closest('.person-content-item').find('.comment').focus();
+                            });
                             item_person.find('.comment').keypress(function(e){
                                 comment($(this), e);
                             });
@@ -1185,7 +1621,6 @@
                     self.attr('type', 'show');
                 }
             }
-
         });
     </script>
 @stop

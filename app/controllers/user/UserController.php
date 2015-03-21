@@ -573,12 +573,71 @@ class UserController extends BaseController
     public function updateInfo(){
         $user = Auth::user();
         $data = Input::all();
-        switch($data['uptate_type']){
+        switch($data['update_type']){
             case 'background':
                 echo User::whereId($user->id)->update(['background'=>$data['url_bg']]);
                 break;
             case 'avatar':
                 echo User::whereId($user->id)->update(['avatar'=>$data['url_bg']]);
+                break;
+            case 'user_info':
+                $birthday = explode("/",$data['birthday']);
+                $save_info = User::whereId($user->id)->update([
+                    'fullname'=>$data['fullname'],
+                    'street'=>$data['address'],
+                    'province_id'=>$data['user-province'],
+                    'status_marriage_id'=>$data['status-marriage'],
+                    'birthday'=> $birthday[2].'-'.$birthday[1].'-'.$birthday[0],
+                    'gender'=>$data['gender'],
+                    'phone'=>$data['phone'],
+                    'about'=>$data['about'],
+                ]);
+                if($save_info){
+                    //province
+                    if($user->referMeta('province_id')->count()){
+                        $user->referMeta('province_id')->update(['meta_value'=>$data['privacy_province']]);
+                    }else{ $user->saveMeta('province_id', $data['privacy_province']); }
+
+                    //marriage
+                    if($user->referMeta('status_marriage_id')->count()){
+                        $user->referMeta('status_marriage_id')->update(['meta_value'=>$data['privacy_marriage']]);
+                    }else{ $user->saveMeta('status_marriage_id', $data['privacy_marriage']); }
+
+                    //birthday
+                    if($user->referMeta('birthday')->count()){
+                        $user->referMeta('birthday')->update(['meta_value'=>$data['privacy_birthday']]);
+                    }else{ $user->saveMeta('birthday', $data['privacy_birthday']); }
+
+                    //gender
+                    if($user->referMeta('gender')->count()){
+                        $user->referMeta('gender')->update(['meta_value'=>$data['privacy_gender']]);
+                    }else{ $user->saveMeta('gender', $data['privacy_gender']); }
+
+                    //phone
+                    if($user->referMeta('phone')->count()){
+                        $user->referMeta('phone')->update(['meta_value'=>$data['privacy_phone']]);
+                    }else{ $user->saveMeta('phone', $data['privacy_phone']); }
+
+                    //about
+                    if($user->referMeta('about')->count()){
+                        $user->referMeta('about')->update(['meta_value'=>$data['privacy_about']]);
+                    }else{ $user->saveMeta('about', $data['privacy_about']); }
+
+                    echo 1;
+                }else{
+                    echo 0;
+                }
+                break;
+            case 'acount_info':
+                $user->username = $user->username;
+                $user->email = $user->email;
+                $user->password =  $data['password'];
+                $user->password_confirmation =  $data['password_confirmation'];
+                if($this->userRepo->save($user)){
+                    echo 1;
+                }else{
+                    echo 0;
+                }
                 break;
             default: break;
         }

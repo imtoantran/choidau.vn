@@ -208,6 +208,7 @@ Route::group(array('prefix' => 'thanh-vien'), function () {
     Route::post('like-post', 'UserController@postLike');
     Route::post('cap-nhat-thong-tin', 'UserController@updateInfo');
     Route::post('comment-post', 'UserController@postComment');
+    Route::post('update-info', 'UserController@updateInfo');
     Route::get('/', 'UserController@getIndex');
 });
 /** -------------------End Site User-------------------**/

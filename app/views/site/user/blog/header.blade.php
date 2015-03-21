@@ -91,9 +91,11 @@
                     <li role="presentation">
                         <a href="#blog-tab-friend" id="btn-tag-blog-friend" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
                     </li>
-                    <li role="presentation"  class="">
-                        <a href="#blog-tab-setting" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
-                    </li>
+                    @if($user_blog->id == $user_auth->id)
+                        <li role="presentation"  class="">
+                            <a href="#blog-tab-setting" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
+                        </li>
+                    @endif
                 </ul>
 
             </nav>
