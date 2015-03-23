@@ -192,6 +192,8 @@ Route::group(array('prefix' => 'dia-diem', 'before' => 'auth'), function () {
 
 /** -------------------Site User: Vinhle-------------**/
 Route::group(array('prefix' => 'thanh-vien'), function () {
+    Route::post('user-exist', 'UserController@userExist');
+
     Route::get('dang-ky.html', 'UserController@getCreate');
     Route::post('dang-ky.html', 'UserController@postCreate');
     Route::get('dang-nhap.html', 'UserController@getLogin');

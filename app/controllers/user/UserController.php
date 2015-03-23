@@ -122,43 +122,58 @@ class UserController extends BaseController
      */
     public function getCreate()
     {
-        $page_title = 'Đăng ký thành viên choidau.net';
-        $seoarray = array('metakey' => 'aasd,asd,asd,', 'metades' => 'asd ada asd a sdads');
-        $js_script = '
-        Layout.btnSelection();
-        ';
+        if(Auth::check()){
+            $user = Auth::user();
+            return Redirect::to('/trang-ca-nhan/'.$user->username.'.html');
+        }else{
+            $page_title = 'Đăng ký thành viên choidau.net';
+            $seoarray = array('metakey' => '', 'metades' => '');
+            return View::make('site/user/create', compact('page_title', 'seoarray'));
+        }
 
-
-        $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
-        $listProvince = Province::orderBy('name', 'ASC')->get();
-        $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
-
+//        $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+//        $listProvince = Province::orderBy('name', 'ASC')->get();
+//        $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
         //     $listTinh='abc';
-        return View::make('site/user/create', compact('page_title', 'js_script', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
+    }
 
+    public function userExist(){
+        $data = Input::all();
+        if($data['type'] == 'username'){
+            echo User::whereUsername($data['value'])->count();
+        }else{
+            echo User::whereEmail($data['value'])->count();
+        }
     }
 
     public function postCreate()
     {
         $user = Auth::user();
         if (!empty($user->id)) {
-            return Redirect::to('/');
+            echo 0;
         }
         $data = Input::all();
 
-        $user_singup = $this->userRepo->signup($data);
-        if (!$user_singup) {
-            $listProvince = Province::orderBy('name', 'ASC')->get();
-            $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+        echo $this->userRepo->signup($data);
 
-            $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
-
-            return View::make('site/user/create', compact('page_title', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
-
-        } else {
-            return View::make('site/user/login', compact('page_title'));
-
-        }
+//        if($user_singup){
+//            echo 1;
+//        }else{
+//            echo 0;
+//        }
+//
+//
+//        if (!$user_singup) {
+//            $listProvince = Province::orderBy('name', 'ASC')->get();
+//            $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+//
+//            $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
+//
+//            return View::make('site/user/create', compact('page_title', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
+//
+//        } else {
+//            return View::make('site/user/login', compact('page_title'));//
+//        }
 
     }
 

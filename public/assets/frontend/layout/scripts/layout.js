@@ -551,6 +551,9 @@ var Layout = function () {
                 dataType: 'JSON',
                 //async: false,
                 success: function (data) {
+                    console.log(data);
+
+
                     if(data.url != ""){
                         window.alert("Đăng nhập thành công.");
                         $('.modal').modal("hide");

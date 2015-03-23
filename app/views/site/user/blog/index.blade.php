@@ -80,7 +80,11 @@
                                         <div class="row person-content-item">
                                                 <div class="col-md-12 col-none-padding">
                                                     <div class="col-md-9 article-img-text col-none-padding">
-                                                        <img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">
+                                                        @if(empty($user_blog->avatar))
+                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                        @else
+                                                            <img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">
+                                                        @endif
                                                         <div class="person-content-info">
                                                             <div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$val->level}}</span></div>
                                                             <span>{{$note}}</span><br>
@@ -124,7 +128,11 @@
                                                             @if(!is_null($val->location))
                                                                 <div class="row margin-none">
                                                                     <section class="article-img-text clearfix content-article-wrapper">
-                                                                        <img class="avatar-pad2" src="{{URL::to('/').$val->location->avatar}}" alt="">
+                                                                        @if(empty($val->location->avatar))
+                                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                                        @else
+                                                                            <img class="avatar-pad2" src="{{URL::to('/').$val->location->avatar}}" alt="">
+                                                                        @endif
                                                                         <div class="text-algin-img">
                                                                             <header>
                                                                                 <a href="{{$val->location->url}}"><h2>{{$val->location->name}}</h2></a>
@@ -170,7 +178,13 @@
                                                             @foreach($val->post_comment as $key=>$val_comment)
                                                                 <li class="margin-bottom-10 clearfix @if($key < count($val->post_comment)-3) hidden @endif">
                                                                     <div class="col-md-12 article-img-text col-none-padding">
-                                                                        <img class="avatar-pad2" src="{{URL::to('/').$val_comment->user->avatar}}" alt="">
+                                                                        @if(empty($val_comment->user->avatar))
+                                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                                        @else
+                                                                            <img class="avatar-pad2" src="{{URL::to('/').$val_comment->user->avatar}}" alt="">
+                                                                        @endif
+
+
                                                                         <div class="person-content-info blog-comment-item">
                                                                             <div>
                                                                                 <a href="{{URL::to('/trang-ca-nhan/'.$val_comment->user->username.'.html')}}">@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a> -
@@ -197,6 +211,11 @@
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
                                                             <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
+                                                            @if(empty($user_auth->avatar))
+                                                                <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                            @else
+                                                                <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
+                                                            @endif
                                                             <input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="{{$val->id}}" type="text" placeholder="Viết bình luận...">
                                                         </div>
                                                     </div>
@@ -309,7 +328,11 @@
                                             <div class="col-md-3">
                                                 <div class="row blog-setting-user">
                                                     <div class="col-md-12 text-center padding-top-20">
-                                                        <img class="avatar-pad2 blog-setting-img" src="{{URL::to("/").$user_blog->avatar}}" alt="">
+                                                        @if(empty($user_blog->avatar))
+                                                            <img class="avatar-pad2 blog-setting-img" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                            @else
+                                                                <img class="avatar-pad2 blog-setting-img" src="{{URL::to("/").$user_blog->avatar}}" alt="">
+                                                            @endif
                                                     </div>
                                                     <div class="col-md-12 text-center username">
                                                         {{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}
@@ -747,7 +770,12 @@
                                                 <div class="row margin-none">
                                                     <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
                                                         <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
-                                                            <img class="avatar-pad2" src="{{$val->avatar}}" alt="">
+                                                            @if(empty($val->avatar))
+                                                                <img class="avatar-pad2 " src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                            @else
+                                                                <img class="avatar-pad2" src="{{$val->avatar}}" alt="">
+                                                            @endif
+
                                                         </a>
                                                         <div class="aside-items-text">
                                                             <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
@@ -859,7 +887,7 @@
                                     </li>
                                 </ul>
                                 <div class="aside-item-viewmore">
-                                    <button class="btn btn-block default">
+                                    <button class="btn btn-block default ">
                                         <i class="icon-down-dir"></i>
                                     </button>
                                 </div>
@@ -965,9 +993,12 @@
                 $.each(arrObject, function (key, val) {
                     html_item += '   <div class="col-md-4 col-sm-6 mix location-cat-' + type + '">';
                     html_item += '   <div class="mix-inner">';
-                    html_item += '   <img alt="" style="width: 258px; height: 184px;" src="{{URL::to('/')}}' + val.avatar + '" class="img-responsive">';
+                    if(val.avatar.length<0){
+                        html_item += '<img alt="" style="width: 258px; height: 184px;" src="{{URL::to("assets/global/img/no-image.png")}}" class="img-responsive">';
+                    }else{
+                        html_item += '   <img alt="" style="width: 258px; height: 184px;" src="{{URL::to('/')}}' + val.avatar + '" class="img-responsive">';
+                    }
                     html_item += '   <div class="title">' + val.name + '</div>';
-
                     html_item += '   <div class="mix-details choidau-bg-light-a9">';
                     html_item += '   <h4 class="white"><a href="' + val.url + '" class="white font-weight-600">' + val.name + '</a></h4>';
                     html_item += '   <p>' + val.address_detail + '</p>';
@@ -987,7 +1018,11 @@
             $('#btn-tag-blog-photo').on('click', function () {
                 var photo_location = $('#photo-tab-location .row');
                 var photo_avatar = $('#photo-tab-avatar');
-                    photo_avatar.html('<img class="avatar-pad2" src="{{URL::to('/').$blog_info['avatar']}}"/>');
+                    @if(empty($blog['avatar']))
+                        photo_avatar.html('<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}"/>');
+                    @else
+                        photo_avatar.html('<img class="avatar-pad2" src="{{URL::to('/').$blog_info['avatar']}}"/>');
+                    @endif
                 $.ajax({
                     type: "POST",
                     url: "{{URL::to('dia-diem/loc-hinh-anh')}}",
@@ -1007,8 +1042,12 @@
                             var html = '';
                             html +='<div class="avatar-pad2" style="position: relative">';
                             html +='<span class= "badge-num-image">'+val.album.length+'</span>';
+                            if(val.name.length<0) {
+                                html +='<img class="" width="100%" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
+                            }else{
+                                html +='<img class="" width="100%" src="{{URL::to('/')}}' + val.avatar +'" alt="">';
+                            }
 
-                            html +='<img class="" width="100%" src="{{URL::to('/')}}' + val.avatar +'" alt="">';
                             html +='<div class= "badge-name"><i class="icon-picture"></i> '+val.name+'</div>';
                             html +='</div>';
 
@@ -1110,7 +1149,11 @@
                                 html +='<div class="row person-content-item">';
                                 html +='<div class="col-md-12 col-none-padding">';
                                 html +='<div class="col-md-9 article-img-text col-none-padding">';
-                                html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                                @if(empty($user_blog->avatar))
+                                    html +='<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
+                                @else
+                                    html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                                @endif
                                 html +='<div class="person-content-info">';
                                 html +='<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - '+val.level+'</span></div>';
                                 html +='<span>' + note + '</span><br>';
@@ -1155,7 +1198,11 @@
                                     if (val.location != null) {
                                         html += '<div class="row margin-none">';
                                         html += '<section class="article-img-text clearfix content-article-wrapper">';
-                                        html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
+                                        if(val.location.avatar.length<0){
+                                            html += '<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
+                                        }else{
+                                            html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
+                                        }
                                         html += '<div class="text-algin-img">';
                                         html += '<header>';
                                         html += '<a href="'+val.location.url+'"><h2>'+val.location.name+'</h2></a>';
