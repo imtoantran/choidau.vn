@@ -1,7 +1,5 @@
 @extends('site.layouts.default')
 @section('content')
-    <?php
-    ?>
     <div id="choidau-person">
         @include('site.user.blog.header')
         <div class="person-body">
@@ -84,14 +82,18 @@
                                         ?>
 
                                         <div class="row person-content-item">
-                                                <div class="col-md-12 col-none-padding">
-                                                    <div class="col-md-9 article-img-text col-none-padding">
-                                                        @if(empty($user_blog->avatar))
-                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
-                                                        @else
-                                                            <img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">
-                                                        @endif
-                                                        <div class="person-content-info">
+                                            <div class="col-md-12 col-none-padding">
+                                                <div class="col-md-9 article-img-text col-none-padding">
+                                                    @if(empty($user_blog->avatar))
+                                                        <img class="avatar-pad2"
+                                                             src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                    @else
+                                                        <img class="avatar-pad2"
+                                                             src="{{URL::to('/').$user_blog->avatar}}" alt="">
+                                                    @endif
+                                                    <div class="person-content-info">
+                                                        <div>
+                                                            <a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$val->level}}</span>
                                                         </div>
                                                         <span>{{$note}}</span><br>
                                                         <span>{{$date_updated}}</span>
@@ -141,10 +143,15 @@
                                                         <div class="row margin-none">
                                                             <section
                                                                     class="article-img-text clearfix content-article-wrapper">
-                                                                <img class="avatar-pad2"
-                                                                     src="{{URL::to('/').$val->location->avatar}}"
-                                                                     alt="">
-
+                                                                @if(empty($val->location->avatar))
+                                                                    <img class="avatar-pad2"
+                                                                         src="{{URL::to("assets/global/img/no-image.png")}}"
+                                                                         alt="">
+                                                                @else
+                                                                    <img class="avatar-pad2"
+                                                                         src="{{URL::to('/').$val->location->avatar}}"
+                                                                         alt="">
+                                                                @endif
                                                                 <div class="text-algin-img">
                                                                     <header>
                                                                         <a href="{{$val->location->url}}">
@@ -187,7 +194,8 @@
                                                            data-post-id="{{$val->id}}">
                                                             @if($val->is_like == 'like') Thích @else Bỏ thích @endif
                                                         </a>
-                                                        <a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
+                                                        <a href="#" class="comment-hint">Bình luận <span
+                                                                    class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
                                                         <a href="#">Chia sẻ</a>
                                                     </div>
                                                 </div>
@@ -200,9 +208,13 @@
                                                                 <li class="margin-bottom-10 clearfix @if($key < count($val->post_comment)-3) hidden @endif">
                                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                                         @if(empty($val_comment->user->avatar))
-                                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                                            <img class="avatar-pad2"
+                                                                                 src="{{URL::to("assets/global/img/no-image.png")}}"
+                                                                                 alt="">
                                                                         @else
-                                                                            <img class="avatar-pad2" src="{{URL::to('/').$val_comment->user->avatar}}" alt="">
+                                                                            <img class="avatar-pad2"
+                                                                                 src="{{URL::to('/').$val_comment->user->avatar}}"
+                                                                                 alt="">
                                                                         @endif
 
 
@@ -246,13 +258,19 @@
                                                     </div>
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
-                                                            <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
+                                                            <img class="col-md-1 col-ms-1 avatar-pad2"
+                                                                 src="{{URL::to('/').$user_auth->avatar}}" alt="">
                                                             @if(empty($user_auth->avatar))
-                                                                <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                                <img class="col-md-1 col-ms-1 avatar-pad2"
+                                                                     src="{{URL::to("assets/global/img/no-image.png")}}"
+                                                                     alt="">
                                                             @else
-                                                                <img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">
+                                                                <img class="col-md-1 col-ms-1 avatar-pad2"
+                                                                     src="{{URL::to('/').$user_auth->avatar}}" alt="">
                                                             @endif
-                                                            <input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="{{$val->id}}" type="text" placeholder="Viết bình luận...">
+                                                            <input class="col-md-11 col-ms-11 col-xs-11 comment"
+                                                                   data-post-id="{{$val->id}}" type="text"
+                                                                   placeholder="Viết bình luận...">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,16 +386,20 @@
                                                 <div class="row blog-setting-user">
                                                     <div class="col-md-12 text-center padding-top-20">
                                                         @if(empty($user_blog->avatar))
-                                                            <img class="avatar-pad2 blog-setting-img" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
-                                                            @else
-                                                                <img class="avatar-pad2 blog-setting-img" src="{{URL::to("/").$user_blog->avatar}}" alt="">
-                                                            @endif
+                                                            <img class="avatar-pad2 blog-setting-img"
+                                                                 src="{{URL::to("assets/global/img/no-image.png")}}"
+                                                                 alt="">
+                                                        @else
+                                                            <img class="avatar-pad2 blog-setting-img"
+                                                                 src="{{URL::to("/").$user_blog->avatar}}" alt="">
+                                                        @endif
                                                     </div>
                                                     <div class="col-md-12 text-center username">
                                                         {{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}
                                                     </div>
                                                     <div class="col-md-12 text-center level">
-                                                       <i class="icon-sitemap grey tooltips" data-original-title="Cấp bậc"></i> -
+                                                        <i class="icon-sitemap grey tooltips"
+                                                           data-original-title="Cấp bậc"></i> -
                                                         @if(isset($blog_info['level']) && !empty($blog_info['level']))
                                                             {{$blog_info['level']}}
                                                         @else
@@ -385,7 +407,8 @@
                                                         @endif
                                                     </div>
                                                     <div class="col-md-12 text-center gift-point">
-                                                        Điểm thưởng - <span class="badge badge-roundless badge-danger">{{$user_blog->giftpoint}} </span>
+                                                        Điểm thưởng - <span
+                                                                class="badge badge-roundless badge-danger">{{$user_blog->giftpoint}} </span>
 
                                                     </div>
                                                 </div>
@@ -399,36 +422,58 @@
                                                             <i class="icon-vcard"></i>
                                                             Thông tin cá nhân
                                                         </div>
-                                                        <form action="#" id="frm-user-info" name="frm-user-info" class="form-horizontal">
+                                                        <form action="#" id="frm-user-info" name="frm-user-info"
+                                                              class="form-horizontal">
                                                             <div class="form-body">
-                                                                <input type="hidden" name="_token" value="{{Session::token()}}"/>
+                                                                <input type="hidden" name="_token"
+                                                                       value="{{Session::token()}}"/>
                                                                 {{--username --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label"><span class="required" aria-required="true">*</span> Họ tên </label>
+                                                                    <label class="col-md-3 control-label"><span
+                                                                                class="required"
+                                                                                aria-required="true">*</span> Họ tên
+                                                                    </label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                         <span class="input-group-addon">
                                                                         <i class="icon-user"></i>
                                                                         </span>
-                                                                            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nhập họ tên." value="{{$user_blog->fullname}}" required>
+                                                                            <input type="text" id="fullname"
+                                                                                   name="fullname" class="form-control"
+                                                                                   placeholder="Nhập họ tên."
+                                                                                   value="{{$user_blog->fullname}}"
+                                                                                   required>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 {{--address --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Địa chỉ</label>
+                                                                    <label class="col-md-3 control-label">Địa
+                                                                        chỉ</label>
+
                                                                     <div class="col-md-6">
-                                                                        <textarea id="address" name="address" class="form-control" rows="2">{{$user_blog->street}}</textarea>
+                                                                        <textarea id="address" name="address"
+                                                                                  class="form-control"
+                                                                                  rows="2">{{$user_blog->street}}</textarea>
                                                                     </div>
                                                                 </div>
 
                                                                 {{--province --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label"><span class="required" aria-required="true">*</span>  Tỉnh/Thành phố</label>
+                                                                    <label class="col-md-3 control-label"><span
+                                                                                class="required"
+                                                                                aria-required="true">*</span> Tỉnh/Thành
+                                                                        phố</label>
+
                                                                     <div class="col-md-6">
-                                                                        <select name="user-province" id="user-province" required class="form-control" title="Hãy chọn thành phố của bạn">
-                                                                            <option value="">-- Chọn Tỉnh/ Thành phố --</option>
+                                                                        <select name="user-province" id="user-province"
+                                                                                required class="form-control"
+                                                                                title="Hãy chọn thành phố của bạn">
+                                                                            <option value="">-- Chọn Tỉnh/ Thành phố
+                                                                                --
+                                                                            </option>
                                                                             @if (Cache::has('listProvince'))
                                                                                 <?php $listProvince = Cache::get('listProvince');?>
                                                                             @else
@@ -437,14 +482,19 @@
                                                                             @endif
 
                                                                             @foreach($listProvince as $item)
-                                                                                <option value="{{$item->id}}" @if($user_blog->province_id == $item->id) selected @endif>{{$item->name}}</option>
+                                                                                <option value="{{$item->id}}" @if($user_blog->province_id == $item->id)
+                                                                                        selected @endif>{{$item->name}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_province" id="privacy_province" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_province"
+                                                                                id="privacy_province"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_province']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_province']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -452,10 +502,16 @@
 
                                                                 {{--province --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Tình trạng hôn nhân</label>
+                                                                    <label class="col-md-3 control-label">Tình trạng hôn
+                                                                        nhân</label>
+
                                                                     <div class="col-md-6">
-                                                                        <select name="status-marriage" id="status-marriage" class="form-control" title="">
-                                                                            <option value="">-- Chọn tình trạng hôn nhân --</option>
+                                                                        <select name="status-marriage"
+                                                                                id="status-marriage"
+                                                                                class="form-control" title="">
+                                                                            <option value="">-- Chọn tình trạng hôn nhân
+                                                                                --
+                                                                            </option>
                                                                             @if (Cache::has('listMarriage'))
                                                                                 <?php $listMarriage = Cache::get('listMarriage');?>
                                                                             @else
@@ -464,14 +520,19 @@
                                                                             @endif
 
                                                                             @foreach($listMarriage as $item)
-                                                                                <option value="{{$item->id}}" @if($item->id == $user_blog->status_marriage_id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($item->id == $user_blog->status_marriage_id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_marriage" id="privacy_marriage" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_marriage"
+                                                                                id="privacy_marriage"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_status_marriage']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_status_marriage']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -479,19 +540,28 @@
 
                                                                 {{--birthday--}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Ngày sinh</label>
+                                                                    <label class="col-md-3 control-label">Ngày
+                                                                        sinh</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                             <i class="icon-birthday"></i>
                                                                             </span>
-                                                                            <input id="birthday" name="birthday" type="text" class="form-control" value="@if(isset($blog_info['birthday']) && !empty($blog_info['birthday'])) {{$blog_info['birthday']}} @endif" placeholder="Ngày sinh">
+                                                                            <input id="birthday" name="birthday"
+                                                                                   type="text" class="form-control"
+                                                                                   value="@if(isset($blog_info['birthday']) && !empty($blog_info['birthday'])) {{$blog_info['birthday']}} @endif"
+                                                                                   placeholder="Ngày sinh">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_birthday" id="privacy_birthday" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_birthday"
+                                                                                id="privacy_birthday"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_birthday']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_birthday']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -499,21 +569,31 @@
 
                                                                 {{--gender--}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Giới tính</label>
+                                                                    <label class="col-md-3 control-label">Giới
+                                                                        tính</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <label class="radio-inline">
-                                                                                <input type="radio" name="gender" id="male" @if($user_blog->gender == 1) checked @endif value="1">Nam
+                                                                                <input type="radio" name="gender"
+                                                                                       id="male" @if($user_blog->gender == 1)
+                                                                                       checked @endif value="1">Nam
                                                                             </label>
                                                                             <label class="radio-inline">
-                                                                                <input type="radio" name="gender"  id="female" @if($user_blog->gender == 0) checked @endif value="0">Nữ
+                                                                                <input type="radio" name="gender"
+                                                                                       id="female" @if($user_blog->gender == 0)
+                                                                                       checked @endif value="0">Nữ
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_gender" id="privacy_gender" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_gender"
+                                                                                id="privacy_gender"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_gender']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_gender']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -521,19 +601,27 @@
 
                                                                 {{--phone --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Điện thoại</label>
+                                                                    <label class="col-md-3 control-label">Điện
+                                                                        thoại</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="icon-phone"></i>
                                                                             </span>
-                                                                            <input type="number" id="phone" name="phone" class="form-control" placeholder="Điện thoại của bạn." value="{{$user_blog->phone}}">
+                                                                            <input type="number" id="phone" name="phone"
+                                                                                   class="form-control"
+                                                                                   placeholder="Điện thoại của bạn."
+                                                                                   value="{{$user_blog->phone}}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_phone" id="privacy_phone" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_phone" id="privacy_phone"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_phone']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_phone']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -541,14 +629,21 @@
 
                                                                 {{--about --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Giới thiệu bạn thân</label>
+                                                                    <label class="col-md-3 control-label">Giới thiệu bạn
+                                                                        thân</label>
+
                                                                     <div class="col-md-6">
-                                                                        <textarea class="form-control" rows="3" id="about" name="about">{{$user_blog->about}}</textarea>
+                                                                        <textarea class="form-control" rows="3"
+                                                                                  id="about"
+                                                                                  name="about">{{$user_blog->about}}</textarea>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <select name="privacy_about" id="privacy_about" class="form-control user-privacy" title="">
+                                                                        <select name="privacy_about" id="privacy_about"
+                                                                                class="form-control user-privacy"
+                                                                                title="">
                                                                             @foreach($blog_info['listPrivacy'] as $item)
-                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_about']['meta_value'] == $item->id) selected @endif>{{$item->description}}</option>
+                                                                                <option value="{{$item->id}}" @if($blog_info['privacy_about']['meta_value'] == $item->id)
+                                                                                        selected @endif>{{$item->description}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -559,7 +654,9 @@
                                                             <div class="form-actions">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-8">
-                                                                        <button type="submit" class="btn green btn-sm">Thay đổi</button>
+                                                                        <button type="submit" class="btn green btn-sm">
+                                                                            Thay đổi
+                                                                        </button>
                                                                         {{--<button type="reset" class="btn default btn-sm">Hủy</button>--}}
                                                                     </div>
                                                                 </div>
@@ -576,49 +673,69 @@
                                                             <i class="icon-key"></i>
                                                             Mật khẩu
                                                         </div>
-                                                        <form action="#" name="frm-acount-info" id="frm-acount-info" class="form-horizontal">
+                                                        <form action="#" name="frm-acount-info" id="frm-acount-info"
+                                                              class="form-horizontal">
                                                             <div class="form-body">
-                                                                <input type="hidden" name="_token" value="{{Session::token()}}"/>
+                                                                <input type="hidden" name="_token"
+                                                                       value="{{Session::token()}}"/>
                                                                 {{--username --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-5 control-label">Tên tài khoản</label>
+                                                                    <label class="col-md-5 control-label">Tên tài
+                                                                        khoản</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
-                                                                            <label class="control-label" style="font-weight: 700;">{{$user_blog->username}}</label>
+                                                                            <label class="control-label"
+                                                                                   style="font-weight: 700;">{{$user_blog->username}}</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label class="col-md-5 control-label">Email</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
-                                                                            <label class="control-label" style="font-weight: 700;">{{$user_blog->email}}</label>
+                                                                            <label class="control-label"
+                                                                                   style="font-weight: 700;">{{$user_blog->email}}</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 {{--username --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-5 control-label">Mật khẩu mới</label>
+                                                                    <label class="col-md-5 control-label">Mật khẩu
+                                                                        mới</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="icon-key-inv"></i>
                                                                             </span>
-                                                                            <input type="password"  name="password" id="password" class="form-control " required pattern="[a-z|A-z|0-9|\S]{6,40}" title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
+                                                                            <input type="password" name="password"
+                                                                                   id="password" class="form-control "
+                                                                                   required
+                                                                                   pattern="[a-z|A-z|0-9|\S]{6,40}"
+                                                                                   title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 {{--username --}}
                                                                 <div class="form-group">
-                                                                    <label class="col-md-5 control-label">Xác nhận mật khẩu mới</label>
+                                                                    <label class="col-md-5 control-label">Xác nhận mật
+                                                                        khẩu mới</label>
+
                                                                     <div class="col-md-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="icon-key-inv"></i>
                                                                             </span>
-                                                                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required pattern="[a-z|A-z|0-9|\S]{6,40}" title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
+                                                                            <input type="password"
+                                                                                   name="password_confirmation"
+                                                                                   id="password_confirmation"
+                                                                                   class="form-control" required
+                                                                                   pattern="[a-z|A-z|0-9|\S]{6,40}"
+                                                                                   title="Mật khẩu phải từ 6 kí tự và không có khoảng trắng">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -626,8 +743,12 @@
                                                             <div class="form-actions">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-8">
-                                                                        <button type="submit" id="submit-pass" class="btn green btn-sm">Thay đổi</button>
-                                                                        <button type="reset" id="reset-pass" class="btn default btn-sm">Hủy</button>
+                                                                        <button type="submit" id="submit-pass"
+                                                                                class="btn green btn-sm">Thay đổi
+                                                                        </button>
+                                                                        <button type="reset" id="reset-pass"
+                                                                                class="btn default btn-sm">Hủy
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -685,66 +806,66 @@
 
                                 {{--province--}}
                                 @if($blog_info['show_info_province'] == 1)
-                                <li>
-                                    <div class="row margin-none padding-left-0 padding-right-0">
-                                        <div class="col-md-4 col-ms-4 box-right-title">Thành phố</div>
-                                        <div class="col-md-8 col-ms-8 box-right-content">:
-                                            @if(isset($blog_info['province']) && !empty($blog_info['province']))
-                                                {{$blog_info['province']}}
-                                            @else
-                                                <span class="updateting">Đang cập nhật</span>
-                                            @endif
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-4 col-ms-4 box-right-title">Thành phố</div>
+                                            <div class="col-md-8 col-ms-8 box-right-content">:
+                                                @if(isset($blog_info['province']) && !empty($blog_info['province']))
+                                                    {{$blog_info['province']}}
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endif
 
                                 {{--birthday--}}
                                 @if($blog_info['show_info_birthday'] == 1)
-                                <li>
-                                    <div class="row margin-none padding-left-0 padding-right-0">
-                                        <div class="col-md-4 box-right-title">Ngày sinh</div>
-                                        <div class="col-md-8 box-right-content">:
-                                            @if(isset($blog_info['birthday']) && !empty($blog_info['birthday']))
-                                                {{$blog_info['birthday']}}
-                                            @else
-                                                <span class="updateting">Đang cập nhật</span>
-                                            @endif
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-4 box-right-title">Ngày sinh</div>
+                                            <div class="col-md-8 box-right-content">:
+                                                @if(isset($blog_info['birthday']) && !empty($blog_info['birthday']))
+                                                    {{$blog_info['birthday']}}
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endif
 
                                 {{--birthday--}}
                                 @if($blog_info['show_info_gender'] == 1)
-                                <li>
-                                    <div class="row margin-none padding-left-0 padding-right-0">
-                                        <div class="col-md-4 box-right-title">Giới tính</div>
-                                        <div class="col-md-8 box-right-content">:
-                                            @if(isset($user_blog->gender))
-                                                @if($user_blog->gender == 0) Nữ @else Nam @endif
-                                            @else
-                                                <span class="updateting">Đang cập nhật</span>
-                                            @endif
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-4 box-right-title">Giới tính</div>
+                                            <div class="col-md-8 box-right-content">:
+                                                @if(isset($user_blog->gender))
+                                                    @if($user_blog->gender == 0) Nữ @else Nam @endif
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endif
 
                                 {{--phone--}}
                                 @if($blog_info['show_info_phone'] == 1)
-                                <li>
-                                    <div class="row margin-none padding-left-0 padding-right-0">
-                                        <div class="col-md-4 box-right-title">Điện thoại</div>
-                                        <div class="col-md-8 box-right-content">:
-                                            @if(isset($user_blog->phone) && !empty($user_blog->phone))
-                                                {{$user_blog->phone}}
-                                            @else
-                                                <span class="updateting">Đang cập nhật</span>
-                                            @endif
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-4 box-right-title">Điện thoại</div>
+                                            <div class="col-md-8 box-right-content">:
+                                                @if(isset($user_blog->phone) && !empty($user_blog->phone))
+                                                    {{$user_blog->phone}}
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endif
 
                                 {{--phone--}}
@@ -778,18 +899,18 @@
 
                                 {{--about--}}
                                 @if($blog_info['show_info_about'] == 1)
-                                <li>
-                                    <div class="row margin-none padding-left-0 padding-right-0">
-                                        <div class="col-md-12 box-right-title margin-bottom-5">Về bản thân:</div>
-                                        <div class="col-md-12 box-right-content grey" style="text-align: justify;">
-                                            @if(isset($user_blog->about) && !empty($user_blog->about))
-                                                {{$user_blog->about}}
-                                            @else
-                                                <span class="updateting">Đang cập nhật</span>
-                                            @endif
+                                    <li>
+                                        <div class="row margin-none padding-left-0 padding-right-0">
+                                            <div class="col-md-12 box-right-title margin-bottom-5">Về bản thân:</div>
+                                            <div class="col-md-12 box-right-content grey" style="text-align: justify;">
+                                                @if(isset($user_blog->about) && !empty($user_blog->about))
+                                                    {{$user_blog->about}}
+                                                @else
+                                                    <span class="updateting">Đang cập nhật</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endif
 
                             </ul>
@@ -810,21 +931,28 @@
                                                     <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
                                                         <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
                                                             @if(empty($val->avatar))
-                                                                <img class="avatar-pad2 " src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
+                                                                <img class="avatar-pad2 "
+                                                                     src="{{URL::to("assets/global/img/no-image.png")}}"
+                                                                     alt="">
                                                             @else
                                                                 <img class="avatar-pad2" src="{{$val->avatar}}" alt="">
                                                             @endif
 
                                                         </a>
+
                                                         <div class="aside-items-text">
                                                             <a href="{{URL::to('/')}}/trang-ca-nhan/{{$val->username}}.html">
                                                                 <b>@if(isset($val->fullname)){{$val->fullname}}@else{{$val->username}}@endif</b>
                                                             </a>
+
                                                             <p>{{$val->num_muatal}} bạn chung</p></div>
                                                     </div>
                                                     <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
                                                         @if(count($val->state_user)>0)
-                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>
+                                                            <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
+                                                                    data-type="delete" friend_id="{{$val->id}}"><i
+                                                                        class="icon-user-delete"
+                                                                        style="font-size: 1.2em;"></i>
                                                                 Hủy
                                                             </button>
                                                             </br>
@@ -835,19 +963,27 @@
                                                             @endif
                                                         @elseif(count($val->state_friend)>0)
                                                             @if($val->state_friend->status_id == 35)
-                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="confirm" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
+                                                                        data-type="confirm" friend_id="{{$val->id}}"><i
+                                                                            class="icon-user-add"
+                                                                            style="font-size: 1.2em;"></i>
                                                                     Chấp nhận
                                                                 </button>
                                                                 </br><span class="italic text-grey font-10px sub-alert"> Đang chờ</span>
                                                             @else
-                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest" data-type="delete" friend_id="{{$val->id}}"><i class="icon-user-delete" style="font-size: 1.2em;"></i>
+                                                                <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
+                                                                        data-type="delete" friend_id="{{$val->id}}"><i
+                                                                            class="icon-user-delete"
+                                                                            style="font-size: 1.2em;"></i>
                                                                     Hủy
                                                                 </button>
                                                                 </br><span class="italic text-grey font-10px sub-alert"> Đã kết bạn</span>
                                                             @endif
                                                         @else
                                                             <button class="btn btn-default btn-sm-8 margin-none btn-friend-suggest"
-                                                                    data-type="add" friend_id="{{$val->id}}"><i class="icon-user-add" style="font-size: 1.2em;"></i>
+                                                                    data-type="add" friend_id="{{$val->id}}"><i
+                                                                        class="icon-user-add"
+                                                                        style="font-size: 1.2em;"></i>
                                                                 Kết bạn
                                                             </button>
                                                             </br><span class="italic text-grey font-10px sub-alert">Chưa kết bạn</span>
@@ -859,7 +995,8 @@
                                     </ul>
                                     @if(count($arrFriendSuggset)>3)
                                         <div class="aside-item-viewmore">
-                                            <button class="btn btn-block default tooltips" data-original-title="Xem thêm kết bạn">
+                                            <button class="btn btn-block default tooltips"
+                                                    data-original-title="Xem thêm kết bạn">
                                                 <i class="icon-down-dir"></i>
                                             </button>
                                         </div>
@@ -876,13 +1013,13 @@
                             @endif
 
                                     <!-- online friend -->
-                            <div class="aside-list" id="friend-online">
+                            <div class="aside-list">
                                 <header class="choidau-bg-font">
                                     <i class="icon-chat"></i>
                                     Bạn online
                                 </header>
-                                <ul class="list-unstyled aside-items">
-                                    @foreach(Auth::user()->referFriend()->get() as $key => $user)
+                                <ul class="list-unstyled aside-items" id="friend-online">
+                                    @foreach(Auth::user()->referFriend()->get() as $user)
                                         <li>
                                             <div class="row margin-none">
                                                 <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
@@ -950,11 +1087,12 @@
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
                         data: {
-                            'update_type':'background',
-                            'url_bg':url_bg
+                            'update_type': 'background',
+                            'url_bg': url_bg
                         },
                         dataType: 'json',
                         success: function (respon) {
+                            console.log(respon);
                             if (respon) {
                                 $('.person-header-bg').css('background-image', 'url("' + url_bg + '")');
                             }
@@ -974,12 +1112,12 @@
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
                         data: {
-                            'update_type':'avatar',
-                            'url_bg':url_bg
+                            'update_type': 'avatar',
+                            'url_bg': url_bg
                         },
                         dataType: 'json',
                         success: function (respon) {
-                            if(respon){
+                            if (respon) {
                                 $('.blog-img-avatar').attr('src', url_bg);
                             }
                         }
@@ -1016,9 +1154,9 @@
                 $.each(arrObject, function (key, val) {
                     html_item += '   <div class="col-md-4 col-sm-6 mix location-cat-' + type + '">';
                     html_item += '   <div class="mix-inner">';
-                    if(val.avatar.length<0){
+                    if (val.avatar.length < 0) {
                         html_item += '<img alt="" style="width: 258px; height: 184px;" src="{{URL::to("assets/global/img/no-image.png")}}" class="img-responsive">';
-                    }else{
+                    } else {
                         html_item += '   <img alt="" style="width: 258px; height: 184px;" src="{{URL::to('/')}}' + val.avatar + '" class="img-responsive">';
                     }
                     html_item += '   <div class="title">' + val.name + '</div>';
@@ -1041,65 +1179,65 @@
             $('#btn-tag-blog-photo').on('click', function () {
                 var photo_location = $('#photo-tab-location .row');
                 var photo_avatar = $('#photo-tab-avatar');
-                    @if(empty($blog['avatar']))
-                        photo_avatar.html('<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}"/>');
-                    @else
-                        photo_avatar.html('<img class="avatar-pad2" src="{{URL::to('/').$blog_info['avatar']}}"/>');
-                    @endif
-                $.ajax({
-                    type: "POST",
-                    url: "{{URL::to('dia-diem/loc-hinh-anh')}}",
-                    data: {'id_user_blog': '{{$blog_info['id']}}'},
-                    dataType: 'json',
-                    success: function (respon) {
-                        var tab_photo = $('#blog-tab-photo');
-                        tab_photo.find('span.tab-location').text(respon.length);
-                        if (!(respon.length > 0)) {
-                            photo_location.html('<span>Không có địa điểm nào.</span>');
-                            return false;
-                        }
-
-                        photo_location.html('');
-                        $.each(respon, function (key, val) {
-                            //--- photo-------
-                            var html = '';
-                            html +='<div class="avatar-pad2" style="position: relative">';
-                            html +='<span class= "badge-num-image">'+val.album.length+'</span>';
-                            if(val.name.length<0) {
-                                html +='<img class="" width="100%" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
-                            }else{
-                                html +='<img class="" width="100%" src="{{URL::to('/')}}' + val.avatar +'" alt="">';
-                            }
-
-                            html +='<div class= "badge-name"><i class="icon-picture"></i> '+val.name+'</div>';
-                            html +='</div>';
-
-                            var tag_html = $('<div/>',{class:'col-md-3 col-sm-6 padding-lr-5 margin-bottom-10'}).html(html);
-                            tag_html.find('img').on('click',function(){
-                                var html_album = '';
-                                if (val.album.length > 0) {
-                                    $.each(val.album, function (key_album, val_album) {
-                                        html_album += '<a class="fancybox-thumb hidden" rel="fancy-thumb-blog-' + val.id + '" href="{{URL::to('/')}}' + val_album.guid + '" title="' + val_album.title + '">';
-                                        html_album += '<img class="avatar-pad2" width="100%" src="{{URL::to('/')}}' + val_album.guid + '" alt="ALT_TITLE">';
-                                        html_album += '</a>';
-                                    })
-                                    $('.box-fancy').html(html_album);
-                                    $('.fancybox-thumb').fancybox({
-                                        helpers: {
-                                            thumbs: true
-                                        },
-                                        title: {stype: 'inside'},
-                                        autoSize: false,
-                                        autoScale: true,
-                                        fitToView: true
-                                    });
-                                    $('.fancybox-thumb').first().trigger('click');
+                @if(empty($blog['avatar']))
+                photo_avatar.html('<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}"/>');
+                @else
+                    photo_avatar.html('<img class="avatar-pad2" src="{{URL::to('/').$blog_info['avatar']}}"/>');
+                @endif
+            $.ajax({
+                            type: "POST",
+                            url: "{{URL::to('dia-diem/loc-hinh-anh')}}",
+                            data: {'id_user_blog': '{{$blog_info['id']}}'},
+                            dataType: 'json',
+                            success: function (respon) {
+                                var tab_photo = $('#blog-tab-photo');
+                                tab_photo.find('span.tab-location').text(respon.length);
+                                if (!(respon.length > 0)) {
+                                    photo_location.html('<span>Không có địa điểm nào.</span>');
+                                    return false;
                                 }
-                            });
-                            photo_location.append(tag_html);
+
+                                photo_location.html('');
+                                $.each(respon, function (key, val) {
+                                    //--- photo-------
+                                    var html = '';
+                                    html += '<div class="avatar-pad2" style="position: relative">';
+                                    html += '<span class= "badge-num-image">' + val.album.length + '</span>';
+                                    if (val.name.length < 0) {
+                                        html += '<img class="" width="100%" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
+                                    } else {
+                                        html += '<img class="" width="100%" src="{{URL::to('/')}}' + val.avatar + '" alt="">';
+                                    }
+
+                                    html += '<div class= "badge-name"><i class="icon-picture"></i> ' + val.name + '</div>';
+                                    html += '</div>';
+
+                                    var tag_html = $('<div/>', {class: 'col-md-3 col-sm-6 padding-lr-5 margin-bottom-10'}).html(html);
+                                    tag_html.find('img').on('click', function () {
+                                        var html_album = '';
+                                        if (val.album.length > 0) {
+                                            $.each(val.album, function (key_album, val_album) {
+                                                html_album += '<a class="fancybox-thumb hidden" rel="fancy-thumb-blog-' + val.id + '" href="{{URL::to('/')}}' + val_album.guid + '" title="' + val_album.title + '">';
+                                                html_album += '<img class="avatar-pad2" width="100%" src="{{URL::to('/')}}' + val_album.guid + '" alt="ALT_TITLE">';
+                                                html_album += '</a>';
+                                            })
+                                            $('.box-fancy').html(html_album);
+                                            $('.fancybox-thumb').fancybox({
+                                                helpers: {
+                                                    thumbs: true
+                                                },
+                                                title: {stype: 'inside'},
+                                                autoSize: false,
+                                                autoScale: true,
+                                                fitToView: true
+                                            });
+                                            $('.fancybox-thumb').first().trigger('click');
+                                        }
+                                    });
+                                    photo_location.append(tag_html);
+                                });
+                            }
                         });
-                    }
-                });
             });
             /**--- END luuhoabk - load album inblog ---**/
 
@@ -1109,7 +1247,7 @@
                 postStatus();
             });
 
-            $('#content-status').keypress(function(event){
+            $('#content-status').keypress(function (event) {
                 var code = event.keyCode || event.which;
                 if (code == 13) { //Enter keycode
                     event.preventDefault();
@@ -1144,6 +1282,7 @@
                     async: true,
                     success: function (respon) {
                         var data = $.parseJSON(respon);
+                        console.log(data);
                         if (data.length > 0) {
                             var html = '';
                             var note = '';
@@ -1170,21 +1309,21 @@
 
                                 var date_updated = formatDate(val.updated_at);
 
-                                html +='<div class="row person-content-item">';
-                                html +='<div class="col-md-12 col-none-padding">';
-                                html +='<div class="col-md-9 article-img-text col-none-padding">';
+                                html += '<div class="row person-content-item">';
+                                html += '<div class="col-md-12 col-none-padding">';
+                                html += '<div class="col-md-9 article-img-text col-none-padding">';
                                 @if(empty($user_blog->avatar))
-                                    html +='<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
+                                html += '<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
                                 @else
-                                    html +='<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
+                                    html += '<img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">';
                                 @endif
-                                html +='<div class="person-content-info">';
-                                html +='<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - '+val.level+'</span></div>';
-                                html +='<span>' + note + '</span><br>';
-                                html +='<span>' + date_updated + '</span>';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='<div class="col-md-3 col-none-padding text-right">';
+                                html += '<div class="person-content-info">';
+                                html += '<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - ' + val.level + '</span></div>';
+                                html += '<span>' + note + '</span><br>';
+                                html += '<span>' + date_updated + '</span>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="col-md-3 col-none-padding text-right">';
                                 @if($user_blog->id == $user_auth->id)
                                 html += '<div class="btn-group person-type-scopy">';
                                 html += '<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="' + val.id + '"  value_id="' + val.privacy + '">' + val.privacy_description + '</button>';
@@ -1222,10 +1361,10 @@
                                     if (val.location != null) {
                                         html += '<div class="row margin-none">';
                                         html += '<section class="article-img-text clearfix content-article-wrapper">';
-                                        if(val.location.avatar.length<0){
+                                        if (val.location.avatar.length < 0) {
                                             html += '<img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">';
-                                        }else{
-                                            html += '<img class="avatar-pad2" src="{{URL::to('/')}}'+val.location.avatar+'" alt="">';
+                                        } else {
+                                            html += '<img class="avatar-pad2" src="{{URL::to('/')}}' + val.location.avatar + '" alt="">';
                                         }
                                         html += '<div class="text-algin-img">';
                                         html += '<header>';
@@ -1261,29 +1400,29 @@
                                 html += '<a href="#" class="action-assoc" data-type="post_item" data-action="' + val.is_like + '" data-user-id="{{$user_auth->id}}" data-post-id="' + val.id + '">';
                                 html += (val.is_like == 'like') ? 'Thích' : 'Bỏ thích';
                                 html += '</a>';
-                                html +='<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">'+val.post_comment.length+'</span></a>';
-                                html +='<a href="#">Chia sẻ</a>';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='<div class="box-comment">';
-                                html +='<ul class="row margin-none blog-comment-wrapper">';
-                                if(val.post_comment.length >0){
-                                    $.each(val.post_comment, function(key_comment, val_commnent){
-                                        var type_appear = (key_comment < val.post_comment.length -3)? "hidden": "";
-                                        html +='<li class="margin-bottom-10 clearfix '+type_appear+'" style="list-style: none!important;">';
-                                        html +='<div class="col-md-12 article-img-text col-none-padding">';
-                                        html +='<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/')}}'+val_commnent.user.avatar+'" alt="">';
-                                        html +='<div class="person-content-info blog-comment-item">';
-                                        html +='<div>';
-                                        html +='<a href="'+URL+'/trang-ca-nhan/'+val_commnent.user.username+'.html">'+((val_commnent.user.fullname == null) ? (val_commnent.user.username) : (val_commnent.user.fullname))+'</a>';
-                                        html +='<span class="content-comment" style="font-weight: 500; font-size: 1em;"> - '+val_commnent.content+'</span>';
-                                        html +='</div>';
-                                        html +='<span class="grey">'+val_commnent.updated_at+'</span> -';
-                                        html +='<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="'+val_commnent.id+'">Thích</a></span> -';
-                                        html +='<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
-                                        html +='</div>';
-                                        html +='</div>';
-                                        html +='</li>';
+                                html += '<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">' + val.post_comment.length + '</span></a>';
+                                html += '<a href="#">Chia sẻ</a>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="box-comment">';
+                                html += '<ul class="row margin-none blog-comment-wrapper">';
+                                if (val.post_comment.length > 0) {
+                                    $.each(val.post_comment, function (key_comment, val_commnent) {
+                                        var type_appear = (key_comment < val.post_comment.length - 3) ? "hidden" : "";
+                                        html += '<li class="margin-bottom-10 clearfix ' + type_appear + '" style="list-style: none!important;">';
+                                        html += '<div class="col-md-12 article-img-text col-none-padding">';
+                                        html += '<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/')}}' + val_commnent.user.avatar + '" alt="">';
+                                        html += '<div class="person-content-info blog-comment-item">';
+                                        html += '<div>';
+                                        html += '<a href="' + URL + '/trang-ca-nhan/' + val_commnent.user.username + '.html">' + ((val_commnent.user.fullname == null) ? (val_commnent.user.username) : (val_commnent.user.fullname)) + '</a>';
+                                        html += '<span class="content-comment" style="font-weight: 500; font-size: 1em;"> - ' + val_commnent.content + '</span>';
+                                        html += '</div>';
+                                        html += '<span class="grey">' + val_commnent.updated_at + '</span> -';
+                                        html += '<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="' + val_commnent.id + '">Thích</a></span> -';
+                                        html += '<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '</li>';
                                     });
                                 }
                                 html += '</ul>';
@@ -1350,12 +1489,12 @@
                             });
 
                             //focus den binh luan
-                            item_person.find('.comment-hint').on('click', function(e){
+                            item_person.find('.comment-hint').on('click', function (e) {
                                 e.preventDefault();
                                 $(this).closest('.person-content-item').find('.comment').focus();
                             });
 
-                            item_person.find('.action-view-more').on('click', function(e){
+                            item_person.find('.action-view-more').on('click', function (e) {
                                 e.preventDefault();
                                 loadCommentItem($(this));
                             });
@@ -1368,12 +1507,12 @@
             });
             /**---- END luuhoabk - action more ---**/
 
-            $('.comment-hint').on('click', function(e){
+            $('.comment-hint').on('click', function (e) {
                 e.preventDefault();
                 $(this).closest('.person-content-item').find('.comment').focus();
             });
 //----------------------------
-                // like
+            // like
             $('.action-assoc').on('click', function (e) {
                 e.preventDefault();
                 blogLike($(this));
@@ -1396,47 +1535,49 @@
             });
 
             //submit form blog infor
-            $('form#frm-user-info').submit(function(e){
+            $('form#frm-user-info').submit(function (e) {
                 e.preventDefault();
-                $.blockUI({message:'<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
-                    $.ajax({
-                        url: "{{URL::to('thanh-vien/update-info')}}",
-                        type: 'post',
-                        data: $(this).serialize()+'&update_type=user_info',
-                        success: function(respon){
-                            console.log(respon);
+                $.blockUI({message: '<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
+                $.ajax({
+                    url: "{{URL::to('thanh-vien/update-info')}}",
+                    type: 'post',
+                    data: $(this).serialize() + '&update_type=user_info',
+                    success: function (respon) {
+                        console.log(respon);
 //                            if(respon){
 //                                alert('Cập nhật thành công.');
 //                            }else{ alert('Cập nhật thất bại.');}
-                        },
-                        complete: function(){
-                            $.unblockUI();
-                        }
+                    },
+                    complete: function () {
+                        $.unblockUI();
+                    }
 
-                    });
+                });
             });
 
             //submit form acount infor
-            $('form#frm-acount-info').submit(function(e){
+            $('form#frm-acount-info').submit(function (e) {
                 var self = $(this);
                 e.preventDefault();
-                if(self.find('#password').val() != self.find('#password_confirmation').val()){
+                if (self.find('#password').val() != self.find('#password_confirmation').val()) {
                     alert('Mật khẩu xác nhận không khớp. Xin vui lòng thử lại.');
                     self.find('#password').focus();
                     self.find('#reset-pass').trigger('click');
                     return;
                 }
-                $.blockUI({message:'<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
+                $.blockUI({message: '<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
                 $.ajax({
                     url: "{{URL::to('thanh-vien/update-info')}}",
                     type: 'post',
-                    data: $(this).serialize()+'&update_type=acount_info',
-                    success: function(respon){
-                        if(respon){
+                    data: $(this).serialize() + '&update_type=acount_info',
+                    success: function (respon) {
+                        if (respon) {
                             alert('Cập nhật mật khẩu thành công.');
-                        }else{ alert('Cập nhật mật khẩu thất bại.');}
+                        } else {
+                            alert('Cập nhật mật khẩu thất bại.');
+                        }
                     },
-                    complete: function(){
+                    complete: function () {
                         self.find('#password').focus();
                         self.find('#reset-pass').trigger('click');
                         $.unblockUI();
@@ -1459,6 +1600,7 @@
                 tag_icon.iconLoad(tag_icon.attr('class'));
                 self.like({
                     callback: function (respon) {
+                        console.log(respon);
                         if (respon != -1) {
                             if (type == 'post_item') {
                                 if (action == 'like') {
@@ -1604,7 +1746,7 @@
                             <!-- comment - like - share -->
                             html += '<div class="row margin-none">';
                             html += '<div class="person-text-assoc">';
-                            html += '<a href="#" class="action-assoc" data-action="like" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="'+data.id+'">Thích</a>';
+                            html += '<a href="#" class="action-assoc" data-action="like" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="' + data.id + '">Thích</a>';
                             html += '<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">0</span></a>';
                             html += '<a href="#">Chia sẻ</a>';
                             html += '</div>';
@@ -1655,12 +1797,13 @@
                             //event dup like
                             item_person.find('.click-like').click(function (e) {
                                 e.preventDefault();
-                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
-                            item_person.find('.comment-hint').on('click', function(e){
+                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');
+                            });
+                            item_person.find('.comment-hint').on('click', function (e) {
                                 e.preventDefault();
                                 $(this).closest('.person-content-item').find('.comment').focus();
                             });
-                            item_person.find('.comment').keypress(function(e){
+                            item_person.find('.comment').keypress(function (e) {
                                 comment($(this), e);
                             });
 
@@ -1740,6 +1883,7 @@
         $.fn.c = function (options) {
             $(this).on(cl, ".friend-online", function (e) {
                 e.stopPropagation();
+                sessionStorage.currentChat = $(this).data("id");
                 if ($(b).find(".ch-message-chat[data-id=" + $(this).data("id") + "]").length) {
                     $(".ch-message-chat").addClass("active");
                     return;
@@ -1777,13 +1921,20 @@
         };
         $(b).on(k, m, fk);
         $(w).on(cl, "header", function (e) {
-            $("." + mc).toggleClass("active").removeClass("new");
+            $("." + mc).removeClass("new").toggleClass("active",function(e){
+                sessionStorage.currentChatWindowState = "inActive";
+                if($(this).hasClass("active")){
+                    sessionStorage.currentChatWindowState = "active";
+                }
+            });
         });
         $(w).on(cl, "header span.right", function (e) {
             $("." + mc).remove();
+            sessionStorage.currentChat = 0;
         });
+        if (sessionStorage.currentChat) {
+            $("#friend-online .friend-online[data-id=" + sessionStorage.currentChat + "]").trigger("click");
+        }
         /* imtoantran fchat stop */
     </script>
-
-
 @stop
