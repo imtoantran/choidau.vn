@@ -84,3 +84,4 @@
 </div>
 @include('site.partials.user.login_popup')
 @include('site.partials.media_browser')
+<div id="chat-wrapper"></div>

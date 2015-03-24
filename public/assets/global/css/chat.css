@@ -1,0 +1,297 @@
+/* author imtoantran@gmail.com*/
+
+.ch-message-base {
+    color: #333;
+}
+
+.hide {
+    display: none;
+}
+
+.ch-message-chat {
+    width: 300px;
+    margin: 40px auto 0px auto;
+}
+
+.l-popout {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.l-popout iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.ch-message-chat{
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #dfe3ea;
+    border: 1px solid #CCC;
+    overflow: auto;
+    padding: 0px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #666;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+}
+
+.ch-message-chat header {
+    background-color: #EEE;
+    background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#DDDDDD));
+    background: -webkit-linear-gradient(top, #EEEEEE, #DDDDDD);
+    background: linear-gradient(top, #EEEEEE, #DDDDDD);
+    -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.9), 0px 1px 2px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #CCC;
+    line-height: 34px;
+    font-size: 12px;
+    text-indent: 5px;
+    text-align: left;
+    color: #45d416;
+    font-weight: bold;
+    cursor: pointer;
+}
+.ch-message-chat ul,.ch-message-chat footer{
+    display: none;
+}
+.ch-message-chat.active ul,.ch-message-chat.active footer {
+    display: block;
+}
+.ch-message-chat input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    height: 20px;
+    font-size: 12px;
+    width: 100%;
+    font-weight: normal;
+    outline: none;
+}
+
+.ch-message-chat .ch-message-chat-toolbar {
+    background-color: #FFF;
+    padding: 10px;
+    position: relative;
+    border-bottom: 1px solid #CCC;
+}
+
+.ch-message-chat .ch-message-chat-toolbar label {
+    text-transform: uppercase;
+    line-height: 32px;
+    font-size: 14px;
+    color: #999;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    z-index: 1;
+}
+
+.ch-message-chat .ch-message-chat-toolbar input {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #FFF;
+    padding-left: 100px;
+    color: #999;
+}
+
+.ch-message-chat .ch-message-chat-toolbar input:active, .ch-message-chat .ch-message-chat-toolbar input:focus {
+    color: #1d9dff;
+    border: 1px solid #FFF;
+}
+
+.ch-message-chat ul {
+    list-style: none;
+    margin: 0px;
+    padding: 5px;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-all;
+}
+
+.ch-message-chat ul li {
+    margin-bottom: 10px;
+    line-height: 24px;
+}
+
+.ch-message-chat ul li:last-child {
+    margin: 0px;
+}
+
+.ch-message-chat ul .ch-message-chat-username {
+    margin-right: 4px;
+}
+
+.ch-message-chat footer input {
+    border: 0px solid #ced3db;
+    height: 28px;
+}
+
+#colorholder {
+    width: 480px;
+    height: 30px;
+    border: 2px solid #424547;
+    margin: 5px auto 0px auto;
+}
+
+#drawing-canvas {
+    border: 3px solid #999;
+}
+
+.colorbox {
+    width: 22px;
+    height: 22px;
+    margin: 1px;
+    display: inline-block;
+    border: 3px solid black;
+}
+
+.ch-message-leaderboard {
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    overflow: auto;
+    color: #666;
+}
+
+.ch-message-leaderboard table {
+    border-radius: 3px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ch-message-leaderboard table th {
+    background: #EEE;
+    border-bottom: 1px solid #CCC;
+    font-size: 12px;
+    color: #999;
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.ch-message-leaderboard table td {
+    border-bottom: 1px solid #EEE;
+    padding: 10px;
+    color: #28a562;
+}
+
+.ch-message-leaderboard table td em {
+    font-style: normal;
+    font-weight: bold;
+    color: #666;
+}
+
+.ch-message-leaderboard table tr:first-child td {
+    background: green;
+}
+
+.ch-message-leaderboard input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding: 0px 10px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: normal;
+    outline: none;
+    border: 1px solid #CCC;
+}
+
+.ch-message-leaderboard input.ch-message-leaderboard-name {
+    width: 186px;
+    margin-right: 10px;
+}
+
+.ch-message-leaderboard input.ch-message-leaderboard-score {
+    width: 300px;
+}
+
+#highestscore {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Presence */
+#presenceDiv {
+    text-align: center;
+}
+
+/* Tetris */
+.tetris-body {
+    width: 600px;
+}
+
+#canvas0, #canvas1 {
+    display: inline-block;
+    border: 4px solid #424547;
+}
+
+#restartButton {
+    margin-top: 5px;
+}
+
+#gameInProgress {
+    font-size: 14px;
+}
+.ch-message-chat li{clear:both;}
+.ch-message-chat li .message-container {
+    width: 233px;
+}
+.ch-message-chat li.left .ch-message-chat-username{
+    float:left;
+}
+.ch-message-chat li.right .ch-message-chat-username {
+    float:right;
+}
+.ch-message-chat li.right .message-container{
+    text-align: right;
+    float:right;
+}
+.ch-message-chat li.left .message-container{
+    text-align: left;
+    float:left;
+    margin-bottom: 5px;
+}
+.ch-message-chat li.right .message{
+    background: #fad033;
+}
+.message{
+    background: #f9f9f9;
+    display: inline-block;
+    margin-top:2px;
+    padding: 3px 9px;
+}
+.ch-message-chat-username img{
+    width:34px;
+    height:34px;
+}
+.clearfix{
+    clear:both;
+}
+.ch-message-chat .time{
+    clear:both;
+    opacity: .5;
+    font-style: italic;
+}
+.ch-message-chat.new header{
+    background: red;
+}
+.ch-message-chat header span.right{
+    float: right;
+    padding-right: 10px;
+}

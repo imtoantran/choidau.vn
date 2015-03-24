@@ -12,22 +12,27 @@
                             <section class="person-content choidau-bg">
 
                                 {{--post statetus--}}
-                                    @if($user_auth->id == $user_blog->id)
-                                        <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
+                                @if($user_auth->id == $user_blog->id)
+                                    <div class="row person-content-item form-add-status" style="padding-bottom: 10px;">
                                         <div class="action-comment">
 
                                             <header class="action-comment-subject text-weight600">Cập nhật trạng thái
                                             </header>
                                             <div class="action-comment-input">
-                                                <textarea name="content-status" id="content-status" minlength="5" data-required="1" rows="2" style="width: 100%; padding: 5px; border: none;" placeholder=" Bạn đang nghĩ gì?" required></textarea>
+                                                <textarea name="content-status" id="content-status" minlength="5"
+                                                          data-required="1" rows="2"
+                                                          style="width: 100%; padding: 5px; border: none;"
+                                                          placeholder=" Bạn đang nghĩ gì?" required></textarea>
                                             </div>
 
                                             <div class="text-right action-comment-submit">
                                                 <div class="btn-group person-type-scopy margin-none">
-                                                    <button type="button" id="main-status" value_id="18" class="btn btn-default btn-xs">
+                                                    <button type="button" id="main-status" value_id="18"
+                                                            class="btn btn-default btn-xs">
                                                         Cộng đồng
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="icon-down-dir"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
@@ -40,9 +45,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
+                                @endif
                                 <div class="anchor_load text-center hidden">
-                                    <span class="white">.:: <i class="icon-spin4 animate-spin white" style=" font-size: 18px; margin-bottom: 10px;"></i> ::.</span>
+                                    <span class="white">.:: <i class="icon-spin4 animate-spin white"
+                                                               style=" font-size: 18px; margin-bottom: 10px;"></i> ::.</span>
                                 </div>
                                 <div class="my-tab-content" style="background-color: #fff;">
 
@@ -51,30 +57,30 @@
                                     @foreach($object_action as $key=>$val)
                                         {{--chuan bi du lieu --}}
                                         <?php
-                                            $note = '';
-                                            $description = '';
-                                            switch($val->post_type){
-                                                case 'checkin':
-                                                    $note = 'Đã check in địa điểm này.';
+                                        $note = '';
+                                        $description = '';
+                                        switch ($val->post_type) {
+                                            case 'checkin':
+                                                $note = 'Đã check in địa điểm này.';
+                                                $description = $val->location->description;
+                                                break;
+                                            case 'like-location'   :
+                                                $note = 'Đã thích địa điểm này.';
+                                                if (!is_null($val->location)) {
                                                     $description = $val->location->description;
-                                                    break;
-                                                case 'like-location'   :
-                                                    $note = 'Đã thích địa điểm này.';
-                                                    if(!is_null($val->location)){
-                                                        $description = $val->location->description;
-                                                    }
-                                                    break;
-                                                case 'review' :
-                                                    $note = 'Đã nhận xét địa điểm này.';
-                                                    $description =  $val->content;
-                                                    break;
-                                                default :
-                                                    $note = 'Đã cập nhật trạng thái.';
-                                                    $description = $val->content;
-                                                    break;
-                                            }
-                                            $date_updated   = new DateTime($val->updated_at);
-                                            $date_updated      = date_format($date_updated,'H:i d/m/Y');
+                                                }
+                                                break;
+                                            case 'review' :
+                                                $note = 'Đã nhận xét địa điểm này.';
+                                                $description = $val->content;
+                                                break;
+                                            default :
+                                                $note = 'Đã cập nhật trạng thái.';
+                                                $description = $val->content;
+                                                break;
+                                        }
+                                        $date_updated = new DateTime($val->updated_at);
+                                        $date_updated = date_format($date_updated, 'H:i d/m/Y');
                                         ?>
 
                                         <div class="row person-content-item">
@@ -86,84 +92,99 @@
                                                             <img class="avatar-pad2" src="{{URL::to('/').$user_blog->avatar}}" alt="">
                                                         @endif
                                                         <div class="person-content-info">
-                                                            <div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$val->level}}</span></div>
-                                                            <span>{{$note}}</span><br>
-                                                            <span>{{$date_updated}}</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-none-padding text-right">
-                                                        @if($user_blog->id == $user_auth->id)
-                                                            <div class="btn-group person-type-scopy">
-                                                                <button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="{{$val->id}}" value_id="{{$val->privacy}}">{{$val->privacy_description}}</button>
-                                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">
-                                                                    <i class="icon-down-dir"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu btn-privacy-change" role="menu">
-                                                                    <li value_id="15">Chỉ mình tôi</li>
-                                                                    <li value_id="16">Bạn bè</li>
-                                                                    <li value_id="17">Bạn của bạn tôi</li>
-                                                                    <li value_id="18">Cộng đồng</li>
-                                                                </ul>
-                                                            </div>
-                                                        @endif
+                                                        <span>{{$note}}</span><br>
+                                                        <span>{{$date_updated}}</span>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-3 col-none-padding text-right">
+                                                    @if($user_blog->id == $user_auth->id)
+                                                        <div class="btn-group person-type-scopy">
+                                                            <button type="button"
+                                                                    class="btn btn-default btn-xs btn-privacy-val"
+                                                                    post_id="{{$val->id}}"
+                                                                    value_id="{{$val->privacy}}">{{$val->privacy_description}}</button>
+                                                            <button type="button"
+                                                                    class="btn btn-default btn-xs dropdown-toggle"
+                                                                    data-toggle="dropdown">
+                                                                <i class="icon-down-dir"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu btn-privacy-change" role="menu">
+                                                                <li value_id="15">Chỉ mình tôi</li>
+                                                                <li value_id="16">Bạn bè</li>
+                                                                <li value_id="17">Bạn của bạn tôi</li>
+                                                                <li value_id="18">Cộng đồng</li>
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
 
-                                                    @if($val->post_type == 'status')
-                                                        @if(!is_null($description) && !empty($description) && $description!="")
-                                                            <div class="col-md-12 col-none-padding person-content-article">
-                                                                <div class="row margin-none">
-                                                                    <section class="article-img-text clearfix content-article-wrapper">
-                                                                        <div class="text-algin-img">
-                                                                            <article>
-                                                                                {{$description;}}
-                                                                            </article>
-                                                                        </div>
-                                                                    </section>
+                                            @if($val->post_type == 'status')
+                                                @if(!is_null($description) && !empty($description) && $description!="")
+                                                    <div class="col-md-12 col-none-padding person-content-article">
+                                                        <div class="row margin-none">
+                                                            <section
+                                                                    class="article-img-text clearfix content-article-wrapper">
+                                                                <div class="text-algin-img">
+                                                                    <article>
+                                                                        {{$description;}}
+                                                                    </article>
                                                                 </div>
-                                                            </div>
-                                                        @endif
-                                                    @else
-                                                        <div class="col-md-12 col-none-padding person-content-article">
-                                                            @if(!is_null($val->location))
-                                                                <div class="row margin-none">
-                                                                    <section class="article-img-text clearfix content-article-wrapper">
-                                                                        @if(empty($val->location->avatar))
-                                                                            <img class="avatar-pad2" src="{{URL::to("assets/global/img/no-image.png")}}" alt="">
-                                                                        @else
-                                                                            <img class="avatar-pad2" src="{{URL::to('/').$val->location->avatar}}" alt="">
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="col-md-12 col-none-padding person-content-article">
+                                                    @if(!is_null($val->location))
+                                                        <div class="row margin-none">
+                                                            <section
+                                                                    class="article-img-text clearfix content-article-wrapper">
+                                                                <img class="avatar-pad2"
+                                                                     src="{{URL::to('/').$val->location->avatar}}"
+                                                                     alt="">
+
+                                                                <div class="text-algin-img">
+                                                                    <header>
+                                                                        <a href="{{$val->location->url}}">
+                                                                            <h2>{{$val->location->name}}</h2></a>
+                                                                    </header>
+                                                                    <article>
+                                                                        {{$description}}
+                                                                    </article>
+                                                                    <a href="{{$val->location->url}}"><i>{{$val->location->url}}</i></a>
+                                                                </div>
+                                                            </section>
+                                                        </div>
+                                                        <!-- slide img -->
+                                                        <div class="row margin-none">
+                                                            @if(count($val->location->album) >0)
+                                                                <ul class="list-unstyled person-content-slide">
+                                                                    @foreach($val->location->album as $key=>$image)
+                                                                        @if($key<=6)
+                                                                            <li>
+                                                                                <img src="{{URL::to('/').$image->thumbnail}}"
+                                                                                     alt=""></li>
                                                                         @endif
-                                                                        <div class="text-algin-img">
-                                                                            <header>
-                                                                                <a href="{{$val->location->url}}"><h2>{{$val->location->name}}</h2></a>
-                                                                            </header>
-                                                                            <article>
-                                                                                {{$description}}
-                                                                            </article>
-                                                                            <a href="{{$val->location->url}}"><i>{{$val->location->url}}</i></a>
-                                                                        </div>
-                                                                    </section>
-                                                                </div>
-                                                                <!-- slide img -->
-                                                                <div class="row margin-none">
-                                                                    @if(count($val->location->album) >0)
-                                                                        <ul class="list-unstyled person-content-slide">
-                                                                            @foreach($val->location->album as $key=>$image)
-                                                                                @if($key<=6)
-                                                                                    <li><img src="{{URL::to('/').$image->thumbnail}}" alt=""></li>
-                                                                                @endif
-                                                                            @endforeach
-                                                                           <li class="text-right"> <a href="{{$val->location->url}}"><button class="btn btn-default">xem thêm</button></a></li>
-                                                                        </ul>
-                                                                    @endif
-                                                                </div>
+                                                                    @endforeach
+                                                                    <li class="text-right"><a
+                                                                                href="{{$val->location->url}}">
+                                                                            <button class="btn btn-default">xem thêm
+                                                                            </button>
+                                                                        </a></li>
+                                                                </ul>
                                                             @endif
                                                         </div>
                                                     @endif
-                                                <!-- comment - like - share -->
+                                                </div>
+                                                @endif
+                                                        <!-- comment - like - share -->
                                                 <div class="row margin-none">
                                                     <div class="person-text-assoc">
-                                                        <a href="#" class="action-assoc" data-action="{{$val->is_like}}" data-type="post_item" data-user-id="{{$user_auth->id}}" data-post-id="{{$val->id}}">
+                                                        <a href="#" class="action-assoc" data-action="{{$val->is_like}}"
+                                                           data-type="post_item" data-user-id="{{$user_auth->id}}"
+                                                           data-post-id="{{$val->id}}">
                                                             @if($val->is_like == 'like') Thích @else Bỏ thích @endif
                                                         </a>
                                                         <a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">{{count($val->post_comment)}}</span></a>
@@ -187,12 +208,22 @@
 
                                                                         <div class="person-content-info blog-comment-item">
                                                                             <div>
-                                                                                <a href="{{URL::to('/trang-ca-nhan/'.$val_comment->user->username.'.html')}}">@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a> -
+                                                                                <a href="{{URL::to('/trang-ca-nhan/'.$val_comment->user->username.'.html')}}">@if(isset($val_comment->user->fullname)) {{$val_comment->user->fullname}} @else {{$val_comment->user->username}} @endif</a>
+                                                                                -
                                                                                 <span class="content-comment"> {{$val_comment->content}} </span>
                                                                             </div>
-                                                                            <span class="grey">{{date_format(new DateTime($val_comment->updated_at),'H:i d/m/Y')}}</span> -
-                                                                            <span> <a href="#" class="action-assoc" data-action="{{$val_comment->is_like_comment}}" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="{{$val_comment->id}}">@if($val_comment->is_like_comment == 'like') Thích @else Bỏ thích @endif</a></span> -
-                                                                            <span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">{{$val_comment->total_like}}</span>
+                                                                            <span class="grey">{{date_format(new DateTime($val_comment->updated_at),'H:i d/m/Y')}}</span>
+                                                                            -
+                                                                            <span> <a href="#" class="action-assoc"
+                                                                                      data-action="{{$val_comment->is_like_comment}}"
+                                                                                      data-type="post_comment"
+                                                                                      data-user-id="{{$user_auth->id}}"
+                                                                                      data-post-id="{{$val_comment->id}}">@if($val_comment->is_like_comment == 'like')
+                                                                                        Thích @else Bỏ thích @endif</a></span>
+                                                                            -
+                                                                            <span class="click-like-comment"><i
+                                                                                        class="icon-thumbs-up"></i></span><span
+                                                                                    class="total-comment-like">{{$val_comment->total_like}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -200,13 +231,18 @@
                                                         @endif
                                                     </ul>
                                                     @if(count($val->post_comment)>3)
-                                                        <div class="margin-bottom-10">...<a href="#" class="action-view-more" type="show">Xem thêm</a></div>
+                                                        <div class="margin-bottom-10">...<a href="#"
+                                                                                            class="action-view-more"
+                                                                                            type="show">Xem thêm</a>
+                                                        </div>
                                                     @endif
                                                 </div>
                                                 <div class="row margin-none person-command">
                                                     <div class="col-md-12 col-none-padding">
-                                                        <a href="#" class= "click-like"><i class="@if($val->is_like == 'like') icon-thumbs-up-alt @else icon-thumbs-down-alt @endif"></i></a>
-                                                        <span class="total-like">{{$val->total_like}}</span> người thích điều này
+                                                        <a href="#" class="click-like"><i
+                                                                    class="@if($val->is_like == 'like') icon-thumbs-up-alt @else icon-thumbs-down-alt @endif"></i></a>
+                                                        <span class="total-like">{{$val->total_like}}</span> người thích
+                                                        điều này
                                                     </div>
                                                     <div class="col-md-12 article-img-text col-none-padding">
                                                         <div class="row margin-none">
@@ -220,9 +256,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                        </div>
                                     @endforeach
-                                        <div id="anchor_bottom" data-offet="5"></div>
+                                    <div id="anchor_bottom" data-offet="5"></div>
                                 </div>
                                 <div class="btn green btn-block btn-action-more">
                                     Xem thêm hoạt động
@@ -256,12 +292,14 @@
                                 </ul>
                                 <div id="my-tab-content" style="padding: 10px 5px 10px 5px;" class="tab-content">
                                     <div class="tab-pane active" id="photo-tab-avatar">
-                                        <span class="" style="font-size: 1.3em;"><i class="icon-spin4 animate-spin black"></i> loading...</span>
+                                        <span class="" style="font-size: 1.3em;"><i
+                                                    class="icon-spin4 animate-spin black"></i> loading...</span>
                                     </div>
 
                                     <div class="tab-pane" id="photo-tab-location">
                                         <div class="row thumbnails margin-none ">
-                                            <span class="white" style="font-size: 1.3em;"><i class="icon-spin4 animate-spin blackss"></i> loading...</span>
+                                            <span class="white" style="font-size: 1.3em;"><i
+                                                        class="icon-spin4 animate-spin blackss"></i> loading...</span>
                                         </div>
                                         {{-- de chua nhung hinh anh cho album khi hien len--}}
                                         <div class="hidden box-fancy"></div>
@@ -306,7 +344,8 @@
                                     Tất cả bạn bè <span class="person-friends-list-total"></span>
                                 </header>
                                 <div class="row person-friends-list margin-none">
-                                    <span class="white" style="font-size: 1.3em;"><i class="icon-spin4 animate-spin white"></i> loading...</span>
+                                    <span class="white" style="font-size: 1.3em;"><i
+                                                class="icon-spin4 animate-spin white"></i> loading...</span>
                                 </div>
                             </section>
                         </div>
@@ -837,54 +876,39 @@
                             @endif
 
                                     <!-- online friend -->
-                            <div class="aside-list">
+                            <div class="aside-list" id="friend-online">
                                 <header class="choidau-bg-font">
                                     <i class="icon-chat"></i>
                                     Bạn online
                                 </header>
                                 <ul class="list-unstyled aside-items">
-                                    <li>
-                                        <div class="row margin-none">
-                                            <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                                                <img class="avatar-pad2" src="./img-data-demo/avatar-6.JPG" alt="">
-                                                <div class="aside-items-text"><b>meoconxauxi</b>
-                                                    <p>12 b?n chung</p></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                                                <div class="aside-link-web">
-                                                    <a class="aside-link-web" href="#">Web <i class="icon-website"></i></a>
+                                    @foreach(Auth::user()->referFriend()->get() as $key => $user)
+                                        <li>
+                                            <div class="row margin-none">
+                                                <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
+                                                    <img class="avatar-pad2" data-id="{{$user->id}}"
+                                                         src="{{$user->avatar}}" alt="">
+
+                                                    <div class="aside-items-text">
+                                                        <b>
+                                                            <a class="friend-online"
+                                                               title="{{$user->url()}}"
+                                                               data-avatar="{{$user->avatar}}"
+                                                               data-id="{{$user->id}}">{{$user->display_name()}}</a>
+                                                        </b>
+
+                                                        <p>12 bạn chung</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
+                                                    <div class="aside-link-web">
+                                                        <a class="aside-link-web" href="#">Web <i
+                                                                    class="icon-website"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row margin-none">
-                                            <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                                                <img class="avatar-pad2" src="./img-data-demo/avatar-4.JPG" alt="">
-                                                <div class="aside-items-text"><b>meoconxauxi</b>
-                                                    <p>12 b?n chung</p></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                                                <div class="aside-link-web">
-                                                    <a class="aside-link-web" href="#">Web <i class="icon-website"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row margin-none">
-                                            <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
-                                                <img class="avatar-pad2" src="./img-data-demo/avatar-5.JPG" alt="">
-                                                <div class="aside-items-text"><b>meoconxauxi</b>
-                                                    <p>12 b?n chung</p></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-4 col-none-padding text-center">
-                                                <div class="aside-link-web">
-                                                    <a class="aside-link-web" href="#">Web <i class="icon-website"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endforeach
                                 </ul>
                                 <div class="aside-item-viewmore">
                                     <button class="btn btn-block default ">
@@ -919,9 +943,9 @@
             $("#btn-blog-bg").mediaupload({
                 url: "{{URL::to("media/upload")}}",
                 token: "{{Session::token()}}",
-                "multi-select":false,
+                "multi-select": false,
                 complete: function (images) {
-                    var url_bg = '/upload/thumbnail/1140x180-'+images[0].name;
+                    var url_bg = '/upload/thumbnail/1140x180-' + images[0].name;
                     $.ajax({
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
@@ -931,9 +955,8 @@
                         },
                         dataType: 'json',
                         success: function (respon) {
-                            console.log(respon);
-                            if(respon){
-                                $('.person-header-bg').css('background-image','url("'+url_bg+'")');
+                            if (respon) {
+                                $('.person-header-bg').css('background-image', 'url("' + url_bg + '")');
                             }
                         }
                     });
@@ -944,9 +967,9 @@
             /**--- luuhoabk - update - avatar  ---**/
             $("#btn-blog-avatar").mediaupload({
                 token: "{{Session::token()}}",
-                "multi-select":false,
+                "multi-select": false,
                 complete: function (images) {
-                    var url_bg = '/upload/thumbnail/150x150-'+images[0].name;
+                    var url_bg = '/upload/thumbnail/150x150-' + images[0].name;
                     $.ajax({
                         type: "POST",
                         url: "{{URL::to('thanh-vien/cap-nhat-thong-tin')}}",
@@ -987,8 +1010,8 @@
                     }
                 });
             });
-                //type: "posted, like, checkin"
-                var getHtmlItem = function (arrObject, type) {
+            //type: "posted, like, checkin"
+            var getHtmlItem = function (arrObject, type) {
                 var html_item = '';
                 $.each(arrObject, function (key, val) {
                     html_item += '   <div class="col-md-4 col-sm-6 mix location-cat-' + type + '">';
@@ -1030,14 +1053,14 @@
                     dataType: 'json',
                     success: function (respon) {
                         var tab_photo = $('#blog-tab-photo');
-                            tab_photo.find('span.tab-location').text(respon.length);
-                        if(!(respon.length >0)){
+                        tab_photo.find('span.tab-location').text(respon.length);
+                        if (!(respon.length > 0)) {
                             photo_location.html('<span>Không có địa điểm nào.</span>');
                             return false;
                         }
 
                         photo_location.html('');
-                        $.each(respon, function(key,val){
+                        $.each(respon, function (key, val) {
                             //--- photo-------
                             var html = '';
                             html +='<div class="avatar-pad2" style="position: relative">';
@@ -1054,21 +1077,21 @@
                             var tag_html = $('<div/>',{class:'col-md-3 col-sm-6 padding-lr-5 margin-bottom-10'}).html(html);
                             tag_html.find('img').on('click',function(){
                                 var html_album = '';
-                                if(val.album.length > 0){
-                                    $.each(val.album, function(key_album, val_album){
-                                        html_album += '<a class="fancybox-thumb hidden" rel="fancy-thumb-blog-'+val.id+'" href="{{URL::to('/')}}' + val_album.guid +'" title="'+val_album.title+'">';
-                                        html_album += '<img class="avatar-pad2" width="100%" src="{{URL::to('/')}}' + val_album.guid +'" alt="ALT_TITLE">';
+                                if (val.album.length > 0) {
+                                    $.each(val.album, function (key_album, val_album) {
+                                        html_album += '<a class="fancybox-thumb hidden" rel="fancy-thumb-blog-' + val.id + '" href="{{URL::to('/')}}' + val_album.guid + '" title="' + val_album.title + '">';
+                                        html_album += '<img class="avatar-pad2" width="100%" src="{{URL::to('/')}}' + val_album.guid + '" alt="ALT_TITLE">';
                                         html_album += '</a>';
                                     })
                                     $('.box-fancy').html(html_album);
                                     $('.fancybox-thumb').fancybox({
                                         helpers: {
-                                            thumbs : true
+                                            thumbs: true
                                         },
-                                        title : {stype : 'inside' },
+                                        title: {stype: 'inside'},
                                         autoSize: false,
-                                        autoScale   : true,
-                                        fitToView   : true
+                                        autoScale: true,
+                                        fitToView: true
                                     });
                                     $('.fancybox-thumb').first().trigger('click');
                                 }
@@ -1082,13 +1105,13 @@
 
 //------------------------
             /**---- luuhoabk - post status ---**/
-            $('.btn-post-status').on('click',function(){
+            $('.btn-post-status').on('click', function () {
                 postStatus();
             });
 
             $('#content-status').keypress(function(event){
                 var code = event.keyCode || event.which;
-                if(code == 13) { //Enter keycode
+                if (code == 13) { //Enter keycode
                     event.preventDefault();
                     postStatus();
                 }
@@ -1097,14 +1120,16 @@
 
             /**---- luuhoabk - action more ---**/
                 // change privace
-            $('ul.btn-privacy-change li').on('click', function(){
-                $(this).closest('.person-type-scopy').find('.btn-privacy-val').blogPrivacy({callback: function(respon) {
-                }});
+            $('ul.btn-privacy-change li').on('click', function () {
+                $(this).closest('.person-type-scopy').find('.btn-privacy-val').blogPrivacy({
+                    callback: function (respon) {
+                    }
+                });
             });
             /**---- END luuhoabk - action more ---**/
 
             /**---- luuhoabk - action more ---**/
-            $('.btn-action-more').on('click', function(){
+            $('.btn-action-more').on('click', function () {
                 var btb_action = $(this);
                 var anchor_bottom = $('#anchor_bottom');
                 var data_offset = anchor_bottom.attr('data-offet');
@@ -1119,12 +1144,11 @@
                     async: true,
                     success: function (respon) {
                         var data = $.parseJSON(respon);
-                        console.log(data);
-                        if(data.length > 0){
+                        if (data.length > 0) {
                             var html = '';
                             var note = '';
                             var description = '';
-                            $.each(data, function(key, val) {
+                            $.each(data, function (key, val) {
                                 switch (val.post_type) {
                                     case 'checkin':
                                         note = 'Đã check in địa điểm này.';
@@ -1162,38 +1186,38 @@
                                 html +='</div>';
                                 html +='<div class="col-md-3 col-none-padding text-right">';
                                 @if($user_blog->id == $user_auth->id)
-                                html +='<div class="btn-group person-type-scopy">';
-                                html +='<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+val.id+'"  value_id="'+val.privacy+'">'+val.privacy_description+'</button>';
-                                html +='<button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">';
-                                html +='<i class="icon-down-dir"></i>';
-                                html +='</button>';
-                                html +='<ul class="dropdown-menu btn-privacy-change" role="menu">';
-                                html +='<li value_id="15">Chỉ mình tôi</li>';
-                                html +='<li value_id="16">Bạn bè</li>';
-                                html +='<li value_id="17">Bạn của bạn tôi</li>';
-                                html +='<li value_id="18">Cộng đồng</li>';
-                                html +='</ul>';
-                                html +='</div>';
+                                html += '<div class="btn-group person-type-scopy">';
+                                html += '<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="' + val.id + '"  value_id="' + val.privacy + '">' + val.privacy_description + '</button>';
+                                html += '<button type="button" class="btn btn-default btn-xs dropdown-toggle"  data-toggle="dropdown">';
+                                html += '<i class="icon-down-dir"></i>';
+                                html += '</button>';
+                                html += '<ul class="dropdown-menu btn-privacy-change" role="menu">';
+                                html += '<li value_id="15">Chỉ mình tôi</li>';
+                                html += '<li value_id="16">Bạn bè</li>';
+                                html += '<li value_id="17">Bạn của bạn tôi</li>';
+                                html += '<li value_id="18">Cộng đồng</li>';
+                                html += '</ul>';
+                                html += '</div>';
                                 @endif
-                                html +='</div>';
-                                html +='</div>';
+                                html += '</div>';
+                                html += '</div>';
                                 if (val.post_type == 'status') {
-                                    if (description!= null && description != ""){
+                                    if (description != null && description != "") {
                                         html += '<div class="col-md-12 col-none-padding person-content-article">';
                                         html += '<div class="row margin-none">';
                                         html += '<section class="article-img-text clearfix content-article-wrapper">';
                                         html += '<div class="text-algin-img">';
-                                            if(description.length >0){
-                                                html += '<article>';
-                                                html += description;
-                                                html += '</article>';
-                                            }
+                                        if (description.length > 0) {
+                                            html += '<article>';
+                                            html += description;
+                                            html += '</article>';
+                                        }
                                         html += '</div>';
                                         html += '</section>';
                                         html += '</div>';
                                         html += '</div>';
                                     }
-                                }else {
+                                } else {
                                     html += '<div class="col-md-12 col-none-padding person-content-article">';
                                     if (val.location != null) {
                                         html += '<div class="row margin-none">';
@@ -1205,7 +1229,7 @@
                                         }
                                         html += '<div class="text-algin-img">';
                                         html += '<header>';
-                                        html += '<a href="'+val.location.url+'"><h2>'+val.location.name+'</h2></a>';
+                                        html += '<a href="' + val.location.url + '"><h2>' + val.location.name + '</h2></a>';
                                         html += '</header>';
                                         html += '<article>';
                                         html += description;
@@ -1220,7 +1244,7 @@
                                             html += '<ul class="list-unstyled person-content-slide">';
                                             $.each(val.location.album, function (key, image) {
                                                 if (key <= 6) {
-                                                    html += '<li><img src="{{URL::to('/')}}'+image.thumbnail + '" alt=""></li>';
+                                                    html += '<li><img src="{{URL::to('/')}}' + image.thumbnail + '" alt=""></li>';
                                                 }
                                             });
                                             html += '<li class="text-right"> <a href="' + val.location.url + '"><button class="btn btn-default">xem thêm</button></a></li>';
@@ -1232,10 +1256,10 @@
                                 }
 
                                 <!-- comment - like - share -->
-                                html +='<div class="row margin-none">';
-                                html +='<div class="person-text-assoc">';
-                                html += '<a href="#" class="action-assoc" data-type="post_item" data-action="'+val.is_like+'" data-user-id="{{$user_auth->id}}" data-post-id="'+val.id+'">';
-                                html += (val.is_like == 'like')? 'Thích' : 'Bỏ thích';
+                                html += '<div class="row margin-none">';
+                                html += '<div class="person-text-assoc">';
+                                html += '<a href="#" class="action-assoc" data-type="post_item" data-action="' + val.is_like + '" data-user-id="{{$user_auth->id}}" data-post-id="' + val.id + '">';
+                                html += (val.is_like == 'like') ? 'Thích' : 'Bỏ thích';
                                 html += '</a>';
                                 html +='<a href="#" class="comment-hint">Bình luận <span class="total-comment badge badge-default">'+val.post_comment.length+'</span></a>';
                                 html +='<a href="#">Chia sẻ</a>';
@@ -1262,34 +1286,34 @@
                                         html +='</li>';
                                     });
                                 }
-                                html +='</ul>';
+                                html += '</ul>';
 
-                                if(val.post_comment.length>3){
-                                    html +=' <div class="margin-bottom-10">...<a href="#" class="action-view-more" type="show">Xem thêm</a></div>';
+                                if (val.post_comment.length > 3) {
+                                    html += ' <div class="margin-bottom-10">...<a href="#" class="action-view-more" type="show">Xem thêm</a></div>';
                                 }
 
-            <!-- comment - like - share -->
-                                html +='</div>';
-                                html +='<div class="row margin-none person-command">';
-                                html +='<div class="col-md-12 col-none-padding">';
-                                html +='<a href="#" class = "click-like">';
-                                html +=(val.is_like == 'like')? '<i class="icon-thumbs-up-alt"></i>' : '<i class="icon-thumbs-down-alt"></i>';
-                                html +='</a>';
-                                html +='<span class="total-like">'+val.total_like+'</span> người thích điều này';
-                                html +='</div>';
-                                html +='<div class="col-md-12 article-img-text col-none-padding">';
-                                html +='<div class="row margin-none">';
-                                html +='<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
-                                html +='<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="'+val.id+'" type="text" placeholder="Viết bình luận...">';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='</div>';
-                                html +='</div>'
+                                <!-- comment - like - share -->
+                                html += '</div>';
+                                html += '<div class="row margin-none person-command">';
+                                html += '<div class="col-md-12 col-none-padding">';
+                                html += '<a href="#" class = "click-like">';
+                                html += (val.is_like == 'like') ? '<i class="icon-thumbs-up-alt"></i>' : '<i class="icon-thumbs-down-alt"></i>';
+                                html += '</a>';
+                                html += '<span class="total-like">' + val.total_like + '</span> người thích điều này';
+                                html += '</div>';
+                                html += '<div class="col-md-12 article-img-text col-none-padding">';
+                                html += '<div class="row margin-none">';
+                                html += '<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                                html += '<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="' + val.id + '" type="text" placeholder="Viết bình luận...">';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>'
                             })
                             var item_person = $('<div/>').append(html);
 
                             // bat su kien cho item action load more
-                            item_person.find('ul.btn-privacy-change li').on('click', function(){
+                            item_person.find('ul.btn-privacy-change li').on('click', function () {
                                 var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
                                 var privacy_text = tag_privacy_val.text();
                                 var privacy_id = tag_privacy_val.attr('value_id');
@@ -1297,29 +1321,31 @@
                                 tag_privacy_val.attr('value_id', $(this).attr('value_id'));
                                 tag_privacy_val.text($(this).text());
 
-                                tag_privacy_val.blogPrivacy({callback: function(respon) {
-                                    if(!respon){
-                                        tag_privacy_val.text(privacy_text);
-                                        tag_privacy_val.attr('value_id',privacy_id);
+                                tag_privacy_val.blogPrivacy({
+                                    callback: function (respon) {
+                                        if (!respon) {
+                                            tag_privacy_val.text(privacy_text);
+                                            tag_privacy_val.attr('value_id', privacy_id);
+                                        }
                                     }
-                                }});
+                                });
                             });
-                            anchor_bottom.before(item_person).attr('data-offet',parseInt(data_offset)+5);
+                            anchor_bottom.before(item_person).attr('data-offet', parseInt(data_offset) + 5);
 
                             // bat su kien like cho item load more
-                            item_person.find('.action-assoc').on('click', function(e){
+                            item_person.find('.action-assoc').on('click', function (e) {
                                 e.preventDefault();
                                 blogLike($(this));
                             })
 
                             //event dup like
-                            item_person.find('.click-like').click(function(e){
+                            item_person.find('.click-like').click(function (e) {
                                 e.preventDefault();
 //                                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');
                             });
 
 //                            trigger event enter comment
-                            item_person.find('.comment').keypress(function(e){
+                            item_person.find('.comment').keypress(function (e) {
                                 comment($(this), e);
                             });
 
@@ -1334,7 +1360,7 @@
                                 loadCommentItem($(this));
                             });
                         }
-                        else{
+                        else {
                             btb_action.addClass('disabled').text('.:: Kết thúc ::.');
                         }
                     }
@@ -1347,24 +1373,24 @@
                 $(this).closest('.person-content-item').find('.comment').focus();
             });
 //----------------------------
-            // like
-            $('.action-assoc').on('click', function(e){
+                // like
+            $('.action-assoc').on('click', function (e) {
                 e.preventDefault();
                 blogLike($(this));
             });
             //event dup like
-            $('.click-like').click(function(e){
+            $('.click-like').click(function (e) {
                 e.preventDefault();
 //                $(this).closest('.person-content-item').find('.action-assoc').trigger('click');
             });
 
             // trigger event enter comment
-            $('.comment').keypress(function(e){
+            $('.comment').keypress(function (e) {
                 comment($(this), e);
             });
 
             //action view more comment
-            $('.action-view-more').on('click', function(e){
+            $('.action-view-more').on('click', function (e) {
                 e.preventDefault();
                 loadCommentItem($(this));
             });
@@ -1422,35 +1448,35 @@
 //--------------------------------
 
             /**---- END luuhoabk - action more ---**/
-            function blogLike(self){
+            function blogLike(self) {
                 var action = self.attr('data-action');
                 var type = self.attr('data-type');
-                if(type=='post_item'){
+                if (type == 'post_item') {
                     var tag_icon = self.closest('.person-content-item').find('.click-like i');
-                }else{
+                } else {
                     var tag_icon = self.closest('.blog-comment-item').find('.click-like-comment i');
                 }
-                    tag_icon.iconLoad(tag_icon.attr('class'));
-                    self.like({callback: function(respon){
-                        console.log(respon);
-                        if(respon != -1){
-                            if(type == 'post_item'){
-                                if(action == 'like'){
+                tag_icon.iconLoad(tag_icon.attr('class'));
+                self.like({
+                    callback: function (respon) {
+                        if (respon != -1) {
+                            if (type == 'post_item') {
+                                if (action == 'like') {
                                     self.text('Bỏ thích');
                                     self.attr('data-action', 'unlike');
                                     self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-down-alt');
-                                }else if(action == 'unlike'){
+                                } else if (action == 'unlike') {
                                     self.text('Thích');
                                     self.attr('data-action', 'like');
                                     self.closest('.person-content-item').find('.click-like i').iconUnload('icon-thumbs-up-alt');
                                 }
                                 self.closest('.person-content-item').find('.total-like').text(respon);
-                            }else{
-                                if(action == 'like'){
+                            } else {
+                                if (action == 'like') {
                                     self.text('Bỏ thích');
                                     self.attr('data-action', 'unlike');
                                     self.closest('.blog-comment-item').find('.click-like-comment i').iconUnload('icon-thumbs-up');
-                                }else if(action == 'unlike'){
+                                } else if (action == 'unlike') {
                                     self.text('Thích');
                                     self.attr('data-action', 'like');
                                     self.closest('.blog-comment-item').find('.click-like-comment i').iconUnload('icon-thumbs-up');
@@ -1459,62 +1485,66 @@
                             }
 
                         }
-                    }});
+                    }
+                });
             }
 
             /**---- luuhoabk - handle event comment ---**/
-            function comment(self, event){
-                    var code = event.keyCode || event.which;
-                    if(code == 13) { //Enter keycode
-                        var comment_content = self.val();
-                        var post_id = self.attr('data-post-id');
-                        if(comment_content.length <= 0){
-                            alert('Bình luận không được để trống');
-                        }else{
-                            $.ajax({
-                                type: "POST",
-                                url: "{{URL::to('thanh-vien/comment-post')}}",
-                                data: {
-                                    'comment_content': comment_content,
-                                    'post_id': post_id
-                                },
-                                dataType: 'json',
-                                success: function (respon) {
-                                    if(respon.success){
-                                        self.val('');
-                                        var html = '';
-                                        html +='<div class="col-md-12 article-img-text col-none-padding">';
-                                        html +='<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
-                                        html +='<div class="person-content-info blog-comment-item">';
-                                        html +='<div>';
-                                        html +='<a href="'+URL+'/trang-ca-nhan/{{$user_auth->username}}.html">@if(isset($user_auth->fullname)) {{$user_auth->fullname}} @else {{$user_auth->username}} @endif</a> -';
-                                        html +='<span class="content-comment" style="font-weight: 500; font-size: 1em;">'+comment_content+'</span>';
-                                        html +='</div>';
-                                        html +='<span class="grey">'+respon.updated_date+'</span> -';
-                                        html +='<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="'+respon.post_id+'">Thích</a></span> -';
-                                        html +='<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
-                                        html +='</div>';
-                                        html +='</div>';
+            function comment(self, event) {
+                var code = event.keyCode || event.which;
+                if (code == 13) { //Enter keycode
+                    var comment_content = self.val();
+                    var post_id = self.attr('data-post-id');
+                    if (comment_content.length <= 0) {
+                        alert('Bình luận không được để trống');
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{URL::to('thanh-vien/comment-post')}}",
+                            data: {
+                                'comment_content': comment_content,
+                                'post_id': post_id
+                            },
+                            dataType: 'json',
+                            success: function (respon) {
+                                if (respon.success) {
+                                    self.val('');
+                                    var html = '';
+                                    html += '<div class="col-md-12 article-img-text col-none-padding">';
+                                    html += '<img class="avatar-pad2" style="width: 36px!important; height: 36px!important;" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
+                                    html += '<div class="person-content-info blog-comment-item">';
+                                    html += '<div>';
+                                    html += '<a href="' + URL + '/trang-ca-nhan/{{$user_auth->username}}.html">@if(isset($user_auth->fullname)) {{$user_auth->fullname}} @else {{$user_auth->username}} @endif</a> -';
+                                    html += '<span class="content-comment" style="font-weight: 500; font-size: 1em;">' + comment_content + '</span>';
+                                    html += '</div>';
+                                    html += '<span class="grey">' + respon.updated_date + '</span> -';
+                                    html += '<span> <a href="#" style="font-weight: 600; font-size: 0.9em;" class="action-assoc" data-action="like" data-type="post_comment" data-user-id="{{$user_auth->id}}" data-post-id="' + respon.post_id + '">Thích</a></span> -';
+                                    html += '<span class="click-like-comment"><i class="icon-thumbs-up"></i></span><span class="total-comment-like">0</span>';
+                                    html += '</div>';
+                                    html += '</div>';
 
-                                        var tag_comment = $('<li/>',{'class':'margin-bottom-10 clearfix','style':'list-style: none!important;'}).append(html);
-                                        tag_comment.find('.action-assoc').on('click', function(e){
-                                            e.preventDefault();
-                                            blogLike($(this));
-                                        });
-                                        self.closest('.person-content-item').find('ul.blog-comment-wrapper').append(tag_comment);
-                                        var total_comment = self.closest('.person-content-item').find('.total-comment');
-                                        total_comment.text(parseInt(total_comment.text())+1);
-                                    }
+                                    var tag_comment = $('<li/>', {
+                                        'class': 'margin-bottom-10 clearfix',
+                                        'style': 'list-style: none!important;'
+                                    }).append(html);
+                                    tag_comment.find('.action-assoc').on('click', function (e) {
+                                        e.preventDefault();
+                                        blogLike($(this));
+                                    });
+                                    self.closest('.person-content-item').find('ul.blog-comment-wrapper').append(tag_comment);
+                                    var total_comment = self.closest('.person-content-item').find('.total-comment');
+                                    total_comment.text(parseInt(total_comment.text()) + 1);
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
+                }
             }
 
             /**---- luuhoabk - handle event like comment ---**/
-            function postStatus(self){
+            function postStatus(self) {
                 var content_status = $('#content-status').val();
-                if(content_status.length <= 0){
+                if (content_status.length <= 0) {
                     alert('Trạng thái không được rỗng   .');
                     $('#content-status').focus();
                     return false;
@@ -1534,7 +1564,7 @@
 //                    async: true,
                     success: function (data) {
                         data = $.parseJSON(data);
-                        if(data.success){
+                        if (data.success) {
                             var html = ' <div class="row person-content-item">';
                             html += '<div class="col-md-12 col-none-padding">';
                             html += '<div class="col-md-9 article-img-text col-none-padding">';
@@ -1542,12 +1572,12 @@
                             html += '<div class="person-content-info">';
                             html += '<div><a>{{empty($user_blog->fullname)?$user_blog->username : $user_blog->fullname;}}</a><span> - {{$blog_info['level']}}</span></div>';
                             html += '<span>Đã cập nhật trạng thái.</span><br>';
-                            html += '<span>'+data.updated_date+'</span>';
+                            html += '<span>' + data.updated_date + '</span>';
                             html += '</div>';
                             html += '</div>';
                             html += '<div class="col-md-3 col-none-padding text-right">';
                             html += '<div class="btn-group person-type-scopy">';
-                            html += '<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="'+data.id+'" value_id="'+data.privacy+'">'+data.privacy_description+'</button>';
+                            html += '<button type="button" class="btn btn-default btn-xs btn-privacy-val" post_id="' + data.id + '" value_id="' + data.privacy + '">' + data.privacy_description + '</button>';
                             html += '<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">';
                             html += '<i class="icon-down-dir"></i>';
                             html += '</button>';
@@ -1591,7 +1621,7 @@
                             html += '<div class="col-md-12 article-img-text col-none-padding">';
                             html += '<div class="row margin-none">';
                             html += '<img class="col-md-1 col-ms-1 avatar-pad2" src="{{URL::to('/').$user_auth->avatar}}" alt="">';
-                            html += '<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="'+data.id+'" type="text" placeholder="Viết bình luận...">';
+                            html += '<input class="col-md-11 col-ms-11 col-xs-11 comment" data-post-id="' + data.id + '" type="text" placeholder="Viết bình luận...">';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
@@ -1601,27 +1631,29 @@
 
                             var item_person = $('<div/>').append(html);
                             // bat su kien thay doi quyen post
-                            item_person.find('ul.btn-privacy-change li').on('click', function(){
+                            item_person.find('ul.btn-privacy-change li').on('click', function () {
                                 var tag_privacy_val = $(this).closest('.person-type-scopy').find('.btn-privacy-val');
                                 var privacy_text = tag_privacy_val.text();
                                 var privacy_id = tag_privacy_val.attr('value_id');
 
                                 tag_privacy_val.attr('value_id', $(this).attr('value_id'));
                                 tag_privacy_val.text($(this).text());
-                                tag_privacy_val.blogPrivacy({callback: function(respon){
-                                    if(!respon){
-                                        tag_privacy_val.text(privacy_text);
-                                        tag_privacy_val.attr('value_id',privacy_id);
+                                tag_privacy_val.blogPrivacy({
+                                    callback: function (respon) {
+                                        if (!respon) {
+                                            tag_privacy_val.text(privacy_text);
+                                            tag_privacy_val.attr('value_id', privacy_id);
+                                        }
                                     }
-                                }});
+                                });
                             });
 
-                            item_person.find('.action-assoc').on('click', function(e){
+                            item_person.find('.action-assoc').on('click', function (e) {
                                 e.preventDefault();
                                 blogLike($(this));
                             });
                             //event dup like
-                            item_person.find('.click-like').click(function(e){
+                            item_person.find('.click-like').click(function (e) {
                                 e.preventDefault();
                                 $(this).closest('.person-content-item').find('.action-assoc').trigger('click');});
                             item_person.find('.comment-hint').on('click', function(e){
@@ -1633,11 +1665,11 @@
                             });
 
                             $('#anchor_top').after(item_person);
-                        }else{
+                        } else {
                             alert('Cập nhật trạng thái thất bại. Xin vui lòng thử lại.');
                         }
                     },
-                    complete: function(){
+                    complete: function () {
                         anchor_load.addClass('hidden').fadeOut;
                     }
                 });
@@ -1646,16 +1678,16 @@
                 $("#content-status").focus();
             }
 
-            function loadCommentItem(self){
-                if(self.attr('type') == 'show'){
+            function loadCommentItem(self) {
+                if (self.attr('type') == 'show') {
                     self.closest('.box-comment').find('li.hidden').removeClass('hidden');
                     self.text('Thu gọn');
                     self.attr('type', 'hidden');
-                }else{
+                } else {
                     var length_tag = self.closest('.box-comment').find('li').length;
-                    self.closest('.box-comment').find('li').each(function(key,val){
+                    self.closest('.box-comment').find('li').each(function (key, val) {
                         var index = $(this).index();
-                        if(index <= length_tag-4){
+                        if (index <= length_tag - 4) {
                             $(this).addClass('hidden');
                         }
                     })
@@ -1665,4 +1697,93 @@
             }
         });
     </script>
+
+    <script>
+        /* imtoantran fchat start */
+        var fb = 'https://choidau.firebaseio.com/chat', ur = 0, f, b = "body", m = '.mI', k = 'keydown', w = "#chat-wrapper", cl = "click", mc = "ch-message-chat";
+        var ca = function (snt) {
+            //GET DATA
+            var data = snt.val();
+            if (data.sender == "{{Auth::id()}}" || data.receiver == "{{Auth::id()}}") {
+                id = ((data.sender == "{{Auth::id()}}") ? data.receiver : data.sender);
+                var ml = $(w).find("ul[data-id=" + id + "]");
+                if (ml.length) {
+                    var message_container = $("<div/>", {class: "message-container"});
+                    time = new Date(data.timestamp);
+                    var message = $("<div/>", {class: "message", text: data.text, title: time.toLocaleDateString()});
+                    //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+                    var messageElement = $("<li>");
+                    if (data.receiver == parseInt("{{Auth::id()}}")) {
+                        avatar = $("<img />", {src: $("#friend-online img[data-id=" + data.sender + "]").attr("src")});
+                        nameElement = $("<div class='ch-message-chat-username'>").append(avatar);
+                        messageElement.append(nameElement).addClass("left");
+                        if ($("." + mc + ".active").length) {
+                            ur = 0;
+                        } else {
+                            ur++;
+                            $("." + mc).addClass("new");
+                        }
+                    } else if (data.sender == parseInt("{{Auth::id()}}")) {
+                        messageElement.addClass("right");
+                    }
+                    message_container.append(message).append(("<div class='time'><small><time> " + time.toLocaleTimeString() + " </time></small></div>"));
+                    messageElement.append(message_container);
+                    //ADD MESSAGE
+                    ml.append(messageElement);
+                    messageElement.append("<div class='clearfix'>");
+
+                    //SCROLL TO BOTTOM OF MESSAGE LIST
+                    ml[0].scrollTop = ml[0].scrollHeight;
+                }
+            }
+        };
+        $.fn.c = function (options) {
+            $(this).on(cl, ".friend-online", function (e) {
+                e.stopPropagation();
+                if ($(b).find(".ch-message-chat[data-id=" + $(this).data("id") + "]").length) {
+                    $(".ch-message-chat").addClass("active");
+                    return;
+                }
+                $(".ch-message-chat").remove();
+                var fchat = $("<div/>", {class: mc + " active", "data-id": $(this).data("id")});
+                fchat.append($("<header/>", {text: $(this).text()}).append("<span class='right'>x</span>"));
+                fchat.append($("<ul class='ch-message-chat-messages' data-id='" + $(this).data("id") + "'/>"));
+                var footer = $("<footer/>");
+                footer.append($("<input type = 'text' class = 'mI' placeholder = 'Viết tin nhắn ...'/>").data("id", $(this).data("id")));
+                fchat.append(footer);
+                $(w).append(fchat);
+                if (f) f.off('child_added', ca);
+                f = new Firebase(fb);
+                f.on('child_added', ca);
+            });
+        };
+        $(b).c();
+        var fk = function (e) {
+            e.stopPropagation();
+            if (e.keyCode == 13) {
+                //FIELD VALUES
+                var message = this.value;
+
+                //SAVE DATA TO FIREBASE AND EMPTY FIELD
+                f.push({
+                    timestamp: Firebase.ServerValue.TIMESTAMP,
+                    receiver: $(this).data("id"),
+                    text: message,
+                    read: 0,
+                    sender: {{Auth::id()}}
+                });
+                this.value = '';
+            }
+        };
+        $(b).on(k, m, fk);
+        $(w).on(cl, "header", function (e) {
+            $("." + mc).toggleClass("active").removeClass("new");
+        });
+        $(w).on(cl, "header span.right", function (e) {
+            $("." + mc).remove();
+        });
+        /* imtoantran fchat stop */
+    </script>
+
+
 @stop
