@@ -159,7 +159,7 @@ Route::get('blog/kinh-nghiem.html', 'BlogController@getExperience');
 Route::get('blog/{slug}.html', 'BlogController@getView');
 Route::controller('blog.html', 'BlogController');
 Route::get('blog/create/{catId}', 'BlogController@getCreate');
-Route::controller('blog', 'BlogController');
+//Route::controller('blog', 'BlogController');
 /* imtoantran end */
 
 /** ------------------------------------------
@@ -167,6 +167,14 @@ Route::controller('blog', 'BlogController');
  *  ------------------------------------------
  */
 
+/** -------------------Site FAQ: luuhoabk-------------**/
+Route::controller('faq.html', 'FaqController');
+Route::group(array('prefix' => 'faq'), function () {
+    Route::get('cau-hoi.html', 'FaqController@loadQuestion');
+    Route::post('tao-chu-de.html', 'FaqController@addSubject');
+    Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
+});
+/** -------------------END Site FAQ: luuhoabk-------------**/
 
 /** -------------------Site location: luuhoabk-------------**/
 Route::group(array('prefix' => 'dia-diem', 'before' => 'auth'), function () {

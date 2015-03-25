@@ -34,19 +34,15 @@
                                 </a>
                             </div>
                             <div class="col-md-9 col-sm-9">
-                                <p><strong><a href="{{{ $post->url() }}}">{{ String::title($post->title) }}</a></strong>
-                                </p>
-
+                                <p><strong><a href="{{{ $post->url() }}}">{{ String::title($post->title) }}</a></strong></p>
                                 <p>
                                     {{ date_format($post->created_at,"d/m/Y - H:m:i") }}
                                     <i class = "icon-smile"></i>{{$post->totalView()}} lượt xem
                                     <i class = "icon-comment-empty"></i>{{$post->totalComment()}} thảo luận
                                     <i class = "icon-heart-empty"></i>{{$post->totalLikes()}} thích
-
                                 </p>
 
                                 <p class="margin-bottom-10">{{ String::tidy(Str::limit($post->excerpt(), 200)) }}</p>
-
                                 <p><a class="more" href="{{$post->url()}}">Xem thêm<i class="icon-angle-right"></i></a></p>
                             </div>
                             <div class="clearfix"></div>

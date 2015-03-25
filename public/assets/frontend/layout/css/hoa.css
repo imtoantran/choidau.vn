@@ -277,7 +277,11 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 	font-weight: 600;
 }
 .block-ui i{font-size: 1.5em;}
-
+.btn-popup-faq{cursor: pointer; color: #fff; font-style: normal; font-weight: 600; font-size: 1.2em; padding: 13px 5px;}
+.btn-popup-faq:hover{
+	background-color: #e1b816 !important;
+	border-color: #c19e13;
+}
 
 /*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/
