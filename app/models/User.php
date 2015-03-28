@@ -119,8 +119,9 @@ class User extends Eloquent implements ConfideUserInterface {
 
 
     public function friends(){
-       $friend=Friend::WhereUser_id($this->id)->orWhere('friend_id','=',$this->id);
-       return $friend;
+        return $this->referFriend()->withPivot("status_id")->wherePivot("status_id","=",34);
+//       $friend=Friend::WhereUser_id($this->id)->orWhere('friend_id','=',$this->id);
+//       return $friend;
     }
 
     public function friends_(){

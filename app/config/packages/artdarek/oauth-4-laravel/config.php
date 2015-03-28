@@ -22,8 +22,8 @@ return array(
 		 * Facebook
 		 */
         'Facebook' => array(
-            'client_id'     => '813879558683621',
-            'client_secret' => 'e97534d43f5e5aa478f5da65a5717cf7',
+            'client_id'     => '665277883595055',
+            'client_secret' => 'b8adfd7bb048f875a4b8dec6da8f3d3d',
             'scope'         => array('email','read_friendlists','user_online_presence'),
         ),
 		'Google' => array(

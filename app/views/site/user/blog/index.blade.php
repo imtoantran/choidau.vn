@@ -1019,7 +1019,7 @@
                                     Bạn online
                                 </header>
                                 <ul class="list-unstyled aside-items" id="friend-online">
-                                    @foreach(Auth::user()->referFriend()->get() as $user)
+                                    @foreach(Auth::user()->friends()->get() as $user)
                                         <li>
                                             <div class="row margin-none">
                                                 <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
