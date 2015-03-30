@@ -1020,7 +1020,7 @@
                                 </header>
                                 <ul class="list-unstyled aside-items" id="friend-online">
                                     @foreach(Auth::user()->friends()->get() as $user)
-                                        <li>
+                                        <li data-id="{{$user->id}}">
                                             <div class="row margin-none">
                                                 <div class="col-md-8 col-sm-8 col-xs-8 col-none-padding article-img-text">
                                                     <img class="avatar-pad2" data-id="{{$user->id}}"
@@ -1840,7 +1840,7 @@
             }
         });
     </script>
-
+@if(Auth::check())
     <script>
         /* imtoantran fchat start */
         var fb = 'https://choidau.firebaseio.com/chat', ur = 0, f, b = "body", m = '.mI', k = 'keydown', w = "#chat-wrapper", cl = "click", mc = "ch-message-chat";
@@ -1908,7 +1908,6 @@
                 //FIELD VALUES
                 var message = this.value;
 
-                //SAVE DATA TO FIREBASE AND EMPTY FIELD
                 f.push({
                     timestamp: Firebase.ServerValue.TIMESTAMP,
                     receiver: $(this).data("id"),
@@ -1937,4 +1936,17 @@
         }
         /* imtoantran fchat stop */
     </script>
+    <script>
+        /* imtoantran friends online start */
+        new Firebase('https://choidau.firebaseio.com/online').on("child_changed",function(s){$("#friend-online li[data-id="+s.key()+"]").addClass('active').data("timestamp",new Date());});
+        checkOnlineFriend = setInterval(function(e){
+            $.each($("#friend-online li.active"), function(i,e){
+                if(new Date() - $(e).data("timestamp") > 8000){
+                    $(e).removeClass("active");
+                }
+            });
+        },4000);
+        /* imtoantran friends online stop */
+    </script>
+@endif
 @stop

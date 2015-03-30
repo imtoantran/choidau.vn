@@ -241,5 +241,12 @@
 </script>
 
 <!-- END CORE JS SCRIPT -->
+<!-- imtoantran me online start -->
+@if(Auth::check())
+<script type="text/javascript">    
+    setInterval(function(){new Firebase('https://choidau.firebaseio.com/online/{{Auth::id()}}').set(Firebase.ServerValue.TIMESTAMP);},5000);
+</script>
+@endif
+<!-- imtoantran me online stop -->
 @yield('scripts')
 

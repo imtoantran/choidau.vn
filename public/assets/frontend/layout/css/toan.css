@@ -272,3 +272,9 @@
 #food table td{
 	vertical-align: middle;
 }
+#friend-online li{
+	display:none;
+}
+#friend-online li.active{
+	display:block;
+}
