@@ -509,15 +509,17 @@ body.page-header-fixed {
 	border-right: 1px solid;
 	/* float: left; */
 	display: inline-block;
-	width: 14.4%;
+	/*width: 14.4%;*/
+	width: 16.6667%; /* fallback for non-calc() browsers */
+	/*width: calc(100% / 6);*/
 	margin-left: -5px;
 
 }
 
-.header-navigation ul  li :hover{
+.header-navigation ul  li:last-child{
+	border-right: 0px!important;
 
 }
-
 
 .header-navigation > ul > li > a {
 display: block;

@@ -91,6 +91,11 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
     Route::controller("location","AdminLocationsController");
     /* imtoantran loction management route stop */
 
+    // luuhoabk - qtri hoi dap
+    Route::controller("hoi-dap","AdminFaqController");
+    // END luuhoabk - qtri hoi dap
+
+
     # Admin Dashboard
     Route::controller('/das', 'AdminDashboardController');
     //  Route::get('/', 'AdminDashboardController');
@@ -110,10 +115,7 @@ Route::group(array('prefix' => 'post'), function () {
 
     /* action */
     Route::post('action-click-post', 'PostController@userActionClickPost');
-    /* video */
-    Route::get('video/{slug}/edit', 'VideoController@getEdit');
-    Route::post('video/{slug}/edit', 'VideoController@postEdit');
-    Route::controller('video', 'VideoController');
+
     /* images */
     Route::get('image/{slug}/edit', 'ImageController@getEdit');
     Route::post('image/{slug}/edit', 'ImageController@postEdit');
@@ -166,6 +168,15 @@ Route::get('blog/create/{catId}', 'BlogController@getCreate');
  *  Frontend Routes
  *  ------------------------------------------
  */
+
+/** -------------------Site VIDEO: luuhoabk-------------**/
+Route::controller('video.html', 'VideoController');
+//Route::group(array('prefix' => 'faq'), function () {
+//    Route::get('cau-hoi.html', 'FaqController@loadQuestion');
+//    Route::post('tao-chu-de.html', 'FaqController@addSubject');
+//    Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
+//});
+/** -------------------END Site VIDEO: luuhoabk-------------**/
 
 /** -------------------Site FAQ: luuhoabk-------------**/
 Route::controller('faq.html', 'FaqController');

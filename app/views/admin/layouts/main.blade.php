@@ -573,11 +573,9 @@
                 </li>
 
                 <li>
-                    <a href="#"><i class="icon-chat-empty"></i><span class="title">HỎI ĐÁP</span></a>
+                    <a href="{{URL::to("qtri-choidau/hoi-dap/")}}"><i class="icon-chat-empty"></i><span class="title">HỎI ĐÁP</span></a>
                 </li>
-                <li>
-                    <a href="#"><i class="icon-lifebuoy-1"></i><span class="title"> HỔ TRỢ</span></a>
-                </li>
+
                 <li @if(Request::is("qtri-choidau/users*")) class="open active" @endif>
                     <a href="#"><i class="icon-user-outline"></i><span class="title"> THÀNH VIÊN</span>
                         <span class="arrow @if(Request::is("qtri-choidau/users")) open @endif"></span>

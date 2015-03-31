@@ -178,10 +178,9 @@
                 <li><a href="{{URL::to(Session::get("province")->slug)."/an"}}"><span> ăn </span> <i class="icon-food"></i></a></li>
                 <li><a href="{{URL::to(Session::get("province")->slug)."/uong"}}"><span> uống </span> <i class="icon-bar"></i></a></li>
                 <li><a href="{{URL::to(Session::get("province")->slug)."/di"}}"><span>đi </span> <i class="icon-school"></i></a></li>
-                <li><a href="#"><span>video </span> <i class="icon-videocam-3"></i></a></li>
+                <li><a href="{{URL::to("video.html")}}"><span>video </span> <i class="icon-videocam-3"></i></a></li>
                 <li><a href="{{URL::to("blog.html")}}"><span>blog </span> <i class="icon-cloud-thunder"></i></a></li>
                 <li><a href="{{URL::to("faq.html")}}"><span>hỏi đáp</span> <i class="icon-wechat"></i></a></li>
-                <li class="nav-li-last" style=""><a href="#"><span>hổ trợ</span> <i class="icon-lifebuoy"></i></a></li>
             </ul>
         </nav>
     </div>
