@@ -561,29 +561,50 @@ class UserController extends BaseController
         }
     }
 
+//luuhoabk - update post
+    public function closeQuestion(){
+        $data = Input::all();
+        $user = Auth::user();
+        switch($data['post_type']){
+            case 'open':
+                echo Post::whereId($data['post_id'])->update(['status'=> 0]);
+                break;
+            case 'close':
+                echo Post::whereId($data['post_id'])->update(['status'=> 1]);
+                break;
+            default : break;
+        }
+
+    }
+
+
 // luuhoabk - comment post
     public function postComment(){
         $user = Auth::user();
         $data = Input::all();
         $now = date_create("now");
         $post =new Post();
-        $post->title        = "comment";
+        $post->title        =  $data['post_type'];
         $post->parent_id    =  $data['post_id'];
         $post->content      = $data['comment_content'];
         $post->privacy      = 18;
-        $post->post_type    = 'comment';
+        $post->post_type    =  $data['post_type'];
         $post->user_id      = $user->id;
         $post->created_at   = date_format($now,"Y-m-d H:i:s");
         $post->updated_at   = date_format($now,"Y-m-d H:i:s");
         if($post->save()){
             $post['success'] = 1;
             $post['post_id'] = $post->id;
-            $post['updated_date'] = date_format($now,'H:i d/m/Y');
+            $post['updated_date'] = 'Vừa xong';
+            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type($data['post_type'])->count();
+            $post['user'] = $user;
+            $post['user_url'] = $user->url();
         }else{
             $post['success'] = 0;
         }
         echo json_encode($post);
     }
+
     //luuhoabk - update info
     public function updateInfo(){
         $user = Auth::user();

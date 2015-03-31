@@ -30,7 +30,7 @@
             <!-- tao chu de -->
             <div class="col-sm-6 col-md-4 col-lg-4 padding-left-0">
 
-                <div href="#" class="page-title bg-yellow-lemon text-center @if(Auth::check()){{'btn-popup-faq'}}@else{{'require-login'}}@endif" data-url="{{URL::current()}}">
+                <div href="#" class="page-title bg-yellow-lemon text-center btn-popup-faq-class @if(Auth::check()){{'btn-popup-faq'}}@else{{'require-login'}}@endif" data-url="{{URL::current()}}">
                     <i class="icon-edit white" style="font-size: 20px; line-height: 16px;"></i> Tạo chủ đề
                 </div>
             </div>
@@ -39,23 +39,23 @@
         <!-- first row end-->
 
         <!-- comment items -->
-        <div class="row">
+        <div class="row faq-question-wrapper margin-tb-5">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 blog-item ">
                 @if(count($arr_question) > 0)
                     @foreach($arr_question as $key=>$val)
                         <div class="media">
-                            <a href="#" class="pull-left text-center">
+                            <a href="{{$val['user_url']}}" class="pull-left text-center">
                                 @if($val['user_question']['avatar'])
-                                    <img src="{{URL::to('/')}}{{$val['user_question']['avatar']}}" alt="" class="media-object">
+                                    <img src="{{URL::to('/')}}{{$val['user_question']['avatar']}}" alt="" class="media-object avatar-pad2">
                                 @else
-                                    <img src="{{URL::to('assets/global/img/no-image.png')}}" alt="" class="media-object">
+                                    <img src="{{URL::to('assets/global/img/no-image.png')}}" alt="" class="media-object avatar-pad2">
                                 @endif
 
-                                <small>
+                                <small class="font-bold">
                                     @if(empty($val['user_question']['fullname'])){{$val['user_question']['username']}}@else {{$val['user_question']['fullname']}}@endif
                                 </small>
                             </a>
-                            <a href="#" class="pull-right text-center">
+                            <a href="{{URL::to('faq/cau-hoi-'.$val['id'].'.html')}}" class="pull-right text-center">
                                 <div class="reply-count"><b>{{$val['total_answer']}}</b></div>
                                 <small>phản hồi</small>
                             </a>
@@ -68,7 +68,12 @@
                             </div>
                         </div>
                     @endforeach
-                        {{ $arr_question->links() }}
+                <div class="margin-tb-10"> {{ $arr_question->links() }} </div>
+                @else
+                    <div class="italic grey">
+                        <i class="icon-folder-empty grey"></i>
+                        Chủ đề đang rỗng.
+                    </div>
                 @endif
             </div>
         </div>

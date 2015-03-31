@@ -1645,6 +1645,7 @@
                             url: "{{URL::to('thanh-vien/comment-post')}}",
                             data: {
                                 'comment_content': comment_content,
+                                'post_type': 'comment',
                                 'post_id': post_id
                             },
                             dataType: 'json',

@@ -1,7 +1,7 @@
 <div id="popup-faq-create" style="z-index: 1052;" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static" data-max-height="440">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header choidau-bg" style=" padding: 6px 10px;">
+            <div class="modal-header choidau-bg" style=" padding: 6px 10px; background: #f7ca18 !important;">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 <h5 class="modal-title" id="myModalLabel" style="font-size:1.3em; margin: 5px 0px; text-align:center; font-weight: 600; color: white;">Tạo chủ đề</h5>
             </div>

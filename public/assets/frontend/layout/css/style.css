@@ -3804,6 +3804,7 @@ a.fancybox-close{right:0px;}
 .padding-2{padding: 2px;}
 .padding-3{padding: 3px;}
 .padding-5{padding: 5px;}
+.padding-left-5{padding-left: 5px;}
 .padding-right-5{padding-right: 5px;}
 .padding-right-10{padding-right: 10px;}
 .padding-right-20{padding-right: 20px;}
@@ -3817,10 +3818,15 @@ a.fancybox-close{right:0px;}
 .margin-top-5{margin-top: 5px;}
 .margin-left-10{margin-left: 10px;}
 .margin-right-5{margin-right: 5px;}
+.margin-lr-0{margin-left: 0px; margin-right: 0px;}
+.margin-tb-5{margin-top: 5px; margin-bottom: 5px;}
+.margin-tb-10{margin-top: 10px; margin-bottom: 10px;}
 .white{color: #fff;}
 .yellow{color: yellow!important;}
 .grey{color: #ababab;}
 .red{color: red;}
+.grey-light{color: #f4f4f4;}
+
 .font-10px{font-size: 10px;}
 .font-12px{font-size: 12px;}
 .font-14px{font-size: 14px;}
@@ -3830,3 +3836,6 @@ a.fancybox-close{right:0px;}
 .font-weight-600{font-weight: 600;}
 .font-bold{font-weight: bold;}
 .font-italic{font-style: italic;}
+.text-style{font-weight: 600; color: green;}
+.text-link{cursor: pointer;}
+.text-link:hover{text-decoration: underline;}

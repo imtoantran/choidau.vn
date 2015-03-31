@@ -216,9 +216,10 @@ Route::group(array('prefix' => 'thanh-vien'), function () {
     Route::get('xac-thuc', 'UserController@getFriendConfirm');
     Route::get('like-post', 'UserController@postLike');
     Route::post('like-post', 'UserController@postLike');
-    Route::post('cap-nhat-thong-tin', 'UserController@updateInfo');
+    Route::post('cap-nhat-thong-tin', 'UserController@updatthanh-vieneInfo');
     Route::post('comment-post', 'UserController@postComment');
     Route::post('update-info', 'UserController@updateInfo');
+    Route::post('close-question', 'UserController@closeQuestion');
     Route::get('/', 'UserController@getIndex');
 });
 /** -------------------End Site User-------------------**/
