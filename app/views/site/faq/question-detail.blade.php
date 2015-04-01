@@ -30,15 +30,15 @@
                     </div>
                     <div class="col-md-10 col-sm-10 col-none-padding">
                         <div class="row margin-none">
-                            <div class="col-md-10 col-sm-10 col-none-padding">
+                            <div class="col-md-9 col-sm-9 col-none-padding">
                                 <header><h2>{{$post_question['title']}}</h2></header>
                             </div>
-                            <div class="col-md- col-sm-2 text-right">
+                            <div class="col-md-3 col-sm-3 text-right">
                                 @if(Auth::check())
                                     @if(Auth::user()->id == $post_question['user_id'])
-                                        <button class="btn btn-sm bg-yellow-lemon btn-close-question tooltips" data-type="@if($post_question['status'] == 0){{'close'}}@else{{'open'}}@endif" data-original-title="@if($post_question['status'] == 0){{'Đóng'}}@else{{'Mở'}}@endif chủ đề" data-post-id="{{$post_question['id']}}">
-                                            <i class="icon-@if($post_question['status'] == 0){{'lock'}}@else{{'lock-open'}}@endif white" style="font-size: 16px;">
-                                            </i> <span>@if($post_question['status'] == 0){{'Đóng'}}@else{{'Mở'}}@endif</span>
+                                        <button class="btn btn-sm bg-yellow-lemon @if($post_question['status'] == 0){{'btn-close-question'}}@endif  tooltips" data-type="close" data-original-title="@if($post_question['status'] == 0){{'Đóng câu hỏi'}}@else{{'Câu hỏi này đã đóng.'}}@endif" data-post-id="{{$post_question['id']}}">
+                                            <i class="icon-@if($post_question['status'] == 0){{'lock'}}@else{{'cancel'}}@endif white" style="font-size: 16px;">
+                                            </i> <span>@if($post_question['status'] == 0){{'Đóng'}}@else{{'Đã đóng'}}@endif</span>
                                         </button>
                                     @endif
                                 @endif
@@ -122,7 +122,6 @@
     @include("site.faq.create-popup")
 @stop
 
-
 @section('scripts')
     <script type="text/javascript">
         jQuery(document).ready(function () {
@@ -197,47 +196,38 @@
 
             // dong/ mo chu de
             $('.btn-close-question').on('click', function(){
-                var self = $(this);
-                var type = 'open';
-                var icon = '';
-                if(self.attr('data-type') == 'open'){
-                    icon = 'icon-lock-open';
-                }else{
-                    icon = 'icon-lock';
-                }
-                self.find('i').iconLoad(icon);
-                self.prop('disabled',true);
-                $.ajax({
-                    type: "POST",
-                    url: "{{URL::to('thanh-vien/close-question')}}",
-                    data: {
-                        'post_type': self.attr('data-type'),
-                        'post_id': self.attr('data-post-id')
-                    },
-                    dataType: 'json',
-                    success: function (respon) {
-                        console.log(respon)
-                        if(respon){
-                            if(self.attr('data-type') == 'open'){
-                                self.find('i').iconUnload('icon-lock');
-                                self.attr('data-type', 'close');
-                                self.attr('data-original-title', 'Đóng chủ đề');
-                                self.find('span').text('Đóng');
-                                $('#post-answer-input').prop({'disabled':false,'placeholder':'Nhập phản hồi...'});
-                            }else{
-                                self.find('i').iconUnload('icon-lock-open');
-                                self.attr('data-type', 'open');
-                                self.attr('data-original-title', 'Mở chủ đề');
-                                self.find('span').text('Mở');
-                                $('#post-answer-input').prop({'disabled':true,'placeholder':'Chủ đề đã kết thúc...'});
-                            }
-                            self.prop('disabled',false);
-                        }else{
-                            alert('Xin vui lòng thử lại')
-                        }
-                    }
+                var cf = confirm('Bạn muốn đóng câu hỏi này?');
+                if(cf){
+                    var self = $(this);
+                    var icon = '';
+                    if(self.attr('data-type') == 'close'){
+                        self.find('i').iconLoad('icon-lock');
+                        self.prop('disabled',true);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{URL::to('thanh-vien/close-question')}}",
+                            data: {
+                                'post_type': self.attr('data-type'),
+                                'post_id': self.attr('data-post-id')
+                            },
+                            dataType: 'json',
+                            success: function (respon) {
+                                if(respon){
 
-                });
+                                    self.find('i').iconUnload('icon-cancel');
+                                    self.attr('data-original-title', 'Câu hỏi đã đóng');
+                                    self.find('span').text('Đã đóng');
+                                    $('#post-answer-input').prop({'disabled':true,'placeholder':'Câu hỏi này đã kết thúc...'});
+                                }else{
+                                    alert('Xin vui lòng thử lại');
+                                }
+                            }
+
+                        });
+                    }
+                }
+
+
             })
         });
     </script>

@@ -18,7 +18,7 @@ class AdminFaqController extends \AdminController
 //    {
 //        return Response::json(Location);
 //    }
-//
+
 //    public function getEdit()
 //    {
 //
@@ -49,33 +49,40 @@ class AdminFaqController extends \AdminController
 //        if ($location->delete()) return Response::json(["success" => true]);
 //
 //    }
-//
-//    public function getData()
-//    {
-//        $offset = Input::get("start");
-//        $length = Input::get("length");
-//        //$locations = Location::select(array('locations.id', 'name', 'locations.user_id as owner', 'created_at'))->offset($offset)->take($length)->get();
-//
-//        //return Response::json(["dsf"=>$locations]);
-//        $locations = Location::select(array('locations.id', 'name', 'locations.user_id', 'created_at', 'province_id', 'status_id', 'slug'))->where("user_id", "!=", '');
-//        return Datatables::of($locations)
-//            ->edit_column('user_id', '@if($user_id) <a href="{{User::find($user_id)->url()}}">{{User::find($user_id)->display_name()}}</a> @endif')
-//            ->add_column('actions',
-//                '<a href="{{{ URL::to(Province::find($province_id)->slug."/".$slug) }}}" class="btn btn-default btn-xs" >{{{ Lang::get(\'button.edit\') }}}</a>
-//                <a data-controller="{{{ URL::to(\'location/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger" data-action="delete">{{{ Lang::get(\'button.delete\') }}}</a>
-//                @if(Option::find($status_id))
-//                    @if(Option::find($status_id)->value == "verified")
-//                        <i class="icon icon-ok" data-placement="left" data-toggle="tooltip" title="Đã xác thực"></i>
-//                    @endif
-//                @else
-//                    <a class="btn btn-xs btn-success" data-controller="{{{ URL::to(\'location/\' . $id . \'/verify\' ) }}}" data-action="verify">Xác thực</a>
-//                @endif
-//            ')
-//            ->remove_column('id')
-//            ->remove_column('province_id')
-//            ->remove_column('slug')
-//            ->remove_column('status_id')
-//            ->make();
-//    }
+////
+    public function getDetailFaq($post_id){
+        $post_question = Post::find($post_id);
+        $post_question['user'] =  User::find($post_question['user_id']);
+        $post_question['user_url'] = $post_question['user']->url();
+        $post_question['latest_date'] =  $post_question->date();
+
+        $arr_answer = Post::orderBy('updated_at', 'DESC')->wherePost_type('faq-answer')->whereParent_id($post_id);
+        $post_question['total_answer'] =  $arr_answer->count();
+
+        $arr_answer = $arr_answer->paginate(10);;
+        foreach($arr_answer as $key=>$val){
+            $arr_answer[$key]['user'] = User::whereId($val->user_id)->first();
+            $arr_answer[$key]['user_url'] = $arr_answer[$key]['user']->url();
+            $arr_answer[$key]['latest_date'] = $val->date();
+        }
+        return View::make("admin.faq.detail", compact('post_question','arr_answer'));
+    }
+
+    public function getData()
+    {
+        $faq = Post::select(array('posts.id','posts.status','posts.title', 'posts.user_id', 'posts.updated_at'))->wherePost_type('faq-question');
+
+        return Datatables::of($faq)
+            ->edit_column('title', '<span class="text-style">{{{$title}}}</span> <span class="badge badge-default">{{Post::whereParent_id($id)->count()}} phản hồi</span>')
+            ->edit_column('user_id', '@if($user_id) <a href="{{User::find($user_id)->url()}}">{{User::find($user_id)->display_name()}}</a> @endif')
+            ->add_column('actions',
+                '<a href="#" class="btn btn-danger btn-xs btn-faq-delete pull-right" data-post-id="{{$id}}">Xóa</a>
+                <a href="#" class="btn btn-warning btn-xs btn-faq-close pull-right" data-type="@if($status){{"open"}}@else{{"close"}}@endif" data-post-id="{{$id}}">@if($status){{"Mở"}}@else{{"Đóng"}}@endif</a>
+                '
+            )
+            ->remove_column('id')
+            ->remove_column('status')
+            ->make();
+    }
 
 }

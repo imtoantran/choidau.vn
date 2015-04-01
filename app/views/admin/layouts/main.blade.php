@@ -16,6 +16,7 @@
     <meta content="" name="description"/>
     <meta content="" name="author"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
           type="text/css"/>
     <link href="{{asset('assets/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet"
@@ -50,6 +51,8 @@
           id="style_color"/>
     <link href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/layout/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/fontello/css/animation.css')}}" rel="stylesheet" type="text/css">
+
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
     @yield('styles')
@@ -572,7 +575,7 @@
 
                 </li>
 
-                <li>
+                <li @if(Request::is("qtri-choidau/hoi-dap*")) class="open active" @endif>
                     <a href="{{URL::to("qtri-choidau/hoi-dap/")}}"><i class="icon-chat-empty"></i><span class="title">HỎI ĐÁP</span></a>
                 </li>
 

@@ -93,6 +93,9 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
 
     // luuhoabk - qtri hoi dap
     Route::controller("hoi-dap","AdminFaqController");
+    Route::get("get-table","AdminFaqController@getData");
+    Route::get("hoi-dap-{post_id}","AdminFaqController@getDetailFaq");
+
     // END luuhoabk - qtri hoi dap
 
 
@@ -184,6 +187,7 @@ Route::group(array('prefix' => 'faq'), function () {
     Route::get('cau-hoi.html', 'FaqController@loadQuestion');
     Route::post('tao-chu-de.html', 'FaqController@addSubject');
     Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
+    Route::post('xoa-cau-hoi', 'FaqController@faqDelete');
 });
 /** -------------------END Site FAQ: luuhoabk-------------**/
 

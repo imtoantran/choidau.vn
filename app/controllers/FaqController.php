@@ -142,6 +142,27 @@ class FaqController extends BaseController {
 	}
 
 
+	public function faqDelete(){
+		$data = Input::all();
+		$arrResult['total'] = 0;
+		if(isset($data['post_type']) && $data['post_type'] == 'faq-question'){
+			$object_answer = Post::whereParent_id($data['post_id'])->wherePost_type('faq-answer');
+			if($object_answer->count()>0){
+				if($object_answer->delete()){
+				}
+			}
+		}
+
+		$arrResult['result'] = Post::find($data['post_id'])->delete();
+		if(isset($data['post_type']) && $data['post_type'] == 'faq-answer' && $arrResult['result']){
+			$arrResult['total'] = Post::whereParent_id($data['parent_id'])->wherePost_type('faq-answer')->count();
+		}else{
+			$arrResult['total'] = Post::wherePost_type('faq-answer')->count();
+		}
+
+		echo json_encode($arrResult);
+	}
+
 	function objectRSort(&$object, $key){
 		for ($i = count($object) - 1; $i >= 0; $i--) {
 			for ($j = 0; $j < $i; $j++) {

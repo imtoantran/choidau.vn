@@ -1,5 +1,11 @@
 
 var Layout = function () {
+    $.fn.iconLoad = function(iclass){
+        $(this).removeClass(iclass).addClass('animate-spin icon-spin3');
+    }
+    $.fn.iconUnload = function(iclass){
+        $(this).removeClass('animate-spin icon-spin3').addClass(iclass);
+    }
 
     var layoutImgPath = 'admin/layout/img/';
 

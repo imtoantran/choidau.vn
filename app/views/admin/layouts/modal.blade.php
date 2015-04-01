@@ -49,7 +49,8 @@
     <!-- CSS -->
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet"
-          type="text/css"/>
+
+    type="text/css"/>
     <link href="{{asset('assets/global/css/components.css')}}" rel="stylesheet"
           type="text/css"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
