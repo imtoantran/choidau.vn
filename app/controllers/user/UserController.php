@@ -542,6 +542,7 @@ class UserController extends BaseController
                     echo -1;
                     break;
                 } // neu luu khong thanh cong
+                Event::fire('like',$meta);
                     echo Post::find($data['post_id'])->totalLikes();
                 break;
 
@@ -583,12 +584,12 @@ class UserController extends BaseController
         $user = Auth::user();
         $data = Input::all();
         $now = date_create("now");
-        $post =new Post();
-        $post->title        =  $data['post_type'];
+        $post = new Comment();
+        $post->title        = "comment";
         $post->parent_id    =  $data['post_id'];
         $post->content      = $data['comment_content'];
         $post->privacy      = 18;
-        $post->post_type    =  $data['post_type'];
+        //$post->post_type    = 'comment';
         $post->user_id      = $user->id;
         $post->created_at   = date_format($now,"Y-m-d H:i:s");
         $post->updated_at   = date_format($now,"Y-m-d H:i:s");

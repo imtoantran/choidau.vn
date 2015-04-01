@@ -32,7 +32,6 @@ class BlogUserController extends BaseController {
 		$this->user = Auth::user();
 		$this->blogUser = $blogUser;
 		$this->cat = $cat;
-
     }
 
 	/**
@@ -140,11 +139,11 @@ class BlogUserController extends BaseController {
             $arrFriendSuggset[$key]['state_user'] = $this->getStatus($user_auth->id, $val['id']);
             $arrFriendSuggset[$key]['state_friend'] = $this->getStatus($val['id'], $user_auth->id);;
         }
-
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
         return View::make('site.user.blog.index',compact('user_auth','user_blog','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 
 	}
+
     public function isPrivacyInfo($privacy, $user, $user_blog){
         $result = 1;
         if($user->id == $user_blog->id){return 1;}
@@ -589,6 +588,10 @@ class BlogUserController extends BaseController {
             }
         }
         return 'Đang cập nhật';
+    }
+
+    public function userNotifications($slug,$post){
+        return View::make("site.user.blog.user_notifications");
     }
 }
 

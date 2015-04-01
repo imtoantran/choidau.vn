@@ -20,4 +20,9 @@ class Comment extends Post {
 	{
 		return parent::newQuery()->wherePost_type("comment");
 	}
+	public function post($value='')
+	{
+		# code...
+		return $this->belongsTo('Post','parent_id');
+	}
 }

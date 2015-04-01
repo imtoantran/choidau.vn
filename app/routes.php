@@ -261,6 +261,7 @@ Route::group(array('prefix' => 'trang-ca-nhan', 'before' => 'auth'), function ()
     Route::post('/ban-be.html', 'BlogUserController@postFriend');
 //    Route::any('/load-item-checkin-{id_check_in}', 'BlogUserController@loadCheckIn');
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
+    Route::get('/{user_slug}/post/{post}/', 'BlogUserController@userNotifications');
 });
 
 /** -------------------End Site Blog-------------------**/

@@ -87,6 +87,82 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 App::setLocale(Session::get('lang', 'vi'));
+
+/**
+* imtoantran 
+*/ 
+Review::creating(function($review){
+    if(Auth::guest()) return Response::json(['success'=>false]);
+    $location = $review->location;
+    $owner = $location->owner;    
+    if(Auth::id() == $owner->id) return Response::json(['success'=>false]);    
+    $user = Auth::user();
+    Firebase::push("/notifications/new/$owner->id/general-notifications",['l'=>'','t'=>'review','text'=>"<b>".$user->display_name().'</b> đã đánh giá địa điểm của bạn.','author'=>Auth::user(),'timestamp'=>date("Y-m-d h:i:s")]);
+});
+function _type($type)
+{
+            switch ($type) {
+                case 'comment':
+                    return "bình luận";
+                    break;
+                case 'review':
+                    return "đánh giá";
+                    break;
+                case 'status':
+                    return 'trạng thái';
+                default:
+                    # code...
+                    break;
+            }    
+return 'hoạt động';
+}
+$_ = function($object){
+    if(Auth::guest()) return;
+    $user = Auth::user();
+    $type = "hoạt động";
+    $action = "yêu thích";    
+    $owner;
+    $url='';
+    switch (get_class($object)) {
+        case 'Like':
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url();
+            $type = "địa điểm";
+            break;
+        case 'Checkin':
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url();
+            $action = "checkin";
+            $type = "địa điểm";
+            break;
+        case 'PostMeta':
+            $post = $object->post;
+            $owner = $post->author;
+            if($user->id == $owner->id) return;
+            $type = _type($post->post_type);
+            break;
+        case "Comment":
+            $post = $object->post;
+            $owner = $post->author;
+            if($user->id == $owner->id) return;
+            $action = "bình luận";
+            $type = _type($post->post_type);
+            break;
+        default:
+            return;
+            break;
+    }    
+    $text = "<b>".$user->display_name()."</b> $action $type của bạn";
+    Firebase::push("/notifications/new/$owner->id/general-notifications",['url'=>$url,'object'=>$object,'type'=>get_class($object),'text'=>$text,'author'=>$user,'timestamp'=>date("Y-m-d h:i:s")]);    
+};
+Like::saved($_);
+Checkin::saved($_);
+Comment::saved($_);
+Event::listen('like',$_);
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File

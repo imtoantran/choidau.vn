@@ -325,12 +325,13 @@ class LocationController extends BaseController
                     echo $location->totalLike();
                     $isPost = Post::whereUser_id($user->id)->wherePost_type('like-location')->whereParent_id($location->id);
                     if(!$isPost->count()){
-                        $post =new Post();
+                        /* imtoantran  changed to use Like object start */
+                        $post = new Like();
+                        /* imtoantran  changed to use Like object stop */
                         $post->title        = "like-location";
                         $post->parent_id    = $location->id;
                         $post->content      = "like-location";
                         $post->privacy      = 18;
-                        $post->post_type    = 'like-location';
                         $post->user_id      = $user->id;
                         $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
                         $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
@@ -350,12 +351,13 @@ class LocationController extends BaseController
                     echo $location->totalCheckIn();
                     $isPost = Post::whereUser_id($user->id)->wherePost_type('checkin')->whereParent_id($location->id);
                     if(!$isPost->count()){
-                        $post =new Post();
+                        /* imtoantran  changed to use Checkin object start */
+                        $post = new Checkin();
+                        /* imtoantran  changed to use Checkin object stop */
                         $post->title        = "checkin";
                         $post->parent_id    = $location->id;
                         $post->content      = "checkin";
                         $post->privacy      = 18;
-                        $post->post_type    = 'checkin';
                         $post->user_id      = $user->id;
                         $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
                         $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
