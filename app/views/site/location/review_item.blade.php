@@ -4,8 +4,7 @@
 
     <div class="media">
         <a href="{{$review->author->url()}}" class="pull-left">
-            <img src="{{$review->author->avatar}}" alt=""
-                 class="media-object">
+            <img src="{{$review->author->avatar}}" alt=""  class="media-object">
         </a>
 
         <div class="media-body">
@@ -50,6 +49,7 @@
             </div>
         </div>
     </div>
+
     <div class="review-content">
         <div>
             <p class="title">{{$review->title}}</p>

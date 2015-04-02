@@ -86,12 +86,19 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
     Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
     Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
     Route::controller('roles', 'AdminRolesController');
+    // luuhoabk - qtri review
+    Route::get("location/loadreview","AdminLocationsController@loadReview");
+    Route::get("location/review-item-{post_id}","AdminLocationsController@loadDetailReview");
+    Route::post("location/actionreview","AdminLocationsController@actionReview");
+
+    // END luuhoabk - qtri review
 
     /* imtoantran location management route start */
     Route::controller("location","AdminLocationsController");
     /* imtoantran loction management route stop */
 
-    // luuhoabk - qtri hoi dap
+
+    //// luuhoabk - qtri hoi dap
     Route::controller("hoi-dap","AdminFaqController");
     Route::get("get-table","AdminFaqController@getData");
     Route::get("hoi-dap-{post_id}","AdminFaqController@getDetailFaq");

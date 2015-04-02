@@ -52,6 +52,8 @@
     <link href="{{asset('assets/global/plugins/dropzone/dropzone.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/layout/css/custom.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/fontello/css/animation.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.css')}}" rel="stylesheet" type="text/css">
 
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
@@ -1645,6 +1647,9 @@
 <!-- END PAGE LEVEL SCRIPTS -->
 <script src="{{asset("assets/global/plugins/dropzone/dropzone.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/frontend/pages/scripts/media-manager.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/fancybox-v3beta/jquery.fancybox.js")}}" type="text/javascript"></script>
+<script src="{{asset("assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.js")}}" type="text/javascript"></script>
+
 <script>
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets

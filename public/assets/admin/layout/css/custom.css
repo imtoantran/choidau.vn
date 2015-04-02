@@ -51,3 +51,11 @@ italic{font-style: italic;}
 .text-link{cursor: pointer;}
 .text-link:hover{text-decoration: underline;}
 
+
+/*review*/
+/*#review_wrapper tbody tr{cursor: pointer;}*/
+.block-ui{padding: 10px;
+    font-size: 1.5em;
+    font-weight: 600; color: #FD3F3F;}
+.block-ui i{color: #cc3333; font-size: 1.4em;}
+.view-more{}
