@@ -38,6 +38,7 @@
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.css')}}">
 <link rel="stylesheet" href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/css/chat.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/select2/css/select2.min.css')}}">
 @if (isset($style_global))
 {{$style_global}}
 @endif

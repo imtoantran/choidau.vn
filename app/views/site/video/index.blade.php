@@ -10,9 +10,6 @@
     </div>
     <!-- banner end -->
 @stop
-{{--@section('sidebar')--}}
-    {{--@include("site.faq.sidebar")--}}
-{{--@stop--}}
 
 {{-- Content --}}
 @section('content')
@@ -27,11 +24,12 @@
         <!-- header left end -->
         <!-- tao chu de -->
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <div class="page-title bg-yellow-lemon text-center">
-                <div href="#" style="padding: 7px 5px;" class="btn-popup-faq-class page-title bg-yellow-lemon text-center @if(Auth::check()){{'btn-popup-video'}}@else{{'require-login'}}@endif" data-url="{{URL::current()}}">
-                    <i class="icon-edit white" style="font-size: 20px; line-height: 16px;"></i> <span>Tạo chủ đề</span>
-                </div>
-            </div>
+            <a href="{{URL::to('video/tao-moi.html')}}" class="btn bg-yellow-lemon btn-load-add-video  @if(Auth::check()){{'btn-popup-video'}}@else{{'require-login'}}@endif " style="width: 100%; font-weight: 600; padding: 12px;" data-url="{{URL::current()}}">
+                <i class="icon-plus white" style="font-size: 20px; line-height: 16px;"></i> <span>Thêm video của bạn</span>
+            </a>
+            {{--<div class="page-title text-center btn-popup-faq-class page-title bg-yellow-lemon text-center @if(Auth::check()){{'btn-popup-video'}}@else{{'require-login'}}@endif" data-url="{{URL::current()}}">--}}
+
+            {{--</div>--}}
         </div>
         <!-- tao chu de end -->
     </div>
@@ -39,18 +37,26 @@
     <!-- Video items -->
     <div class="row margin-top-10">
         <!-- video item -->
+        @if(count($videos)>0)
+            @foreach($videos as $key=>$val)
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="margin-bottom: 30px;">
+                    <div class="video-item">
+                        <div align="" class="embed-responsive embed-responsive-16by9">
+                            <iframe src="http://www.youtube.com/embed/{{$val['guid']}}?html5=1"></iframe>
+                        </div>
+                        <div style="height: 35px;"><a href="http://www.youtube.com/embed/{{$val['guid']}}?html5=1" class="tooltips" data-original-title="{{$val['title']}}"><b>{{$val['title_limit']}}</b></a></div>
+                        <small style="font-size: 1em;">Được đăng bởi <a class="bold" href="{{$val['user_url']}}">{{$val['user_name']}}</a> <span class="italic grey">{{$val['date']}}</span> - <span class="font-weight-600">{{$val['viewcount']}}</span> <span class="grey italic">lượt xem</span></small>
+                    </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <div class="video-item">
-                <div align="" class="embed-responsive embed-responsive-16by9">
-                    <object>
-                        <embed src="https://www.youtube.com/v/GdtPdmcu54Q?showinfo=0">
-                    </object>
                 </div>
-                <div><a href="#"><b>Hấp dẫn mọi ánh nhìn...</b></a></div>
-                <small>Được đăng bởi karilyne 10/01/2015 - 21 lượt xem</small>
+            @endforeach
+        @else
+
+            <div class="col-md-12 co-xs-12 font-weight-600" style="font-size: 1.2em;">
+               <i class="icon-folder-empty" style="font-size: 1.2em;"></i> <span>Chưa có video</span>
             </div>
-        </div>
+        @endif
+
 
         <!-- video item end -->
     </div>
@@ -58,35 +64,35 @@
     <!-- imtoantran -->
     </div>
 
-    @include("site.video.create-popup")
+{{--    @include("site.video.create-popup")--}}
 @stop
 
 
 @section('scripts')
 <script type="text/javascript">
     jQuery(document).ready(function () {
-        $('.btn-popup-video').on('click',function(){
-            $('#popup-faq-create').modal('show');
-        });
+        {{--$('.btn-popup-video').on('click',function(){--}}
+            {{--$('#popup-faq-create').modal('show');--}}
+        {{--});--}}
 
-        $('#frm-create-faq').submit(function(e){
-            e.preventDefault();
-            var self = $(this);
-            $.ajax({
-                url: '{{URL::to('faq/tao-chu-de.html')}}',
-                type: 'post',
-                data: self.serialize(),
-                success: function(respon){
-                    if(respon){
-                        alert('Thêm câu hỏi thành công.');
-                    }else{
-//                        alert('')
-                    }
-                    window.location = '{{URL::current()}}';
-                }
-            })
+        {{--$('#frm-create-faq').submit(function(e){--}}
+            {{--e.preventDefault();--}}
+            {{--var self = $(this);--}}
+            {{--$.ajax({--}}
+                {{--url: '{{URL::to('faq/tao-chu-de.html')}}',--}}
+                {{--type: 'post',--}}
+                {{--data: self.serialize(),--}}
+                {{--success: function(respon){--}}
+                    {{--if(respon){--}}
+                        {{--alert('Thêm câu hỏi thành công.');--}}
+                    {{--}else{--}}
+{{--//                        alert('')--}}
+                    {{--}--}}
+                    {{--window.location = '{{URL::current()}}';--}}
+                {{--}--}}
+            {{--})--}}
 
-        });
+        {{--});--}}
     });
 </script>
 @stop

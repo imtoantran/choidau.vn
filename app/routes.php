@@ -181,11 +181,11 @@ Route::get('blog/create/{catId}', 'BlogController@getCreate');
 
 /** -------------------Site VIDEO: luuhoabk-------------**/
 Route::controller('video.html', 'VideoController');
-//Route::group(array('prefix' => 'faq'), function () {
-//    Route::get('cau-hoi.html', 'FaqController@loadQuestion');
-//    Route::post('tao-chu-de.html', 'FaqController@addSubject');
+Route::group(array('prefix' => 'video', 'before' => 'auth'), function () {
+    Route::get('tao-moi.html', 'VideoController@createVideo');
+//    Route::post('xac-thuc-video.html', 'VideoController@confimVideo');
 //    Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
-//});
+});
 /** -------------------END Site VIDEO: luuhoabk-------------**/
 
 /** -------------------Site FAQ: luuhoabk-------------**/
@@ -214,6 +214,7 @@ Route::group(array('prefix' => 'dia-diem', 'before' => 'auth'), function () {
     Route::get('loc-hinh-anh', 'LocationController@filterAlbums');
     Route::get('action', 'LocationController@action');
     Route::post('action', 'LocationController@action');
+    Route::post('tao-video', 'LocationController@createVideo');
 
 //    Route::controller('/', 'LocationController'); // run contruct function
 });

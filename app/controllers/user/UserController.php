@@ -587,6 +587,7 @@ class UserController extends BaseController
         $post = new Comment();
         $post->title        = "comment";
         $post->parent_id    =  $data['post_id'];
+        $post->parent_id    =  $data['post_id'];
         $post->content      = $data['comment_content'];
         $post->privacy      = 18;
         //$post->post_type    = 'comment';
@@ -679,6 +680,8 @@ class UserController extends BaseController
             default: break;
         }
     }
+
+
 
 }
 

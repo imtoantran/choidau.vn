@@ -7,22 +7,52 @@ class VideoController extends BaseController {
 		parent::__construct();
 	}
 
-	public function getIndex()
-	{
-//		$arr_question = Post::orderBy('updated_at', 'DESC')->wherePost_type('faq-question')->paginate(10);
-//		foreach($arr_question as $key=>$val){
-//			$arr_question[$key]['user_question'] = User::whereId($val->user_id)->first();
-//			$arr_question[$key]['total_answer'] = Post::whereParent_id($val->id)->wherePost_type('faq-answer')->count();
-//			$arr_question[$key]['latest_date'] = $val->date();
-//			$arr_question[$key]['user_url'] = $arr_question[$key]['user_question']->url();
-//		}
-//		$arr_question_no_feedback = $this->getQuestionNoFeedBack();
-//		$arr_question_latest_feedback = $this->getQuestionLatestFeedBack();
-//		$arr_question_hot_feedback = $this->getQuestionHotFeedBack();
+	public function getIndex(){
+		$videos = Post::orderBy('updated_at','DESC')->wherePost_type('video')->get();
+		foreach($videos as $key=>$val){
+			$user = User::find($val['user_id']);
+			$videos[$key]['title_limit'] = Str::words($val['title'],12);
+			$videos[$key]['user_name'] = empty($user['fullname'])?$user['username'] : $user['fullname'];
+			$videos[$key]['user_url'] = $user->url();
+			$videos[$key]['date'] = $val->date();
+			$viewcount = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$val['guid'].'?v=2&alt=json'))->entry->{'yt$statistics'}->viewCount;
+			$videos[$key]['viewcount'] = number_format($viewcount);
+		}
+		return View::make('site/video/index', compact('videos'));
+	}
+	public function createVideo(){
 
-		if(Auth::check()){$user = Auth::user();}else{$user = null;}
+		$location = Location::orderBy('created_at')->get();
+		return View::make('site/video/create',compact('location'));
+	}
+	public function confimVideo(){
+		$data = Input::all();
+		echo json_encode($this->get_youtube_id($data['video_url']));
+//		echo $data['video_url'];
+	}
+	private static function get_youtube_id($url) {
+		$link = parse_url($url,PHP_URL_QUERY);
 
-		return View::make('site/video/index', compact('user'));
+		/**split the query string into an array**/
+		if($link == null) $arr['v'] = $url;
+		else  parse_str($link, $arr);
+		/** end split the query string into an array**/
+		if(! isset($arr['v'])) return false; //fast fail for links with no v attrib - youtube only
+
+		$checklink = YOUTUBE_CHECK . $arr['v'];
+
+		//** curl the check link ***//
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$checklink);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		$result = curl_exec($ch);
+		curl_close($ch);
+
+		$return = $arr['v'];
+		if(trim($result)=="Invalid id") $return = false; //you tube response
+
+		return $return; //the stream is a valid youtube id.
 	}
 //
 //	public function loadQuestionDetail($postId)

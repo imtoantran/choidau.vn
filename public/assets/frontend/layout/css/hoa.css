@@ -313,3 +313,8 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 .faq-sidebar .panel-body{padding: 5px;}
 /*End luuhoabk - blog-photo*/
 /*end luuhoabk - person page*/
+
+
+.btn-load-add-video:hover{
+	background-color: #dbb115 !important;
+}
