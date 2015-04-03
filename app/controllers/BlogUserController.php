@@ -514,8 +514,10 @@ class BlogUserController extends BaseController {
         $post_type_action = array('status','like-location','checkin','review','location');
         $arr_post_hidden = array();
         // lay duoc mang cac id cua bai viet ma user dang online ko duoc quyen xem. ->privacy
-
-        $refer = Post::orderBy('updated_at','desc')->whereUser_id($user_blog->id)->whereIn('post_type', $post_type_action);
+        if(Input::has("notif_t")&&Input::has("post")){
+            $refer = Post::orderBy('updated_at','desc')->where(["user_id"=>$user_blog->id,"id"=>Input::get("post")])->whereIn('post_type', $post_type_action);
+        } else
+            $refer = Post::orderBy('updated_at','desc')->whereUser_id($user_blog->id)->whereIn('post_type', $post_type_action);
         if($user->id != $user_blog->id){
             foreach($refer->get() as $key=>$val){
                 switch($val['privacy']){

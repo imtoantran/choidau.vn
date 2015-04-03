@@ -27,8 +27,8 @@ return array(
             'scope'         => array('email','read_friendlists','user_online_presence'),
         ),
 		'Google' => array(
-			'client_id'     => '906393778812-olufbb3rmsvh4jpkhop1v3koa2lm4n4d.apps.googleusercontent.com',
-			'client_secret' => 'qIl1it1eM9MwQVjoejbG9nL_',
+			'client_id'     => '103587534494-o2pp1aksvqh1ka50kbbg72a664adee0o.apps.googleusercontent.com',
+			'client_secret' => 'VgOXvghBc14qNhAwfMeCrBxq',
 			'scope'         => array('userinfo_email', 'userinfo_profile'),
 		),
 

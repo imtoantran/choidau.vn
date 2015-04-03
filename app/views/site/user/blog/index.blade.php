@@ -1031,7 +1031,10 @@
                                                             <a class="friend-online"
                                                                title="{{$user->url()}}"
                                                                data-avatar="{{$user->avatar}}"
-                                                               data-id="{{$user->id}}">{{$user->display_name()}}</a>
+                                                               data-name="{{$user->display_name()}}"
+                                                               data-id="{{$user->id}}">
+                                                               {{$user->display_name()}}
+                                                               </a>
                                                         </b>
 
                                                         <p>12 bạn chung</p>
@@ -1842,101 +1845,7 @@
         });
     </script>
 @if(Auth::check())
-    <script>
-        /* imtoantran fchat start */
-        var fb = 'https://choidau.firebaseio.com/chat', ur = 0, f, b = "body", m = '.mI', k = 'keydown', w = "#chat-wrapper", cl = "click", mc = "ch-message-chat";
-        var ca = function (snt) {
-            //GET DATA
-            var data = snt.val();
-            if (data.sender == "{{Auth::id()}}" || data.receiver == "{{Auth::id()}}") {
-                id = ((data.sender == "{{Auth::id()}}") ? data.receiver : data.sender);
-                var ml = $(w).find("ul[data-id=" + id + "]");
-                if (ml.length) {
-                    var message_container = $("<div/>", {class: "message-container"});
-                    time = new Date(data.timestamp);
-                    var message = $("<div/>", {class: "message", text: data.text, title: time.toLocaleDateString()});
-                    //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-                    var messageElement = $("<li>");
-                    if (data.receiver == parseInt("{{Auth::id()}}")) {
-                        avatar = $("<img />", {src: $("#friend-online img[data-id=" + data.sender + "]").attr("src")});
-                        nameElement = $("<div class='ch-message-chat-username'>").append(avatar);
-                        messageElement.append(nameElement).addClass("left");
-                        if ($("." + mc + ".active").length) {
-                            ur = 0;
-                        } else {
-                            ur++;
-                            $("." + mc).addClass("new");
-                        }
-                    } else if (data.sender == parseInt("{{Auth::id()}}")) {
-                        messageElement.addClass("right");
-                    }
-                    message_container.append(message).append(("<div class='time'><small><time> " + time.toLocaleTimeString() + " </time></small></div>"));
-                    messageElement.append(message_container);
-                    //ADD MESSAGE
-                    ml.append(messageElement);
-                    messageElement.append("<div class='clearfix'>");
 
-                    //SCROLL TO BOTTOM OF MESSAGE LIST
-                    ml[0].scrollTop = ml[0].scrollHeight;
-                }
-            }
-        };
-        $.fn.c = function (options) {
-            $(this).on(cl, ".friend-online", function (e) {
-                e.stopPropagation();
-                sessionStorage.currentChat = $(this).data("id");
-                if ($(b).find(".ch-message-chat[data-id=" + $(this).data("id") + "]").length) {
-                    $(".ch-message-chat").addClass("active");
-                    return;
-                }
-                $(".ch-message-chat").remove();
-                var fchat = $("<div/>", {class: mc + " active", "data-id": $(this).data("id")});
-                fchat.append($("<header/>", {text: $(this).text()}).append("<span class='right'>x</span>"));
-                fchat.append($("<ul class='ch-message-chat-messages' data-id='" + $(this).data("id") + "'/>"));
-                var footer = $("<footer/>");
-                footer.append($("<input type = 'text' class = 'mI' placeholder = 'Viết tin nhắn ...'/>").data("id", $(this).data("id")));
-                fchat.append(footer);
-                $(w).append(fchat);
-                if (f) f.off('child_added', ca);
-                f = new Firebase(fb);
-                f.on('child_added', ca);
-            });
-        };
-        $(b).c();
-        var fk = function (e) {
-            e.stopPropagation();
-            if (e.keyCode == 13) {
-                //FIELD VALUES
-                var message = this.value;
-
-                f.push({
-                    timestamp: Firebase.ServerValue.TIMESTAMP,
-                    receiver: $(this).data("id"),
-                    text: message,
-                    read: 0,
-                    sender: {{Auth::id()}}
-                });
-                this.value = '';
-            }
-        };
-        $(b).on(k, m, fk);
-        $(w).on(cl, "header", function (e) {
-            $("." + mc).removeClass("new").toggleClass("active",function(e){
-                sessionStorage.currentChatWindowState = "inActive";
-                if($(this).hasClass("active")){
-                    sessionStorage.currentChatWindowState = "active";
-                }
-            });
-        });
-        $(w).on(cl, "header span.right", function (e) {
-            $("." + mc).remove();
-            sessionStorage.currentChat = 0;
-        });
-        if (sessionStorage.currentChat) {
-            $("#friend-online .friend-online[data-id=" + sessionStorage.currentChat + "]").trigger("click");
-        }
-        /* imtoantran fchat stop */
-    </script>
     <script>
         /* imtoantran friends online start */
         new Firebase('https://choidau.firebaseio.com/online').on("child_changed",function(s){$("#friend-online li[data-id="+s.key()+"]").addClass('active').data("timestamp",new Date());});

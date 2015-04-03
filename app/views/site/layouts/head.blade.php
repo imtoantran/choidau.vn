@@ -8,7 +8,7 @@
 
 @section('meta_tag')
 <meta name="keywords" content="@if (isset($default_keyword)) {{$default_keyword}} @endif " />
-<meta name="author" content="choidau.net" />
+<meta name="author" content="{{URL::to('')}}" />
 <meta name="description" content="@if (isset($default_description)){{$default_description}} @endif " />
 @show
 

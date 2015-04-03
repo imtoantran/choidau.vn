@@ -91,14 +91,6 @@ App::setLocale(Session::get('lang', 'vi'));
 /**
 * imtoantran 
 */ 
-Review::creating(function($review){
-    if(Auth::guest()) return Response::json(['success'=>false]);
-    $location = $review->location;
-    $owner = $location->owner;    
-    if(Auth::id() == $owner->id) return Response::json(['success'=>false]);    
-    $user = Auth::user();
-    Firebase::push("/notifications/new/$owner->id/general-notifications",['l'=>'','t'=>'review','text'=>"<b>".$user->display_name().'</b> đã đánh giá địa điểm của bạn.','author'=>Auth::user(),'timestamp'=>date("Y-m-d h:i:s")]);
-});
 function _type($type)
 {
             switch ($type) {
@@ -143,25 +135,67 @@ $_ = function($object){
             $post = $object->post;
             $owner = $post->author;
             if($user->id == $owner->id) return;
+            switch($post->post_type){
+                case "review":
+                    $location = Location::find($post->parent_id);
+                    $url = $location->url()."?notif_t=comment&post=$post->id";
+                    break;
+                case "comment": 
+                    $subject = Post::find($post->parent_id);
+                    switch($subject->post_type){
+                        case "review":
+                            $location = Location::find($subject->parent_id);
+                            $url = $location->url()."?notif_t=comment&post=$subject->id";
+                            break;
+                        default:
+                            $url = "/trang-ca-nhan/{$subject->author->username}.html?notif_t=comment&post=$subject->id";
+                            break;
+                    }
+                    break;
+                case "status":                
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+                default:
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+            }
             $type = _type($post->post_type);
             break;
         case "Comment":
             $post = $object->post;
             $owner = $post->author;
             if($user->id == $owner->id) return;
+            switch($post->post_type){
+                case "review":
+                    $location = Location::find($post->parent_id);
+                    $url = $location->url()."?notif_t=comment&post=$post->id";
+                    break;
+                default:
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+            }
             $action = "bình luận";
             $type = _type($post->post_type);
+            break;
+        case "Review":
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url()."?notif_t=review&post=$object->id";
+            $action = "đánh giá";
+            $type = "địa điểm";            
             break;
         default:
             return;
             break;
     }    
-    $text = "<b>".$user->display_name()."</b> $action $type của bạn";
-    Firebase::push("/notifications/new/$owner->id/general-notifications",['url'=>$url,'object'=>$object,'type'=>get_class($object),'text'=>$text,'author'=>$user,'timestamp'=>date("Y-m-d h:i:s")]);    
+    $text = "$action $type của bạn";
+    Firebase::push("/notifications/$owner->id/general-notifications",['name'=>$user->display_name(),'url'=>$url,'object'=>$object->toArray(),'type'=>get_class($object),'text'=>$text,'author'=>$user->toArray(),'timestamp'=>date("Y-m-d h:i:s"),"unread"=>1]);    
 };
 Like::saved($_);
 Checkin::saved($_);
 Comment::saved($_);
+Review::saved($_);
 Event::listen('like',$_);
 /*
 |--------------------------------------------------------------------------

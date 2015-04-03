@@ -295,3 +295,6 @@
     float: right;
     padding-right: 10px;
 }
+#chat-wrapper *{
+    z-index: 1000 !important;
+}

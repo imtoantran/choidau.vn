@@ -68,7 +68,6 @@
     <script src="{{asset('assets/frontend/pages/scripts/jquery.ag.js')}}"></script>
     <script src="{{asset('assets/global/plugins/firebase.js')}}"></script>
 
-
     @if (isset($js_plugin))
         {{$js_plugin}}
     @endif
@@ -178,7 +177,7 @@
                             html += '<div class="row margin-none">';
                             html += '<div class="col-md-2 col-sm-2 col-xs-2 col-none-padding">';
                             html += '<a href="' + URL + '/trang-ca-nhan/' + val.username + '.html">';
-                            html += '<img class="avatar-pad2 img-responsive" src="http://choidau.net/upload/media_user/5/nghiemcaoboi_160_4.jpg" alt=""/>';
+                            html += '<img class="avatar-pad2 img-responsive" src="{{URL::to('/')}}/upload/media_user/5/nghiemcaoboi_160_4.jpg" alt=""/>';
                             html += '</a>';
                             html += '</div>';
                             html += '<div class="col-md-6 col-sm-6 col-xs-6 col-none-padding">';
@@ -260,47 +259,156 @@
 
     <!-- END CORE JS SCRIPT -->
     @if(Auth::check())
-        <!-- imtoantran me online start -->
-        <script type="text/javascript">
-            var frb = new Firebase('https://choidau.firebaseio.com');
-            setInterval(function () {
-                // frb.child('notifications/{{Auth::id()}}/new/request').push({text:'Bạn có yêu cầu kết bạn',timestamp:Firebase.ServerValue.TIMESTAMP});
-                // frb.child('notifications/{{Auth::id()}}/new/general-notifications').push({text:"meomuop da binh luan",timestamp:Firebase.ServerValue.TIMESTAMP,link:"post/abc"});
-                // frb.child('notifications/{{Auth::id()}}/new/messages/2').set({text:"Bạn có tin nhắn mới",timestamp:Firebase.ServerValue.TIMESTAMP});
-                frb.child('online/{{Auth::id()}}').set(Firebase.ServerValue.TIMESTAMP);},5000);
-        </script>
-        <!-- imtoantran me online stop -->
-        <!-- imtoantran notifications start -->
-        <script>
-            frb.child('notifications/new/{{Auth::id()}}').on('child_added',function(s){
+        <script type="text/javascript">        
+            var frb = new Firebase('https://choidau.firebaseio.com'),unreads = 0,newnotif=0,ur = 0, f, b = "body", m = '.mI', k = 'keydown', w = "#chat-wrapper", cl = "click", mc = "ch-message-chat";
+        // <!-- imtoantran me online start -->
+            setInterval(function () {frb.child('online/{{Auth::id()}}').set(Firebase.ServerValue.TIMESTAMP);},5000);
+        // <!-- imtoantran me online stop -->
+        // <!-- imtoantran notifications start -->        
+            $("#notifications,#messages").data("count",0);
+            frb.child('notifications/{{Auth::id()}}').on('child_added',function(s){
                 var id = "#"+s.key();
-                var c = 0;
                 s.ref().limitToLast(5).on("child_added",function(sc){
-                    var data = sc.val();
-                    var author = JSON.parse(data.author);
+                    var data = sc.val();                    
+                    var author = data.author;
                     var ul = $(id+" ul div:first");
-                    var li = $("<li/>");
+                    var li = $("<li/>").data("key",sc.key());
                     var thumbnail = $("<img/>",{"class":"thumbnails","src":author.avatar});
                     var html = $("<div/>",{"class":"notification-content"});
-                    html.append($("<span/>",{html:data.text}));
+                    html.append($("<span/>",{html:"<b>"+data.name+"</b> "+data.text}));
                     html.append($("<span/>",{class:"timestamp",html:data.timestamp}));
-                    var a = $("<a/>",{role:"menuitem",href:"{{URL::to('/')}}/"+data.link,"html":html});
+                    var a = $("<a/>",{role:"menuitem",href:data.url,"html":html});
+                    li.append(a.prepend(thumbnail).append("<div class='clearfix'>"));
+                    ul.after(li);                    
+                    var c = parseInt($(id).data("count"));
+                    c += parseInt(data.unread);
+                    $(id).data("count",c);
+                    if(c>0) $(id+" .badge").text(c);
+                    if(data.unread) li.addClass("new");
                     switch(s.key()){
                         case "general-notifications":
-                            li.append(a.prepend(thumbnail).append("<div class='clearfix'>"));
                             ul.after(li);
-                            c++;
-                            $(id+" .badge").text(c);                        
+                            break;
+                        case "messages":                            
+                            sc.ref().on("value",function(sm){
+                                var value = sm.val();
+                                if(data.unread) li.addClass("new");
+                                li.addClass('friend-message');
+                                li.data("id",sc.key());
+                                li.data("name",value.name);
+                                html.html($("<span/>",{html:"<b>"+value.name+"</b> "+value.text}));
+                                html.append($("<span/>",{class:"timestamp",html:value.timestamp}));
+                                    var c = parseInt($(id).data("count"));
+                                    c += parseInt(value.unread);
+                                    $(id).data("count",c);
+                                    if(c>0) $(id+" .badge").text(c);
+                                if(value.unread) li.addClass("new");
+                                ul.after(li);
+                            });                            
                         break;
                         default:
                         break;
                     }
                 });
             });
+            $(".notifications li.notif").on("click",function(e){
+                var lo = frb.child('notifications/{{Auth::id()}}/'+$(this).attr("id"));
+                $(this).find("ul.dropdown-menu li").each(function(index, e) {
+                    lo.child($(e).removeClass("new").data("key")).update({unread:0});
+                });
+                $(this).find(".badge").text("");
+                $(this).data("count",0);
+            });
+        /* imtoantran fchat start */
+        var ca = function (snt) {
+            var data = snt.val();
+            if (data.sender == "{{Auth::id()}}" || data.receiver == "{{Auth::id()}}") {
+                id = ((data.sender == "{{Auth::id()}}") ? data.receiver : data.sender);
+                var ml = $(w).find("ul[data-id=" + id + "]");
+                if (ml.length) {
+                    var message_container = $("<div/>", {class: "message-container"});
+                    time = new Date(data.timestamp);
+                    var message = $("<div/>", {class: "message", text: data.text, title: time.toLocaleDateString()});
+                    var messageElement = $("<li>");
+                    if (data.receiver == parseInt("{{Auth::id()}}")) {
+                        avatar = $("<img />", {src: $("#friend-online img[data-id=" + data.sender + "]").attr("src")});
+                        nameElement = $("<div class='ch-message-chat-username'>").append(avatar);
+                        messageElement.append(nameElement).addClass("left");
+                        if ($("." + mc + ".active").length) {
+                            ur = 0;
+                        } else {
+                            ur++;
+                            $("." + mc).addClass("new");
+                        }
+                    } else if (data.sender == parseInt("{{Auth::id()}}")) {
+                        messageElement.addClass("right");
+                    }
+                    message_container.append(message).append(("<div class='time'><small><time> " + time.toLocaleTimeString() + " </time></small></div>"));
+                    messageElement.append(message_container);
+                    //ADD MESSAGE
+                    ml.append(messageElement);
+                    messageElement.append("<div class='clearfix'>");
 
-            //frb.child('notifications/{{Auth::id()}}/new/general-notifications').push({text:"dfsd"});
-            //frb.child('notifications/{{Auth::id()}}/new/messages').push({text:"dfsd"});
-        </script>
+                    //SCROLL TO BOTTOM OF MESSAGE LIST
+                    ml[0].scrollTop = ml[0].scrollHeight;
+                }
+            }
+        };
+        $.fn.c = function (options) {
+            $(this).on(cl, ".friend-online,.friend-message", function (e) {
+                e.stopPropagation();
+                if ($(w).find(".ch-message-chat[data-id=" + $(this).data("id") + "]").length) {
+                    $(".ch-message-chat").addClass("active");
+                    return;
+                }
+                $(".ch-message-chat").remove();
+                var fchat = $("<div/>", {class: mc + " active", "data-id": $(this).data("id")});
+                fchat.append($("<header/>", {text: $(this).data("name")}).append("<span class='right'>x</span>"));
+                fchat.append($("<ul class='ch-message-chat-messages' data-id='" + $(this).data("id") + "'/>"));
+                var footer = $("<footer/>");
+                footer.append($("<input />",{class:"mI",placeholder:"Viết tin nhắn ...",type:"text","data-id":$(this).data("id")}));
+                fchat.append(footer);
+                $(w).html(fchat);
+                frb.child("chat").off("child_added",ca);
+                frb.child("chat").on("child_added",ca);
+                sessionStorage.currentChat = $(w).html();
+            });
+        };
+        $(b).c();
+        var fk = function (e) {
+            e.stopPropagation();
+            if (e.keyCode == 13) {
+                var message = this.value;
+                frb.child("chat").push({
+                    timestamp: Firebase.ServerValue.TIMESTAMP,
+                    receiver: $(this).data("id"),
+                    text: message,
+                    read: 0,
+                    sender: {{Auth::id()}}
+                });
+                frb.child("notifications/"+$(this).data("id")+"/messages/{{Auth::id()}}").set({unread:1,author:{{Auth::user()}},text:message,timestamp: moment().format("YYYY-m-d H:mm:ss"),name:"{{Auth::user()->display_name()}}"});
+                this.value = '';
+            };
+        };
+        $(w).on(k, m, fk);
+        $(w).on(cl, "header", function (e) {
+            $("." + mc).removeClass("new").toggleClass("active",function(e){
+                sessionStorage.currentChatWindowState = "inActive";
+                if($(this).hasClass("active")){
+                    sessionStorage.currentChatWindowState = "active";
+                }
+            });
+        });
+        $(w).on(cl, "header span.right", function (e) {
+            $("." + mc).remove();
+            sessionStorage.currentChat = false;
+        });
+        if (sessionStorage.currentChat) {
+            $(w).html(sessionStorage.currentChat);
+        }
+        frb.child("chat").on("child_added",ca);
+        /* imtoantran fchat stop */
+    </script>
         <!-- imtoantran notifications stop -->
     @endif
     @yield('scripts')

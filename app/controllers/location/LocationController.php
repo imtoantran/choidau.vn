@@ -260,8 +260,15 @@ class LocationController extends BaseController
 
                 $location_nearly = $this->getClosePosition($location);
 
-                $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
-                $reviews->setBaseUrl("/location/$location->id/reviews");
+                $reviews;
+                /* imtoantran load review */
+                if(Input::has("notif_t") && Input::has("post")){
+                    $reviews = Review::where(["id"=>Input::get("post")])->paginate(2);
+                }else{
+                    $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
+                    $reviews->setBaseUrl("/location/$location->id/reviews");
+                }
+                /* imtoantran load review */
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
                 if (!Cache::has("food_type")) {

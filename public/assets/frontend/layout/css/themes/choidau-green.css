@@ -589,6 +589,9 @@ color:white;
   text-align: center;
   font-weight: bold;
 }
+.notifications li.new{
+  background-color: rgba(123,123,123,.3);
+}
 .notifications li a{
   padding-left: 8px !important;
 }

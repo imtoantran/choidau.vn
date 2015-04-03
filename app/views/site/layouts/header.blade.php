@@ -75,26 +75,9 @@
                                     </a>
 
                                 </li>
-                                {{--<li>--}}
-                                    {{--<a href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}"--}}
-                                       {{--class="tooltips dropdown-toggle icon-badge-number"--}}
-                                       {{--data-original-title="Thông báo mới">--}}
-                                        {{--<i class="icon-bell icon-badge"></i>--}}
-                                        {{--<span class="badge badge-default"> 1 </span>--}}
-                                    {{--</a>--}}
-                                {{--</li>--}}
-                                <li class="dropdown" id="request">
-                                    <a class="tooltips dropdown-toggle icon-badge-number"  data-toggle="dropdown" data-original-title="Lời mời kết bạn">
-                                        <i class="icon-users icon-badge"></i>
-                                        <span class="badge badge-default"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <div></div>
-                                        <div><a href="#">Xem tất cả</a></div>                                        
-                                    </ul>
-                                </li>
-                                <li class="dropdown" id="messages">
-                                    <a class="tooltips dropdown-toggle icon-badge-number"  data-toggle="dropdown" data-original-title="Tin nhắn mới">
+                                {{-- imtoantran chat and general notifications start --}}
+                                <li class="dropdown notif" id="messages">
+                                    <a class="tooltips dropdown-toggle icon-badge-number" data-placement="bottom"  data-toggle="dropdown" data-original-title="Tin nhắn mới">
                                         <i class="icon-chat-1 icon-badge"></i>
                                         <span class="badge badge-default"></span>
                                     </a>
@@ -103,8 +86,8 @@
                                         <div><a href="#">Xem tất cả</a></div>                                        
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="general-notifications">
-                                    <a class="tooltips dropdown-toggle icon-badge-number" data-toggle="dropdown" data-original-title="Hoạt động mới">
+                                <li class="dropdown notif" id="general-notifications">
+                                    <a class="tooltips dropdown-toggle icon-badge-number" data-placement="bottom" data-toggle="dropdown" data-original-title="Hoạt động mới">
                                         <i class="icon-globe icon-badge"></i>
                                         <span class="badge badge-default"></span>
                                     </a>
@@ -113,6 +96,7 @@
                                         <div><a href="#">Xem tất cả</a></div>
                                     </ul>
                                 </li>
+                                {{-- imtoantran chat and general notifications stop --}}
                                 <li class="wrapper-confirm-friends">
                                     <?php
                                     $user = Auth::user();
