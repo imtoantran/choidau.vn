@@ -71,7 +71,7 @@
     @if (isset($js_plugin))
         {{$js_plugin}}
     @endif
-=======
+
 <!-- START CORE PLUGINS -->
 <script src="{{asset("assets/global/plugins/tinymce/tinymce.min.js")}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-migrate.min.js')}}" type="text/javascript"></script>
