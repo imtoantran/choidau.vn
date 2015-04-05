@@ -102,7 +102,7 @@
 @if (isset($js_plugin))
 {{$js_plugin}}
 @endif
-
+>>>>>>> 9cfbb8e11aa66cac72c141672ef008dc963cd494
 
 @section('js_plugin')
     @show
