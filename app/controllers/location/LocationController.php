@@ -771,6 +771,7 @@ class LocationController extends BaseController
         $video->user_id = $user->id;
         $video->guid = $data['video_link'];
         $video->parent_id = $data['location_id'];
+        $video->description = $data['description'];
         $video->post_type = 'video';
         $video->content = 'video';
         $video->privacy = 18;
