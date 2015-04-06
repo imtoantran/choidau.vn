@@ -29,13 +29,15 @@
                             <p class="btn btn-primary"><strong>Thông tin video</strong></p>
                         </div>
                         <!-- </div> -->
-                        {{--tieu de--}}
+                        {{--title--}}
                         <div class="form-group">
-                            <label for="input" class="col-sm-3 control-label"><strong>Tiêu đề video</strong><span class="require"> *</span> </label>
+                            <label for="input" class="col-sm-3 control-label"><strong>Tiêu đề</strong><span class="require"> *</span> </label>
                             <div class="col-sm-9">
-                                <input type="text" name="video-title" id="video-title" class="form-control" value="" required="required" title="">
+                                <input type="text" name="video-title" id="video-title" class="form-control" value="" required="required" title="" placeholder="Nhập tiêu đề cho video">
                             </div>
                         </div>
+
+                        {{--link video--}}
                         <div class="form-group">
                             <label for="input" class="col-sm-3 control-label"><strong>Link video</strong><span class="require"> *</span> </label>
                             <div class="col-sm-9">
@@ -43,11 +45,19 @@
                             </div>
                         </div>
 
+                        {{--embed video--}}
                         <div class="form-group">
                             <label for="input" class="col-sm-3 control-label"></label>
                             <div class="col-sm-9" id="embed-video">
                             </div>
+                        </div>
 
+                        {{--discription video--}}
+                        <div class="form-group">
+                            <label for="input" class="col-sm-3 control-label"><strong>Mô tả</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="description" id="description" class="form-control" cols="30" rows="5" placeholder="Mô tả chi tiết về video..."></textarea>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -150,16 +160,17 @@
             var self = $(this);
             var location_id = $('#location-list').val();
             var video_title = $('#video-title').val();
+            var description = $('#description').val();
             var video_link = $('#video-link').attr('data-url');
             var isLinkVideo = $('#video-link').attr('data-valid');
             var str_error = '';
             var isSubmit = true;
             if(location_id == ''){
-                str_error += '<div><i class="icon-youtube-play" style="color: #D35B6F"></i> Hãy chọn địa điểm cho video</div>';
+                str_error += '<div><i class="icon-location" style="color: #D35B6F"></i> Hãy chọn địa điểm cho video</div>';
                 isSubmit = false;
             }
             if(isLinkVideo == 'false'){
-                str_error += '<div><i class="icon-location" style="color: #D35B6F"></i> Link video không hợp lệ</div>';
+                str_error += '<div><i class="icon-youtube-play" style="color: #D35B6F"></i> Link video không hợp lệ</div>';
                 isSubmit = false;
             }
 
@@ -171,7 +182,8 @@
                     data :{
                         location_id : location_id,
                         video_title : video_title,
-                        video_link  : video_link
+                        video_link  : video_link,
+                        description  : description
                     },
                     dataType: "json",
                     success: function (respon) {
