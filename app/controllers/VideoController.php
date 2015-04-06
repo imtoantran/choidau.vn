@@ -33,7 +33,8 @@ class VideoController extends BaseController {
 		$video['location'] = $location['name'];
 		$video['location_url'] = $location->url();
 		$user = User::find($video['user_id']);
-		$user['user_name'] = $user->display_name();
+		$video['user_name'] = $user->display_name();
+		$video['user_url'] = $user->url();
 
 		$comment = Post::orderBy('updated_at', 'DESC')->wherePost_type('comment')->whereParent_id($video_id)->paginate(10);
 

@@ -297,7 +297,7 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 
 
 .answer-list-wrapper{margin-top: 20px;}
-.answer-list-wrapper .media{border-bottom: 1px solid #F6F6F7;padding-bottom: 13px;}
+.answer-list-wrapper .media{border-bottom: 1px solid #F6F6F7;padding-bottom: 10px;}
 .answer-list-wrapper .media:last-child{border-bottom: 0px;}
 .answer-list-wrapper img{padding: 2px; width: 50px; height: 50px;}
 

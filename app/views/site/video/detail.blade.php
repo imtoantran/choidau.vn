@@ -32,17 +32,17 @@
                 <div class="row margin-tb-10">
                     <div class="col-md-6 ">
                         <div class="margin-bottom-10">
-                            <i class="icon-youtube"></i>
+                            <i class="icon-youtube" style="font-size: 1.5em;"></i>
                             <span class="font-weight-600 font-14px">{{$video['title']}}</span>
                         </div>
                         <div> -
                             <span class="grey">Đăng bởi:</span>
-                            <a href="#" class="font-weight-600">{{$user['user_name']}}</a>
+                            <a href="{{$video['user_url']}}" class="font-weight-600">{{$video['user_name']}}</a>
                             - <span class="grey italic">{{$video['date']}}</span>
                         </div>
                         <div class="margin-tb-5">
                             - <span class="color-red">{{$video['view_count']}}</span> <span class="grey italic">lượt xem</span>
-                            - <span class="color-red">{{$video['comment_count']}}</span> <span class="grey italic">Bình luận</span>
+                            - <span class="color-red comment-count">{{$video['comment_count']}}</span> <span class="grey italic">Bình luận</span>
                         </div>
                         <div class="margin-tb-5">
                           - <span class="grey font-weight-600">Địa điểm:</span> <a class="green font-weight-600" href="{{$video['location_url']}}">
@@ -74,7 +74,7 @@
                                     @endif
                                 </div>
                                 <div class="col-md-11 col-sm-11 col-none-padding">
-                                    <input style="padding: 12px 5px 12px 5px; width: 100%; border: 1px solid #ddd; margin-left: 5px;" name="comment" id="comment" autofocus data-post-id="{{$video['id']}}" rows="2" placeholder="Hãy để lại bình luận của bạn về video này">
+                                    <input style="padding: 12px 5px 12px 10px; width: 100%; border: 1px solid #ddd; margin-left: 5px;" name="comment" id="comment" autofocus data-post-id="{{$video['id']}}" rows="2" placeholder="Hãy để lại bình luận của bạn về video này">
                                 </div>
                             @else
                                 <div class="italic grey">
@@ -193,7 +193,7 @@
                                         html += '</div>';
                                         html += '</div>';
                                     parent_tag.prepend(html);
-//                                    $('.total-answer').text(respon.total_row);
+                                    $('.comment-count').text(respon.total_row);
                                     self.prop("disabled", false);
                                     self.focus();
                                 }

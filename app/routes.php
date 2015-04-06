@@ -105,8 +105,11 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
     // END luuhoabk - qtri hoi dap
 
     // luuhoabk - qtri video
+    Route::post("media/video/comment-delete","AdminVideoController@deleteComment");
     Route::post("media/video/delete","AdminVideoController@deleteVideo");
+    Route::post("media/video/update","AdminVideoController@updateVideo");
     Route::get("media/video/load","AdminVideoController@getVideos");
+    Route::get("media/video/detail-video-{post_id}","AdminVideoController@loadDetail");
     Route::controller("media/video","AdminVideoController");
     // END luuhoabk - qtri video
 

@@ -5,12 +5,10 @@
         <tr>
             <th>Tiêu đề</th>
             <th width="10%">Lượt xem</th>
+            <th width="10%">Bình luận</th>
             <th width="10%">Đăng bởi</th>
             <th width="10%">Địa điểm</th>
-            <th width="15%">Ngày đăng</th>
-            {{--<th>Số người đến</th>--}}
-            {{--<th>Quay lại?</th>--}}
-            {{--<th>Trạng thái</th>--}}
+            <th width="12%">Ngày đăng</th>
             <th width="150px" class="text-right">{{{ Lang::get('table.actions') }}}</th>
         </tr>
         </thead>
@@ -63,34 +61,43 @@
                         }
                     })
 
-                    {{--// duyet review--}}
-                    {{--$('.btn-review-confirm').on('click',function(e){--}}
-                        {{--e.stopPropagation();--}}
-                        {{--var self = $(this);--}}
-                        {{--var action = self.attr('data-action');--}}
-                        {{--self.find('i').iconLoad(self.find('i').attr('class'));--}}
-                        {{--self.attr('disabled', true);--}}
-                        {{--$.ajax({--}}
-                            {{--url: '{{Url::to('qtri-choidau/location/actionreview')}}',--}}
-                            {{--data: {post_id: self.attr('data-post-id'), data_action:  action},--}}
-                            {{--type: "post",--}}
-                            {{--dataType: "json",--}}
-                            {{--success: function (respon) {--}}
-                                {{--if(respon){--}}
-                                    {{--if(action == 'check'){--}}
-                                        {{--self.find('i').iconUnload('icon-check-empty');--}}
-                                        {{--self.attr('data-action','uncheck');--}}
-                                        {{--self.find('span').text('Hủy duyệt');--}}
-                                    {{--}else{--}}
-                                        {{--self.find('i').iconUnload('icon-check');--}}
-                                        {{--self.attr('data-action','check');--}}
-                                        {{--self.find('span').text('Duyệt');--}}
-                                    {{--}--}}
-                                {{--}--}}
-                                {{--self.attr('disabled', false);--}}
-                            {{--}--}}
-                        {{--});--}}
-                    {{--})--}}
+                    // video confirm
+                    $('.btn-confirm').on('click',function(e){
+                        e.stopPropagation();
+                        var self = $(this);
+                        var action = self.attr('data-action');
+                        self.find('i').iconLoad(self.find('i').attr('class'));
+                        self.attr('disabled', true);
+                        $.ajax({
+                            url: '{{Url::to('qtri-choidau/media/video/update')}}',
+                            data: {post_id: self.attr('data-post-id'), data_action:  action},
+                            type: "post",
+                            dataType: "json",
+                            success: function (respon) {
+                                if(respon){
+                                    if(action == 'confirm'){
+                                        self.find('i').iconUnload('icon-check-empty');
+                                        self.attr('data-action','un-confirm');
+                                        self.removeClass('btn-success').addClass('btn-default');
+                                    }else{
+                                        self.find('i').iconUnload('icon-check');
+                                        self.attr('data-action','confirm');
+                                        self.removeClass('btn-default').addClass('btn-success');
+                                    }
+                                }
+                                self.attr('disabled', false);
+                            }
+                        });
+                    });
+
+
+                    //video confirm
+                    $('#video tbody tr').on('click', function(e){
+                        var self = $(this);
+                        var post_id = $(this).find('.btn-video-delete').attr('data-post-id');
+                        console.log(post_id);
+                        window.location = '{{Url::to('qtri-choidau/media/video/detail-video-')}}'+post_id;
+                    })
 
 
                     {{--//update state review--}}
