@@ -102,12 +102,16 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
     Route::controller("hoi-dap","AdminFaqController");
     Route::get("get-table","AdminFaqController@getData");
     Route::get("hoi-dap-{post_id}","AdminFaqController@getDetailFaq");
-
     // END luuhoabk - qtri hoi dap
 
+    // luuhoabk - qtri video
+    Route::post("media/video/delete","AdminVideoController@deleteVideo");
+    Route::get("media/video/load","AdminVideoController@getVideos");
+    Route::controller("media/video","AdminVideoController");
+    // END luuhoabk - qtri video
 
     # Admin Dashboard
-    Route::controller('/das', 'AdminDashboardController');
+//    Route::controller('/das', 'AdminDashboardController');
     //  Route::get('/', 'AdminDashboardController');
     Route::controller('/', 'AdminHomeController');
 

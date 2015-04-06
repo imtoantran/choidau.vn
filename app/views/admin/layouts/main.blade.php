@@ -546,9 +546,11 @@
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="{{URL::to("qtri-choidau/location/")}}">Danh sách địa điểm</a>
+                        <li @if(Request::is("qtri-choidau/location/")) class="active" @endif>
+                            <a href="{{URL::to("qtri-choidau/location/")}}">Danh sách địa điểm</a>
                         </li>
-                        <li><a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
+                        <li @if(Request::is("qtri-choidau/location/review*")) class="active" @endif>
+                            <a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
                         </li>
                     </ul>
 
@@ -561,14 +563,13 @@
                     </a>
                 </li>
 
-                <li>
+                <li @if(Request::is("qtri-choidau/media*")) class="open active" @endif>
                     <a href="#"><i class="icon-video-3"></i><span class="title">MEDIA</span>
-
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
-                        <li>
-                            <a href="#"><i class="icon-video-3"></i> VIDEO</a>
+                        <li @if(Request::is("qtri-choidau/media/video*")) class="active" @endif>
+                            <a href="{{URL::to("qtri-choidau/media/video")}}"><i class="icon-video-3"></i> VIDEO</a>
                         </li>
                         <li>
                             <a href="#"><i class="icon-photo-1"></i> HÌNH ẢNH</a>

@@ -175,12 +175,13 @@
                     },
                     dataType: "json",
                     success: function (respon) {
-                        if(respon){
-                            window.location = '{{URL::to('video.html')}}';
-                        }else{
-                            console.log(respon);
-                            alert('Sự cố kết nối, vui lòng thử lại.')
-                        }
+                        console.log(respon);
+                        {{--if(respon){--}}
+                            {{--window.location = '{{URL::to('video.html')}}';--}}
+                        {{--}else{--}}
+                            {{--console.log(respon);--}}
+                            {{--alert('Sự cố kết nối, vui lòng thử lại.')--}}
+                        {{--}--}}
                     },
                     complete: function(){
                         $.unblockUI();
