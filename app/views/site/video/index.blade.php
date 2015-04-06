@@ -20,16 +20,14 @@
             <div class="bg-primary page-title">
                 <header>VIDEO</header>
                 <small>Cùng chia sẻ những video hot nhất mà bạn có...</small>
-            </div></div>
+            </div>
+        </div>
         <!-- header left end -->
         <!-- tao chu de -->
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <a href="{{URL::to('video/tao-moi.html')}}" class="btn bg-yellow-lemon btn-load-add-video  @if(Auth::check()){{'btn-popup-video'}}@else{{'require-login'}}@endif " style="width: 100%; font-weight: 600; padding: 12px;" data-url="{{URL::current()}}">
                 <i class="icon-plus white" style="font-size: 20px; line-height: 16px;"></i> <span>Thêm video của bạn</span>
             </a>
-            {{--<div class="page-title text-center btn-popup-faq-class page-title bg-yellow-lemon text-center @if(Auth::check()){{'btn-popup-video'}}@else{{'require-login'}}@endif" data-url="{{URL::current()}}">--}}
-
-            {{--</div>--}}
         </div>
         <!-- tao chu de end -->
     </div>
@@ -44,7 +42,11 @@
                         <div align="" class="embed-responsive embed-responsive-16by9">
                             <iframe src="http://www.youtube.com/embed/{{$val['guid']}}?html5=1"></iframe>
                         </div>
-                        <div style="height: 35px;"><a href="http://www.youtube.com/embed/{{$val['guid']}}?html5=1" class="tooltips" data-original-title="{{$val['title']}}"><b>{{$val['title_limit']}}</b></a></div>
+                        <div style="height: 35px;">
+                            <a href="{{URL::to('video/chi-tiet-video-'.$val['id'].'.html')}}" class="tooltips" data-original-title="{{$val['title']}}">
+                                <b>{{$val['title_limit']}}</b>
+                            </a>
+                        </div>
                         <small style="font-size: 1em;">Được đăng bởi <a class="bold" href="{{$val['user_url']}}">{{$val['user_name']}}</a> <span class="italic grey">{{$val['date']}}</span> - <span class="font-weight-600">{{$val['viewcount']}}</span> <span class="grey italic">lượt xem</span></small>
                     </div>
 

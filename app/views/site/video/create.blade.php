@@ -187,13 +187,42 @@
                     },
                     dataType: "json",
                     success: function (respon) {
-                        console.log(respon);
-                        {{--if(respon){--}}
-                            {{--window.location = '{{URL::to('video.html')}}';--}}
-                        {{--}else{--}}
-                            {{--console.log(respon);--}}
-                            {{--alert('Sự cố kết nối, vui lòng thử lại.')--}}
-                        {{--}--}}
+                        if(respon.is_save){
+                            var htmlBox = "";
+                            htmlBox += '<div class="container-fluid"><div class="col-md-12">';
+                            htmlBox += '<div class="portlet light bg-inverse">';
+                            htmlBox += '<div class="portlet-title">';
+                            htmlBox += '<div class="caption font-purple-plum">';
+                            htmlBox += '<i class="icon-place font-purple-plum"></i>';
+                            htmlBox += '<span class="caption-subject bold font-green"> Choidau thông báo:</span>';
+
+                            htmlBox += '</div>';
+                            htmlBox += '</div>';
+                            htmlBox += '<div class="portlet-body ">';
+                            htmlBox += '<p>Xin chào <label class="color-red">'+respon.user_name+'</label> !</p>';
+                            htmlBox += '<p>Bạn vừa thêm video <label class="label label-success label-sm bold">'+video_title+'</label> thành công !</p>';
+                            htmlBox += '<p class="italic grey"><i class="icon-alert"></i> Xin vui lòng chờ admin xác nhận video này trong thời gian sớm nhất.</p>';
+                            htmlBox += '<div class="margin-top-20">';
+                            htmlBox += '<a href="{{URL::to('video.html')}}" class="btn btn-danger btn-sm">';
+                            htmlBox += '<i class="icon-eye color-white"></i> Đi đến video </a> ';
+                            htmlBox += '<a href="{{URL::to('video/tao-moi.html')}}" class="btn btn btn-default btn-sm">';
+                            htmlBox += '<i class="icon-plus" style="color: #444;"></i> Tạo video khác </a>';
+                            htmlBox += '</div>';
+                            htmlBox += '</div>';
+                            htmlBox += '</div>';
+                            htmlBox += '</div>';
+
+                            bootbox.dialog({
+                                message: htmlBox,
+                                closeButton: true
+                            });
+                            $('.bootbox button.close').hide();
+                            $('.modal-dialog').css({'width':'50%','margin-top':'100px'});
+                            $('.modal-content').css('background-color','#f7f7f0');
+                        }else{
+                            console.log(respon);
+                            alert('Sự cố kết nối, vui lòng thử lại.')
+                        }
                     },
                     complete: function(){
                         $.unblockUI();

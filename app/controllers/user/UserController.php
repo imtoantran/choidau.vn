@@ -590,7 +590,7 @@ class UserController extends BaseController
         $post->parent_id    =  $data['post_id'];
         $post->content      = $data['comment_content'];
         $post->privacy      = 18;
-        //$post->post_type    = 'comment';
+//        $post->post_type    = 'comment';
         $post->user_id      = $user->id;
         $post->created_at   = date_format($now,"Y-m-d H:i:s");
         $post->updated_at   = date_format($now,"Y-m-d H:i:s");
@@ -598,7 +598,7 @@ class UserController extends BaseController
             $post['success'] = 1;
             $post['post_id'] = $post->id;
             $post['updated_date'] = 'Vừa xong';
-            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type($data['post_type'])->count();
+            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type('comment')->count();
             $post['user'] = $user;
             $post['user_url'] = $user->url();
         }else{

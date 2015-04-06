@@ -766,6 +766,7 @@ class LocationController extends BaseController
     public function createVideo(){
         $data = Input::all();
         $user = Auth::user();
+        $result['is_save'] = array();
         $video = new Post();
         $video->title = $data['video_title'];
         $video->user_id = $user->id;
@@ -775,7 +776,9 @@ class LocationController extends BaseController
         $video->post_type = 'video';
         $video->content = 'video';
         $video->privacy = 18;
-        echo $video->save();
+        $result['is_save'] = $video->save();
+        $result['user_name'] = $user->display_name();
+        echo json_encode($result);
     }
     //END luuhoabk create video
 

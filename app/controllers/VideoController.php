@@ -8,7 +8,7 @@ class VideoController extends BaseController {
 	}
 
 	public function getIndex(){
-		$videos = Post::orderBy('updated_at','DESC')->wherePost_type('video')->get();
+		$videos = Post::orderBy('updated_at','DESC')->wherePost_type('video')->whereStatus(1)->get();
 		foreach($videos as $key=>$val){
 			$user = User::find($val['user_id']);
 			$videos[$key]['title_limit'] = Str::words($val['title'],12);
@@ -21,10 +21,34 @@ class VideoController extends BaseController {
 		return View::make('site/video/index', compact('videos'));
 	}
 	public function createVideo(){
-
 		$location = Location::orderBy('created_at')->get();
 		return View::make('site/video/create',compact('location'));
 	}
+	public function loadDetail($video_id){
+		$video = Post::find($video_id);
+		$video['date'] = $video->date();
+		$video['view_count'] = number_format(json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$video['guid'].'?v=2&alt=json'))->entry->{'yt$statistics'}->viewCount);
+		$video['comment_count'] = Post::whereParent_id($video['id'])->wherePost_type('comment')->count();
+		$location = Location::whereId($video['parent_id'])->first();
+		$video['location'] = $location['name'];
+		$video['location_url'] = $location->url();
+		$user = User::find($video['user_id']);
+		$user['user_name'] = $user->display_name();
+
+		$comment = Post::orderBy('updated_at', 'DESC')->wherePost_type('comment')->whereParent_id($video_id)->paginate(10);
+
+		foreach($comment as $key=>$val){
+
+			$user = User::find($val['user_id']);
+			$comment[$key]['user_url'] = $user->url();
+			$comment[$key]['user_name'] = 'dasd';
+			$comment[$key]['user_avatar'] = $user['avatar'];
+			$comment[$key]['latest_date'] = $val->date();
+		}
+
+		return View::make('site/video/detail', compact('video','user', 'comment'));
+	}
+
 	public function confimVideo(){
 		$data = Input::all();
 		echo json_encode($this->get_youtube_id($data['video_url']));

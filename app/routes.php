@@ -187,6 +187,7 @@ Route::get('blog/create/{catId}', 'BlogController@getCreate');
 Route::controller('video.html', 'VideoController');
 Route::group(array('prefix' => 'video', 'before' => 'auth'), function () {
     Route::get('tao-moi.html', 'VideoController@createVideo');
+    Route::get('chi-tiet-video-{video_id}.html', 'VideoController@loadDetail');
 //    Route::post('xac-thuc-video.html', 'VideoController@confimVideo');
 //    Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
 });
