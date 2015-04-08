@@ -120,9 +120,10 @@
                                         <span class="icon icon-down-dir"></span>
                                     </a>
                                         <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu">
-                                        @if (Auth::user()->hasRole('admin'))
+{{--                                        @if (Auth::user()->hasRole('Administrator'))--}}
+                                        @if(Auth::user()->hasLoginAdmin())
                                             <li role="presentation">
-                                                <a role="menuitem" tabindex="-1" href="{{{ URL::to('qtri-choidau') }}}">Admin
+                                                <a role="menuitem" tabindex="-1" href="{{{ URL::to('qtri-choidau') }}}">Control
                                                     Panel</a>
                                             </li>
                                         @endif

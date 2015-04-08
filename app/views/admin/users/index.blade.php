@@ -10,7 +10,6 @@
 	<div class="page-header">
 		<h3>
 			{{{ $title }}}
-
 			<div class="pull-right">
 				<a href="{{{ URL::to('qtri-choidau/users/create') }}}" class="btn btn-small btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Thêm</a>
 			</div>
@@ -53,6 +52,7 @@
 	     		}
 			});
 		});
+
 		/* imtoantran user action start */
 		$(_$).on("click","[data-action]",function(e){
 			var _t = this;

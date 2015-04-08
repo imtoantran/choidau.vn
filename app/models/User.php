@@ -5,6 +5,8 @@ use Zizaco\Confide\ConfideUserInterface;
 use Zizaco\Entrust\HasRole;
 use Carbon\Carbon;
 
+
+
 class User extends Eloquent implements ConfideUserInterface {
     use ConfideUser, HasRole;
 
@@ -251,8 +253,14 @@ class User extends Eloquent implements ConfideUserInterface {
         $user_meta->created_at=  date_create("now") ;
         return $user_meta->save();
     }
-//    public function userPrivacy(){
-//        return $this->belongsToMany("User","user_meta", "user_id");
-//    }
+
+    public function hasLoginAdmin(){
+        $check_manager = AssignedRoles::whereUser_id($this->id)->count();
+        if($check_manager <= 0){
+            return false;
+        }
+        return true;
+    }
+
 
 }

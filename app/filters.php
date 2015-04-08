@@ -33,6 +33,7 @@ App::after(function($request, $response)
 |
 */
 
+
 Route::filter('auth', function()
 {
 	if ( Auth::guest() ) // If the user is not logged in
@@ -134,3 +135,20 @@ Route::filter("session",function(){
 });
 Route::when("*","session");
 /* imtoantran filter end */
+
+
+Route::filter('permission', function(){
+    if(Auth::check()){
+        if(!Auth::user()->hasLoginAdmin()){
+            return Redirect::guest('nguoi-dung/dang-nhap');
+        }
+    }else{
+        return Redirect::guest('nguoi-dung/dang-nhap');
+    }
+});
+
+Route::filter('hasRoleLocation', function(){
+    if(!Entrust::can('manage_location')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});

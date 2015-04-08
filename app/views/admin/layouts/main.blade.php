@@ -73,6 +73,7 @@
 <body class="page-quick-sidebar-over-content page-header-fixed page-sidebar-fixed page-footer-fixed">
 <!-- BEGIN HEADER -->
 <div class="page-header navbar navbar-fixed-top">
+
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
@@ -514,11 +515,11 @@
                     <!-- END RESPONSIVE QUICK SEARCH FORM -->
                 </li>
 
-
+                {{--dash board--}}
                 <li class="start">
                     <a href="javascript:;">
                         <i class="icon-desktop-3"></i>
-                        <span class="title">Dashboard</span>
+                        <span class="title">Dash board</span>
                         <span class="selected"></span>
                         <span class="arrow open"></span>
                     </a>
@@ -541,150 +542,132 @@
                     </ul>
                 </li>
 
-                <li @if(Request::is("qtri-choidau/location*")) class="open active" @endif>
-                    <a href="#"><i class="icon-location-7"></i><span class="title"> ĐỊA ĐIỂM</span>
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li @if(Request::is("qtri-choidau/location/")) class="active" @endif>
-                            <a href="{{URL::to("qtri-choidau/location/")}}">Danh sách địa điểm</a>
-                        </li>
-                        <li @if(Request::is("qtri-choidau/location/review*")) class="active" @endif>
-                            <a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
-                        </li>
-                    </ul>
+                {{--location--}}
+                @if(Entrust::can('manage_location'))
+                    <li @if(Request::is("qtri-choidau/location*")) class="open active" @endif>
+                        <a href="#"><i class="icon-location-7"></i><span class="title"> ĐỊA ĐIỂM</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li @if(Request::is("qtri-choidau/location/")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/location/")}}">Danh sách địa điểm</a>
+                            </li>
+                            <li @if(Request::is("qtri-choidau/location/review*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/location/review")}}">Review</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{--post--}}
+                @if(Entrust::can('manage_post'))
+                    <li @if(str_contains(Route::currentRouteAction(),"AdminBlog")) class="active" @endif>
+                        <a href="{{URL::to("qtri-choidau/blog")}}">
+                            <i class="icon-pen"></i>
+                            <span class="title">BÀI VIẾT</span>
+                        </a>
+                    </li>
+                @endif
+
+                {{--media--}}
+                @if(Entrust::can('manage_media'))
+                    <li @if(Request::is("qtri-choidau/media*")) class="open active" @endif>
+                        <a href="#"><i class="icon-video-3"></i><span class="title">MEDIA</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li @if(Request::is("qtri-choidau/media/video*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/media/video")}}"><i class="icon-video-3"></i> VIDEO</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-photo-1"></i> HÌNH ẢNH</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{--FAQ--}}
+                @if(Entrust::can('manage_faq'))
+                    <li @if(Request::is("qtri-choidau/hoi-dap*")) class="open active" @endif>
+                        <a href="{{URL::to("qtri-choidau/hoi-dap/")}}"><i class="icon-chat-empty"></i><span class="title">HỎI ĐÁP</span></a>
+                    </li>
+                @endif
+
+                {{--USER--}}
+                @if(Entrust::can('manage_user'))
+                    <li @if(Request::is("qtri-choidau/users*")) class="open active" @endif>
+                        <a href="#"><i class="icon-user-outline"></i><span class="title"> THÀNH VIÊN</span>
+                            <span class="arrow @if(Request::is("qtri-choidau/users")) open @endif"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li @if(Request::is("qtri-choidau/users")) class="active" @endif>
+                                <a @if(!Request::is("qtri-choidau/users")) href="{{URL::to("qtri-choidau/users")}}" @endif >
+                                    <i class="icon icon-list"></i> Danh sách thành viên</a>
+                            </li>
+                            <li>
+                                <a href="{{URL::to("qtri-choidau/users/create")}}">
+                                    <i class="glyphicon glyphicon-plus-sign"></i> Thêm thành viên
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{--USER GROUP--}}
+                @if(Entrust::can('manage_user_group'))
+                    <li @if(Request::is("qtri-choidau/roles*")) class="active" @endif>
+                        <a @if(!Request::is("qtri-choidau/roles")) href="{{URL::to("qtri-choidau/roles")}}" @endif>
+                            <i class="icon icon-group"></i>
+                            Nhóm thành viên
+                        </a>
+                    </li>
+                @endif
+
+                {{--ADS--}}
+                @if(Entrust::can('manage_ads'))
+                    <li>
+                        <a href="#"><i class="icon-star-1"></i><span class="title"> QUẢNG CÁO</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Danh sách quảng cáo</a> </li>
+                            <li><a href="#">Thêm quảng cáo</a></li>
+                            <li><a href="#">Cài đặt quảng cáo</a></li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{--SLIDER--}}
+                @if(Entrust::can('manager_slider'))
+                    <li>
+                        <a href="#"><i class="icon-leaf"></i><span class="title">SLIDER</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Danh sách slider</a></li>
+                            <li><a href="#">Thêm slider</a></li>
+                            <li><a href="#">Cài đặt slider</a></li>
+                        </ul>
+                    </li>
+                @endif
 
 
-                </li>
-                <li @if(str_contains(Route::currentRouteAction(),"AdminBlog")) class="active" @endif>
-                    <a href="{{URL::to("qtri-choidau/blog")}}">
-                        <i class="icon-pen"></i>
-                        <span class="title">BÀI VIẾT</span>
-                    </a>
-                </li>
-
-                <li @if(Request::is("qtri-choidau/media*")) class="open active" @endif>
-                    <a href="#"><i class="icon-video-3"></i><span class="title">MEDIA</span>
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li @if(Request::is("qtri-choidau/media/video*")) class="active" @endif>
-                            <a href="{{URL::to("qtri-choidau/media/video")}}"><i class="icon-video-3"></i> VIDEO</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icon-photo-1"></i> HÌNH ẢNH</a>
-                        </li>
-                    </ul>
-
-                </li>
-
-                <li @if(Request::is("qtri-choidau/hoi-dap*")) class="open active" @endif>
-                    <a href="{{URL::to("qtri-choidau/hoi-dap/")}}"><i class="icon-chat-empty"></i><span class="title">HỎI ĐÁP</span></a>
-                </li>
-
-                <li @if(Request::is("qtri-choidau/users*")) class="open active" @endif>
-                    <a href="#"><i class="icon-user-outline"></i><span class="title"> THÀNH VIÊN</span>
-                        <span class="arrow @if(Request::is("qtri-choidau/users")) open @endif"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li @if(Request::is("qtri-choidau/users")) class="active" @endif>
-                            <a @if(!Request::is("qtri-choidau/users")) href="{{URL::to("qtri-choidau/users")}}" @endif >
-                                <i class="icon icon-list"></i> Danh sách thành viên</a>
-                        </li>
-                        <li>
-                            <a href="{{URL::to("qtri-choidau/users/create")}}">
-                                <i class="glyphicon glyphicon-plus-sign"></i> Thêm thành viên
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li @if(Request::is("qtri-choidau/roles*")) class="active" @endif>
-                    <a @if(!Request::is("qtri-choidau/roles")) href="{{URL::to("qtri-choidau/roles")}}" @endif>
-                        <i class="icon icon-group"></i>
-                        Nhóm thành viên
-                    </a>
-                </li>
-
-                <li>
-
-
-                    <a href="#"><i class="icon-star-1"></i><span class="title"> QUẢNG CÁO</span>
-
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Danh sách quảng cáo</a>
-                        </li>
-
-                        <li><a href="#">
-                                Thêm quảng cáo</a>
-                        </li>
-                        <li><a href="#">Cài đặt quảng cáo</a>
-                        </li>
-
-
-                    </ul>
-
-
-                </li>
-                <li>
-
-
-                    <a href="#"><i class="icon-leaf"></i><span class="title">SLIDER</span>
-
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Danh sách slider</a>
-                        </li>
-
-                        <li><a href="#">
-                                Thêm slider</a>
-                        </li>
-                        <li><a href="#">Cài đặt slider</a>
-                        </li>
-
-
-                    </ul>
-
-                </li>
-                <li>
-
-                    <a href="javascript:;">
-                        <i class="icon-cogs"></i>
-                        <span class="title">CÀI ĐẶT</span>
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="#">
-                                <i class="icon-home"></i>
-                                Giao diện</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-home"></i>
-                                Nội dung</a>
-                        </li>
-                        <li>
-                            <a href="ecommerce_orders.html">
-                                <i class="icon-basket"></i>
-                                Editer</a>
-                        </li>
-
-
-                        <li>
-                            <a href="ecommerce_orders_view.html">
-                                <i class="icon-tag"></i>
-                                Popup</a>
-                        </li>
-
-
-                    </ul>
-                </li>
-
-
+                {{--SETTING--}}
+                @if(Entrust::can('manager_setting'))
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-cogs"></i>
+                            <span class="title">CÀI ĐẶT</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="#"><i class="icon-home"></i>Giao diện</a></li>
+                            <li><a href="#"><i class="icon-home"></i>Nội dung</a></li>
+                            <li><a href="ecommerce_orders.html"><i class="icon-basket"></i>Editer</a></li>
+                            <li><a href="ecommerce_orders_view.html"><i class="icon-tag"></i>Popup</a></li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
             <!-- END SIDEBAR MENU -->
         </div>
@@ -838,14 +821,9 @@
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="
-                @if(isset($url_page))
-                {{$url_page}}
-                @endif
-
-                                ">    @if(isset($name_page))
-                                {{$name_page}}
-                            @endif</a>
+                        <a href="@if(isset($url_page)){{$url_page}} @endif">
+                            @if(isset($name_page)){{$name_page}}  @endif
+                        </a>
                     </li>
                 </ul>
                 <div class="page-toolbar">

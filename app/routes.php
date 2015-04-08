@@ -47,7 +47,7 @@ Route::post("changePorvince", function () {
  *  Admin Routes
  *  ------------------------------------------
  */
-Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () {
+Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), function () {
 
     /* Route::get('/', function()
      {
@@ -79,24 +79,21 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth'), function () 
     Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
     Route::controller('users', 'AdminUsersController');
 
-    # User Role Management
     Route::get('roles/{role}/show', 'AdminRolesController@getShow');
     Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
     Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
     Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
     Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
     Route::controller('roles', 'AdminRolesController');
+
+
     // luuhoabk - qtri review
-    Route::get("location/loadreview","AdminLocationsController@loadReview");
-    Route::get("location/review-item-{post_id}","AdminLocationsController@loadDetailReview");
-    Route::post("location/actionreview","AdminLocationsController@actionReview");
-
-    // END luuhoabk - qtri review
-
-    /* imtoantran location management route start */
-    Route::controller("location","AdminLocationsController");
-    /* imtoantran loction management route stop */
-
+    Route::group(array('prefix' => 'location', 'before' => 'hasRoleLocation'), function () {
+        Route::get("loadreview","AdminLocationsController@loadReview");
+        Route::get("review-item-{post_id}","AdminLocationsController@loadDetailReview");
+        Route::post("actionreview","AdminLocationsController@actionReview");
+        Route::controller("/","AdminLocationsController");
+    });
 
     //// luuhoabk - qtri hoi dap
     Route::controller("hoi-dap","AdminFaqController");
