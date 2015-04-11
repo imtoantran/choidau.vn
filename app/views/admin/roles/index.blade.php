@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('admin.layouts.main')
 
 {{-- Web site Title --}}
 @section('title')
@@ -9,10 +9,9 @@
 @section('content')
 	<div class="page-header">
 		<h3>
-			Role Management
-
+			Phân quyền thành viên
 			<div class="pull-right">
-				<a href="{{{ URL::to('admin/roles/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+				<a href="{{{ URL::to('qtri-choidau/roles/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
 			</div>
 		</h3>
 	</div>
@@ -44,9 +43,9 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('admin/roles/data') }}",
+		        "ajax": "{{ URL::to('qtri-choidau/roles/data') }}",
 		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+//	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
 	     		}
 			});
 		});

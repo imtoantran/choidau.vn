@@ -24,6 +24,12 @@ class LocationPost extends Post {
 		return $this->belongsToMany('Category');
 	}
 	public function reviews(){
-		return$this->hasMany("Review","parent_id");
+		return $this->hasMany("Review","parent_id");
 	}
+
+	public function getImage(){
+//		return $this->hasMany("Post","post_id");
+		return $this->belongsToMany('Post','blog_post');
+	}
+
 }

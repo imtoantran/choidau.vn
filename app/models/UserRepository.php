@@ -31,32 +31,35 @@ class UserRepository
 	//	$user->username = array_get($input, 'username');
 	//	$user->email    = array_get($input, 'email');
 	//	$user->password = array_get($input, 'password');
+		$birthday = explode("/",$data['birthday']);
 
-
-        $user->username=$data['username'];
-        $user->email=$data['email'];
-        $user->password=$data['password'];
-        $user->province_id=$data['province'];
-        $user->status_marriage_id=$data['status_marriage'];
-        $user->about=$data['about'];
-        $user->gender=$data['gender'];
-        $string=$data['year'].'-'.$data['mon'].'-'.$data['day'];
-        $user->birthday= $string;
+        $user->fullname		= $data['fullname'];
+        $user->username		= $data['username'];
+        $user->email		= $data['email'];
+        $user->password		= $data['password'];
+		$user->gender		= $data['gender'];
+		$user->giftpoint	= 0;
+		$user->confirmed	= 1;
+		$user->birthday		= $birthday[2].'-'.$birthday[1].'-'.$birthday[0];
+		$user->password_confirmation = $data['password-confirm'];
+		$user->confirmation_code     = md5(uniqid(mt_rand(), true));
+//        $user->province_id=$data['province'];
+//        $user->status_marriage_id=$data['status_marriage'];
+//        $user->about=$data['about'];
+//        $string=$data['year'].'-'.$data['mon'].'-'.$data['day'];
 
 		// The password confirmation will be removed from model
 		// before saving. This field will be used in Ardent's
 		// auto validation.
-		$user->password_confirmation = array_get($data, 'password_confirmation');
+//		$user->password_confirmation = array_get($data, 'password_confirmation');
 
 		// Generate a random confirmation code
-		$user->confirmation_code     = md5(uniqid(mt_rand(), true));
 
 		// Save if valid. Password field will be hashed before save
         if($this->save($user)){
             return $user;
         }
         return false;
-
 	}
 
 	/**

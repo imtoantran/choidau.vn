@@ -22,13 +22,13 @@ return array(
 		 * Facebook
 		 */
         'Facebook' => array(
-            'client_id'     => '813879558683621',
-            'client_secret' => 'e97534d43f5e5aa478f5da65a5717cf7',
+            'client_id'     => '665277883595055',
+            'client_secret' => 'b8adfd7bb048f875a4b8dec6da8f3d3d',
             'scope'         => array('email','read_friendlists','user_online_presence'),
         ),
 		'Google' => array(
-			'client_id'     => '727541704163-kmbu7j23pah3sabt17a0fd1586vdc393.apps.googleusercontent.com',
-			'client_secret' => 'eXppj6Nat2Hwhu7k3NVRoV-s',
+			'client_id'     => '103587534494-o2pp1aksvqh1ka50kbbg72a664adee0o.apps.googleusercontent.com',
+			'client_secret' => 'VgOXvghBc14qNhAwfMeCrBxq',
 			'scope'         => array('userinfo_email', 'userinfo_profile'),
 		),
 

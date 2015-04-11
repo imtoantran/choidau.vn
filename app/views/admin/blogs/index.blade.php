@@ -45,26 +45,12 @@
 		</tbody>
 	</table>
 @stop
-
-
-
-
-@section('styles')
-	<link rel="stylesheet" href="{{asset("assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css")}}">
-	<link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
-{{--	<link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">--}}
-{{--	<link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">--}}
-	<link rel="stylesheet" href="{{asset('assets/global/plugins/colorbox/colorbox.css')}}">
-@stop
 {{-- Scripts --}}
 @section('scripts')
-	<script src="{{asset("assets/global/plugins/datatables/media/js/jquery.dataTables.min.js")}}" type="text/javascript"></script>
-	<script src="{{asset("assets/global/plugins/datatables/datatables-bootstrap.js")}}" type="text/javascript"></script>
-	<script src="{{asset("assets/global/plugins/datatables/datatables.fnReloadAjax.js")}}" type="text/javascript"></script>
-	<script src="{{asset("assets/global/plugins/datatables/jquery.colorbox.js")}}" type="text/javascript"></script>
 {{--	<script src="{{asset("assets/global/plugins/fancybox/source/jquery.fancybox.pack.js")}}" type="text/javascript"></script>--}}
 	<script type="text/javascript">
 		var oTable;
+		var _$ = "#blogs";
 		$(document).ready(function() {
 			oTable = $('#blogs').dataTable( {
 				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
@@ -76,8 +62,6 @@
 		        "bServerSide": true,
 		        "sAjaxSource": "{{ URL::to('qtri-choidau/blog/data/'.$slug) }}",
 		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"100%", height:"100%"});
-	           		//$(".iframe").fancybox({iframe:true, width:"80%", height:"80%"});
 	     		}
 			});
 			$("#inputID").change(function(e){
@@ -85,6 +69,38 @@
 					location.href = "{{URL::to("qtri-choidau/blog/danh-muc-")}}"+$(this).val();
 				}
 			});
+			/* imtoantran user action start */
+			$(_$).on("click","[data-action]",function(e){
+				var _t = this;
+				switch ($(_t).data("action")) {
+					case "delete":
+						if(!confirm("Bạn chắc chắn muốn xóa?","Có","Không")) return false;
+						break;
+					default:break;
+				}
+				$.blockUI();
+				$.ajax({
+					url:$(this).data("controller"),
+					type:"post",
+					dataType:"json",
+					data:$(this).data(),
+					success:function(response){
+						if(response.success) {
+							switch ($(_t).data("action")) {
+								case "delete":
+									$(_t).closest("tr").fadeOut("slow",function(_){$(this).remove()});
+									break;
+								default:
+									break;
+							}
+						}
+					},
+					complete:function(_){
+						$.unblockUI();
+					}
+				});
+			});
+			/* imtoantran user action end */
 		});
 	</script>
 @stop

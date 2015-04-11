@@ -1,5 +1,4 @@
-{{--<a class="btn btn-primary" data-toggle="modal" href="uploadImageModal">Trigger modal</a>--}}
-<div class="modal fade" id="uploadImageModal">
+<div class="modal fade" id="uploadImageModal" data-backdrop="static" data-focus-on="input:first" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -7,15 +6,15 @@
 				<h4 class="modal-title margin-bottom-0"><i class="icon-picture"></i> hình địa điểm</h4>
 			</div>
 			<div class="modal-body">
-				<session>
+				<section>
 					<div class="row wrapper-img">
-						@if($location->album()->count())
-							@foreach($location->album()->get() as $image)
-								<div class="col-xs-3 item-img"  data-img-id="{{$image->id}}">
-									<button type="button" data-img-album="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips" data-original-title="Xóa">
+						@if($location->images()->count())
+							@foreach($location->images()->get() as $image)
+								<div class="col-xs-2 item-img"  data-image-id="{{$image->id}}">
+									<button type="button" data-image-id="{{$image->id}}" class="no-padding location-img-btn-close-item tooltips margin-none" data-original-title="Xóa">
 										<i class="icon-cancel-circled"></i>
 									</button>
-									<img style="width: 117px; height: 87px;" class="padding-3 img-border-grey img-responsive" src="{{$image->getMetaKey("url")}}" alt=""/>
+									<img style="width: 100%; " class="padding-3 img-border-grey" src="{{$image->thumbnail;}}" alt=""/>
 								</div>
 							@endforeach
 						@else
@@ -25,13 +24,13 @@
 							</div>
 						@endif
 					</div>
-				</session>
+				</section>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-				<div id="iM_user_slide1" type_insert="location_insert_album" class=" col-md-4 insertMedia single-picture-wrapper imageManager_openModal1" style="position: relative;" data-toggle="modal" data-target="#imageManager_modal">
+				<div class="col-md-4" style="position: relative;">
 					<div class="add-picture vertically-centered" style="">
-						<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
+						<button id="btn-upgrade-imgs" type="button" class="form-control yellow btn btn-warning text-left" style="color: #fff!important;"> <i class="icon-file-image" style="font-size: 1.3em;"></i> Thêm ảnh</button>
 					</div>
 				</div>
 			</div>

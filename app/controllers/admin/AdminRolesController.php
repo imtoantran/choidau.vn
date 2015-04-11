@@ -95,7 +95,6 @@ class AdminRolesController extends AdminController {
 
             $this->role->name = $inputs['name'];
             $this->role->save();
-
             // Save permissions
             $this->role->perms()->sync($this->permission->preparePermissionsForSave($inputs['permissions']));
 
@@ -103,18 +102,18 @@ class AdminRolesController extends AdminController {
             if ($this->role->id)
             {
                 // Redirect to the new role page
-                return Redirect::to('admin/roles/' . $this->role->id . '/edit')->with('success', Lang::get('admin/roles/messages.create.success'));
+                return Redirect::to('qtri-choidau/roles/' . $this->role->id . '/edit')->with('success', Lang::get('admin/roles/messages.create.success'));
             }
 
             // Redirect to the new role page
-            return Redirect::to('admin/roles/create')->with('error', Lang::get('admin/roles/messages.create.error'));
+            return Redirect::to('qtri-choidau/roles/create')->with('error', Lang::get('admin/roles/messages.create.error'));
 
             // Redirect to the role create page
-            return Redirect::to('admin/roles/create')->withInput()->with('error', Lang::get('admin/roles/messages.' . $error));
+            return Redirect::to('qtri-choidau/roles/create')->withInput()->with('error', Lang::get('admin/roles/messages.' . $error));
         }
 
         // Form validation failed
-        return Redirect::to('admin/roles/create')->withInput()->withErrors($validator);
+        return Redirect::to('qtri-choidau/roles/create')->withInput()->withErrors($validator);
     }
 
     /**
@@ -180,17 +179,17 @@ class AdminRolesController extends AdminController {
             if ($role->save())
             {
                 // Redirect to the role page
-                return Redirect::to('admin/roles/' . $role->id . '/edit')->with('success', Lang::get('admin/roles/messages.update.success'));
+                return Redirect::to('qtri-choidau/roles/' . $role->id . '/edit')->with('success', Lang::get('admin/roles/messages.update.success'));
             }
             else
             {
                 // Redirect to the role page
-                return Redirect::to('admin/roles/' . $role->id . '/edit')->with('error', Lang::get('admin/roles/messages.update.error'));
+                return Redirect::to('qtri-choidau/roles/' . $role->id . '/edit')->with('error', Lang::get('admin/roles/messages.update.error'));
             }
         }
 
         // Form validation failed
-        return Redirect::to('admin/roles/' . $role->id . '/edit')->withInput()->withErrors($validator);
+        return Redirect::to('qtri-choidau/roles/' . $role->id . '/edit')->withInput()->withErrors($validator);
     }
 
 
@@ -235,17 +234,20 @@ class AdminRolesController extends AdminController {
      */
     public function getData()
     {
+        $user = Auth::user();
         $roles = Role::select(array('roles.id',  'roles.name', 'roles.id as users', 'roles.created_at'));
 
         return Datatables::of($roles)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
         ->edit_column('users', '{{{ DB::table(\'assigned_roles\')->where(\'role_id\', \'=\', $id)->count()  }}}')
-
-
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/roles/\' . $id . \'/edit\' ) }}}" class="iframe btn btn-xs btn-default">{{{ Lang::get(\'button.edit\') }}}</a>
-                                <a href="{{{ URL::to(\'admin/roles/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-xs btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
-                    ')
-
+        ->add_column('actions',function($row){
+            $str = '';
+            if($row['id'] >0){
+                $str .= '<a href="'.URL::to('qtri-choidau/roles/' . $row['id'] . '/edit').'" class="iframe btn btn-xs btn-default">Sửa</a>';
+                $str .= '<a href="'.URL::to('qtri-choidau/roles/' . $row['id'] . '/delete' ).'" class="iframe btn btn-xs btn-danger">Xóa</a>';
+            }
+            return $str;
+        })
         ->remove_column('id')
 
         ->make();

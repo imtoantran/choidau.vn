@@ -219,3 +219,62 @@
 .page-header{
 	margin: 10px 0px;
 }
+.social-btn .liked{
+	display: none;
+}
+.social-btn.true .liked{
+	display:inline;
+}
+.social-btn .un-liked{
+	display: inline;
+}
+.social-btn.true .un-liked {
+	display: none;
+
+}
+.social-btn.true .report-spam{
+	display: none;
+}
+#member .thumbnail img{ width: 100%}
+#photo-tab-member .thumbnail a:first-child{
+	display: block;
+}
+#photo-tab-member .thumbnail a{
+	display: none;
+}
+/* review start */
+.review-image{
+	width: 20%;
+	padding: 1%;
+	float: left;
+	position: relative;
+}
+
+.review-image-container{
+	overflow: auto;
+	background: #eee;
+}
+.review-image i{
+	position: absolute;
+	font-size: 20px;
+	right:1%;
+	top:1%;
+	color: #5afe42;
+	cursor: pointer;
+}
+.review-image i:hover{
+	color: #e0210a;
+}
+/* review stop */
+#food table tbody tr {
+	cursor: pointer;
+}
+#food table td{
+	vertical-align: middle;
+}
+#friend-online li{
+	display:none;
+}
+#friend-online li.active{
+	display:block;
+}

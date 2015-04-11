@@ -1,7 +1,8 @@
 <?php
 
 //use ChoiDau\Extensions\View\Factory;
-class UserController extends BaseController {
+class UserController extends BaseController
+{
 
     /**
      * User Model
@@ -33,8 +34,10 @@ class UserController extends BaseController {
      */
     public function getIndex()
     {
-        list($user,$redirect) = $this->user->checkAuthAndRedirect('user');
-        if($redirect){return $redirect;}
+        list($user, $redirect) = $this->user->checkAuthAndRedirect('user');
+        if ($redirect) {
+            return $redirect;
+        }
 
         // Show the page
         return View::make('site/user/index', compact('user'));
@@ -48,7 +51,7 @@ class UserController extends BaseController {
     {
         $user = $this->userRepo->signup(Input::all());
 
-        if ($user->id&&false) {//imtoantran
+        if ($user->id && false) {//imtoantran
             if (Config::get('confide::signup_email')) {
                 Mail::queueOn(
                     Config::get('confide::email_queue'),
@@ -103,7 +106,7 @@ class UserController extends BaseController {
 
         if ($this->userRepo->save($user)) {
             return Redirect::to('thanh-vien')
-                ->with( 'success', Lang::get('user/user.user_account_updated') );
+                ->with('success', Lang::get('user/user.user_account_updated'));
         } else {
             $error = $user->errors()->all(':message');
             return Redirect::to('thanh-vien')
@@ -119,41 +122,58 @@ class UserController extends BaseController {
      */
     public function getCreate()
     {
-        $page_title='Đăng ký thành viên choidau.net';
-        $seoarray=array('metakey'=>'aasd,asd,asd,','metades'=>'asd ada asd a sdads');
-        $js_script='
-        Layout.btnSelection();
-        ';
-
-
-             $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
-              $listProvince=Province::orderBy('name','ASC')->get();
-             $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-
-   //     $listTinh='abc';
-        return View::make('site/user/create',compact('page_title','js_script','seoarray','listProvince','listTTHN','listStatusPost'));
-
-    }
-    public function postCreate(){
-        $user = Auth::user();
-        if(!empty($user->id)){
-            return Redirect::to('/');
-        }
-        $data=Input::all();
-
-            $user_singup= $this->userRepo->signup($data);
-        if(!$user_singup){
-            $listProvince=Province::orderBy('name','ASC')->get();
-            $listTTHN=Option::orderBy('name','ASC')->where('name','=','user_status_marriage')->get();
-
-            $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-
-            return View::make('site/user/create',compact('page_title','seoarray','listProvince','listTTHN','listStatusPost'));
-
+        if(Auth::check()){
+            $user = Auth::user();
+            return Redirect::to('/trang-ca-nhan/'.$user->username.'.html');
         }else{
-              return View::make('site/user/login',compact('page_title'));
-
+            $page_title = 'Đăng ký thành viên choidau.net';
+            $seoarray = array('metakey' => '', 'metades' => '');
+            return View::make('site/user/create', compact('page_title', 'seoarray'));
         }
+
+//        $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+//        $listProvince = Province::orderBy('name', 'ASC')->get();
+//        $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
+        //     $listTinh='abc';
+    }
+
+    public function userExist(){
+        $data = Input::all();
+        if($data['type'] == 'username'){
+            echo User::whereUsername($data['value'])->count();
+        }else{
+            echo User::whereEmail($data['value'])->count();
+        }
+    }
+
+    public function postCreate()
+    {
+        $user = Auth::user();
+        if (!empty($user->id)) {
+            echo 0;
+        }
+        $data = Input::all();
+
+        echo $this->userRepo->signup($data);
+
+//        if($user_singup){
+//            echo 1;
+//        }else{
+//            echo 0;
+//        }
+//
+//
+//        if (!$user_singup) {
+//            $listProvince = Province::orderBy('name', 'ASC')->get();
+//            $listTTHN = Option::orderBy('name', 'ASC')->where('name', '=', 'user_status_marriage')->get();
+//
+//            $listStatusPost = Option::orderBy('name', 'ASC')->where('name', '=', 'post_privacy')->get();
+//
+//            return View::make('site/user/create', compact('page_title', 'seoarray', 'listProvince', 'listTTHN', 'listStatusPost'));
+//
+//        } else {
+//            return View::make('site/user/login', compact('page_title'));//
+//        }
 
     }
 
@@ -164,13 +184,13 @@ class UserController extends BaseController {
      */
     public function getLogin()
     {
-        $page_title='';
+        $page_title = '';
         $user = Auth::user();
-        if(!empty($user->id)){
+        if (!empty($user->id)) {
             return Redirect::to('/');
         }
 
-        return View::make('site/user/login',compact('page_title'));
+        return View::make('site/user/login', compact('page_title'));
     }
 
     /**
@@ -187,7 +207,7 @@ class UserController extends BaseController {
             $arr['url'] = Session::get('url_link_current');
 
         } else {
-            $arr['url'] ="";
+            $arr['url'] = "";
             if ($this->userRepo->isThrottled($input)) {
                 $err_msg = 0;
             } elseif ($this->userRepo->existsButNotConfirmed($input)) {
@@ -210,15 +230,12 @@ class UserController extends BaseController {
      */
     public function getConfirm($code)
     {
-        if ( Confide::confirm( $code ) )
-        {
+        if (Confide::confirm($code)) {
             return Redirect::to('user/login')
-                ->with( 'notice', Lang::get('confide::confide.alerts.confirmation') );
-        }
-        else
-        {
+                ->with('notice', Lang::get('confide::confide.alerts.confirmation'));
+        } else {
             return Redirect::to('user/login')
-                ->with( 'error', Lang::get('confide::confide.alerts.wrong_confirmation') );
+                ->with('error', Lang::get('confide::confide.alerts.wrong_confirmation'));
         }
     }
 
@@ -253,11 +270,11 @@ class UserController extends BaseController {
      * Shows the change password form with the given token
      *
      */
-    public function getReset( $token )
+    public function getReset($token)
     {
 
         return View::make('site/user/reset')
-            ->with('token',$token);
+            ->with('token', $token);
     }
 
 
@@ -269,9 +286,9 @@ class UserController extends BaseController {
     {
 
         $input = array(
-            'token'                 =>Input::get('token'),
-            'password'              =>Input::get('password'),
-            'password_confirmation' =>Input::get('password_confirmation'),
+            'token' => Input::get('token'),
+            'password' => Input::get('password'),
+            'password_confirmation' => Input::get('password_confirmation'),
         );
 
         // By passing an array with the token, password and confirmation
@@ -281,7 +298,7 @@ class UserController extends BaseController {
                 ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-            return Redirect::to('user/reset', array('token'=>$input['token']))
+            return Redirect::to('user/reset', array('token' => $input['token']))
                 ->withInput()
                 ->with('error', $error_msg);
         }
@@ -310,8 +327,7 @@ class UserController extends BaseController {
         $user = $userModel->getUserByUsername($username);
 
         // Check if the user exists
-        if (is_null($user))
-        {
+        if (is_null($user)) {
             return App::abort(404);
         }
 
@@ -320,8 +336,10 @@ class UserController extends BaseController {
 
     public function getSettings()
     {
-        list($user,$redirect) = User::checkAuthAndRedirect('user/settings');
-        if($redirect){return $redirect;}
+        list($user, $redirect) = User::checkAuthAndRedirect('user/settings');
+        if ($redirect) {
+            return $redirect;
+        }
 
         return View::make('site/user/profile', compact('user'));
     }
@@ -333,59 +351,70 @@ class UserController extends BaseController {
      * @param $url3
      * @return string
      */
-    public function processRedirect($url1,$url2,$url3)
+    public function processRedirect($url1, $url2, $url3)
     {
         $redirect = '';
-        if( ! empty( $url1 ) )
-        {
+        if (!empty($url1)) {
             $redirect = $url1;
-            $redirect .= (empty($url2)? '' : '/' . $url2);
-            $redirect .= (empty($url3)? '' : '/' . $url3);
+            $redirect .= (empty($url2) ? '' : '/' . $url2);
+            $redirect .= (empty($url3) ? '' : '/' . $url3);
         }
         return $redirect;
     }
 
-    public function checkLogin(){
-        $data=Input::get('url');
+    public function checkLogin()
+    {
+        $data = Input::get('url');
         Session::put('url_link_current', $data);
         echo Auth::check();
     }
 
-    public function loginWithFacebook() {
+
+    public function getTotalLikeLocation()
+    {
+        return User::getTotalLikeLocation();
+    }
+
+
+//    luuhoabk
+
+
+    public function loginWithFacebook()
+    {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = Input::get('code');
 
         // get fb service
-        $fb = OAuth::consumer('Facebook' );
+        $fb = OAuth::consumer('Facebook');
 
         // check if code is valid
 
         // if code is provided get user data and sign in
-        if ( !empty( $code ) ) {
-            $current_url =  Session::get('url_link_current');
+        if (!empty($code)) {
+            $current_url = Session::get('url_link_current');
             // This was a callback request from facebook, get the token
-            $token = $fb->requestAccessToken( $code );
+            $token = $fb->requestAccessToken($code);
 
             // Send a request with it
-            $result = json_decode( $fb->request( '/me' ), true );
+            $result = json_decode($fb->request('/me'), true);
 
-            $fb_id = '[FB]'.$result['id'];
+            $fb_id = '[FB]' . $result['id'];
             $fb_name = $result['name'];
             $fb_email = $result['email'];
             $fb_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($fb_id)->count()){
+            if (User::whereEmail($fb_email)->count()) {
                 // ton tai
-                $user = User::whereUsername($fb_id)->first();
+                $user = User::whereEmail($fb_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
-            }else{
+            } else {
                 $kq = DB::table('users')->insert(
                     array(
                         'username' => $fb_id,
                         'email' => $fb_email,
                         'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
-                        'gender' => ($fb_gender == 'male')? 1 : 0,
+                        'gender' => ($fb_gender == 'male') ? 1 : 0,
                         'confirmation_code' => md5(uniqid(mt_rand(), true)),
                         'confirmed' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
@@ -396,86 +425,264 @@ class UserController extends BaseController {
                     )
                 );
 
-                if($kq){
-                    $user = User::whereUsername($fb_id)->first();
+                if ($kq) {
+                    $user = User::whereEmail($fb_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
             }
-        }
-
-        // if not ask for permission first
+        } // if not ask for permission first
         else {
             // get fb authorization
             $current_url = Input::get('current_url');
             Session::put('url_link_current', $current_url);
             $url = $fb->getAuthorizationUri();
-            echo  $url;
+            echo $url;
         }
 
     }
 
-    public function loginWithGoogle() {
+    public function loginWithGoogle()
+    {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = Input::get('code');
 
         // get fb service
-        $google = OAuth::consumer('Google' );
+        $google = OAuth::consumer('Google');
 
         // check if code is valid
 
         // if code is provided get user data and sign in
-        if ( !empty( $code ) ) {
-            $current_url =  Session::get('url_link_current');
+        if (!empty($code)) {
+            $current_url = Session::get('url_link_current');
             // This was a callback request from google, get the token
-            $token = $google->requestAccessToken( $code );
+            $token = $google->requestAccessToken($code);
 
             // Send a request with it
-            $result = json_decode( $google->request('https://www.googleapis.com/oauth2/v1/userinfo'), true );
+            $result = json_decode($google->request('https://www.googleapis.com/oauth2/v1/userinfo'), true);
 
-            $google_id = '[GG]'.$result['id'];
+            $google_id = '[GG]' . $result['id'];
             $google_name = $result['name'];
             $google_email = $result['email'];
             $google_gender = $result['gender'];
             //luuhoabk - neu ton tai email thi lay thong tin va login/ chua thi them vao databaseva login
-            if(User::whereUsername($google_id)->count()){
+            if (User::whereEmail($google_email)->count()) {
                 // ton tai
-                $user = User::whereUsername($google_id)->first();
+                $user = User::whereEmail($google_email)->first();
                 Auth::login($user);
                 return Redirect::to($current_url);
-            }else{
+            } else {
                 $kq = DB::table('users')->insert(
                     array(
                         'username' => $google_id,
                         'email' => $google_email,
                         'password' => md5(bin2hex(openssl_random_pseudo_bytes(3))),
-                        'gender' => ($google_gender == 'male')? 1 : 0,
+                        'gender' => ($google_gender == 'male') ? 1 : 0,
                         'confirmation_code' => md5(uniqid(mt_rand(), true)),
                         'confirmed' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                         'fullname' => $google_name,
-                        'level_id' => 3,
+                        'level_id' => 28,
                         'status_marriage_id' => 0
                     )
                 );
 
-                if($kq){
-                    $user = User::whereUsername($google_id)->first();
+                if ($kq) {
+                    $user = User::whereEmail($google_email)->first();
                     Auth::login($user);
                 }
                 return Redirect::to($current_url);
             }
-        }
-
-        // if not ask for permission first
+        } // if not ask for permission first
         else {
             // get fb authorization
             $current_url = Input::get('current_url');
             Session::put('url_link_current', $current_url);
             $url = $google->getAuthorizationUri();
-            echo  $url;
+            echo $url;
         }
 
     }
+
+    public function getFriendConfirm()
+    {
+        $user = Auth::user();
+        echo json_encode($user->referFriendConfirm()->withPivot('status_id')->wherePivot('status_id', '=', 35)->get());
+    }
+
+    public function getLocation()
+    {
+        $user = Auth::user();
+        echo json_encode($user->referLocation()->get());
+    }
+// end luuhoabk
+
+//luuhoabk - like post
+    public function postLike()
+    {
+        $user = Auth::user();
+        $data = Input::all();
+        $isPost = $user->isAction('like', $data['post_id']);
+        switch ($data['data_action']) {
+            case 'like':
+                if ($isPost->count()) {
+                    echo -1;
+                    break;
+                } // neu ton tai like roi thi bao loi : -1
+                $now = date_create("now");
+//
+                $meta = new PostMeta();
+                $meta->post_id = $data['post_id'];
+                $meta->meta_value = $data['user_id'];
+                $meta->meta_key = 'like';
+                $meta->created_at = date_format($now, "Y-m-d H:i:s");
+
+                if (!$meta->save()) {
+                    echo -1;
+                    break;
+                } // neu luu khong thanh cong
+                Event::fire('like',$meta);
+                    echo Post::find($data['post_id'])->totalLikes();
+                break;
+
+            case 'unlike':
+                if (!$isPost->count()) {
+                    echo -1;
+                    break;
+                } // neu ko ton tai
+                if (!$isPost->delete()) {
+                    echo -1;
+                    break;
+                } // neu ton tai ma xoa ko thanh cong
+                    echo Post::find($data['post_id'])->totalLikes();
+                break;
+            default;
+                break;
+        }
+    }
+
+//luuhoabk - update post
+    public function closeQuestion(){
+        $data = Input::all();
+        $user = Auth::user();
+        switch($data['post_type']){
+            case 'open':
+                echo Post::whereId($data['post_id'])->update(['status'=> 0]);
+                break;
+            case 'close':
+                echo Post::whereId($data['post_id'])->update(['status'=> 1]);
+                break;
+            default : break;
+        }
+
+    }
+
+
+// luuhoabk - comment post
+    public function postComment(){
+        $user = Auth::user();
+        $data = Input::all();
+        $now = date_create("now");
+        $post = new Comment();
+        $post->title        = "comment";
+        $post->parent_id    =  $data['post_id'];
+        $post->parent_id    =  $data['post_id'];
+        $post->content      = $data['comment_content'];
+        $post->privacy      = 18;
+//        $post->post_type    = 'comment';
+        $post->user_id      = $user->id;
+        $post->created_at   = date_format($now,"Y-m-d H:i:s");
+        $post->updated_at   = date_format($now,"Y-m-d H:i:s");
+        if($post->save()){
+            $post['success'] = 1;
+            $post['post_id'] = $post->id;
+            $post['updated_date'] = 'Vừa xong';
+            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type('comment')->count();
+            $post['user'] = $user;
+            $post['user_url'] = $user->url();
+        }else{
+            $post['success'] = 0;
+        }
+        echo json_encode($post);
+    }
+
+    //luuhoabk - update info
+    public function updateInfo(){
+        $user = Auth::user();
+        $data = Input::all();
+        switch($data['update_type']){
+            case 'background':
+                echo User::whereId($user->id)->update(['background'=>$data['url_bg']]);
+                break;
+            case 'avatar':
+                echo User::whereId($user->id)->update(['avatar'=>$data['url_bg']]);
+                break;
+            case 'user_info':
+                $birthday = explode("/",$data['birthday']);
+                $save_info = User::whereId($user->id)->update([
+                    'fullname'=>$data['fullname'],
+                    'street'=>$data['address'],
+                    'province_id'=>$data['user-province'],
+                    'status_marriage_id'=>$data['status-marriage'],
+                    'birthday'=> $birthday[2].'-'.$birthday[1].'-'.$birthday[0],
+                    'gender'=>$data['gender'],
+                    'phone'=>$data['phone'],
+                    'about'=>$data['about'],
+                ]);
+                if($save_info){
+                    //province
+                    if($user->referMeta('province_id')->count()){
+                        $user->referMeta('province_id')->update(['meta_value'=>$data['privacy_province']]);
+                    }else{ $user->saveMeta('province_id', $data['privacy_province']); }
+
+                    //marriage
+                    if($user->referMeta('status_marriage_id')->count()){
+                        $user->referMeta('status_marriage_id')->update(['meta_value'=>$data['privacy_marriage']]);
+                    }else{ $user->saveMeta('status_marriage_id', $data['privacy_marriage']); }
+
+                    //birthday
+                    if($user->referMeta('birthday')->count()){
+                        $user->referMeta('birthday')->update(['meta_value'=>$data['privacy_birthday']]);
+                    }else{ $user->saveMeta('birthday', $data['privacy_birthday']); }
+
+                    //gender
+                    if($user->referMeta('gender')->count()){
+                        $user->referMeta('gender')->update(['meta_value'=>$data['privacy_gender']]);
+                    }else{ $user->saveMeta('gender', $data['privacy_gender']); }
+
+                    //phone
+                    if($user->referMeta('phone')->count()){
+                        $user->referMeta('phone')->update(['meta_value'=>$data['privacy_phone']]);
+                    }else{ $user->saveMeta('phone', $data['privacy_phone']); }
+
+                    //about
+                    if($user->referMeta('about')->count()){
+                        $user->referMeta('about')->update(['meta_value'=>$data['privacy_about']]);
+                    }else{ $user->saveMeta('about', $data['privacy_about']); }
+
+                    echo 1;
+                }else{
+                    echo 0;
+                }
+                break;
+            case 'acount_info':
+                $user->username = $user->username;
+                $user->email = $user->email;
+                $user->password =  $data['password'];
+                $user->password_confirmation =  $data['password_confirmation'];
+                if($this->userRepo->save($user)){
+                    echo 1;
+                }else{
+                    echo 0;
+                }
+                break;
+            default: break;
+        }
+    }
+
+
+
 }
+
+

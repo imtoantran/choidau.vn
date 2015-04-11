@@ -5,6 +5,8 @@ use Zizaco\Confide\ConfideUserInterface;
 use Zizaco\Entrust\HasRole;
 use Carbon\Carbon;
 
+
+
 class User extends Eloquent implements ConfideUserInterface {
     use ConfideUser, HasRole;
 
@@ -117,21 +119,10 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->hasOne('BlogUser');
     }
 
-    public   function friends(){
-       $friend=Friend::Where('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
 
-
-      // echo '<pre>';
-      //  print_r( $friend);
-      //  echo '</pre>';
-    return $friend;
-     // return  DB::table('friends')
-     //       ->orWhere('user_id','=',$this->id)->orWhere('friend_id','=',$this->id);
-     // return $this->belongsToMany('User','friends','user_id','friend_id');
-
-
+    public function friends(){
+        return $this->referFriend()->withPivot("status_id")->wherePivot("status_id","=",34);
     }
-
 
     public function friends_(){
         //    $list= $this->belongsToMany('User','friends')->orWherePivot('user_id','=',$this->id)
@@ -164,21 +155,8 @@ class User extends Eloquent implements ConfideUserInterface {
 
 
     public function friend_common($user_friend){
-    /*    echo '<pre>';
-        print_r( $list_friend_this=$this->friends()->get());
-        echo '</pre> ----------------------------------------';
-  */
-      //  $list_friend_auth=$user_friend->friends()->get();
-
-
         $list_friend_auth=$user_friend->friends()->get();
         $list_friend_this=$this->friends()->get();
-
-
-        echo '<pre>';
-       // print_r( $list_friend_this);
-        echo '</pre>';
-
         $list_friend_common=array();
 
         foreach($list_friend_this as $item){
@@ -222,7 +200,6 @@ class User extends Eloquent implements ConfideUserInterface {
                                                        ->orWherePivot('post_type','=','status');
     }
 
-
     public function checkin(){
         return $this->belongsToMany("Location")->wherePivot('action_type','=','checkin');
     }
@@ -230,4 +207,58 @@ class User extends Eloquent implements ConfideUserInterface {
     public function location_like(){
         return $this->belongsToMany("Location")->wherePivot('action_type','=','like');
     }
+
+    public function Images(){
+        return $this->hasMany("Image");
+    }
+
+    public function getTotalLikeLocation(){
+        return $this->location_like()->get()->count();
+    }
+
+//    luuhoabk
+    public function referFriendConfirm(){
+        return  $this->belongsToMany("User","friends","friend_id","user_id")->withPivot('user_id');
+    }
+
+    public function referFriend(){
+        return  $this->belongsToMany("User","friends","user_id","friend_id");
+    }
+    public function referLocation(){
+        return  $this->belongsToMany("User","locations","user_id","user_id");
+    }
+
+    public function display_name(){
+        return empty($this->fullname)?$this->username:$this->fullname;
+    }
+    
+    public function isAction($post_type, $post_id){
+        return PostMeta::whereMeta_key($post_type)->whereMeta_value($this->id)->wherePost_id($post_id);
+    }
+    public function meta()
+    {
+        return $this->hasMany("UserMeta", "user_id");
+    }
+    public function referMeta($metakey){
+        return $this->meta()->whereMeta_key($metakey);
+    }
+    public function saveMeta($meta_key,$meta_value){
+        $user_meta = new UserMeta();
+        $user_meta->meta_key = $meta_key;
+        $user_meta->meta_value= $meta_value ;
+        $user_meta->user_id= $this->id ;
+        $user_meta->updated_at=  date_create("now") ;
+        $user_meta->created_at=  date_create("now") ;
+        return $user_meta->save();
+    }
+
+    public function hasLoginAdmin(){
+        $check_manager = AssignedRoles::whereUser_id($this->id)->count();
+        if($check_manager <= 0){
+            return false;
+        }
+        return true;
+    }
+
+
 }

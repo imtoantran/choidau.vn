@@ -39,9 +39,10 @@
 {{-- Content --}}
 @section('content')
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 blog-post">
-            <div class="page-header">
-                <h1>{{ $post->title }}</h1>
-                <div class="entry-meta">
+        <div class="page-header">
+            <h1>{{ $post->title }}</h1>
+
+            <div class="entry-meta">
                     <span class="posted-on">
                         <i class="icon icon-calendar"></i>
                         <a href="{{$post->url()}}" rel="bookmark">
@@ -58,113 +59,48 @@
                         <i class="icon icon-folder-open"></i>
 					    <a href="{{$post->categoryUrl()}}" rel="category tag">{{$post->category->name}}</a>
                     </span>
-                </div>
             </div>
-            <div>{{ $post->content() }}</div>
-            <hr>
+        </div>
+        <div>{{ $post->content() }}</div>
+        <hr>
+        <div>
             <div>
-                <div>
-                    @if($post->isLiked())
-                        <button class="btn btn-xs like-action" likeable="false" data-id="{{$post->id}}">Bỏ thích
-                        </button>
-                    @else
-                        <button class="btn btn-xs btn-primary like-action" likeable="true" data-id="{{$post->id}}">
-                            Thích
-                        </button>
-                    @endif
-                    @if(Auth::check())
-                        <button class="btn btn-xs">Thảo luận</button> <small class="comment-counter">{{ $comments->count() }}</small> <small>bình luận.</small>
-                    @endif
-                </div>
-                <div class="like-item">
-                    @if($post->totalLiked())
-                        @if($post->isLiked())
-                            <small class="me">Bạn</small>
-                        @endif
-                        @if($post->recentLiked()->count())
-                            @foreach($post->recentLiked()->get() as $user)
-                                <span> {{$user->username}}</span>
-                            @endforeach
-                        @endif
-                        <small> thích mục này</small>
-                    @else
-                    @endif
-                </div>
-            </div>
-            <hr>
-            <div id="comments">
-
-                <div class="col-xs-12" style="display: none" id="hiddenComment">
-                    <div class="col-md-1">
-                        <div class="row">
-                            <img class="thumbnail" src="http://placehold.it/60x60" alt="" width="70"
-                                              height="70">
-                        </div>
-                    </div>
-                    <div class="col-md-11">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="#" class="user-url"><strong  class="muted username"></strong></a>
-                                &bull;
-                                <time></time>
-                            </div>
-
-                            <div class="col-md-12 content">
-
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                </div>
-
-                @if ($comments->count())
-                    @foreach ($comments as $comment)
-                        <div class="col-xs-12">
-                            <div class="col-md-1">
-                                <div class="row">
-                                    <img class="thumbnail" src="{{$comment->author->avatar}}" alt="" width="70"
-                                         height="70">
-                                </div>
-                            </div>
-                            <div class="col-md-11">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <a href="{{$comment->author->url()}}" class="muted username"><strong>{{{ $comment->author->username }}}</strong></a>
-                                        &bull;
-                                        <time>{{{ $comment->date() }}}</time>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        {{ $comment->content() }}
-                                    </div>
-                                </div>
-                            </div>
-                            <hr/>
-                        </div>
-                    @endforeach
+                @if($post->isLiked())
+                    <button class="btn btn-xs like-action" likeable="false" data-id="{{$post->id}}">Bỏ thích
+                    </button>
                 @else
+                    <button class="btn btn-xs btn-primary like-action" likeable="true" data-id="{{$post->id}}">
+                        Thích
+                    </button>
+                @endif
+                @if(Auth::check())
+                    <button class="btn btn-xs">Thảo luận</button>
+                    <small class="comment-counter">{{ $comments->count() }}</small>
+                    <small>bình luận.</small>
                 @endif
             </div>
-            {{--comment form--}}
-            @if(Auth::check())
-                <div class="col-xs-12">
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="thumbnail" src="http://placehold.it/60x60" alt="">
-                        </a>
+        </div>
+        <hr>
 
-                        <div class="media-body">
-                            <div class="form-group">
-                            <textarea style="resize: none;overflow: hidden;" rows="3" name="name" id="comment_box"
-                                      class="form-control" value="" placeholder="Bình luận" title="Bình luận" required="required"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @else
-                Hãy đăng nhập để viết bình luận.
-            @endif
-            {{--comment form--}}
+        <div id="comments">
+
+            <div class="comment-item">
+                @if($comments->count())
+                    @if($comments->count()>4)
+                        <a class="view-more" data-id="{{$post->id}}">Xem thêm thảo luận</a>
+                    @endif
+                    @include("site.blog.comment")
+                @endif
+                {{--comment form--}}
+                @if(Auth::check())
+                        <textarea name="content" class="form-control comment-btn" rows="1" data-id="{{$post->id}}"></textarea>
+                @else
+                    Hãy đăng nhập để viết bình luận.
+                @endif
+                {{--comment form--}}
+            </div>
+
+        </div>
     </div>
 @stop
 
@@ -188,52 +124,58 @@
                                     newComment.find("img").attr("src", data.avatar);
                                     newComment.find(".content").text(data.content);
                                     newComment.find(".username").text(data.username);
-                                    newComment.find(".user-url").attr("href","{{Auth::user()->url()}}");
+                                    newComment.find(".user-url").attr("href", "{{Auth::user()->url()}}");
                                     $("#comments").append(newComment);
                                     newComment.fadeIn();
-                                    count = parseInt($(".comment-counter").text(),10) + 1;
+                                    count = parseInt($(".comment-counter").text(), 10) + 1;
                                     $(".comment-counter").text(count);
                                 }
                             },
-                            complete:function(){
+                            complete: function () {
                             }
                         });
                         return false;
                     }
                 });
-            })
-            /* like */
-            var likeUrl = "{{URL::to("blog/like")}}";
-            var unLikeUrl = "{{URL::to("blog/unlike")}}";
-            var loading = $("<i/>", {class: "animate-spin icon-spin3"});
-            $(".like-action").click(function () {
-                var element = $(this);
-                element.attr("disabled", true);
-                var likeable = true;
-                var text = "Thích";
-                var url = unLikeUrl;
-                if (element.attr("likeable") == 'true') {
-                    url = likeUrl;
-                    likeable = false;
-                    text = "Bỏ thích";
-                }
-                element.prepend(loading);
-                $.ajax({
-                    url: url,
-                    data: {id: $(this).attr("data-id")},
-                    dataType: "json",
-                    type: "post",
-                    success: function () {
-                        element.attr("likeable", likeable);
-                        element.text(text);
-                    },
-                    complete: function () {
-                        loading.remove();
-                        element.attr("disabled", false);
+                $(".comment-item").social();
+                $("#comments").on("click", ".btn-post-comment", function () {
+                    txt = $("#review textarea[data-id=" + $(this).data("id") + "]").focus();
+                });
+                $("#comments").on("click", ".view-more", function (e) {
+                    e.stopPropagation();
+                    $(".more-" + $(this).data("id")).toggleClass("hidden");
+                });
+                $("#comments textarea").ag();
+                $("#comments").on("keydown", "textarea", function (e) {
+                    @if(Auth::check())
+                    var _t = this;
+                    if (e.which == 13) {
+                        _t.disabled = true;
+                        $.ajax({
+                            url: "{{URL::to('blog/comments')}}/" + $(this).data("id"),
+                            data: {content: $(this).val()},
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.success) {
+                                    _t.value = "";
+                                    _t.disabled = false;
+                                    $(_t).before("<div class='media'>" + data.content + "</div>");
+                                    $(".comment-counter").text(data.totalComments);
+                                }
+                            },
+                            complete: function () {
+                                _t.disabled = false;
+                            }
+                        })
+                        return false;
                     }
-                })
+                    @else
+                        this.value = "";
+                    @endif
+
+                });
             });
-            /* like */
         </script>
     @endif
 @stop

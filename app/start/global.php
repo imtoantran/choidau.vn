@@ -87,6 +87,116 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 App::setLocale(Session::get('lang', 'vi'));
+
+/**
+* imtoantran 
+*/ 
+function _type($type)
+{
+            switch ($type) {
+                case 'comment':
+                    return "bình luận";
+                    break;
+                case 'review':
+                    return "đánh giá";
+                    break;
+                case 'status':
+                    return 'trạng thái';
+                default:
+                    # code...
+                    break;
+            }    
+return 'hoạt động';
+}
+$_ = function($object){
+    if(Auth::guest()) return;
+    $user = Auth::user();
+    $type = "hoạt động";
+    $action = "yêu thích";    
+    $owner;
+    $url='';
+    switch (get_class($object)) {
+        case 'Like':
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url();
+            $type = "địa điểm";
+            break;
+        case 'Checkin':
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url();
+            $action = "checkin";
+            $type = "địa điểm";
+            break;
+        case 'PostMeta':
+            $post = $object->post;
+            $owner = $post->author;
+            if($user->id == $owner->id) return;
+            switch($post->post_type){
+                case "review":
+                    $location = Location::find($post->parent_id);
+                    $url = $location->url()."?notif_t=comment&post=$post->id";
+                    break;
+                case "comment": 
+                    $subject = Post::find($post->parent_id);
+                    switch($subject->post_type){
+                        case "review":
+                            $location = Location::find($subject->parent_id);
+                            $url = $location->url()."?notif_t=comment&post=$subject->id";
+                            break;
+                        default:
+                            $url = "/trang-ca-nhan/{$subject->author->username}.html?notif_t=comment&post=$subject->id";
+                            break;
+                    }
+                    break;
+                case "status":                
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+                default:
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+            }
+            $type = _type($post->post_type);
+            break;
+        case "Comment":
+            $post = $object->post;
+            $owner = $post->author;
+            if($user->id == $owner->id) return;
+            switch($post->post_type){
+                case "review":
+                    $location = Location::find($post->parent_id);
+                    $url = $location->url()."?notif_t=comment&post=$post->id";
+                    break;
+                default:
+                    $url = "/trang-ca-nhan/{$owner->username}.html?notif_t=comment&post=$post->id";
+                    break;
+            }
+            $action = "bình luận";
+            $type = _type($post->post_type);
+            break;
+        case "Review":
+            $location = $object->location;
+            $owner = $location->owner;
+            if($user->id == $owner->id) return;
+            $url = $location->url()."?notif_t=review&post=$object->id";
+            $action = "đánh giá";
+            $type = "địa điểm";            
+            break;
+        default:
+            return;
+            break;
+    }    
+    $text = "$action $type của bạn";
+    Firebase::push("/notifications/$owner->id/general-notifications",['name'=>$user->display_name(),'url'=>$url,'object'=>$object->toArray(),'type'=>get_class($object),'text'=>$text,'author'=>$user->toArray(),'timestamp'=>date("Y-m-d h:i:s"),"unread"=>1]);    
+};
+Like::saved($_);
+Checkin::saved($_);
+Comment::saved($_);
+Review::saved($_);
+Event::listen('like',$_);
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File

@@ -19,6 +19,6 @@ class Checkin extends Post {
 
     public function location(){
 
-        return Location::find($this->parent_id);
+        return $this->belongsTo('Location','parent_id');// Location::find($this->parent_id);
     }
 }

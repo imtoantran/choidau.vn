@@ -1,6 +1,7 @@
 <?php
 
-class LocationController extends BaseController {
+class LocationController extends BaseController
+{
 
     /**
      * Location Model
@@ -8,12 +9,14 @@ class LocationController extends BaseController {
      */
     protected $location;
 
-    public function __construct(Location $location) {
+    public function __construct(Location $location)
+    {
         parent::__construct();
         $this->location = $location;
     }
 
-    public function getCreate() {
+    public function getCreate()
+    {
         $style_plugin = $this->Style(array(
             'assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css',
             'assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css',
@@ -59,42 +62,44 @@ class LocationController extends BaseController {
         $js_page = $this->JScript(array(
             'assets/admin/pages/scripts/maps-google.js',
             'assets/frontend/pages/scripts/location.js'));
-        $js_script='';
+        $js_script = '';
 
-        return View::make('site/location/create', compact('$address','style_plugin','style_page',
-                'js_plugin','js_script','js_page','js_global')
+        return View::make('site/location/create', compact('$address', 'style_plugin', 'style_page',
+                'js_plugin', 'js_script', 'js_page', 'js_global')
         );
 
     }
 
-    public function loadInitParam(){
-        $foodType = Option::orderBy('name','ASC')->where('name','=','food_type')->get();
-        $province = Province::orderBy('name','ASC')->get();
-        $utility = Utility::orderBy('name','ASC')->get();
+    public function loadInitParam()
+    {
+        $foodType = Option::orderBy('name', 'ASC')->where('name', '=', 'food_type')->get();
+        $province = Province::orderBy('name', 'ASC')->get();
+        $utility = Utility::orderBy('name', 'ASC')->get();
 
-        if(Cache::has('list_food')){
-            $food=Cache::get('list_food');
-        }else{
-            $food = Food::orderBy('name','ASC')->get();
+        if (Cache::has('list_food')) {
+            $food = Cache::get('list_food');
+        } else {
+            $food = Food::orderBy('name', 'ASC')->get();
         }
 
 
         // Lay danh muc dia diem
         $catLocation = Category::whereSlug("danh-muc-dia-diem")->first()->children()->get();
 
-        $initParam = array("food"=>$food, "foodType"=>$foodType, "utility"=>$utility, "province"=>$province, 'catLocation'=>$catLocation);
+        $initParam = array("food" => $food, "foodType" => $foodType, "utility" => $utility, "province" => $province, 'catLocation' => $catLocation);
         return json_encode($initParam);
     }
 
     //luuhoabk - save location
-    public function saveLocation(){
+    public function saveLocation()
+    {
         $result = [];
         $user = Auth::user();
         $location = $this->location;
         $locationCreate = Input::all();
         $isAlbum = Input::has('location_album');
-        $isFood= Input::has('location_food');
-        $isUtilityMenu= Input::has('location_utility');
+        $isFood = Input::has('location_food');
+        $isUtilityMenu = Input::has('location_utility');
 
         $location->name = $locationCreate['location_name'];
         $location->address_detail = $locationCreate['location_address_detail'];
@@ -113,103 +118,167 @@ class LocationController extends BaseController {
         $location->category_id = $locationCreate['location_category'];
         $location->slug = Str::slug($locationCreate['location_name']);
         $location->action_time = json_encode($locationCreate['location_timeAction']);
-        $location->user_id=$user->id;
+        $location->user_id = $user->id;
 
         // luu dia diem
-        $isSaveLocation=$location->save();
+        $isSaveLocation = $location->save();
 
         // kiem tra neu luu thanh cong
-        if($isSaveLocation){
+        if ($isSaveLocation) {
+            /* imtoantran create unique slug start */
+            $location->slug = Str::slug($location->name) . "-" . $location->id;
+            $location->save();
+            /* imtoantran create unique slug end */
             // kiem tra va insert table location_post 'them album'
-            if($isAlbum){
-                foreach($locationCreate['location_album'] as $key=>$value){
+            if ($isAlbum) {
+                foreach ($locationCreate['location_album'] as $key => $value) {
                     $location->saveAlbum($value['post_id']);
                 }
             }
 
             // kiem tra va insert table location_food 'them mon an'
-            if($isFood){
-                foreach($locationCreate['location_food'] as $key=>$value){
+            if ($isFood) {
+                foreach ($locationCreate['location_food'] as $key => $value) {
                     $value['user_id'] = $user->id;
-                    $isSaveL_F = $location->food()->attach($value['food_id'],$value);
+                    $isSaveL_F = $location->food()->attach($value['food_id'], $value);
                 }
             }
 
             // kiem tra va insert table location_utility 'them tien ich'
-            if($isUtilityMenu){
-                foreach($locationCreate['location_utility'] as $key=>$value){
-                    $isSaveL_U= $location->utility()->attach($value['utility_id'],$value);
+            if ($isUtilityMenu) {
+                foreach ($locationCreate['location_utility'] as $key => $value) {
+                    $isSaveL_U = $location->utility()->attach($value['utility_id'], $value);
                 }
             }
 
             $province_name = Province::find($location->province_id)->name;
 
-            $result['location_id'] =$location->id;
-            $result['location_name'] = $location->name ;
-            $result['username'] = $user->username ;
-            $result['slug_province'] = Str::slug($province_name) ;
-            $result['slug_location_name'] = Str::slug($location->name) ;
-            $result['result'] = true ;
+            $result['location_id'] = $location->id;
+            $result['location_name'] = $location->name;
+            $result['username'] = (empty($user->fullname) ? $user->username : $user->fullname);
+            $result['url'] = $location->url();
+            $result['result'] = true;
 
-        }else{
-            $result['result'] = false ;
+        } else {
+            $result['result'] = false;
         }
 
         return $result;
     }
 
     //luuhoabk - get image album of location
-    public function loadAlbum(){
+    public function loadAlbum()
+    {
         $location_id = Input::get('location_id');
-        return json_encode(Location::find($location_id)->album()->get());
+        return json_encode(Location::find($location_id)->images()->get());
     }
 
-    public function saveImageAlbum(){
+    public function saveImageAlbum()
+    {
         $location_id = Input::get('location_id');
         $post_id = Input::get('post_id');
         return Location::find($location_id)->saveAlbum($post_id);
     }
 
-    public function deleteImageAlbum(){
+    public function deleteImageAlbum()
+    {
         $location_id = Input::get('location_id');
         $post_id = Input::get('post_id');
         return Location::find($location_id)->deleteImageAlbum($post_id);
     }
 
-//        $province_id = Input::get('dataForm');
-//        $a = array($province_id['location_timeAction']);
-//        print_r($a); exit;
-//        return json_encode($province_id['dataform'][14]['location_timeAction'][0]['bd']);
-    
+    /* imtoantran delete images start */
+    public function deleteImages($location)
+    {
+        if (Auth::check()) {
+            if (Input::has("images")) {
+                $location->images()->detach(Input::get("images"));
+                return json_encode(["succes" => true]);
+            }
+        }
+        return json_encode(["succes" => false, "message" => "Need login to do this action"]);
+    }
+    /* imtoantran delete images end */
+
+    /* imtoantran load slider start */
+    public function getImages($location)
+    {
+        return View::make("site.location.slider", compact("location"));
+    }
+    /* imtoantran load slider end */
+
     /* imtoantran save location start */
-    public function getView($provinceSlug,$slug = ''){
+    /* imtoantran save location images start */
+    public function postImages($location)
+    {
+        if (Auth::guest())
+            return json_encode(["success" => false]);
+        if (!Input::has("images"))
+            return json_encode(["success" => false]);
+        $images = Input::get("images");
+        foreach ($images as $image) {
+            $location->images()->withPivot("location_post_type_id")->attach([$image=>['location_post_type_id' => 39]]);
+        }
+        return json_encode(Input::get("images"));
+    }
+
+    /* imtoantran save location images end */
+    public function getView($provinceSlug, $slug = '')
+    {
         // kiem tra thanh pho ton tai hay khng
-        if(Province::whereSlug($provinceSlug)->count()){
+        if (Province::whereSlug($provinceSlug)->count()) {
             $province = Province::whereSlug($provinceSlug)->first();
             // kiem tra danh muc co ton tai hay khong va hien thi danh sach dia diem theo danh muc nay neu co
-            if(Category::whereSlug($slug)->count()) {
+            if (Category::whereSlug($slug)->count()) {
                 if (Category::whereSlug($slug)->first()->parent->slug == "danh-muc-dia-diem") {
                     $category = Category::whereSlug($slug)->first();
                     $categoryTitle = $category->description;
                     // kiem tra co dia diem trong danh muc hay khong
-                    if(Location::whereCategoryId($category->id)->count()){
+                    if (Location::whereCategoryId($category->id)->count()) {
                         $locations = Location::whereCategoryId($category->id)->whereProvinceId($province->id)->paginate(9);
-                        return View::make("site.location.index", compact("locations","categoryTitle"));
+                        return View::make("site.location.index", compact("locations", "categoryTitle"));
                     }
                 }
             }
-            $user_auth=null;
-            if(Auth::check()){
-                $user_auth=Auth::user();
-            }
             // neu khong co danh muc thi hien thi dia diem
-            if(Location::whereSlug($slug)->count()){
+            if (Location::whereSlug($slug)->count()) {
                 $location = Location::whereSlug($slug)->first();
+                $total_like = $location->totalLike();
+                $total_checkin = $location->totalCheckIn();
+                $isLike = false;
+                $isCheckin = false;
+
+                if(Auth::check()){
+                    $user = Auth::user();
+//                    var_dump($location->isCheckin($user->id)); exit;
+                    $isLike = ($location->isLiked($user->id))? true: false;
+                    $isCheckin = ($location->isCheckin($user->id))? true: false;
+                }
+                /* bat session location start*/
+                Session::push("location", $location);
+                /* bat session location end*/
+
                 $location_nearly = $this->getClosePosition($location);
-                $reviews = $location->reviews()->orderBy("created_at","DESC")->paginate(2);
-                $options = json_decode(Option::whereName("review_visit_again")->first()->value,true);
-                $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-                return View::make("site/location/view",compact("location","location_nearly","reviews","options","blogs","user_auth"));
+
+                $reviews='';
+                /* imtoantran load review */
+                if(Input::has("notif_t") && Input::has("post")){
+                    $reviews = Review::where(["id"=>Input::get("post")])->paginate(2);
+                }else{
+                    $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
+                    $reviews->setBaseUrl("/location/$location->id/reviews");
+                }
+                /* imtoantran load review */
+                $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
+                $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
+                if (!Cache::has("food_type")) {
+                    Cache::forever("food_type", Option::where(["name" => "food_type"])->get(["id", "description"]), 24 * 60);
+                }
+                /* load location's images start  */
+                $profile_image = $location->avatar;
+                $reviewsImages = $location->reviewsImages();
+                /* load location's images stop  */
+                return View::make("site/location/view", compact("location", "total_like", "total_checkin", "isLike", "isCheckin", "location_nearly", "reviews", "options", "blogs", "reviewsImages"));
             }
 
         }
@@ -217,27 +286,30 @@ class LocationController extends BaseController {
     }
 
     //luuhoabk  tra ve mang diem diem gan nhat trong cung 1 thanh pho (province)
-    public function getClosePosition($location_one){
-        $arrPosition = explode(',',$location_one->position);
-        $location_province = Location::whereProvince_id($location_one->province_id)->where('id','<>',$location_one->id)->get();
+    public function getClosePosition($location_one)
+    {
+        $arrPosition = explode(',', $location_one->position);
+        $location_province = Location::whereProvince_id($location_one->province_id)->where('id', '<>', $location_one->id)->get();
 
-        foreach($location_province as $k=>$v){
-            $arrPosition_v = explode(',',$v->position);
-            $location_province[$k]['distance'] = pow(($arrPosition[0] - $arrPosition_v[0]),2) + pow(($arrPosition[1] - $arrPosition_v[1]),2);
+        if(count($location_province)){
+            foreach ($location_province as $k => $v) {
+                $arrPosition_v = explode(',', $v->position);
+                $location_province[$k]['distance'] = pow(($arrPosition[0] - $arrPosition_v[0]), 2) + pow(($arrPosition[1] - $arrPosition_v[1]), 2);
+            }
+            return $this->objectRSort($location_province, "distance");
         }
-        return $this->objectRSort($location_province,"distance");
+
+
+
     }
 
     //luuhoabk sap xep mang doi tuong tam thoi
     function objectRSort(&$object, $key)
     {
-        for ($i = count($object) - 1; $i >= 0; $i--)
-        {
+        for ($i = count($object) - 1; $i >= 0; $i--) {
             $swapped = false;
-            for ($j = 0; $j < $i; $j++)
-            {
-                if ($object[$j]->$key > $object[$j + 1]->$key)
-                {
+            for ($j = 0; $j < $i; $j++) {
+                if ($object[$j]->$key > $object[$j + 1]->$key) {
                     $tmp = $object[$j];
                     $object[$j] = $object[$j + 1];
                     $object[$j + 1] = $tmp;
@@ -247,142 +319,216 @@ class LocationController extends BaseController {
         }
         return $object;
     }
-    function like(){
-        $id = Input::get("id");
-        $location = Location::find($id);
-        $user = Auth::user();
-        $blog_user=$user->blog()->first();
-        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
-        $response=[];
-        if($count){
-            $location->userAction()->detach($user,['action_type'=>'like']);
-            $post_like=Status::where('parent_id','=',$location->id)->where('user_id','=',$user->id)->first();
-            $blog_post=BlogPost::where('post_id','=',$post_like->id)->where('user_id','=',$user->id)
-                                    ->where('blog_post_type_id','=','44')->where('blog_id','=',$blog_user->id);
-
-            $blog_post->delete();
-//            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
-            $post_like->delete();
-            $response['canLike'] = true;
-        }
-        else{
-            $location->userAction()->attach($user,['action_type'=>'like','created_at'=>date_format(new DateTime(),"Y-m-d H:i:s")]);
-            $date=date_create("now");
-            $date=  date_format($date,"Y-m-d H:i:s");
-
-
-            $post_like=new Status();
-            $post_like->user_id=$user->id;
-            $post_like->parent_id=$location->id;
-            $post_like->save();
-            $blog_user->status()->attach($user,['blog_post_type_id'=>44,'post_id'=>$post_like->id,'blog_id'=>$blog_user->id,'created_at'=>$date,'updated_at'=>$date]);
-
-            $response['canLike'] = false;
-        }
-        $response['totalFavourites'] = $location->totalLike();
-        $response['success']=true;
-        return json_encode($response);
-    }
-
-    function checkin(){
-        $id = Input::get("id");
-        $location = Location::find($id);
-        $user = Auth::user();
-        $response=[];
-        if($location->totalCheckIn()){
-            $response['success'] = false;
-            $response['message'] = "Bạn đã đến đây";
-        }
-        else{
-            $date=date_create("now");
-            $date=  date_format($date,"Y-m-d H:i:s");
-
-            $location->userAction()->attach($user,['action_type'=>'checkin','created_at'=>$date,'updated_at'=>$date]);
-
-            $blog_user=$user->blog()->first();
-
-            $post_check_in=new Checkin();
-            $post_check_in->user_id=$user->id;
-            $post_check_in->parent_id=$location->id;
-            $post_check_in->save();
-
-            $blog_user->status()->attach($user,['blog_post_type_id'=>41,'blog_id'=>$blog_user->id,'post_id'=>$post_check_in->id,'created_at'=>$date,'updated_at'=>$date]);
-
-
-            $response['success'] = true;
-        }
-        $response['totalCheckedIn'] = $location->totalCheckIn();
-
-        return json_encode($response);
-    }
-    private function userAction(){
-
-    }
-    public function loadReviews(){
-        $id = Input::get("id");
-        return json_encode(Location::find($id)->reviews());
-    }
-    public function getReview(){
-        return View::make("site.location.review");
-    }
-    public function postReview(){
+    function action(){
         $user = Auth::user();
         $data = Input::all();
+        $location = Location::find($data['location_id']);
 
+        switch($data['action_type']){
+            case 'like':
+                if($location->isLiked($user->id)){ echo -1; break; }
+                $save = $location->itemSave($user, 'like');
+                if(empty($save)){
+                    echo $location->totalLike();
+                    $isPost = Post::whereUser_id($user->id)->wherePost_type('like-location')->whereParent_id($location->id);
+                    if(!$isPost->count()){
+                        /* imtoantran  changed to use Like object start */
+                        $post = new Like();
+                        /* imtoantran  changed to use Like object stop */
+                        $post->title        = "like-location";
+                        $post->parent_id    = $location->id;
+                        $post->content      = "like-location";
+                        $post->privacy      = 18;
+                        $post->user_id      = $user->id;
+                        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->save();
+                    }
+                } else{ echo -1;}
+                break;
+            case 'unlike':
+                if($location->isLiked($user->id)){
+                    if($location->itemDelete($user->id, 'like')){  echo $location->totalLike(); } else{ echo -1;}
+                }else{echo -1;}
+                break;
+            case 'checkin':
+                if($location->isCheckin($user->id)){ echo -1; break; }
+                $save = $location->itemSave($user, 'checkin');
+                if(empty($save)){
+                    echo $location->totalCheckIn();
+                    $isPost = Post::whereUser_id($user->id)->wherePost_type('checkin')->whereParent_id($location->id);
+                    if(!$isPost->count()){
+                        /* imtoantran  changed to use Checkin object start */
+                        $post = new Checkin();
+                        /* imtoantran  changed to use Checkin object stop */
+                        $post->title        = "checkin";
+                        $post->parent_id    = $location->id;
+                        $post->content      = "checkin";
+                        $post->privacy      = 18;
+                        $post->user_id      = $user->id;
+                        $post->created_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->updated_at   = date_format(date_create("now"),"Y-m-d H:i:s");
+                        $post->save();
+                    }
+                } else{ echo -1;}
+                break;
+            default: break;
+        }
+    }
 
+//
+//    function like()
+//    {
+//        $user = Auth::user();
+//        $id = Input::get("id");
+//        $location = Location::find($id);
+//        $blog_user = $user->blog()->first();
+//        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
+//        $response = [];
+//        if ($count) {
+//            $location->userAction()->detach($user, ['action_type' => 'like']);
+//            $post_like = Status::where('parent_id', '=', $location->id)->where('user_id', '=', $user->id)->first();
+//            $blog_post = BlogPost::where('post_id', '=', $post_like->id)->where('user_id', '=', $user->id)
+//                ->where('blog_post_type_id', '=', '44')->where('blog_id', '=', $blog_user->id);
+//
+//            $blog_post->delete();
+////            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
+//            $post_like->delete();
+//            $response['canLike'] = true;
+//        } else {
+//            $location->userAction()->attach($user, ['action_type' => 'like', 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);
+//            $date = date_create("now");
+//            $date = date_format($date, "Y-m-d H:i:s");
+//
+//
+//            $post_like = new Status();
+//            $post_like->user_id = $user->id;
+//            $post_like->parent_id = $location->id;
+//            $post_like->save();
+//            $blog_user->status()->attach($user, ['blog_post_type_id' => 44, 'post_id' => $post_like->id, 'blog_id' => $blog_user->id, 'created_at' => $date, 'updated_at' => $date]);
+//
+//            $response['canLike'] = false;
+//        }
+//        $response['totalFavourites'] = $location->totalLike();
+//        $response['success'] = true;
+//        return json_encode($response);
+//    }
+
+//    function checkin()
+//    {
+//        $id = Input::get("id");
+//        $location = Location::find($id);
+//        $user = Auth::user();
+//        $response = [];
+//        if ($location->totalCheckIn()) {
+//            $response['success'] = false;
+//            $response['message'] = "Bạn đã đến đây";
+//        } else {
+//            $date = date_create("now");
+//            $date = date_format($date, "Y-m-d H:i:s");
+//            $location->userAction()->attach($user, ['action_type' => 'checkin', 'created_at' => $date, 'updated_at' => $date]);
+//            $blog_user = $user->blog()->first();
+//
+//            $post_check_in = new Checkin();
+//            $post_check_in->user_id = $user->id;
+//            $post_check_in->parent_id = $location->id;
+//            $post_check_in->save();
+//
+//            $blog_user->status()->attach($user, ['blog_post_type_id' => 41, 'blog_id' => $blog_user->id, 'post_id' => $post_check_in->id, 'created_at' => $date, 'updated_at' => $date]);
+//
+//
+//            $response['success'] = true;
+//        }
+//        $response['totalCheckedIn'] = $location->totalCheckIn();
+//
+//        return json_encode($response);
+//    }
+
+//    private function userAction()
+//    {
+//
+//    }
+
+    /**
+     * imtoantran
+     * @param $location
+     * @return \Illuminate\View\View
+     */
+    public function getReviews($location)
+    {
+        $reviews = $location->reviews()->paginate(2);
+        $reviews->setBaseUrl("/location/$location->id/reviews");
+        return View::make("site.location.review", compact("reviews"));
+    }
+
+    public function getReview()
+    {
+        return View::make("site.location.review");
+    }
+
+    /**
+     * author imtoanran
+     * save location review and images
+     */
+    public function postReview($location)
+    {
+        if (Auth::guest()) return Response::json(["succes" => false, "message" => "Need login"]);
+
+        $user = Auth::user();
+        $data = Input::all();
+        /* create review content start */
         $review = new Review();
         $review->title = $data['title'];
         $review->content = $data['content'];
+        $review->privacy = 18;
         $review->user_id = $user->id;
-        $review->parent_id = $data['id']; // review for this location
-        $review->save();
+        /* save location review */
+        if (!$location->reviews()->save($review))
+            return Response::json(["success" => false, "message" => "Not saved"]);
 
-        $date=date_create("now");
-        $date=  date_format($date,"Y-m-d H:i:s");
-        $blog_user=$user->blog()->first();
-        $blog_user->status()->attach($blog_user->id,['blog_post_type_id'=>42,'user_id'=>$user->id,'obj_id'=>$review->id,'created_at'=>$date,'updated_at'=>$date]);
-
-        /* review meta star */
-        $meta[] = new PostMeta("review_rating",$data["review_rating"]);
-        $meta[] = new PostMeta("review_visitors",$data["review_visitors"]);
-        $meta[] = new PostMeta("review_price",$data["review_price"]);
-        $meta[] = new PostMeta("review_visit_again",$data["review_visit_again"]);
-        $list_album=explode(",",$data['list-album']);
-
-        for($i=0 ;$i<count($list_album)-1;$i++){
-            $meta[] =new PostMeta("review_image",$list_album[$i]);
+        /* review meta start */
+        $meta[] = new PostMeta("review_rating", $data["review_rating"]);
+        $meta[] = new PostMeta("review_visitors", $data["review_visitors"]);
+        $meta[] = new PostMeta("review_price", $data["review_price"]);
+        $meta[] = new PostMeta("review_visit_again", $data["review_visit_again"]);
+        /* review meta stop */
+        /* review images start */
+        if(Input::has("images")) {
+            foreach ($data["images"] as $image) {
+                $meta[] = new PostMeta("review_image", $image);
+            }
         }
-
-
+        /* review images start */
         $review->meta()->saveMany($meta);
-
+        /* review images stop */
 
         /* review meta end */
-
+        return Response::json(["id"=>$review->id,"success"=>true,"content"=>View::make("site.location.review_item",compact("review"))->render()]);
     }
-    /* imtoantran save location end */
+    /* imtoantran save location review end */
 
 
     /*-------load  member*/
-    public function loadMember(){
-        $html='';
-        $data=Input::all();
-        $location_id=$data['location_id'];
-        $user=Auth::user();
-       // $list= $user->friends_();
-      //  echo'<pre>';
-      //  print_r($list);
-      //  echo'</pre>';
+    public function loadMember()
+    {
+        $html = '';
+        $data = Input::all();
+        $location_id = $data['location_id'];
+        $user = Auth::user();
+        // $list= $user->friends_();
+        //  echo'<pre>';
+        //  print_r($list);
+        //  echo'</pre>';
 
-        $listMember=Location::find($location_id)->members()->get();
+        $listMember = Location::find($location_id)->members()->get();
 
-        foreach($listMember as $member){
-         //   $item_friend=$user->friend_common($member);
-            $ban_chung=2;// count($item_friend);
-            $html.=' <article class="person-friends-item col-md-4 col-sm-6 col-xs-12"> <div class="media"> <a href="#" class="pull-left">';
-            $html.='<img src="'.$member->avatar.'" alt="" class="media-object"> </a>';
-            $html.='<div class="media-body"><header>';
-            $html.='<a class="media-heading text-1em2">'.$member->username.'</a></header><p>'. $ban_chung.' bạn chung</p></div></div></article>';
+        foreach ($listMember as $member) {
+            //   $item_friend=$user->friend_common($member);
+            $ban_chung = 2;// count($item_friend);
+            $html .= ' <article class="person-friends-item col-md-4 col-sm-6 col-xs-12"> <div class="media"> <a href="#" class="pull-left">';
+            $html .= '<img src="' . $member->avatar . '" alt="" class="media-object"> </a>';
+            $html .= '<div class="media-body"><header>';
+            $html .= '<a class="media-heading text-1em2">' . $member->username . '</a></header><p>' . $ban_chung . ' bạn chung</p></div></div></article>';
 
         }
         echo $html;
@@ -390,67 +536,53 @@ class LocationController extends BaseController {
     /*------------end*/
 
     /*-------load  member*/
-    public function loadEvent(){
-        $html='';
-        $data=Input::all();
-        $location_id=$data['location_id'];
-        $user=Auth::user();
-        $location=Location::find($location_id);
-        $listEvent=$location->events()->get()->sortByDesc('updated_at');
+    public function loadEvent()
+    {
+        $html = '';
+        $data = Input::all();
+        $location_id = $data['location_id'];
+        $user = Auth::user();
+        $location = Location::find($location_id);
+        $listEvent = $location->events()->get()->sortByDesc('updated_at');
 
-        foreach($listEvent as $event){
-         $html.=$this->loadEventItem($event);
+        foreach ($listEvent as $event) {
+            $html .= $this->loadEventItem($event);
         }
         echo $html;
     }
 
-    public function loadEventItem($event){
-            $user_author=$event->author;
-            return View::make('site.location.item_event',compact('event','user_author'));
+    public function loadEventItem($event)
+    {
+        $user_author = $event->author;
+        return View::make('site.location.item_event', compact('event', 'user_author'));
     }
 
     /*------------end*/
+    public function  loadPhoto()
+    {
 
+        $data = Input::all();
+        $location = Location::find($data['location_id']);
+        $list_photo = $location->images()->get();
+        $html_photo = '';
 
-    /*---------load photo*/
-    public function loadPhoto1(){
-        $html='';
-        $data=Input::all();
-        $location_id=$data['location_id'];
-        $user=Auth::user();
-        $location=Location::find($location_id);
-        $listPhoto=$location->photos()->get();
+        foreach ($list_photo as $item) {
+            $category = '';
+            $url = '';
+            $url = $item->getMetaKey('url');
 
-        foreach($listPhoto as $photo){
-            $html.=$this->loadEventItem($photo);
-        }
-        echo $html;
-    }
+            $category = 'category_' . $item->getMetaKey('type_use');
+            $html_photo .= '<div class="col-md-4 col-sm-6 mix ' . $category . ' mix_all" id_pho="' . $item->id . '"  style="display: block; opacity: 1;"><div class="mix-inner">';
 
-    public function  loadPhoto(){
+            $html_photo .= '<img alt="" src="' . $url . '" class="img-responsive blog-item-photo">';
+            $html_photo .= '<div class="mix-details choidau-bg-light-a9">';
+            $html_photo .= '<h4 class="choidau-font-fff"></h4>';
+            $html_photo .= '<p></p>';
+            $html_photo .= '<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
+            $html_photo .= '<a data-rel="fancybox-button" title="Project Name" href="' . $url . '" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
+            $html_photo .= ' </div> </div></div>';
 
-        $data=Input::all();
-        $location=Location::find($data['location_id']);
-        $list_photo=$location->photos()->get();
-        $html_photo='';
-
-        foreach($list_photo as $item){
-            $category='';
-            $url='';
-            $url=$item->getMetaKey('url');
-
-            $category='category_'.$item->getMetaKey('type_use');
-            $html_photo.='<div class="col-md-4 col-sm-6 mix '.$category.' mix_all" id_pho="'.$item->id.'"  style="display: block; opacity: 1;"><div class="mix-inner">';
-
-            $html_photo.='<img alt="" src="'.$url.'" class="img-responsive blog-item-photo">';
-            $html_photo.='<div class="mix-details choidau-bg-light-a9">';
-            $html_photo.='<h4 class="choidau-font-fff"></h4>';
-            $html_photo.='<p></p>';
-            $html_photo.='<a class="mix-link choidau-bg"><i class="icon-link"></i></a>';
-            $html_photo.='<a data-rel="fancybox-button" title="Project Name" href="'.$url.'" class="mix-preview choidau-bg fancybox-button"><i class="icon-search"></i></a>';
-            $html_photo.=' </div> </div></div>';
-
-            $a=4;
+            $a = 4;
         }
 
         echo $html_photo;
@@ -461,76 +593,193 @@ class LocationController extends BaseController {
 
     /*---------end load photo*/
 
-   /***
-    * @param $id
-    * @return \Illuminate\View\View
-    * load một review của địa điêm
-    */
+    /***
+     * @param $id
+     * @return \Illuminate\View\View
+     * load một review của địa điêm
+     */
 
-    public static  function loadItemReview($id){
-        $review=Review::find($id);
-        return    View::make('site.location.item_review',compact('review'));
+    public static function loadItemReview($id)
+    {
+        $review = Review::find($id);
+        return View::make('site.location.item_review', compact('review'));
     }
     /***--------    * load một review của địa điêm --end--     */
 
 
     /**
+     * imtoantran
      * Đăng một sự kiện mới cho location
-    */
+     */
 
-    public function postEvent(){
-
-        $data=Input::all();
-        $location=Location::find($data['location_id']);
-        $event = new EventLocation();
-        $event->title=$data['title_event'];
-        $event->content=$data['content_event'];
-        $event->user_id=Auth::user()->id;
-
-        $event->save();
-        $event->location()->save($location);
-        $postMeta=new PostMeta();
-        $postMeta->meta_key='time_date_start';
-        $postMeta->meta_value=$data['date_start_event'];
-        $event->meta()->save($postMeta);
-
-        $postMeta1=new PostMeta();
-        $postMeta1->meta_key='time_date_end';
-        $postMeta1->meta_value=$data['date_end_event'];
-        $event->meta()->save($postMeta1);
-
-
-
-
+    public function postEvent($location)
+    {
+        if (Auth::guest()) {
+            return json_encode(["success" => false, "message" => "Need login"]);
+        }
+        $event = $location->event;
+        if (!$event) {
+            $event = new EventLocation();
+            $event->parent_id = $location->id;
+        }
+        if (Input::has("content")) {
+            $event->content = Input::get("content");
+            if ($event->save()) {
+                return json_encode(["success" => true]);
+            };
+            return json_encode(["success" => false]);
+        }
+        return json_encode(["success" => false]);
     }
     /**-end-------     * Đăng một sự kiện mới cho location     */
 
 
-
-     /**
-      * Đăng món ăn trong thực đơn locaiton
+    /**
+     * Đăng món ăn trong thực đơn locaiton
      */
 
     /****/
-    public function postFood(){
+    public function postFood()
+    {
+        if (Auth::guest()) {
+            return Response::json(["success" => false, "message" => "Need login"]);
+        }
+        $data = Input::all();
+        $food = "";
+        if (Input::has("food_id")) {
+            $food = LocationFood::find($data["food_id"]);
+        } else {
+            $food = new LocationFood();
+            $food->location_id = $data["location_id"];
+        }
+        $food->food_name = $data['food_name'];
+        $food->description = $data['food_description'];
+        $food->user_id = Auth::id();
+        $food->type_id = $data['food_type'];
+        $food->price = $data['food_price'];
+        $food->save();
+        //return View::make("site.location.foot_item",compact("food"));
+    }
+    /***      * Đăng món ăn trong thực đơn locaiton--end    */
+    /* imtoantran save food start */
+    public function addFood($location)
+    {
+        if (Auth::guest()) {
+            return Response::json(["success" => false, "message" => "Need login"]);
+        }
+        $data = Input::all();
 
-        $data=Input::all();
-
-        $location=Location::find($data['location_id']);
-           $value=array(
-               'food_name'=>$data['food_name'],
-               'description'=>$data['food_description'],
-               'user_id'=>Auth::user()->id,
-               'location_id'=>$data['location_id'],
-               'type_id'=>$data['food_type'],
-
-               'price'=>$data['food_price']
-
-
-           );
-        $location->food()->attach($data['food_name_id'],$value);
+        $action = "edit";
+        $food = "";
+        if (Input::has("id")) {
+            $food = LocationFood::find($data["id"]);
+        } else {
+            $food = new LocationFood();
+            $food->location_id = $location->id;
+            $action = "add";
+        }
+        $food->food_name = $data['name'];
+        //$food->description = $data['description'];
+        $food->user_id = Auth::id();
+        $food->type_id = $data['type'];
+        $food->price = $data['price'];
+        if(Input::has('thumbnail'))
+            $food->thumbnail = $data['thumbnail'];
+        if(Input::has('image'))
+            $food->image = $data['image'];
+        if($action == "add"){
+            $key = $location->foods()->count();
+        }
+        else{
+            $key = Input::get("key");
+        }
+        if ($food->save())
+            return Response::json(["id"=>$food->id,"action" => $action, "success" => true, "content" => View::make("site.location.food_item", compact("location", "food", "key"))->render()]);
+        return Response::json(["success" => false, "message" => "Not food saved"]);
     }
 
-    /***      * Đăng món ăn trong thực đơn locaiton--end    */
+    public function editFood()
+    {
+        if (Auth::guest()) {
+            return json_encode(["success" => false, "message" => "Need login"]);
+        }
+        $data = Input::all();
+        if (Input::has("id")) {
+            if ($food = LocationFood::find($data["id"]))
+                $food[$data['field']] = $data['content'];
+            if ($food->save())
+                return Response::json(["action" => "edit", "success" => true]);
+        }
+        return json_encode(["success" => falselike, "message" => "Not food saved"]);
+    }
+    /* imtoantran save food stop */
+    /* imtoantran remove food start */
+    public function removeFood()
+    {
+        if (Auth::guest())
+            return Response::json(["success" => false, "message" => "Need login"]);
+        $id = Input::get("id");
+        if ($food = LocationFood::find($id))
+            if ($food->delete())
+                return Response::json(["success" => true]);
+        return Response::json(["success" => false, "message" => "Not deleted"]);
+    }
+
+    /* imtoantran remove food stop */
+
+
+    public function filterLocation()
+    {
+        $data = Input::all();
+        $arr_location = array();
+        $arr_location['posted'] = $this->addUrl(Location::whereUser_id($data['userBlog_id'])->get());
+
+        $user_blog = User::whereId($data['userBlog_id'])->get()->first();
+
+        $arr_location['checkin'] = $this->addUrl($user_blog->checkin()->get());
+        $arr_location['like'] = $this->addUrl($user_blog->location_like()->get());
+        echo json_encode($arr_location);
+    }
+
+    public function addUrl($arr)
+    {
+        foreach ($arr as $key => $val) {
+            $location = Location::whereId($val['id'])->get()->first();
+            $arr[$key]['url'] = $location->url();
+        }
+        return $arr;
+    }
+
+//    luuhoabk load album for location
+    public function filterAlbums()
+    {
+        $data = Input::all();
+        $arr_location = Location::whereUser_id($data['id_user_blog'])->get();
+        foreach ($arr_location as $key => $val) {
+            $arr_location[$key]['album'] = Location::find($val['id'])->images()->get();
+        }
+        echo json_encode($arr_location);
+    }
+//  END  luuhoabk load albm for location
+
+    //luuhoabk create video
+    public function createVideo(){
+        $data = Input::all();
+        $user = Auth::user();
+        $result['is_save'] = array();
+        $video = new Post();
+        $video->title = $data['video_title'];
+        $video->user_id = $user->id;
+        $video->guid = $data['video_link'];
+        $video->parent_id = $data['location_id'];
+        $video->description = $data['description'];
+        $video->post_type = 'video';
+        $video->content = 'video';
+        $video->privacy = 18;
+        $result['is_save'] = $video->save();
+        $result['user_name'] = $user->display_name();
+        echo json_encode($result);
+    }
+    //END luuhoabk create video
 
 }

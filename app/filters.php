@@ -33,6 +33,7 @@ App::after(function($request, $response)
 |
 */
 
+
 Route::filter('auth', function()
 {
 	if ( Auth::guest() ) // If the user is not logged in
@@ -134,3 +135,75 @@ Route::filter("session",function(){
 });
 Route::when("*","session");
 /* imtoantran filter end */
+
+
+Route::filter('permission', function(){
+    if(Auth::check()){
+        if(!Auth::user()->hasLoginAdmin()){
+            return Redirect::guest('nguoi-dung/dang-nhap');
+        }
+    }else{
+        return Redirect::guest('nguoi-dung/dang-nhap');
+    }
+});
+
+//filter - location
+Route::filter('hasRoleLocation', function(){
+    if(!Entrust::can('manage_location')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - post
+Route::filter('hasRolePost', function(){
+    if(!Entrust::can('manage_post')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - post
+Route::filter('hasRoleMedia', function(){
+    if(!Entrust::can('manage_media')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - post
+Route::filter('hasRoleFAQ', function(){
+    if(!Entrust::can('manage_faq')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - user
+Route::filter('hasRoleUser', function(){
+    if(!Entrust::can('manage_user')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+//filter - user
+Route::filter('hasRoleUserGroup', function(){
+    if(!Entrust::can('manage_user_group')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - user
+Route::filter('hasRoleADS', function(){
+    if(!Entrust::can('manage_ads')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+//filter - user
+Route::filter('hasRoleSlider', function(){
+    if(!Entrust::can('manager_slider')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});
+
+//filter - user
+Route::filter('hasRoleSetting', function(){
+    if(!Entrust::can('manager_setting')){
+        return Redirect::action('AdminHomeController@getInvalid');
+    }
+});

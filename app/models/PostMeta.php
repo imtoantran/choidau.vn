@@ -11,4 +11,15 @@ class PostMeta extends Eloquent {
 		$this->meta_key = $key;
 		$this->meta_value = $value;
 	}
+	public function set($value){
+		$this->meta_value = $value;
+	}
+	public function post()
+	{
+		return $this->belongsTo("Post");
+	}
+	public function getImage(){
+//		return $this->$this->hasOne('Post', 'id');
+		return $this->belongsToMany('Post', 'post_meta', 'meta_value', 'id');
+	}
 }

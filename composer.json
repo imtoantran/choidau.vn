@@ -14,8 +14,9 @@
         "zizaco/confide": "~4.0",
         "zizaco/entrust": "1.2.*",
         "bllim/datatables": "~1.3",
-        "mews/purifier": "dev-master",
-        "artdarek/oauth-4-laravel": "dev-master"
+        "mews/purifier": "1.0.2",
+        "artdarek/oauth-4-laravel": "1.0.5",
+        "j42/laravel-firebase": "dev-master"
     },
     "require-dev": {
         "way/generators": "~2.6",

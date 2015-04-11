@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/datatables-bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/colorbox.css')}}">
 
+
 	<style>
 	body {
 		padding: 60px 0;

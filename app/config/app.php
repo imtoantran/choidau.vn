@@ -122,7 +122,8 @@ return array(
 		'Mews\Purifier\PurifierServiceProvider',
 
 		// login facebook
-		'Artdarek\OAuth\OAuthServiceProvider'
+		'Artdarek\OAuth\OAuthServiceProvider',
+		'J42\LaravelFirebase\LaravelFirebaseServiceProvider',
     ),
 
     /*
@@ -200,6 +201,7 @@ return array(
 		'Purifier'		  => 'Mews\Purifier\Facades\Purifier',
 
 		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
+		'Firebase'        => 'J42\LaravelFirebase\LaravelFirebaseFacade'
     ),
 
     'available_language' => array('en', 'vi'),

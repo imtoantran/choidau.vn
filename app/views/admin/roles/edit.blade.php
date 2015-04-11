@@ -1,4 +1,4 @@
-@extends('admin.layouts.modal')
+@extends('admin.layouts.main')
 
 {{-- Content --}}
 @section('content')
@@ -34,12 +34,12 @@
 			<!-- Permissions tab -->
 			<div class="tab-pane" id="tab-permissions">
 				<div class="form-group">
-					@foreach ($permissions as $permission)
-					<label>
-						<input type="hidden" id="permissions[{{{ $permission['id'] }}}]" name="permissions[{{{ $permission['id'] }}}]" value="0" />
-						<input type="checkbox" id="permissions[{{{ $permission['id'] }}}]" name="permissions[{{{ $permission['id'] }}}]" value="1"{{{ (isset($permission['checked']) && $permission['checked'] == true ? ' checked="checked"' : '')}}} />
-						{{{ $permission['display_name'] }}}
-					</label>
+					@foreach ($permissions as $key=>$permission)
+						<label class="checkbox-inline">
+							<input type="hidden" id="permissions[{{{ $permission['id'] }}}]" name="permissions[{{{ $permission['id'] }}}]" value="0" />
+							<input type="checkbox" id="permissions[{{{ $permission['id'] }}}]" name="permissions[{{{ $permission['id'] }}}]" value="1"{{{ (isset($permission['checked']) && $permission['checked'] == true ? ' checked="checked"' : '')}}} />
+							{{{$permission['display_name']}}}
+						</label>
 					@endforeach
 				</div>
 			</div>

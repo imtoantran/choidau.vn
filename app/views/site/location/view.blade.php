@@ -1,119 +1,20 @@
 @extends('site.layouts.default')
-{{--imtoantran--}}
-@section("topa")
-    <!-- banner -->
-    <div class="row margin-top-10 margin-bottom-10">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="banner-top text-center">
-                <img width="100%" src="{{asset("upload/media_user/1/banner-1.png")}}" class="img-responsive" alt="Image">
-            </div>
-        </div>
-    </div>
-    <!-- banner end -->
-@stop
-
-
 @section("topb")
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div id="slider1_container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position: relative; top: 0px; left: 0px; width:100%; height: 515px; background: #191919; overflow: hidden;">
-
-                <!-- Loading Screen -->
-                <header class="row header-location">
-                    <div class="col-md-10 ">
-                        <input type="hidden" i_l="{{$location->id}}" id="input-data-value-location"/>
-                        <h1>{{$location->name}} <i class="icon-ok-circled-2"></i> <i class="icon-help-circled-1"></i> </h1>
-                        <ul class="list-unstyled list-inline ul-list-rating">
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-filled"></i></li>
-                            <li><i class="icon-star-1"></i></li>
-                            <li><i class="icon-star-1"></i></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="g-plusone" data-size="medium"></div>
-                        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
-                        </div>
-
-                    </div>
-                </header>
-
-                <!-- Slides Container -->
-                <section u="slides" class="slider-location" style="cursor: move; position: relative; padding: 15px 15px 15px; top: 0px; width: 530px; height: 426px; overflow: hidden;">
-                    @foreach($location->album()->get() as $image)
-                        <div>
-                            <img u="image" class="img-item-slider img-responsive" src="{{asset($image->getMetaKey("url"))}}" />
-                            <img u="thumb" src="{{asset($image->thumbnail())}}" />
-                        </div>
-                    @endforeach
-                </section>
-
-                <!-- Arrow Navigator Skin Begin -->
-
-                <!-- Arrow Left -->
-								<span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 158px; left: 15px;">
-								</span>
-                <!-- Arrow Right -->
-								<span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 158px; right: 15px">
-								</span>
-
-                <!-- Arrow Left -->
-                <div style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; left: 15px;">
-                    <button href="#" class="btn text-primary do-post-review" data-toggle="modal" href="reviewModal" type="submit">Viết bình luận <i class="icon-edit"></i></button>
-                </div>
-
-
-                @if( isset($user_auth->id) && $user_auth->id==$location->user_id)
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 80px; right: 15px">
-                    <button class="btn text-primary do-upload-image" data-toggle="modal" href="uploadImageModal" type="button">Đăng hình <i class="icon-camera"></i></button>
-                </span>
-                <!-- Arrow Navigator Skin End -->
-
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 120px; right: 15px">
-                    <button class="btn text-primary btn-create-event-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Event <i class="icon-calendar"></i></button>
-                </span>
-                <!-- Arrow Navigator Skin End -->
-
-
-                <!-- Arrow Right -->
-                <span style="position:absolute;text-transform:uppercase;font-weight: bold; height: 50px; bottom: 160px; right: 15px">
-                    <button class="btn text-primary btn-create-food-location" data-toggle="modal" href="uploadImageModal" type="button">Đăng Món ăn <i class="icon-calendar"></i></button>
-                </span>
-                <!-- Arrow Navigator Skin End -->
-                @endif
-                <!-- Thumbnail Navigator Skin Begin -->
-                <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 800px; height: 100px; left:0px; bottom: 0px;">
-                    <!-- Thumbnail Item Skin Begin -->
-
-                    <div u="slides" style="cursor: move;">
-                        <div u="prototype" class="p" style="position: absolute; width: 72px; height: 72px; top: 0; left: 0;">
-                            <div class=w>
-                                <div u="thumbnailtemplate" style=" width: 100%; height: 100%; border: none;position:absolute; top: 0; left: 0;">
-                                </div>
-                            </div>
-                            <div class=c>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Thumbnail Item Skin End -->
-                </div>
-                <!-- Thumbnail Navigator Skin End -->
+            <div id="location-slider">
 
             </div>
-
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 padding-left-0">
             <div class="location-information">
                 {{--//luuhoabk dia diem --}}
                 <div>
                     <?php
-                    $address_detail = (isset($location->address_detail))? $location->address_detail : "";
-                    $district = (isset($location->district->name))? $location->district->name : "";
-                    $province = (isset($location->province->name))? $location->province->name : "";
+                    $address_detail = (isset($location->address_detail)) ? $location->address_detail : "";
+                    $district = (isset($location->district->name)) ? $location->district->name : "";
+                    $province = (isset($location->province->name)) ? $location->province->name : "";
                     ?>
                     @if(!($address_detail =="" && $district =="" && $province==""))
                         <p class="title">
@@ -125,12 +26,12 @@
                         </p>
                     @endif
                     @if(isset($location->phone) && $location->phone != "")
-                        <p class="icon-phone">(+84) {{$location->phone}}</p>
+                        <p class="icon-phone">{{$location->phone}}</p>
                     @endif
                     @if(isset($location->telphone) && $location->telphone != "")
                         <p class="icon-mobile">(+84) {{$location->telphone}}</p>
                     @endif
-                    @if(isset($location->website) && $location->website != ""))
+                    @if(isset($location->website) && $location->website != "")
                     <p><span class="icon-globe"></span> {{$location->website}}</p>
                     @endif
                 </div>
@@ -145,21 +46,25 @@
                         <?php // hien thoi gian hoat dong theo dang dac biet (gom nhom)
                         $arr = json_decode($location->action_time);
                         $arr1 = array();
-                        foreach($arr as $k1=>$v1){
-                            array_push($arr1,$v1->time);
+                        foreach ($arr as $k1 => $v1) {
+                            array_push($arr1, $v1->time);
                         }
                         $arr1 = array_unique($arr1); // loai bo gia tri trung
-                        foreach($arr1 as $k2=>$v2){
+                        foreach ($arr1 as $k2 => $v2) {
                             $thu1 = "";
-                            foreach($arr as $k3=>$v3){
-                                if($v3->time == $v2){
+                            foreach ($arr as $k3 => $v3) {
+                                if ($v3->time == $v2) {
                                     $thu3 = $v3->thu;
-                                    if($thu3 == '8'){$thu3= "CN";}
-                                    $thu1 .= $thu3.', ';
+                                    if ($thu3 == '8') {
+                                        $thu3 = "CN";
+                                    }
+                                    $thu1 .= $thu3 . ', ';
                                 }
                             }
-                            if($v2 == ""){$v2 = "Nghỉ";}
-                            echo '<div><label class="bold" style="width:165px;">- Thứ '.rtrim($thu1,', ').'</label>: '.$v2.'</div>';
+                            if ($v2 == "") {
+                                $v2 = "Nghỉ";
+                            }
+                            echo '<div><label class="bold" style="width:165px;">- Thứ ' . rtrim($thu1, ', ') . '</label>: ' . $v2 . '</div>';
                         }
                         ?>
                     </div>
@@ -170,13 +75,14 @@
                     <div>
                         <p class="title">
                             <span class="icon-money"></span>
-                            <span class="text-primary">Giá trung bình</span>
+                            <span class="text-primary">Giá trung bình: </span>
                             {{--<small> 75 000đ - 350 000đ </small>--}}
 
                             @if( $location->price_min > 0 && $location->price_max > 0 )
-                                <small> {{number_format($location->price_min,0, ".",",")}}đ - {{number_format($location->price_max,0, ".",",")}}đ </small>
+                                 {{number_format($location->price_min,0, ".",",")}}đ
+                                    - {{number_format($location->price_max,0, ".",",")}}đ
                             @else
-                                <small> Đang cập nhật. </small>
+                                Đang cập nhật.
                             @endif
                         </p>
                     </div>
@@ -184,36 +90,50 @@
 
                 <div class="bg-primary row none-margin">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-none-padding location-activitie">
-                        Location activities
-                        <div class="col-md-6 ">
-                            <span class="icon-heart icon-border-square tooltips" style="cursor:pointer;" id="do-like" data-original-title="Thích"></span>
-                            <p class="like-count">{{$location->userAction()->whereActionType("like")->count()}}</p>
+                        <div class="row margin-none">
+                            <div style=" font-size: 1.1em; font-weight: 600; padding: 10px 0px 20px 0px; color: #FFFFFF;">Location activities</div>
+                            <div class="col-md-6 ">
+                            <span class="icon-border-square tooltips require-login-items location-action" style="cursor:pointer;" data-original-title="Thích"
+                                  data-type=@if($isLike){{'unlike'}} @else {{'like'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}">
+                                <i class="icon-heart @if($isLike) yellow @else white @endif" style="font-size: 23px;"></i>
+                            </span>
+                                <p class="total-like">{{$total_like}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="icon-border-square tooltips require-login-items location-action" data-original-title="Checkin" style="cursor:pointer;"
+                                      data-type=@if($isCheckin){{'checkout'}} @else {{'checkin'}} @endif data-location="{{$location->id}}" data-url="{{URL::current()}}" >
+                                    <i class="icon-ok @if($isCheckin) yellow @else white @endif" style="font-size: 23px;"></i>
+                                </span>
+                                    <p class="total-checkin">{{$total_checkin}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                <span class="icon-location icon-border-square tooltips"
+                                      data-original-title="Địa điểm lân cận">
+                                </span>
+                                    <p>{{count($location_nearly)}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
+                                <p>{{count($location->reviews()->get())}}</p>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <span class="icon-location icon-border-square tooltips" style="cursor:pointer;" id="do-checkin" data-original-title="Đánh dấu"></span>
-                            <p class="checkin-count">{{$location->userAction()->whereActionType("checkin")->count()}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="icon-star icon-border-square tooltips" data-original-title="Địa điểm lân cận"></span>
-                            <p>{{$location->reviews()->count()}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <i class="icon-star-filled icon-border-square tooltips" data-original-title="Đánh giá"></i>
-                            <p>15</p>
-                        </div>
 
 
                     </div>
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-none-padding portlet-body">
-                        <div id="gmap_marker" data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}" class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location">
+                        <div class="row margin-none padding-5">
+                            <div id="gmap_marker"
+                                 data-position="{{isset($location->position)? $location->position : "10.8186952,106.7006242";}}"
+                                 class="gmaps col-xs-12 col-sm-12 col-md-12 col-lg-12 gmaps-location  margin-none">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @include("site.location.review")
+    @include("site.location.review_modal")
     @include("site.location.edit")
 @stop
 
@@ -225,174 +145,60 @@
                 <!-- Nav tabs -->
 
                 <ul class="nav nav-tabs nav-justified location-navigation" role="tablist">
-                    <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Review</a></li>
-                    <li role="presentation" class=""><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Cộng đồng</a></li>
-                    <li role="presentation" class=""><a href="#tag-member-location-content"  class="btn-member-location" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Thành viên</a></li>
-                    <li role="presentation" class=""><a href="#tag-event-location-content" class="btn-event-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Sự kiện</a></li>
-                    <li role="presentation" class=""><a href="#tag-photo-location-content" class="btn-photo-location" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Hình ảnh</a></li>
-                    <li role="presentation" class=""><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
+                    <li role="presentation" class="active"><a href="#review" aria-controls="home" role="tab"
+                                                              data-toggle="tab" aria-expanded="true">Review</a></li>
+                    <li role="presentation" class=""><a href="#member" class="btn-member-location"
+                                                        aria-controls="messages" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Thành viên</a></li>
+                    <li role="presentation" class=""><a href="#event" class="btn-event-location"
+                                                        aria-controls="event" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Sự kiện</a></li>
+                    <li role="presentation" class=""><a href="#photo" class="btn-photo-location"
+                                                        aria-controls="settings" role="tab" data-toggle="tab"
+                                                        aria-expanded="false">Hình ảnh</a></li>
+                    <li role="presentation" class=""><a href="#food" aria-controls="settings" role="tab"
+                                                        data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
                     <div role="tabpanel" class="tab-pane active" id="review">
-                        @foreach($reviews as $review)
-                        <div class="reviews row item-post-element-parent">
-
-                            <input type="hidden" i_p="{{$review->id}}" i_u="{{$review->user_id}}" class="input-data-value-post"/>
-                            <div class="media">
-                                <a href="#" class="pull-left">
-                                    <img src="../../assets/frontend/pages/img/people/img4-small.jpg" alt="" class="media-object">
-                                </a>
-                                <div class="media-body">
-                                    <div class="media-heading">
-                                        <div class="col-sm-6">
-                                            <div class="row"><a href="#"><strong>{{$review->author->username}} </strong></a></div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="pull-right">
-
-                                                <ul class="list-unstyled list-inline ul-list-rating">
-                                                    @for($i=0;$i<5;$i++)
-                                                        @if($i<$review->getMetaKey("review_rating"))
-                                                            <li><i class="icon-star-filled"></i></li>
-                                                        @else
-                                                            <li><i class="icon-star-1"></i></li>
-                                                        @endif
-                                                    @endfor
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <div class="col-lg-6">
-                                            <div>Đã đánh giá địa điểm</div>
-                                            <div><small><i>Vào lúc {{date_format($review->created_at,"h:i:s d-m-Y")}}</i></small></div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <small class="pull-right">Số người {{ $review->getMetaKey("review_visitors")}} + | Chi phí {{$review->getMetaKey("review_price")}} đ+ | Sẽ quay lại: @if(isset($options[$review->getMetaKey("review_visit_again")])) {{$options[$review->getMetaKey("review_visit_again")]}} @else không @endif</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-content">
-                                <div>
-                                    <p class="title">{{$review->title}}</p>
-                                    <p class="content">
-                                        {{$review->content}}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- hinh anh -->
-                            <?php $list_album=PostMeta::where('post_id','=',$review->id)->where('meta_key','=','review_image')->get();
-                           // print_r($list_album);
-                            ?>
-
-                            <div class="">
-                                @foreach($list_album as $img)
-                                <?php $img=Post::find($img->meta_value);
-                                      $img_link=$img->getMetaKey('url');
-                                ?>
-
-                                <div class="col-md-2 col-sm-4 gallery-item">
-                                    <a data-rel="fancybox-button" title="Project Name" href="{{$img_link}}" class="fancybox-button">
-                                        <img alt="" src="{{$img_link}}" class="img-responsive">
-                                        <div class="zoomix"><i class="fa fa-search"></i></div>
-                                    </a>
-                                </div>
-                                @endforeach
-
-                            </div>
-                            <!-- hinh anh -->
-                            <!-- thao luan,like,dislike,report -->
-                            <?php
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('31')->count()){
-                                $lab_like='Đã thích ';
-                            }else{
-                                $lab_like='Thích ';
-                            }
-
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('32')->count()){
-                                $lab_dislike='Đã không thích ';
-                            }else{
-                                $lab_dislike='không Thích ';
-                            }
-
-
-                            if($review->userAction()->whereUser_id(Auth::check()&&Auth::user()->id)->wherePost_user_type_id('37')->count()){
-
-                                $lab_spam='Đã báo cáo xấu';
-                            }else{
-                                $lab_spam='Báo cáo xấu ';
-                            }
-                            ?>
-
-                            <div class="col-md-12 review-action padding-left-0">
-                                <a class="btn-post-comment"><i class="icon-edit"></i>Thảo luận</a>
-                                <a class="btn-post-like" type_action="31"><i class="icon-thumbs-up"></i><span class="lab_text_like">{{$lab_like}}</span><span class="lab_num_like">{{ $review->countLike()}}</span></a>
-                                <a class="btn-post-dislike"  type_action="32"><i class="icon-thumbs-down"></i><span class="lab_text_dislike">{{$lab_dislike}}</span><span class="lab_num_dislike">{{ $review->countDisLike()}}</span></a>
-                                <a class="btn-post-spam" type_action="37"><i class="icon-block"></i><span class="lab_text_spam">{{$lab_spam}}</span></a>
-                                <a class="btn-post-view_more pull-right"><i>Xem thêm</i></a>
-                            </div>
-                            <!-- thao luan,like,dislike,report end-->
-
-                        </div>
-                        @endforeach
-                        <div class="paging">{{$reviews->links()}}</div>
-
+                        @include("site.location.review")
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="settings"></div>
-                    <div role="tabpanel" class="tab-pane" id="tag-member-location-content">
-
-                        <section class="person-friends choidau-bg">
-                            <header class="">
-                                Tất cả bạn bè <span class="person-friends-list-total">2</span>
-                            </header>
-
-                            <div class="row person-friends-list lab-location-list-member margin-none" is_val="0">
-
-                            </div>
-
-
-                        </section>
-
-
+                    <div role="tabpanel" class="tab-pane" id="photo">
+                        @include("site.location.photo")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="event">
+                        @if(Auth::check())
+                            @if(Auth::user() == $location->owner)
+                                <div>
+                                    <div class="text-right">
+                                        <button class="btn btn-xs edit btn-primary">Sửa</button>
+                                        <button class="btn btn-xs save btn-primary">Lưu</button>
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+                        <div id="event-content">
+                            @if($location->event)
+                                {{$location->event->content}}
+                            @endif
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="member">
+                        @include("site.location.member")
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tag-event-location-content">
 
-                        <div class="lab-location-list-event">
-
-                        </div>
-
-
-
                     </div>
-
-                    <div role="tabpanel" class="tab-pane" id="tag-photo-location-content">
-
-
-                        <section class="person-images choidau-bg">
-                            <header>
-                                <i class="icon-folder" style="color: #fff; font-size: 2.6em;margin-top: 8px;"></i>
-                                <i class="icon-camera" style="margin-left: -35px; margin-top: 19px; font-size: 1.2em; position: absolute;"></i>
-                                <div class="text-1em2">Album ảnh</div>
-                            </header>
-                            <nav>
-                                <ul class="mix-filter">
-                                    <li data-filter="all" class="filter">Tất cả</li>
-                                    <li data-filter="category_avatar active" class="filter">Ảnh đại diện</li>
-                                    <li data-filter="category_location" class="filter">Ảnh địa điểm</li>
-                                </ul>
-                            </nav>
-                            <div class="row mix-grid thumbnails margin-none lab-location-list-photo" >
-
-
-
+                    <div role="tabpanel" class="tab-pane" id="food">
+                        @if(Auth::check()&&Auth::user()==$location->owner)
+                            <div class="text-right">
+                                <button class="btn btn-xs add" data-action="add"><i class="icon icon-plus"></i>Thêm món
+                                    ăn
+                                </button>
                             </div>
-                        </section>
-
-
+                        @endif
+                        @include("site.location.food")
                     </div>
 
                 </div>
@@ -402,33 +208,35 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <!-- luuhoabk tien ich right -->
 
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
-                            <icon class="icon-layout font-16px"></icon>
-                            Tiện ích
-                        </div>
-                        @if(count($location->loadUtility()->get()) >0)
-                            @foreach($location->loadUtility()->get() as $utility)
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                                    <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
-                                <span class="utility-empty font-12px">- Đang cập nhật.</span>
-                            </div>
-                        @endif
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bg-grey ultility">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title text-primary">
+                        <icon class="icon-layout font-16px"></icon>
+                        Tiện ích
                     </div>
+                    @if(count($location->loadUtility()->get()) >0)
+                        @foreach($location->loadUtility()->get() as $utility)
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                                <i class="icon-check"></i> <strong>{{$utility->utility_name}}</strong>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ultility-item">
+                            <span class="utility-empty font-12px">- Đang cập nhật.</span>
+                        </div>
+                    @endif
                 </div>
+            </div>
 
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
+                         class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
                 <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg" class="img-responsive padding-3 img-border-grey" alt="Image">
+                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
+                         class="img-responsive padding-3 img-border-grey" alt="Image">
                 </div>
             </div>
             <!-- right end -->
@@ -436,483 +244,678 @@
     </div>
 @stop
 
-
 @section("bottoma")
     <!-- dia diem lan can -->
-    @if($location_nearly->count())
-    <div class="row location">
-        <div class="col-lg-12">
-            <div class="container-fluid bg-primary">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-12 padding-top-10">
-                            <div>Địa điểm lân cận</div>
-                        </div>
-                        @foreach($location_nearly as $key=>$val)
-                            @if($key < 6)
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
-                                <div class="location-info">
-                                    <a href="{{$val->url()}}">
-                                        <div class="box-product-img-content">
-                                        <img class="full-width" height="200px" src="{{asset($val->avatar)}}" alt="Image">
-                                        <section class="location-description">
-                                        <strong>{{$val->name}}</strong>
-                                            <p>
-                                                <small>{{$val->address()}}</small>
-                                            </p>
-                                        </section>
-                                            </div>
-                                    </a>
-                                </div>
+    @if(count($location_nearly))
+        <div class="row location">
+            <div class="col-lg-12">
+                <div class="container-fluid bg-primary">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12 padding-top-10">
+                                <div>Địa điểm lân cận</div>
                             </div>
-                            @endif
-                        @endforeach
+                            @foreach($location_nearly as $key=>$val)
+                                @if($key < 6)
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
+                                        <div class="location-info">
+                                            <a href="{{$val->url()}}">
+                                                <div class="box-product-img-content">
+                                                    <img class="full-width" height="200px" src="{{asset($val->avatar)}}"
+                                                         alt="Image">
+                                                    <section class="location-description">
+                                                        <strong>{{$val->name}}</strong>
+
+                                                        <p>
+                                                            <small>{{$val->address()}}</small>
+                                                        </p>
+                                                    </section>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
     <!-- dia diem lan can end -->
-    @stop
+@stop
 
 @section("bottomb")
     <!-- bai viet noi bat -->
     @include("site.blog.featured")
-
     <!-- bai viet noi bat end -->
-@include('site.location.popup_create_event')
-@include('site.location.popup_create_food')
+    @include('site.location.popup_create_event')
+    @include('site.location.popup_create_food')
+    @include('site.location.food_item_modal')
 @stop
 
 @section('style_plugin')
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/global/plugins/jquery-file-upload/css/image-manager.min.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
-<link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{asset('assets/global/plugins/bootstrap-datepicker/css/datepicker.css')}}"/>
+    <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/location.css')}}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{asset('assets/frontend/pages/css/portfolio.css')}}">
 
 
 @stop
 
-
 @section("styles")
     <!-- imtoantran  -->
-    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="{{asset('assets/global/plugins/wysihtml5/css/prettify.css')}}">
-
-
-    <link rel="stylesheet" href="{{asset("assets/global/plugins/wysihtml5/css/bootstrap-wysihtml5.css")}}">
+    <link href="{{asset('assets/global/plugins/bootstrap/css/bootstrap-theme.min.css')}}" rel="stylesheet"
+          type="text/css"/>
     <link href="{{asset("assets/global/css/plugins.css")}}" rel="stylesheet">
     <link href="{{asset("assets/frontend/pages/css/gallery.css")}}" rel="stylesheet">
     <!-- imtoantran -->
 @stop
 
-
 @section('js_plugin')
-<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js')}}"></script>
-<script src="{{asset('assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js')}}"></script>
-
-<!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
-<script src="{{asset("assets/global/plugins/wysihtml5/js/wysihtml5-0.3.0.js")}}" type="text/javascript"></script>
-<script src="{{asset("assets/global/plugins/wysihtml5/js/bootstrap-wysihtml5.js")}}" type="text/javascript"></script>
-
-<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
-<script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
-
-
-<script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
-
-
-<script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
-<script src="https://apis.google.com/js/platform.js" async defer>
-    {lang: 'vi'}
-</script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <!--<script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>-->
+    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/global/plugins/jssor-slider/js/jssor.slider.js")}}"></script>
+    <script src="{{asset("assets/global/plugins/gmaps/gmaps.min.js")}}" type="text/javascript"></script>
+    <script src="{{asset("assets/global/scripts/maps-google.js")}}" type="text/javascript"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer>
+        {
+            lang: 'vi'
+        }
+    </script>
 @stop
 
-
 @section('js_page')
-<script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
-<script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
+    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+    <script src="{{asset('assets/admin/pages/scripts/form-fileupload.js')}}"></script>
+    <script src="{{asset('assets/frontend/pages/scripts/location.js')}}"></script>
+    <script src="{{asset('assets/frontend/pages/scripts/portfolio.js')}}"></script>
 
 
 @stop
 
 @section("scripts")
-    <!-- imtoantran -->
-
-    <!-- imtoantran -->
-
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <!-- imtoantran -->
-
-    <!-- imtoantran -->
-    <!-- pop up -->
-    <!-- END LayerSlider -->
-
-
     <script>
-        jQuery(document).ready(
-            function(){
-                Location.initLocationItem();
-                setTimeout(function(){
-                    Layout.initSliderLocation();
-                },1000);
-
-                Portfolio.init();
-
-                /*thời gian sự kiện location*/
-//                $( ".datepicker-start" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-end" ).datepicker( "option", "minDate", selectedDate );
-//                    }
-//                });
-//                $( ".datepicker-end" ).datetimepicker({
-//                    defaultDate: "+1w",
-//                    changeMonth: true,
-//                    numberOfMonths: 2,
-//                    format: "dd-mm-yyyy",
-//                    timeFormat: "hh:mm tt",
-//                    language: "vi",
-//                    onClose: function( selectedDate ) {
-//                        $( ".datepicker-start" ).datepicker( "option", "maxDate", selectedDate );
-//                    }
-//                });
-
-
-                $('#date-start-event-location').datetimepicker({
-                    format: 'DD/MM/YYYY h:mm:ss'
-
-
-                });
-                $('#date-end-event-location').datetimepicker({
-                    format: 'DD/MM/YYYY h:mm:ss'
-                });
-                $("#date-start-event-location").on("dp.change",function (e) {
-                    $('#date-end-event-location').data("DateTimePicker").minDate(e.date);
-                });
-                $("#date-end-event-location").on("dp.change",function (e) {
-                    $('#date-start-event-location').data("DateTimePicker").maxDate(e.date);
-                });
-
-                /***--end thời gian sự kiện location*/
-
-
-
-                /* imtoantran do like */
-                $("#do-like").click(function(e){
-                    var like_btn = $(this);
-                    $(this).attr('disabled',true);
-                    $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/like")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
-                        success:function(response){
-                            $(".like-count").text(response['totalFavourites']);
-                            if(response['canLike']){
-
-                            }
-                            like_btn.attr('disabled',false);
-                        }
+        $(document).ready(function () {
+                    /* imtoantran event editor start */
+                    tinymce.init({
+                        selector: "#event-editor textarea",
+                        menubar: false,
+                        theme: "modern",
+                        plugins: [
+                            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                            "table contextmenu directionality emoticons template paste textcolor"
+                        ],
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media | forecolor"
                     });
-                });
-                /* imtoantran do like */
-                /* do checkin start */
-                $("#do-checkin").click(function(e){
-                    var checkin_btn = $(this);
-                    checkin_btn.attr('disabled',true);
-                    $.ajax({
-                        type:"post",
-                        url:"{{URL::to("location/checkin")}}",
-                        data:{id:"{{$location->id}}"},
-                        dataType:"json",
-                        success:function(response){
-                            if(response['success']){
-                                $(".checkin-count").text(response['totalCheckedIn']);
-                            }else{
-                                alert(response['message']);
-                            }
-                                checkin_btn.attr('disabled',false);
+
+                    /* imtoantran event editor stop */
+                    $("#event .edit").on("click", function () {
+                        tinyMCE.execCommand('mceAddEditor', false, 'event-content');
+                    });
+                    $("#event .save").click(function () {
+                        if (tinyMCE.get("event-content") == null)
+                            return;
+                        content = tinyMCE.get("event-content").getContent();
+                        $.ajax({
+                            url: "{{URL::to("location/event/$location->id")}}",
+                            type: "post",
+                            data: {content: content},
+                            complete: function (data) {
+                                tinyMCE.execCommand('mceRemoveEditor', false, 'event-content');
                             }
                         });
                     });
-                    /* do checkin end */
-                    /* load reviews start */
-                    /* load reviews end */
-                    /* viet review start*/
-                    $(".do-post-review").click(function(){
-                        var islog= Auth.check();
-                        if(islog=='1'){
-                            $("#reviewModal").modal("show");
+                    /* imtoantran ajax load slider start */
+                    var albumWrapper = $('.wrapper-img');
+                    var load_slider = function () {
+                        $("#location-slider").load("{{URL::to("location/$location->id/images")}}", null, function (data) {
+                            Layout.initSliderLocation("slider1_container");
+                            $("#uploadImageModal").unblock();
+                        });
+
+                    };
+                    var removeLocationImage = function (image) {
+                        $("#uploadImageModal").block();
+                        $.ajax({
+                            url: "{{URL::to("location/$location->id/images")}}",
+                            type: 'delete',
+                            data: {'images': image.id},
+                            success: function (resAlbum) {
+                                albumWrapper.find('.item-img[data-image-id="' + image.id + '"]').remove();
+                            },
+                            complete: function () {
+                                if ($('.wrapper-img .item-img').length <= 0) {
+                                    $('.album-empty').fadeIn();
+                                }
+                                $("#uploadImageModal").unblock();
+                                load_slider();
+                            }
+                        });
+                    };
+                    load_slider();
+                    /* imtoantran ajax load slider end */
+                    $('.wrapper-img button').click(function () {
+                        var image = {};
+                        image.id = $(this).data("image-id");
+                        removeLocationImage(image);
+                    });
+                    /* imtoantran add image for location start */
+                    $("#btn-upgrade-imgs").mediaupload({
+                        url: "{{URL::to("media/upload")}}",
+                        fullwidth: true,
+                        token: "{{Session::token()}}",
+                        "multi-select": true,
+                        complete: function (images) {
+                            console.log(images);
+                            var imageIDs = [];
+                            $.each(images, function (i, image) {
+                                if (!albumWrapper.find("div[data-image-id='" + image.id + "']").length) {
+                                    imageIDs.push(image.id);
+                                    var htmlTag = $('<div/>', {class: 'col-xs-2 item-img', 'data-image-id': image.id});
+                                    var btn = $('<button type="button" data-image-id="' + image.id + '" class="no-padding margin-none location-img-btn-close-item" title="Xóa hình">');
+                                    btn.html('<i class="icon-cancel-circled"></i>');
+                                    htmlTag.append(btn).append('<img style="width: 100%;" class="padding-3 img-border-grey" src="' + image.thumbnail + '" alt=""/>');
+                                    albumWrapper.append(htmlTag);
+                                    btn.on('click', function (e) {
+                                        /*btn.loading(btn.find('i'), 'icon-cancel-circled', 'show');*/
+                                        removeLocationImage(image);
+                                    });
+                                }
+                            });
+                            if (imageIDs.length) {
+                                $("#uploadImageModal").block();
+                                $.ajax({
+                                    url: URL + "/location/{{$location->id}}/images",
+                                    type: 'post',
+                                    data: {images: imageIDs},
+                                    dataType: 'json',
+                                    success: function () {
+                                        load_slider();
+                                    }
+                                });
+                            }
                         }
+                    });
+                    /* imtoantran add image for location end */
+                    /* imtoantran add image for review start*/
+                    $("#add-review-image").mediaupload({
+                        url: "{{URL::to("media/upload")}}",
+                        token: "{{Session::token()}}",
+                        "multi-select": true,
+                        complete: function (images) {
+                            $.each(images, function (i, image) {
+                                if (!$(".review-image[data-id=" + image.id + "]").length) {
+                                    console.log(image.id)
+                                    btnRemove = $('<i class="icon icon-cancel-circle"/>');
+                                    review_image = $("<div class='review-image' data-id=" + image.id + "/>");
+                                    review_image.append(btnRemove);
+                                    review_image.append('<img style="width:100%" src="' + image.thumbnail + '"/>');
+                                    review_image.append('<input type="hidden" name="images[]" value="' + image.id + '"/>');
+                                    $(".review-image-container").append(review_image);
+                                    btnRemove.on("click", function () {
+                                        $(this).parent().remove()
+                                    })
+                                }
+                            });
+                        }
+                    });
+                    /* imtoantran add image for review stop */
+                    /* save review */
+                    $("#review-form").submit(function (e) {
+                        e.preventDefault();
+                        var _this = this;
+                        $.ajax({
+                            url: "{{URL::to("location/$location->id/review")}}",
+                            type: "POST",
+                            dataType: "json",
+                            data: $(this).serialize(),
+                            success: function (data) {
+                                if (data.success) {
+                                    $('.modal').modal("hide");
+                                    _this.reset();
+                                    $(".review-image").remove();
+                                    $("#review").prepend(data.content);
+                                    $("#review textarea[data-id="+data.id+"]").ag();
+                                }
+                            }
+                        });
+                        return false;
+                    });
+
+                    $('#review').on('click', '.pagination a', function (event) {
+                        event.preventDefault();
+                        if ($(this).attr('href') != '#') {
+                            $('#review').load($(this).attr('href'), function () {
+                                $("#review textarea").ag();
+                                location.href = "#review";
+                            });
+                        }
+                    });
+                    /* like, report spam */
+                    $("#review").social();
+
+                    /* viet review end */
+                    /* imtoantran review comments start */
+                    $("#review").on("click", ".btn-post-comment", function () {
+                        txt = $("#review textarea[data-id=" + $(this).data("id") + "]").focus();
+                    });
+                    $("#review").on("click", ".view-more", function (e) {
+                        e.stopPropagation();
+                        $(".more-" + $(this).data("id")).toggleClass("hidden");
+                    });
+                    $("#review textarea").ag();
+                    $("#reviewModal").on("shown.bs.modal", function (e) {
+                        $("#reviewModal textarea").ag();
+                    });
+                    $("#review").on("keydown", "textarea", function (e) {
+                        @if(Auth::check())
+                        var _t = this;
+                        if (e.which == 13) {
+                            _t.disabled = true;
+                            $.ajax({
+                                url: "{{URL::to('post/comments')}}/" + $(this).data("id"),
+                                data: {content: $(this).val()},
+                                type: "post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.success) {
+                                        _t.value = "";
+                                        _t.disabled = false;
+                                        $(_t).before("<div class='media'>" + data.content + "</div>");
+                                    }
+                                },
+                                complete: function () {
+                                    _t.disabled = false;
+                                }
+                            })
+                            return false;
+                        }
+                        @else
+                            this.value = "";
+                        @endif
+
+
+
 
                     });
-                    $(".wysihtml5").wysihtml5();
+                    /* imtoantran review comments stop */
 
-                    $("#review-save").click(function(){
-
-                        var listAlbum=Location.getAlbum();
-                        $("#review_album").val(listAlbum);
-                        var listalbum='';
-
-                        listAlbum.forEach(function (item) {
-                           listalbum+=item['post_id']+",";
-                        })
-                        $("#list-album").val(listalbum);
-                        var form = $("#review-form").serialize();
-
+                    /* imtoantran food edit start */
+                    @if(Auth::check())
+                    @if(Auth::user() == $location->owner)
+                    $("#food_form").on("submit", function (e) {
+                       var data = $(this).serialize();
                         $.ajax({
-                            url:"{{URL::to("location/review")}}",
-                            type:"POST",
-                            data:form,
+                            url: $(this).attr("action"),
+                            type: "post",
+                            data: data,
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.success) {
+                                    if(response.action == "add") {
+                                        $("#food table tbody").append($(response.content).hide(function(){$(this).fadeIn("slow")}));
+                                    }else{
+                                        $("#food table tbody tr[data-id="+response.id+"]").fadeOut("slow",function(){$(this).replaceWith(response.content).fadeIn();});
+                                    }
+                                }
+                                $("#food-item-modal").modal("hide");
+                            }
+                        });
+                        return false;
+                    });
+                    $("#food").on("click", ".btn", function (e) {
+                        e.preventDefault();
+                        var _this = this;
+                        var action = $(this).data("action");
+                        var data = {action: action};
+                        switch (action) {
+                            case "delete":
+                                $.ajax({
+                                    url: "{{URL::to("location/$location->id/food/remove/")}}",
+                                    type: "post",
+                                    data: {id: $(this).data("id")},
+                                    dataType: "json",
+                                    success: function (data) {
+                                        if (data.success) {
+                                            $(_this).closest("tr").fadeOut("slow",function(){$(this).remove()});
+                                        }
+                                    }
+                                })
+                                break;
+                            case "add":
+                                $("#food_form input[name=name]").val('');
+                                $("#food_form input[name=price]").val('');
+                                $("#food_form select[name=type]").val('');
+                                $("#food_form input[name=id]").val('');
+                                $("#food_form input[name=image]").val("/assets/global/img/no-image.png");
+                                $("#food_form img").attr("src","/assets/global/img/no-image.png");
+                                $("#food-item-modal").modal();
+                                break;
+                            case "edit":
+                                var tr = $(this).closest("tr");
+                                $("#food_form input[name=name]").val($(this).data("name"));
+                                $("#food_form input[name=price]").val($(this).data("price"));
+                                $("#food_form select[name=type]").val($(this).data("type"));
+                                $("#food_form input[name=id]").val($(this).closest("tr").data("id"));
+                                $("#food_form input[name=image]").val($(this).data("image"));
+                                $("#food_form input[name=key]").val($(this).data("key"));
+                                $("#food_form img").attr("src",$(this).data("image"));
+                                $("#food-item-modal").modal();
+                                break;
+                            default:
+                                break;
+                        };
+                    });
+                    $("#food_form #food-thumbail").mediaupload({
+                        url: "{{URL::to("media/upload")}}",
+                        "multi-select": false,
+                        complete: function (data) {
+                            $("#food_form #food-thumbail").attr("src", data[0].src);
+                            $("#food_form input[name=image]").val(data[0].src);
+                            $("#food_form input[name=thumbnail]").val(data[0].thumbnail);
+                        }
+                    });
+                    @endif
+                    @endif
+                    /* imtoantran food edit stop */
+                    /* imtoantran location photo start */
+                    $(".fancybox").fancybox({
+                        openEffect: 'none',
+                        closeEffect: 'none',
+                        helpers: {
+                            thumbs: {}
+                        }
+                    });
+                    /* imtoantran location photo stop */
 
-                            success:function(response){
-                                $("#review-form")[0].reset();
-                               //  location.reload();
+                    $('#date-start-event-location').datetimepicker({
+                        format: 'DD/MM/YYYY h:mm:ss'
+
+
+                    });
+                    $('#date-end-event-location').datetimepicker({
+                        format: 'DD/MM/YYYY h:mm:ss'
+                    });
+                    $("#date-start-event-location").on("dp.change", function (e) {
+                        $('#date-end-event-location').data("DateTimePicker").minDate(e.date);
+                    });
+                    $("#date-end-event-location").on("dp.change", function (e) {
+                        $('#date-start-event-location').data("DateTimePicker").maxDate(e.date);
+                    });
+
+                    /***--end thời gian sự kiện location*/
+                    //luuhoabk - kiem tra login de checkin
+                    $(".require-login-items").click(function (e) {
+                        e.preventDefault();
+                        var self = $(this);
+
+                        var type = self.attr('data-type');
+                        var icon_class = (type == 'checkin' || type == 'checkout') ? 'icon-ok': 'icon-heart';
+                            self.parent().find('i').iconLoad(icon_class);
+
+                        var url = $(this).attr('data-url');
+
+                        $(this).login({callback: function(respon_login){
+                            if(respon_login){
+                                var action = self.attr('data-action');
+                                var location_id = self.attr('data-location');
+                                var action_type = self.attr('data-type');
+                                // dang nhap thanh cong thi like + checkin
+                                if(action_type == 'checkout'){
+                                    alert('Bạn đã checkin địa điểm này rồi.');
+                                    self.parent().find('i').iconUnload(icon_class);
+                                    return false;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: URL + "/dia-diem/action",
+                                    data: {
+                                        'location_id': location_id,
+                                        'action_type': action_type
+                                    },
+                                    success: function (respon) {
+                                        if(respon != -1){
+                                            switch(action_type){
+                                                case 'like':
+                                                    self.parent().find('i').removeClass('white').addClass('yellow');
+                                                    self.attr('data-type', 'unlike');
+                                                    self.parent().find('.total-like').text(respon);
+                                                    break;
+                                                case 'unlike':
+                                                    self.parent().find('i').removeClass('yellow').addClass('white');
+                                                    self.attr('data-type', 'like');
+                                                    self.parent().find('.total-like').text(respon);
+                                                    break;
+                                                case 'checkin':
+                                                    self.parent().find('i').removeClass('white').addClass('yellow');
+                                                    self.attr('data-type', 'checkout');
+                                                    self.parent().find('.total-checkin').text(respon);
+                                                    break;
+                                                    break;
+                                                default: break;
+                                            }
+                                        }else{console.log('da co loi xay ra.');}
+                                        self.parent().find('i').iconUnload(icon_class);
+                                    }
+                                });
+                            }else{
+                                var cf = confirm('Bạn cần đăng nhập để thực hiện tác vụ này.');
+                                if(cf){
+                                    $('#popup-login').modal('show');
+                                }
+                                self.parent().find('i').iconUnload(icon_class);
+                            }
+
+                        }});
+                    });
+
+                    /**---- luuhoabk - checkin dia diem -------**/
+
+                    /**---- END luuhoabk - checkin dia diem -------**/
+
+                     /*------------Tag Thanh vien Loacation-*/
+                    $(".btn-member-location").click(function () {
+
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-member").attr('is_val');
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-member")}}",
+                                type: "POST",
+                                data: {
+                                    'location_id': location_id
+                                },
+
+                                success: function (response) {
+                                    $(".lab-location-list-member").html(response);
+                                    $(".lab-location-list-member").attr('is_val', '1');
+
+                                },
+                                complete: function () {
+                                    $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
+
+
+                    /*------------Tag Thanh vien Loacation*/
+
+                    /*-------------Tag Sự kiện*/
+                    $(".btn-event-location").click(function () {
+
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-event").attr('is_val');
+
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-event")}}",
+                                type: "POST",
+                                data: {
+                                    'location_id': location_id
+                                },
+
+                                success: function (response) {
+
+                                    if (response != null) {
+
+                                        $(".lab-location-list-event").html(response);
+                                        $(".lab-location-list-event").attr('is_val', '1');
+                                    }
+                                },
+                                complete: function () {
+                                    //  $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
+                    /*--------------Tag Sự Kiện end*/
+
+                    /*-------------Tag Hình ảnh*/
+                    $(".btn-photo-location").click(function () {
+
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var is_val = $(".lab-location-list-photo").attr('is_val');
+                        // alert(location_id);
+                        if (is_val != '1') {
+                            $.ajax({
+                                url: "{{URL::to("location/load-photo")}}",
+                                type: "POST",
+
+                                data: {
+                                    'location_id': location_id
+                                },
+                                success: function (response) {
+
+                                    if (response != null) {
+                                        var i = $(".lab-location-list-photo").html(response);
+                                        $(".lab-location-list-photo").attr('is_val', '1');
+                                    }
+
+
+                                },
+                                complete: function (response) {
+                                    // $('.modal').modal("hide");
+                                }
+                            });
+                        }
+                    });
+                    /*--------------Tag hình ảnh end*/
+
+
+                    /***---Btn Add sự kiện location--start--*/
+
+                    $(".btn-add-event-location").click(function () {
+
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var title_event = $("#title-event-location").val();
+                        var content_event = $("#content-event-location").val();
+                        var date_start_event = $("#date-start-event-location").val();
+                        var date_end_event = $("#date-end-event-location").val();
+                        // alert(date_start_event);
+                        $.ajax({
+                            url: "{{URL::to("location/event")}}",
+                            type: "POST",
+
+                            data: {
+                                'location_id': location_id,
+                                'title_event': title_event,
+                                'content_event': content_event,
+                                'date_end_event': date_end_event,
+                                'date_start_event': date_start_event
                             },
-                            complete:function(){
+                            success: function (response) {
+                            },
+                            complete: function (response) {
+                                $("#form-ada-event-location")[0].reset();
                                 $('.modal').modal("hide");
                             }
-                        })
-                });
-                /* viet review end */
+                        });
+
+                    });
+                    /***---Btn Add sự kiện location--end--*/
+
+                    /*** Btn Add Thực đơn ---start--*/
+
+                    $("#txt-location-food-name").blur(function () {
+                        var x = $(this).val();
+                        var z = $('#food-datalist-add-food');
+                        var val = $(z).find('option[value="' + x + '"]');
+                        var end_val = val.attr('data-id');
+                        $("#txt-location-food-name").attr('data-food-suggest-id', end_val);
+                    });
+
+                    $(".btn-add-food-location").click(function () {
+                        var element_input_data_location = $("#input-data-value-location");
+                        var location_id = element_input_data_location.attr('i_l');
+                        var food_name = $("#txt-location-food-name").val();
+                        var food_name_id = $("#txt-location-food-name").attr('data-food-suggest-id');
+                        var food_price = $("#txt-location-food-price").val();
+                        var food_type = $("#slc-location-food-type").val();
+                        var food_description = $("#are-location-food-description").val();
 
 
-        /*------------Tag Thanh vien Loacation-*/
-        $(".btn-member-location").click(function(){
+                        //alert(food_name_id);
 
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-member").attr('is_val');
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-member")}}",
-                    type:"POST",
-                    data:{
-                    'location_id':location_id
-                },
+                        $.ajax({
+                            url: "{{URL::to("location/food")}}",
+                            type: "POST",
 
-                success:function(response){
-                    $(".lab-location-list-member").html(response);
-                    $(".lab-location-list-member").attr('is_val','1');
+                            data: {
+                                'location_id': location_id,
+                                'food_name': food_name,
+                                'food_name_id': food_name_id,
+                                'food_price': food_price,
+                                'food_type': food_type,
+                                'food_description': food_description
+                            },
+                            success: function (response) {
 
-                },
-                complete:function(){
-                    $('.modal').modal("hide");
-                }
-            });
-        }
-        });
+                            },
+                            complete: function (response) {
+                                $('#from-add-food-location')[0].reset();
+                                $('.modal').modal("hide");
+                            }
+                        });
 
 
-        /*------------Tag Thanh vien Loacation*/
+                    });
 
-        /*-------------Tag Sự kiện*/
-        $(".btn-event-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-event").attr('is_val');
-
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-event")}}",
-                    type:"POST",
-                    data:{
-                    'location_id':location_id
-                },
-
-                success:function(response){
-
-                   if(response!=null){
-
-                    $(".lab-location-list-event").html(response);
-                    $(".lab-location-list-event").attr('is_val','1');
-                    }
-                },
-                complete:function(){
-                  //  $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-        /*--------------Tag Sự Kiện end*/
-
-        /*-------------Tag Hình ảnh*/
-        $(".btn-photo-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var is_val = $(".lab-location-list-photo").attr('is_val');
-           // alert(location_id);
-            if(is_val!='1'){
-                $.ajax({
-                    url:"{{URL::to("location/load-photo")}}",
-                    type:"POST",
-
-                    data:{
-                    'location_id':location_id
-                },
-                success:function(response){
-
-                    if(response!=null){
-                        var i=  $(".lab-location-list-photo").html(response);
-                        $(".lab-location-list-photo").attr('is_val','1');
-                    }
+                    /*** Btn Add Thực đơn ---end--*/
 
 
-
-                },
-                complete:function(response){
-                   // $('.modal').modal("hide");
-                }
-            });
-        }
-        });
-        /*--------------Tag hình ảnh end*/
-
-
-
-
-        /***---Btn Add sự kiện location--start--*/
-
-        $(".btn-add-event-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var title_event=$("#title-event-location").val();
-            var content_event=$("#content-event-location").val();
-            var date_start_event=$("#date-start-event-location").val();
-            var date_end_event=$("#date-end-event-location").val();
-          // alert(date_start_event);
-            $.ajax({
-                url:"{{URL::to("location/event")}}",
-                type:"POST",
-
-                data:{
-                    'location_id':location_id,
-                    'title_event':title_event,
-                    'content_event':content_event,
-                    'date_end_event':date_end_event,
-                    'date_start_event':date_start_event
-            },
-            success:function(response){
-
-            },
-            complete:function(response){
-                $("#form-ada-event-location")[0].reset();
-               $('.modal').modal("hide");
-            }
-        });
-
-        });
-
-        /***---Btn Add sự kiện location--end--*/
-
-
-        /*** Btn Add Thực đơn ---start--*/
-
-        $("#txt-location-food-name").blur(function(){
-            var x = $(this).val();
-            var z = $('#food-datalist-add-food');
-            var val = $(z).find('option[value="' + x + '"]');
-            var end_val = val.attr('data-id');
-            $("#txt-location-food-name").attr('data-food-suggest-id',end_val);
-        });
-
-
-
-        $(".btn-add-food-location").click(function(){
-
-            var element_input_data_location=$("#input-data-value-location");
-            var location_id=element_input_data_location.attr('i_l');
-            var food_name=$("#txt-location-food-name").val();
-            var food_name_id=$("#txt-location-food-name").attr('data-food-suggest-id');
-            var food_price=$("#txt-location-food-price").val();
-            var food_type=$("#slc-location-food-type").val();
-            var food_description=$("#are-location-food-description").val();
-
-
-
-            //alert(food_name_id);
-
-            $.ajax({
-                url:"{{URL::to("location/food")}}",
-                type:"POST",
-
-                data:{
-                    'location_id':location_id,
-                    'food_name':food_name,
-                    'food_name_id':food_name_id,
-                    'food_price':food_price,
-                    'food_type':food_type,
-                    'food_description':food_description
-            },
-            success:function(response){
-
-            },
-            complete:function(response){
-                $('#from-add-food-location')[0].reset();
-                $('.modal').modal("hide");
-            }
-        });
-
-
-        });
-
-        /*** Btn Add Thực đơn ---end--*/
-
-
-                // load gmap
-                var position = $('.gmaps-location').attr('data-position');
+                    // load gmap
+                    var position = $('.gmaps-location').attr('data-position');
                     position = position.split(",");
-                var position_lat = position[0];
-                var position_lng = position[1];
-                var map = new GMaps({
-                    div: '#gmap_marker',
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng
-                });
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
-                });
-                var location_marker = map.addMarker({
-                    lat: position_lat,
-                    lng: position_lng,
-                    title:'Địa điểm: {{$location->category->name}}'
-                });
-                infowindow.open(map,location_marker);
-                map.setZoom(15);
-            }
+                    var position_lat = position[0];
+                    var position_lng = position[1];
+                    var map = new GMaps({
+                        div: '#gmap_marker',
+                        lat: position_lat,
+                        lng: position_lng
+                    });
+                    map.addMarker({
+                        lat: position_lat,
+                        lng: position_lng
+                    });
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '<div style="color:#000;"><i class="icon-shareable"></i> {{$location->name}}</div>'
+                    });
+                    var location_marker = map.addMarker({
+                        lat: position_lat,
+                        lng: position_lng,
+                        title: 'Địa điểm: {{$location->category->name}}'
+                    });
+                    infowindow.open(map, location_marker);
+                    map.setZoom(15);
+                }
         );
     </script>
-    @stop
+@stop
