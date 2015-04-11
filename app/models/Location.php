@@ -15,6 +15,7 @@ class Location extends Eloquent
     public function district()
     {
         return $this->belongsTo('District');
+        return $this->belongsTo('District');
     }
 
     public function reviews()

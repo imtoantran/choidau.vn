@@ -65,7 +65,7 @@ var Layout = function () {
 
         /**btb select*/
         $("section.person-content .person-content-item .person-type-scopy ul li").click(function () {
-            // alert('ád');
+            // alert('ád');select2me
             var value = $(this).html();
             var id = $(this).attr('value_id');
             var item_parend = $(this).parents("section.person-content .person-content-item .person-type-scopy");

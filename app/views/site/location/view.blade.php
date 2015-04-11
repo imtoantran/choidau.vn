@@ -409,6 +409,7 @@
                         token: "{{Session::token()}}",
                         "multi-select": true,
                         complete: function (images) {
+                            console.log(images);
                             var imageIDs = [];
                             $.each(images, function (i, image) {
                                 if (!albumWrapper.find("div[data-image-id='" + image.id + "']").length) {

@@ -54,6 +54,7 @@
     <link href="{{asset('assets/global/plugins/fontello/css/animation.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('assets/global/plugins/fancybox-v3beta/jquery.fancybox.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css">
 
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
@@ -577,10 +578,28 @@
                         </a>
                         <ul class="sub-menu">
                             <li @if(Request::is("qtri-choidau/media/video*")) class="active" @endif>
-                                <a href="{{URL::to("qtri-choidau/media/video")}}"><i class="icon-video-3"></i> VIDEO</a>
+                                <a href="{{URL::to("qtri-choidau/media/video")}}"><i class="icon-video-3"></i> Video</a>
                             </li>
-                            <li>
-                                <a href="#"><i class="icon-photo-1"></i> HÌNH ẢNH</a>
+                            <li @if(Request::is("qtri-choidau/media/image*")) class="open active" @endif>
+                                <a href="#">
+                                    <i class="icon-photo-1"></i> Hình ảnh
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li @if(Request::is("qtri-choidau/media/image/admin-location*")) class=" active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/media/image/admin-location")}}"><i class="icon-user"></i><small> Admin đăng địa điểm</small></a>
+                                    </li>
+                                    <li @if(Request::is("qtri-choidau/media/image/admin-review*")) class=" active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/media/image/admin-review")}}"><i class="icon-user"></i> </i><small> Admin đánh giá</small></a>
+                                    </li>
+
+                                    <li @if(Request::is("qtri-choidau/media/image")||Request::is("qtri-choidau/media/image/user-location*")) class="active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/media/image/user-location")}}"><i class="icon-group-circled"></i><small> User đăng địa điểm</small></a>
+                                    </li>
+                                    <li @if(Request::is("qtri-choidau/media/image/user-review*")) class="active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/media/image/user-review")}}"><i class="icon-group-circled"></i><small> User đánh giá</small></a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
@@ -1628,6 +1647,7 @@
 <script src="{{asset("assets/frontend/pages/scripts/media-manager.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/fancybox-v3beta/jquery.fancybox.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/global/plugins/fancybox-v3beta/jquery.fancybox-thumbs.js")}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/select2/js/select2.min.js')}}" type="text/javascript"></script>
 
 <script>
     jQuery(document).ready(function () {

@@ -217,7 +217,7 @@ class LocationController extends BaseController
             return json_encode(["success" => false]);
         $images = Input::get("images");
         foreach ($images as $image) {
-            $location->images()->attach($image);
+            $location->images()->withPivot("location_post_type_id")->attach([$image=>['location_post_type_id' => 39]]);
         }
         return json_encode(Input::get("images"));
     }
@@ -260,7 +260,7 @@ class LocationController extends BaseController
 
                 $location_nearly = $this->getClosePosition($location);
 
-                $reviews;
+                $reviews='';
                 /* imtoantran load review */
                 if(Input::has("notif_t") && Input::has("post")){
                     $reviews = Review::where(["id"=>Input::get("post")])->paginate(2);

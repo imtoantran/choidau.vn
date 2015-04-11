@@ -13,43 +13,6 @@ class AdminFaqController extends \AdminController
         return View::make("admin.faq.index");
     }
 
-//
-//    public function getLocations()
-//    {
-//        return Response::json(Location);
-//    }
-
-//    public function getEdit()
-//    {
-//
-//    }
-//
-//    public function postEdit()
-//    {
-//
-//    }
-//
-//    public function getReviews()
-//    {
-//
-//    }
-//
-//    public function postVerify($location)
-//    {
-//        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
-//        $option = Option::firstOrNew(["name" => "location_status", "value" => "verified", "description" => "Đã xác thực"]);
-//        $location->status_id = $option->id;
-//        if ($location->save()) return Response::json(["success" => true, "message" => $option->description,"content"=>'<i class="icon icon-ok" data-placement="left" data-toggle="tooltip" title="Đã xác thực"></i>']);
-//
-//    }
-//
-//    public function postDelete($location)
-//    {
-//        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
-//        if ($location->delete()) return Response::json(["success" => true]);
-//
-//    }
-////
     public function getDetailFaq($post_id){
         $post_question = Post::find($post_id);
         $post_question['user'] =  User::find($post_question['user_id']);

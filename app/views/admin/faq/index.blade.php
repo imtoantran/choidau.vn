@@ -26,7 +26,7 @@
                 },
                 "bProcessing": true,
                 "bServerSide": true,
-                "ajax": "{{ URL::to('qtri-choidau/get-table')}}",
+                "ajax": "{{ URL::to('qtri-choidau/hoi-dap/get-table')}}",
                 "fnDrawCallback": function (oSettings) {
                     $('#faq').find('tbody tr').css('cursor','pointer');
                     // nut xoa chu de
@@ -101,7 +101,7 @@
                     $('#faq').find('tbody tr').on('click', function(){
                         var self = $(this);
                         var post_id = self.find('.btn-faq-delete').attr('data-post-id');
-                        window.location = '{{URL::to('qtri-choidau/hoi-dap-')}}'+post_id;
+                        window.location = '{{URL::to('qtri-choidau/hoi-dap/cau-hoi-')}}'+post_id;
                     })
 
 

@@ -18,4 +18,8 @@ class PostMeta extends Eloquent {
 	{
 		return $this->belongsTo("Post");
 	}
+	public function getImage(){
+//		return $this->$this->hasOne('Post', 'id');
+		return $this->belongsToMany('Post', 'post_meta', 'meta_value', 'id');
+	}
 }

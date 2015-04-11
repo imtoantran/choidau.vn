@@ -49,45 +49,7 @@ Route::post("changePorvince", function () {
  */
 Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), function () {
 
-    /* Route::get('/', function()
-     {
-         return View::make('admin/home');
-     });*/
-    # Comment Management
-    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-    Route::controller('comments', 'AdminCommentsController');
-
-    /* imtoantran start */
-    # Blog Management
-    Route::get('blog/{post}/show', 'AdminBlogsController@getShow');
-    Route::get('blog/{post}/edit', 'AdminBlogsController@getEdit');
-    Route::post('blog/{post}/edit', 'AdminBlogsController@postEdit');
-    Route::get('blog/{post}/delete', 'AdminBlogsController@getDelete');
-    Route::post('blog/{post}/delete', 'AdminBlogsController@postDelete');
-    Route::get('blog/danh-muc-{slug?}/', 'AdminBlogsController@blogCategory');
-    Route::controller('blog', 'AdminBlogsController');
-    /* imtoantran end */
-
-    # User Management
-    Route::get('users/{user}/show', 'AdminUsersController@getShow');
-    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
-    Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
-    Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
-    Route::controller('users', 'AdminUsersController');
-
-    Route::get('roles/{role}/show', 'AdminRolesController@getShow');
-    Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
-    Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
-    Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
-    Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
-    Route::controller('roles', 'AdminRolesController');
-
-
-    // luuhoabk - qtri review
+    // luuhoabk - qtri location
     Route::group(array('prefix' => 'location', 'before' => 'hasRoleLocation'), function () {
         Route::get("loadreview","AdminLocationsController@loadReview");
         Route::get("review-item-{post_id}","AdminLocationsController@loadDetailReview");
@@ -95,26 +57,91 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         Route::controller("/","AdminLocationsController");
     });
 
-    //// luuhoabk - qtri hoi dap
-    Route::controller("hoi-dap","AdminFaqController");
-    Route::get("get-table","AdminFaqController@getData");
-    Route::get("hoi-dap-{post_id}","AdminFaqController@getDetailFaq");
-    // END luuhoabk - qtri hoi dap
 
-    // luuhoabk - qtri video
-    Route::post("media/video/comment-delete","AdminVideoController@deleteComment");
-    Route::post("media/video/delete","AdminVideoController@deleteVideo");
-    Route::post("media/video/update","AdminVideoController@updateVideo");
-    Route::get("media/video/load","AdminVideoController@getVideos");
-    Route::get("media/video/detail-video-{post_id}","AdminVideoController@loadDetail");
-    Route::controller("media/video","AdminVideoController");
-    // END luuhoabk - qtri video
+    // luuhoabk - qtri post
+    Route::group(array('prefix' => 'blog', 'before' => 'hasRolePost'), function () {
+        /* imtoantran start */
+        # Blog Management
+        Route::get('{post}/show', 'AdminBlogsController@getShow');
+        Route::get('{post}/edit', 'AdminBlogsController@getEdit');
+        Route::post('{post}/edit', 'AdminBlogsController@postEdit');
+        Route::get('{post}/delete', 'AdminBlogsController@getDelete');
+        Route::post('{post}/delete', 'AdminBlogsController@postDelete');
+        Route::get('danh-muc-{slug?}/', 'AdminBlogsController@blogCategory');
+        Route::controller('/', 'AdminBlogsController');
+        /* imtoantran end */
+    });
 
-    # Admin Dashboard
-//    Route::controller('/das', 'AdminDashboardController');
-    //  Route::get('/', 'AdminDashboardController');
+    // luuhoabk - qtri media
+    Route::group(array('prefix' => 'media', 'before' => 'hasRoleMedia'), function () {
+        // luuhoabk - qtri video
+        Route::post("video/comment-delete","AdminVideoController@deleteComment");
+        Route::post("video/delete","AdminVideoController@deleteVideo");
+        Route::post("video/update","AdminVideoController@updateVideo");
+        Route::get("video/load","AdminVideoController@getVideos");
+        Route::get("video/detail-video-{post_id}","AdminVideoController@loadDetail");
+        Route::controller("video","AdminVideoController");
+
+        Route::post("image/edit","AdminImageController@EditImage");
+        Route::post("image/delete","AdminImageController@DeleteImage");
+        Route::get("image-{image_type}-{image_id}-{parent_id}/edit","AdminImageController@LoadEditImage");
+        Route::get("image/user-location-{location_id}","AdminImageController@filterImageUserLocation");
+        Route::get("image/user-review","AdminImageController@getImageUserReview");
+
+        Route::get("image/admin-location-{location_id}","AdminImageController@filterImageAdminLocation");
+        Route::get("image/admin-review","AdminImageController@GetImageReviewAdmin");
+        Route::get("image/admin-location","AdminImageController@GetImageLocationAdmin");
+
+        Route::controller("image/user-location","AdminImageController");
+        Route::controller("image","AdminImageController");
+        // END luuhoabk - qtri video
+    });
+
+
+    // luuhoabk - qtri FAQ
+    Route::group(array('prefix' => 'hoi-dap', 'before' => 'hasRoleFAQ'), function () {
+        //// luuhoabk - qtri hoi dap
+        Route::get("get-table","AdminFaqController@getData");
+        Route::get("cau-hoi-{post_id}","AdminFaqController@getDetailFaq");
+        Route::controller("/","AdminFaqController");
+        // END luuhoabk - qtri hoi dap
+    });
+
+    // luuhoabk - qtri User
+    Route::group(array('prefix' => 'users', 'before' => 'hasRoleUser'), function () {
+        # User Management
+        Route::get('{user}/show', 'AdminUsersController@getShow');
+        Route::get('{user}/edit', 'AdminUsersController@getEdit');
+        Route::post('{user}/edit', 'AdminUsersController@postEdit');
+        Route::get('{user}/delete', 'AdminUsersController@getDelete');
+        Route::post('{user}/delete', 'AdminUsersController@postDelete');
+        Route::controller('/', 'AdminUsersController');
+    });
+
+    // luuhoabk - qtri post
+    Route::group(array('prefix' => 'roles', 'before' => 'hasRoleUserGroup'), function () {
+
+        Route::get('{role}/show', 'AdminRolesController@getShow');
+        Route::get('{role}/edit', 'AdminRolesController@getEdit');
+        Route::post('{role}/edit', 'AdminRolesController@postEdit');
+        Route::get('{role}/delete', 'AdminRolesController@getDelete');
+        Route::post('{role}/delete', 'AdminRolesController@postDelete');
+        Route::controller('/', 'AdminRolesController');
+    });
+
+
+
+    # Comment Management
+    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
+    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
+    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
+    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
+    Route::controller('comments', 'AdminCommentsController');
+
+
+
+
     Route::controller('/', 'AdminHomeController');
-
 });
 
 /* imtoantran post start */

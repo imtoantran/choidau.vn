@@ -59,3 +59,6 @@ italic{font-style: italic;}
     font-weight: 600; color: #FD3F3F;}
 .block-ui i{color: #cc3333; font-size: 1.4em;}
 .view-more{}
+.row >.media-image-item :hover{
+
+}
