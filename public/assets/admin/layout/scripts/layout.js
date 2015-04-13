@@ -382,6 +382,7 @@ var Layout = function () {
                 if ($.cookie) {
                     $.cookie('sidebar_closed', '0');
                 }
+
             } else {
                 body.addClass("page-sidebar-closed");
                 sidebarMenu.addClass("page-sidebar-menu-closed");

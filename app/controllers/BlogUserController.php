@@ -40,8 +40,16 @@ class BlogUserController extends BaseController {
 	 * @param string $catSlug
 	 * @return View
 	 */
+    public function loadBlog(){
+
+
+    }
 	public function getIndex($user_slug)
 	{
+        $has_profile = 0;
+        if(strpos(Request::fullUrl(),'profile')){
+            $has_profile = 1;
+        }
         $user_blog = User::where('username','=',"$user_slug")->first();
         $this->blogUser = $user_blog;
         $user_auth = Auth::user();
@@ -140,8 +148,7 @@ class BlogUserController extends BaseController {
             $arrFriendSuggset[$key]['state_friend'] = $this->getStatus($val['id'], $user_auth->id);;
         }
         $listStatusPost=Option::orderBy('name','ASC')->where('name','=','post_privacy')->get();
-        return View::make('site.user.blog.index',compact('user_auth','user_blog','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
-
+        return View::make('site.user.blog.index',compact('has_profile','user_auth','user_blog','actions','listStatusPost','arrFriendSuggset','blog_info','style_plugin','style_page','js_plugin','js_page','js_script'));
 	}
 
     public function isPrivacyInfo($privacy, $user, $user_blog){

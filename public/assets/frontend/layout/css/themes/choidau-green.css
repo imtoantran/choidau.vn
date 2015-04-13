@@ -472,7 +472,7 @@ border-radius: 0;
 border: none;
 box-shadow: none;
 font-weight: bold;
-  height: 40px;
+  height: 34px;
 }
 
 .icon-circle-radius{
@@ -567,7 +567,7 @@ color:white;
   display: none;
 }
 .notifications img{
-  width: 50px !important;
+  width: 34px !important;
   vertical-align: top !important;
   margin-right: 5px !important;
 }

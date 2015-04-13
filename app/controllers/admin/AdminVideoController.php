@@ -17,7 +17,6 @@ class AdminVideoController extends \AdminController
     public function getVideos()
     {
         $videos = Post::orderBy('updated_at','DESC')->select(array('id','title', 'parent_id', 'user_id', 'created_at' , 'guid' ,'status'))->wherePost_type('video');
-//        $videos = Location::select(array('locations.id', 'name', 'locations.user_id', 'created_at', 'province_id', 'status_id', 'slug'))->where("user_id", "!=", '');
 
         return Datatables::of($videos)
             ->add_column('view_count', function($row){

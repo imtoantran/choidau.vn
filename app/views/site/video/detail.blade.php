@@ -21,11 +21,17 @@
         <div class="row question-detial-head margin-none">
             <div class="col-sm-12 col-md-12 col-lg-12 col-none-padding">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12">
                         <div class="bg-primary page-title">
                             <header>VIDEO</header>
                             <small>Cùng chia sẻ những video hot nhất mà bạn có...</small>
+                            <div class="pull-right" style="margin-top: -10px;">
+                                <a href="{{URL::to("video.html")}}">
+                                    <i class="icon-back white" style="font-size: 20px;"></i>
+                                </a>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 

@@ -74,7 +74,7 @@
             <nav class="person-header-nav">
                 <ul class="nav nav-tabs nav-justified blog-navigation" role="tablist">
                     {{--action--}}
-                    <li role="presentation" class="active">
+                    <li role="presentation" class="@if($has_profile == 0){{'active'}}@endif">
                         <a href="#blog-tab-action" id="btn-tag-blog-action" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Hoạt động</a>
                     </li>
 
@@ -92,7 +92,7 @@
                         <a href="#blog-tab-friend" id="btn-tag-blog-friend" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Bạn bè</a>
                     </li>
                     @if($user_blog->id == $user_auth->id)
-                        <li role="presentation"  class="">
+                        <li role="presentation"  class="@if($has_profile == 1){{'active'}}@endif">
                             <a href="#blog-tab-setting" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="true"><i class="icon-cog"></i></a>
                         </li>
                     @endif
