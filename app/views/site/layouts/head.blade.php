@@ -83,3 +83,15 @@
 @yield('styles')
 {{-- imtoantran add style section from blade template end --}}
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+
+
+<?php
+    $script_hp1 = Script::orderBy('created_at', 'DESC')->whereType('p1')->get();
+    if(count($script_hp1)){
+        foreach($script_hp1 as $key=>$val){
+            echo '<!--'.$val->title.'-->';
+            echo $val->content;
+            echo '<!-- end '.$val->title.'-->';
+        }
+    }
+?>

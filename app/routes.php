@@ -57,7 +57,6 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         Route::controller("/","AdminLocationsController");
     });
 
-
     // luuhoabk - qtri post
     Route::group(array('prefix' => 'blog', 'before' => 'hasRolePost'), function () {
         /* imtoantran start */
@@ -97,7 +96,6 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         // END luuhoabk - qtri video
     });
 
-
     // luuhoabk - qtri FAQ
     Route::group(array('prefix' => 'hoi-dap', 'before' => 'hasRoleFAQ'), function () {
         //// luuhoabk - qtri hoi dap
@@ -118,15 +116,25 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         Route::controller('/', 'AdminUsersController');
     });
 
-    // luuhoabk - qtri post
+    // luuhoabk - qtri Role
     Route::group(array('prefix' => 'roles', 'before' => 'hasRoleUserGroup'), function () {
-
         Route::get('{role}/show', 'AdminRolesController@getShow');
         Route::get('{role}/edit', 'AdminRolesController@getEdit');
         Route::post('{role}/edit', 'AdminRolesController@postEdit');
         Route::get('{role}/delete', 'AdminRolesController@getDelete');
         Route::post('{role}/delete', 'AdminRolesController@postDelete');
         Route::controller('/', 'AdminRolesController');
+    });
+
+    // luuhoabk - qtri Setting
+    Route::group(array('prefix' => 'setting', 'before' => 'hasRoleSetting'), function () {
+
+        Route::get('script', 'AdminSettingController@getScript');
+        Route::post('script/delete', 'AdminSettingController@scriptDelete');
+        Route::post('script/update', 'AdminSettingController@scriptUpdate');
+        Route::post('script/insert', 'AdminSettingController@scriptInsert');
+
+        Route::controller('/', 'AdminSettingController');
     });
 
 
@@ -137,9 +145,6 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
     Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
     Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
     Route::controller('comments', 'AdminCommentsController');
-
-
-
 
     Route::controller('/', 'AdminHomeController');
 });
