@@ -9,6 +9,7 @@
 <!-- Head END -->
 <!-- Body BEGIN -->
 <body class="choidau">
+{{--chen code --}}
 <?php
 $script_p2 = Script::orderBy('created_at', 'DESC')->whereType('p2')->get();
 if(count($script_p2)){
