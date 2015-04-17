@@ -1,19 +1,34 @@
+<?php
+    $social = Social::orderBy('id','ASC')->whereType('social')->whereStatus(1)->get();
+    $hostline= Social::whereType('hotline')->whereStatus(1)->first();
+    $email= Social::whereType('email')->whereStatus(1)->first();
+?>
+
 <div class="header-top">
     <div class="row ">
         <div style="" class="header-top-content">
-            <div class="col-xs-12 col-sm-12 col-md-3">&nbsp; Hotline : 1900 59 59 59</div>
-            <div class="col-md-6 col-xs-12 col-sm-12"> Email :hotrokhachhang@choidau.net</div>
+            <div class="col-xs-12 col-sm-12 col-md-3">&nbsp;
+                @if(count($hostline) && !empty($hostline->content))
+                    {{$hostline->title}} : {{$hostline->content}}
+                @endif
+            </div>
+            <div class="col-md-6 col-xs-12 col-sm-12">
+                @if(count($email) && !empty($email->content))
+                    {{$email->title}} : {{$email->content}}
+                @endif
+            </div>
             <div class="col-md-3 col-xs-12 col-sm-12 text-right padding-right-20">
                 <ul class="list-unstyled list-inline">
-                    <li><i class="icon-play"></i></li>
-                    <li><i class="icon-facebook-1"></i></li>
-                    <li><i class="icon-twitter"></i></li>
-                    <li><i class="icon-linkedin"></i></li>
-                    <li><i class="icon-gplus"></i></li>
-                    <li><i class="icon-skype"></i></li>
-                    <li><i class="icon-pinterest"></i></li>
+                    @if(count($social))
+                        @foreach($social as $key=>$val)
+                            <li class="tooltips" data-original-title="{{$val->title}}" data-placement="bottom">
+                                <a href="@if(empty($val->content)){{'#'}}@else{{$val->content}}@endif" target="_blank">
+                                    <i class="icon-{{$val->icon}} white"></i>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
-
             </div>
 
         </div>
@@ -89,7 +104,6 @@
                                         <a class="font-weight-600" href="{{{ URL::to('trang-ca-nhan/'.Auth::user()->username.'.html') }}}">
                                             <img class="img-circle padding-1" style="border: 1px solid #fff;" width="36" src="{{Auth::user()->avatar}}" alt="{{{ Auth::user()->display_name() }}}">{{{Auth::user()->display_name()}}}
                                         </a>
-
                                     </li>
                                     {{-- imtoantran chat and general notifications start --}}
                                     <li class="dropdown notif" id="messages">

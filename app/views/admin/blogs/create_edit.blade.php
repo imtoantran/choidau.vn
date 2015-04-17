@@ -4,15 +4,14 @@
 @section('content')
     {{-- Edit Blog Form --}}
     <div class="row">
-        <form class="form-horizontal" method="post"
-              action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif"
+        <form class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif"
               autocomplete="off">
             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                 <!-- Tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
+                {{--<ul class="nav nav-tabs">--}}
+                    {{--<li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>--}}
                     {{--<li><a href="#tab-meta-data" data-toggle="tab">Meta data</a></li>--}}
-                </ul>
+                {{--</ul>--}}
                 <!-- ./ tabs -->
 
                 <!-- CSRF Token -->

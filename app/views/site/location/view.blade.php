@@ -228,16 +228,11 @@
                 </div>
             </div>
 
-
+            {{--quang cao--}}
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
-                <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
-                         class="img-responsive padding-3 img-border-grey" alt="Image">
-                </div>
-                <div class="row">
-                    <img src="http://trentarthur.ca/wp-content/uploads/2012/11/Foods.jpg"
-                         class="img-responsive padding-3 img-border-grey" alt="Image">
-                </div>
+                @if(isset($ads) && empty($ads))
+                    {{$ads['content']}}
+                @endif
             </div>
             <!-- right end -->
         </div>

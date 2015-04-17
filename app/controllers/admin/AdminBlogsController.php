@@ -2,8 +2,6 @@
 
 class AdminBlogsController extends AdminController
 {
-
-
     /**
      * Post Model
      * @var Post

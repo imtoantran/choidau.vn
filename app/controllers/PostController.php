@@ -113,7 +113,6 @@ class PostController extends BaseController {
 	{
 		// Title
 		$title = Lang::get('admin/blogs/title.blog_update');
-
 		// Show the page
 		return View::make('admin/blogs/create_edit', compact('post', 'title'));
 	}

@@ -4,7 +4,10 @@
     <div class="row margin-bottom-10 margin-top-10">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="banner-top">
-                <img src="http://www.collectivehospitality.co.nz/media/1228/col_H_fingerfood.jpg" class="img-responsive" alt="Image">
+                {{--ads posittion-4--}}
+                @if(isset($ads) && !empty($ads['content']))
+                    {{$ads['content']}}
+                @endif
             </div>
         </div>
     </div>

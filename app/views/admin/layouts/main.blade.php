@@ -269,15 +269,9 @@ if(Auth::check()){
 
                 {{--ADS--}}
                 @if(Entrust::can('manage_ads'))
-                    <li>
-                        <a href="#"><i class="icon-star-1"></i><span class="title"> QUẢNG CÁO</span>
-                            <span class="arrow "></span>
+                    <li @if(Request::is("qtri-choidau/ads*")) class="active" @endif>
+                        <a href="{{URL::to("qtri-choidau/ads")}}"><i class="icon-star-1"></i><span class="title"> QUẢNG CÁO</span>
                         </a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Danh sách quảng cáo</a> </li>
-                            <li><a href="#">Thêm quảng cáo</a></li>
-                            <li><a href="#">Cài đặt quảng cáo</a></li>
-                        </ul>
                     </li>
                 @endif
 
@@ -305,13 +299,22 @@ if(Auth::check()){
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
-                            <li><a href="#"><i class="icon-home"></i>Giao diện</a></li>
-                            <li><a href="#"><i class="icon-home"></i>Nội dung</a></li>
-                            <li><a href="ecommerce_orders.html"><i class="icon-basket"></i>Editer</a></li>
-                            <li><a href="ecommerce_orders_view.html"><i class="icon-tag"></i>Popup</a></li>
-                            <li @if(Request::is("qtri-choidau/setting/script*")) class="active" @endif>
-                                <a href="{{URL::to("qtri-choidau/setting/script")}}"><i class="icon-code"></i> Script</a>
+                            {{--page--}}
+                            <li @if(Request::is("qtri-choidau/setting/page*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/setting/page")}}"><i class="icon-doc-alt"></i> Pages</a>
                             </li>
+
+                            {{--social--}}
+                            <li @if(Request::is("qtri-choidau/setting/social*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/setting/social")}}"><i class="icon-dribbble"></i> Socials</a>
+                            </li>
+
+                            {{--script--}}
+                            <li @if(Request::is("qtri-choidau/setting/script*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/setting/script")}}"><i class="icon-code"></i> Scripts</a>
+                            </li>
+
+
                         </ul>
                     </li>
                 @endif

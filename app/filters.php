@@ -181,14 +181,14 @@ Route::filter('hasRoleUser', function(){
         return Redirect::action('AdminHomeController@getInvalid');
     }
 });
-//filter - user
+//filter - user group
 Route::filter('hasRoleUserGroup', function(){
     if(!Entrust::can('manage_user_group')){
         return Redirect::action('AdminHomeController@getInvalid');
     }
 });
 
-//filter - user
+//filter - ads
 Route::filter('hasRoleADS', function(){
     if(!Entrust::can('manage_ads')){
         return Redirect::action('AdminHomeController@getInvalid');

@@ -12,13 +12,110 @@ class AdminSettingController extends \AdminController
     {
 //        return View::make("admin.video.index");
     }
+
+
+    //page
+    public function getPage()
+    {
+        $page_name = 'Quản lý trang tỉnh';
+        $detail_name_page = 'Link nhanh';
+        $page_icon = 'icon-doc-alt';
+        $url_page='page';
+        $name_page='Setting - page';
+        return View::make("admin.setting.page.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page'));
+    }
+
+    public function getPageList(){
+            $pages = Page::select(array('id','title', 'alias', 'updated_at'));
+            return Datatables::of($pages)
+                ->add_column('actions', function($row){
+                    $actions  = '<div>';
+                    $actions .= '<a class="pull-right btn btn-xs btn-danger page-item-delete" data-id="'.$row['id'].'" data-action="delete"><i class="icon-trash"></i> Xóa</a>';
+                    $actions .= '<a class="pull-right btn btn-default btn-xs" href="/qtri-choidau/setting/page-'.$row['id'].'/edit"><i class="icon-edit"></i> <span>Sửa</span></a>';
+                    $actions .= '</div>';
+                    return $actions;
+                })
+                ->make();
+    }
+
+    public function getPageEdit($page_id){
+        $page = Page::find($page_id);
+
+        $page_name = 'Chỉnh sửa trang';
+        $detail_name_page = 'Trang '.$page->title;
+        $page_icon = 'icon-edit';
+        $url_page='edit';
+        $name_page='Setting - page - edit';
+        return View::make("admin.setting.page.edit", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','page'));
+    }
+
+    public function pageSave(){
+        $data = Input::all();
+        if($data['action'] == 'create'){
+            $page = new Page();
+            $page->title = $data['title'];
+            $page->alias = $data['alias'];
+            $page->content = $data['content'];
+            $page->created_at = date_format(new DateTime(),"Y-m-d H:i:s");
+            $page->updated_at = date_format(new DateTime(),"Y-m-d H:i:s");
+            if($page->save()){
+                echo $page->id;
+            }else{ echo -1;}
+
+        }else{
+            $update = Page::whereId($data['id'])->update(['title'=>$data['title'], 'alias'=>$data['alias'], 'content'=>$data['content']]);
+            echo $update;
+        }
+
+    }
+
+    public function getCreate(){
+        $page_name = 'Tạo Page';
+        $detail_name_page = 'Trang dd';
+        $page_icon = 'icon-edit';
+        $url_page='edit';
+        $name_page='Setting - page - edit';
+        return View::make("admin.setting.page.create", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','page'));
+    }
+
+
+    public function pageDelete(){
+        $data = Input::all();
+        echo Page::whereId($data['id'])->delete();
+    }
+
+    //social
+    public function getSocial()
+    {
+        $page_name = 'Trang liên kết';
+        $detail_name_page = 'Chèn liên kết';
+        $page_icon = 'icon-dribbble';
+        $url_page='social';
+        $name_page='Setting - Social';
+        $social = Social::orderBy('id','ASC')->whereType('social')->get();
+        $mobile_app = Social::orderBy('id','ASC')->whereType('mobile-app')->get();
+        $hotline = Social::orderBy('id','ASC')->whereType('hotline')->first();
+        $email = Social::orderBy('id','ASC')->whereType('email')->first();
+        $page = Social::orderBy('id','ASC')->where('type','like','page-%')->get();
+        $page_option = Page::get();
+        return View::make("admin.setting.social.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','social','mobile_app','hotline','email','page','page_option'));
+    }
+
+    public function socialUpdate(){
+        $data = input::all();
+        $social_update = Social::whereId($data['social_id'])->update(['content'=>$data['social_link'],'status'=>$data['social_status']]);
+        echo $social_update;
+    }
+
+
+    //script
     public function getScript()
     {
         $page_name = 'Trang cài đặt';
         $detail_name_page = 'Chèn Script';
         $page_icon = 'cog-alt';
         $url_page='script';
-        $name_page='Image user location';
+        $name_page='Setting - Script';
         $script_head = Script::orderBy('created_at', 'DESC')->whereType('p1')->get();
         $script_after_open_body = Script::orderBy('created_at', 'DESC')->whereType('p2')->get();
         $script_before_close_body = Script::orderBy('created_at', 'DESC')->whereType('p3')->get();
@@ -47,167 +144,4 @@ class AdminSettingController extends \AdminController
         $script->updated_at = date_format(new DateTime(),"Y-m-d H:i:s");
         echo json_encode($script->save());
     }
-
-//
-//    public function getVideos()
-//    {
-//        $videos = Post::orderBy('updated_at','DESC')->select(array('id','title', 'parent_id', 'user_id', 'created_at' , 'guid' ,'status'))->wherePost_type('video');
-//
-//        return Datatables::of($videos)
-//            ->add_column('view_count', function($row){
-//                $view_count = number_format(json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$row['guid'].'?v=2&alt=json'))->entry->{'yt$statistics'}->viewCount);
-//               $view = '<span class="badge badge-primary pull-right"><small>'.$view_count.'</small></span>';
-//                return $view;
-//            })
-//            ->add_column('comment_count', function($row){
-//                $comment_count = Post::whereParent_id($row['id'])->wherePost_type('comment')->count();
-//                $comment_count = '<span class="badge badge-info pull-right"><small>'.$comment_count.'</small></span>';
-//                return $comment_count;
-//            })
-//            ->add_column('user', function($row){
-//                $user = User::whereId($row['user_id'])->first();
-//                return '<span class="font-weight-600">'.empty($user['fullname'])?$user['username']:$user['fullname'].'</span>';
-//            })
-//            ->add_column('location', function($row){
-//                $location = Location::whereId($row['parent_id'])->first();
-////                PostMeta::where(["meta_key"=>"review_price","post_id"=>$row['id']])->first()["meta_value"];
-//                return $location['name'];
-//            })
-//            ->add_column('create', function($row){
-//                return '<small>'.date("H:i d-m-Y", strtotime($row['created_at'])).'</small>';
-//            })
-//            ->add_column('actions', function($row){
-//                $consfirm = 'un-confirm';
-//                $confirm_icon = 'icon-check-empty';
-//                $confirm_class = 'btn-default';
-//                if($row['status']){
-//                    $consfirm ='confirm';
-//                    $confirm_icon = 'icon-check';
-//                    $confirm_class = 'btn-success';
-//
-//                }
-//                $actions  = '<div>';
-//                $actions .= '<a class="pull-right btn btn-xs btn-danger btn-video-delete" data-action="delete" data-post-id="'.$row['id'].'"><i class="icon-trash"></i> Xóa</a>';
-//                $actions .= '<button href="https://www.youtube.com/embed/'.$row['guid'].'?html5=1" class="pull-right btn btn-xs '.$confirm_class.' btn-confirm" data-action="'.$consfirm.'" data-post-id="'.$row['id'].'"><i class="'.$confirm_icon.'"></i> <span>Duyệt</span></button>';
-//                $actions .= '</div>';
-//
-//                return $actions;
-//            })
-//            ->remove_column('id')
-//            ->remove_column('created_at')
-//            ->remove_column('user_id')
-//            ->remove_column('parent_id')
-//            ->remove_column('guid')
-//            ->remove_column('status')
-//            ->make();
-//    }
-//
-//    public function deleteVideo()
-//    {
-//        $data = Input::all();
-//        Post::whereParent_id($data['post_id'])->delete();
-//        echo Post::whereId($data['post_id'])->delete();
-//
-//    }
-//
-//    public function deleteComment(){
-//        $data = Input::all();
-//        $arrResult['result'] = Post::find($data['post_id'])->delete();
-//        $arrResult['total'] = Post::whereParent_id($data['parent_id'])->count();
-//        echo json_encode($arrResult);
-//    }
-//    public function updateVideo(){
-//        $data = Input::all();
-//        $status = ($data['data_action'] == 'confirm') ? 0: 1;
-//
-//        echo Post::whereId($data['post_id'])->update(['status'=> $status]);
-//    }
-//
-//    public function loadDetail($video_id){
-//        $video = Post::find($video_id);
-//        $video['date'] = $video->date();
-//        $video['view_count'] = number_format(json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$video['guid'].'?v=2&alt=json'))->entry->{'yt$statistics'}->viewCount);
-//        $video['comment_count'] = Post::whereParent_id($video['id'])->wherePost_type('comment')->count();
-//        $location = Location::whereId($video['parent_id'])->first();
-//        $video['location'] = $location['name'];
-//        $video['location_url'] = $location->url();
-//        $user = User::find($video['user_id']);
-//        $video['user_name'] = $user->display_name();
-//        $video['user_url'] = $user->url();
-//
-//        $comment = Post::orderBy('updated_at', 'DESC')->wherePost_type('comment')->whereParent_id($video_id)->paginate(10);
-//
-//        foreach($comment as $key=>$val){
-//            $user = User::find($val['user_id']);
-//            $comment[$key]['user_url'] = $user->url();
-//            $comment[$key]['user_name'] = $user->display_name();
-//            $comment[$key]['user_avatar'] = $user['avatar'];
-//            $comment[$key]['latest_date'] = $val->date();
-//        }
-//
-//        return view::make("admin.video.detail", compact('video','user', 'comment'));
-////        return view::make("admin.video.detail");
-//    }
-////
-////    public function postEdit()
-////    {
-////
-////    }
-////
-////    public function getReviews()
-////    {
-////
-////    }
-////
-////    public function postVerify($location)
-////    {
-////        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
-////        $option = Option::firstOrNew(["name" => "location_status", "value" => "verified", "description" => "Đã xác thực"]);
-////        $location->status_id = $option->id;
-////        if ($location->save()) return Response::json(["success" => true, "message" => $option->description,"content"=>'<i class="icon icon-ok" data-placement="left" data-toggle="tooltip" title="Đã xác thực"></i>']);
-////
-////    }
-////
-////    public function postDelete($location)
-////    {
-////        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
-////        if ($location->delete()) return Response::json(["success" => true]);
-////
-////    }
-////////
-////    public function getDetailFaq($post_id){
-////        $post_question = Post::find($post_id);
-////        $post_question['user'] =  User::find($post_question['user_id']);
-////        $post_question['user_url'] = $post_question['user']->url();
-////        $post_question['latest_date'] =  $post_question->date();
-////
-////        $arr_answer = Post::orderBy('updated_at', 'DESC')->wherePost_type('faq-answer')->whereParent_id($post_id);
-////        $post_question['total_answer'] =  $arr_answer->count();
-////
-////        $arr_answer = $arr_answer->paginate(10);;
-////        foreach($arr_answer as $key=>$val){
-////            $arr_answer[$key]['user'] = User::whereId($val->user_id)->first();
-////            $arr_answer[$key]['user_url'] = $arr_answer[$key]['user']->url();
-////            $arr_answer[$key]['latest_date'] = $val->date();
-////        }
-////        return View::make("admin.faq.detail", compact('post_question','arr_answer'));
-////    }
-////
-////    public function getData()
-////    {
-////        $faq = Post::select(array('posts.id','posts.status','posts.title', 'posts.user_id', 'posts.updated_at'))->wherePost_type('faq-question');
-////
-////        return Datatables::of($faq)
-////            ->edit_column('title', '<span class="text-style">{{{$title}}}</span> <span class="badge badge-default">{{Post::whereParent_id($id)->count()}} phản hồi</span>')
-////            ->edit_column('user_id', '@if($user_id) <a href="{{User::find($user_id)->url()}}">{{User::find($user_id)->display_name()}}</a> @endif')
-////            ->add_column('actions',
-////                '<a href="#" class="btn btn-danger btn-xs btn-faq-delete pull-right" data-post-id="{{$id}}">Xóa</a>
-////                <a href="#" class="btn btn-warning btn-xs btn-faq-close pull-right" data-type="@if($status){{"open"}}@else{{"close"}}@endif" data-post-id="{{$id}}">@if($status){{"Mở"}}@else{{"Đóng"}}@endif</a>
-////                '
-////            )
-////            ->remove_column('id')
-////            ->remove_column('status')
-////            ->make();
-////    }
-
 }
