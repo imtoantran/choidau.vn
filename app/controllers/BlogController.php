@@ -41,15 +41,21 @@ class BlogController extends BaseController {
 	 */
 	public function getIndex($catSlug = 'an-uong-choi')
 	{
+
 		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
 		foreach($blogs as $key=>$val){
 			$blog_item = Post::find($val['id']);
-			$avatar = $blog_item->getFeaturedImage()->thumbnail;
-			$avatar = explode('/',$avatar);
-			$avatar = '/'.$avatar[1].'/'.$avatar[2].'/260x197-'.$avatar[3];
-			$blogs[$key]['avatar'] = $avatar;
+			if(isset($blog_item->getFeaturedImage()->thumbnail)){
+				$avatar = $blog_item->getFeaturedImage()->thumbnail;
+				$avatar = explode('/',$avatar);
+				$avatar = '/'.$avatar[1].'/'.$avatar[2].'/260x197-'.$avatar[3];
+				$blogs[$key]['avatar'] = $avatar;
+			}else{
+				$blogs[$key]['avatar'] = '';
+			}
 		}
 		$cat = $this->cat->whereSlug($catSlug)->first();
+
 		// Get all the blog posts
 		$posts = $this->post->whereCategory_id($cat->id)->orderBy('created_at', 'DESC')->paginate(10);
 

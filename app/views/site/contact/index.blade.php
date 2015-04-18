@@ -23,8 +23,6 @@
                 </div>
             </div>
 
-
-
             <div class="col-md-7">
                 <div class="contact-wrapper">
                     <div class="clearfix text-center" style="margin-bottom: 20px; margin-top: 20px; font-size: 1.5em;"><i class="icon-vcard grey" style="font-size: 20px;"></i> Liên hệ</div>

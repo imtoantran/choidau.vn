@@ -10,7 +10,7 @@
                     @if(isset($blog->avatar) && !empty($blog->avatar))
                         <img alt="" src="{{$blog->avatar}}" class="img-responsive" style="width: 100%">
                     @else
-                        <img alt="" src="{{URL::to('assets/global/img/no-image.png')}}" class="img-responsive">
+                        <img alt="" height="199px" width="100%" src="{{URL::to('assets/global/img/no-image.png')}}" class="">
                     @endif
                 </a>
                 <a href="{{$blog->url()}}"><strong>{{$blog->title}}</strong></a>

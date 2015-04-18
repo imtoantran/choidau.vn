@@ -3,23 +3,17 @@
 {{-- Content --}}
 @section('content')
     {{-- Edit Blog Form --}}
+    {{--{{var_dump(isset($post))}}--}}
     <div class="row">
-        <form class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif"
-              autocomplete="off">
+        {{--<form id="blog_create" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('qtri-choidau/blog/' . $post->id . '/edit') }}@endif"--}}
+        <form id="blog_create" class="form-horizontal" method="post" action="#" autocomplete="off">
             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                <!-- Tabs -->
-                {{--<ul class="nav nav-tabs">--}}
-                    {{--<li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>--}}
-                    {{--<li><a href="#tab-meta-data" data-toggle="tab">Meta data</a></li>--}}
-                {{--</ul>--}}
-                <!-- ./ tabs -->
-
                 <!-- CSRF Token -->
                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
                 <!-- ./ csrf token -->
                 @if(isset($catId))
                     <input name="catId" value="{{$catId}}" type="hidden"/>
-                    @endif
+                @endif
                             <!-- Tabs Content -->
                     <div class="tab-content">
                         <!-- General tab -->
@@ -29,7 +23,7 @@
                                 <div class="col-md-12">
                                     <input placeholder="Tiêu đề bài viết" class="form-control" type="text" name="title"
                                            id="title"
-                                           value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}"/>
+                                           value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}" required/>
                                     {{ $errors->first('title', '<span class="help-block">:message</span>') }}
                                 </div>
                             </div>
@@ -44,11 +38,11 @@
                             <!-- ./ post title -->
 
                             <!-- Content -->
-                            <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
+                            <div class="form-group">
                                 <div class="col-md-12">
-                            <textarea id="editor" class="form-control full-width wysihtml5" name="content" value="content"
-                                      rows="10">{{{ Input::old('content', isset($post) ? $post->content : null) }}}</textarea>
-                                    {{ $errors->first('content', '<span class="help-block">:message</span>') }}
+                            <textarea id="editor" class="form-control full-width wysihtml5" name="content" value="content"  rows="10">
+                                @if(isset($post)) {{$post->content}} @endif
+                            </textarea>
                                 </div>
                             </div>
                             <!-- ./ content -->
@@ -102,7 +96,7 @@
                         <div class="caption">Bài viết nổi bật</div>
                     </div>
                     <div class="portlet-body">
-                        <input @if(isset($featured_post)) @if($featured_post) {{"checked"}} @endif @endif type="checkbox" name="featured_post" id=""/>
+                        <input @if(isset($featured_post) && $featured_post) {{"checked"}} @endif type="checkbox" name="featured_post" id=""/>
                     </div>
                 </div>
                 <div class="portlet solid">
@@ -112,7 +106,7 @@
                     <div class="portlet-body">
                         <div class="media">
                             <div id="featured_image">
-                                <img class="media-object" src="@if(isset($featured_image->thumbnail)) {{$featured_image->thumbnail}} @endif">
+                                <img class="media-object" src="@if(isset($featured_image->thumbnail)) {{$featured_image->thumbnail}}@else{{URL::to('assets/global/img/no-image.png')}}@endif">
                             </div>
                         </div>
                     </div>
@@ -124,8 +118,8 @@
                             <div class="col-md-12">
                                 <button type="reset" class="btn btn-xs btn-info"><span class="icon icon-cancel"></span>Hủy
                                 </button>
-                                <button type="submit" class="btn btn-xs btn-success"><span
-                                            class="icon icon-edit"></span>Lưu
+                                <button type="submit" class="btn btn-xs btn-success">
+                                    <i class="icon-floppy"></i> Lưu
                                 </button>
                             </div>
                         </div>
@@ -146,38 +140,44 @@
         $(document).ready(function () {
             $('.close_popup').click(function () {
                 parent.oTable.fnReloadAjax();
-                parent.jQuery.fn.colorbox.close();
                 return false;
             });
 
-            $('#deleteForm').submit(function (event) {
-                var form = $(this);
-                $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize()
-                }).done(function () {
-                    parent.jQuery.colorbox.close();
-                    parent.oTable.fnReloadAjax();
-                }).fail(function () {
-                });
+            $('#blog_create').submit(function (event) {
                 event.preventDefault();
+                var form = $(this);
+                $.blockUI({message: '<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang lưu bài viết </div>'});
+                $.ajax({
+                    url:'{{URL::to('qtri-choidau/blog/' . $post->id . '/edit')}}',
+                    type:"post",
+                    dataType:"json",
+                    data:form.serialize()+'&content_tiny='+tinyMCE.activeEditor.getContent(),
+                    success:function(response){
+                        if(response){
+                            window.location = '{{URL::to('qtri-choidau/blog/')}}/'+response+'/edit';
+                        }else{
+                            alert('Lỗi bài viết!, Xin vui lòng thử lại.');
+                        }
+                    },
+                    complete:function(){
+                        $.unblockUI();
+                    }
+                });
             });
 
-            if ($('#editor').size() > 0) {
-                tinymce.init({
-                    selector: "#editor",
-                    menubar: false,
-                    plugins: [
-                        "advlist autolink lists link image charmap print preview anchor",
-                        "searchreplace visualblocks code fullscreen",
-                        "insertdatetime media table contextmenu paste",
-                        "autoresize",
-                        "preview", "image", "code", "wordcount", "textcolor"
-                    ],
-                    toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
-                });
-            }
+            tinymce.init({
+                selector: "#editor",
+                menubar: false,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table contextmenu paste",
+                    "autoresize",
+                    "preview", "image", "code", "wordcount", "textcolor"
+                ],
+                toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
+            });
+
 
             $("input[name=featured_post]").bootstrapSwitch({
                 size: "small",
@@ -191,7 +191,6 @@
                 url: "{{URL::to("media/upload")}}",
                 "multi-select": false,
                 complete: function (data) {
-                    console.log(data)
                     $("#featured_image").html("<img src='" + data[0].src + "'/>");
                     $("input[name=featured_image]").val(data[0].id);
                 }
@@ -208,12 +207,15 @@
                                 var range = ed.selection.getRng();
                                 var newNode = ed.getDoc().createElement("img");
                                 newNode.src = image.src;
+                                newNode.className = "img-responsive";
                                 range.insertNode(newNode);
                             })
                         }
                     }
                 }
             });
+
+
         });
     </script>
 @stop

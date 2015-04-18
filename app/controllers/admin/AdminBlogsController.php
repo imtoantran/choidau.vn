@@ -64,11 +64,14 @@ class AdminBlogsController extends AdminController
      */
     public function getCreate($catId)
     {
-        // Title
-        $title = Lang::get('admin/blogs/title.create_a_new_blog');
+        $page_name = 'Quản lý bài viêt';
+        $detail_name_page = 'Tạo bài viết';
+        $page_icon = 'icon-pen';
+        $url_page= $catId;
+        $name_page='Setting - blog';
 
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('title', 'catId'));
+        return View::make('admin/blogs/create', compact('page_name', 'detail_name_page', 'page_icon', 'url_page', 'name_page','catId'));
     }
 
     /**
@@ -78,51 +81,34 @@ class AdminBlogsController extends AdminController
      */
     public function postCreate()
     {
-        // Declare the rules for the form validation
-        $rules = array(
-            'title' => 'required|min:3',
-            'content' => 'required|min:3'
-        );
+        $user = Auth::user();
 
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
+        // Update the blog post data
+        $this->post->title = Input::get('title');
+        $this->post->slug = Str::slug(Input::get('title'));
+        $this->post->content = Input::get('content_tiny');
+        $this->post->meta_title = Input::get('meta-title');
+        $this->post->meta_description = Input::get('meta-description');
+        $this->post->meta_keywords = Input::get('meta-keywords');
+        $this->post->user_id = $user->id;
+        $this->post->category_id = Input::get("catId");
 
-        // Check if the form validates with success
-        if ($validator->passes()) {
-            // Create a new blog post
-            $user = Auth::user();
-
-            // Update the blog post data
-            $this->post->title = Input::get('title');
-            $this->post->slug = Str::slug(Input::get('title'));
-            $this->post->content = Input::get('content');
-            $this->post->meta_title = Input::get('meta-title');
-            $this->post->meta_description = Input::get('meta-description');
-            $this->post->meta_keywords = Input::get('meta-keywords');
-            $this->post->user_id = $user->id;
-            $this->post->category_id = Input::get("catId");
-
-            // Was the blog post created?
-            if ($this->post->save()) {
-                if (Input::has("featured_post")) {
-                    $meta = new PostMeta("featured_post", Input::get("featured_post"));
-                    $this->post->meta()->save($meta);
-                } else {
-                    $meta = new PostMeta("featured_post", false);
-                    $this->post->meta()->save($meta);
-                }
-                $post_meta = new PostMeta("featured_image", Input::get("featured_image"));
-                $this->post->meta()->save($post_meta);
-                // Redirect to the new blog post page
-                return Redirect::to('qtri-choidau/blog/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
+        // Was the blog post created?
+        if ($this->post->save()) {
+            if (Input::has("featured_post")) {
+                $meta = new PostMeta("featured_post", Input::get("featured_post"));
+                $this->post->meta()->save($meta);
+            } else {
+                $meta = new PostMeta("featured_post", false);
+                $this->post->meta()->save($meta);
             }
+            $post_meta = new PostMeta("featured_image", Input::get("featured_image"));
+            $this->post->meta()->save($post_meta);
 
-            // Redirect to the blog post create page
-            return Redirect::to('qtri-choidau/blog/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
+            echo $this->post->id;
+        }else{
+            echo -1;
         }
-
-        // Form validation failed
-        return Redirect::to('qtri-choidau/blog/create')->withInput()->withErrors($validator);
     }
 
     /**
@@ -157,7 +143,7 @@ class AdminBlogsController extends AdminController
         $featured_image = $post->getFeaturedImage();
         /* featured image stop */
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('post', 'title', 'featured_image', 'featured_post'));
+        return View::make('admin/blogs/edit', compact('post', 'title', 'featured_image', 'featured_post'));
     }
 
     /**
@@ -183,7 +169,7 @@ class AdminBlogsController extends AdminController
             // Update the blog post data
             $post->title = Input::get('title');
             $post->slug = Str::slug(Input::get('title'));
-            $post->content = Input::get('content');
+            $post->content = Input::get('content_tiny');
             $post->meta_title = Input::get('meta-title');
             $post->meta_description = Input::get('meta-description');
             $post->meta_keywords = Input::get('meta-keywords');

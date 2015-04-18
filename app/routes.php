@@ -60,7 +60,10 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
     Route::group(array('prefix' => 'blog', 'before' => 'hasRolePost'), function () {
         /* imtoantran start */
         # Blog Management
-        Route::get('{post}/show', 'AdminBlogsController@getShow');
+        Route::get('create/{catId}', 'AdminBlogsController@getCreate');
+        Route::post('create', 'AdminBlogsController@postCreate');
+//
+//        Route::get('{post}/show', 'AdminBlogsController@getShow');
         Route::get('{post}/edit', 'AdminBlogsController@getEdit');
         Route::post('{post}/edit', 'AdminBlogsController@postEdit');
         Route::get('{post}/delete', 'AdminBlogsController@getDelete');
