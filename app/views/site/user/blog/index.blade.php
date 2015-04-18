@@ -6,7 +6,7 @@
             <div class="row margin-none">
                 <div class="col-md-9 col-none-padding person-body-content">
                     <div class="tab-content col-none-padding">
-                        <div role="tabpanel" class="tab-pane active" id="blog-tab-action">
+                        <div role="tabpanel" class="tab-pane @if($has_profile == 0){{'active'}}@endif" id="blog-tab-action">
                             <section class="person-content choidau-bg">
 
                                 {{--post statetus--}}
@@ -369,7 +369,7 @@
                         </div>
 
                         {{--luuhoabk tab setting infor user--}}
-                        <div role="tabpanel" class="tab-pane" id="blog-tab-setting">
+                        <div role="tabpanel" class="tab-pane @if($has_profile == 1){{'active'}}@endif" id="blog-tab-setting">
                             <section class="person-setting choidau-bg">
                                 <header class="blog-setting-header padding-5 margin-bottom-5 white">
                                     <div class="wrapper-header">

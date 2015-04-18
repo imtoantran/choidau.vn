@@ -21,8 +21,9 @@ class FaqController extends BaseController {
 		$arr_question_hot_feedback = $this->getQuestionHotFeedBack();
 
 		if(Auth::check()){$user = Auth::user();}else{$user = null;}
+		$ads = Advertisement::wherePosition('ads-5')->first();
 
-		return View::make('site/faq/index', compact('user','arr_question', 'arr_question_no_feedback', 'arr_question_latest_feedback', 'arr_question_hot_feedback'));
+		return View::make('site/faq/index', compact('ads','user','arr_question', 'arr_question_no_feedback', 'arr_question_latest_feedback', 'arr_question_hot_feedback'));
 	}
 
 	public function loadQuestionDetail($postId)
@@ -41,7 +42,8 @@ class FaqController extends BaseController {
 		$arr_question_no_feedback = $this->getQuestionNoFeedBack();
 		$arr_question_latest_feedback = $this->getQuestionLatestFeedBack();
 		$arr_question_hot_feedback = $this->getQuestionHotFeedBack();
-		return View::make('site/faq/question-detail', compact('post_question', 'arr_answer', 'arr_question_no_feedback', 'arr_question_latest_feedback', 'arr_question_hot_feedback'));
+		$ads = Advertisement::wherePosition('ads-6')->first();
+		return View::make('site/faq/question-detail', compact('ads','post_question', 'arr_answer', 'arr_question_no_feedback', 'arr_question_latest_feedback', 'arr_question_hot_feedback'));
 	}
 
 	public function addSubject(){

@@ -18,7 +18,8 @@ class VideoController extends BaseController {
 			$viewcount = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$val['guid'].'?v=2&alt=json'))->entry->{'yt$statistics'}->viewCount;
 			$videos[$key]['viewcount'] = number_format($viewcount);
 		}
-		return View::make('site/video/index', compact('videos'));
+		$ads = Advertisement::wherePosition('ads-3')->first();
+		return View::make('site/video/index', compact('videos','ads'));
 	}
 	public function createVideo(){
 		$location = Location::orderBy('created_at')->get();
@@ -46,8 +47,8 @@ class VideoController extends BaseController {
 			$comment[$key]['user_avatar'] = $user['avatar'];
 			$comment[$key]['latest_date'] = $val->date();
 		}
-
-		return View::make('site/video/detail', compact('video','user', 'comment'));
+		$ads = Advertisement::wherePosition('ads-4')->first();
+		return View::make('site/video/detail', compact('ads','video','user', 'comment'));
 	}
 
 	public function confimVideo(){

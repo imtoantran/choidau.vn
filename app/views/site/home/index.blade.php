@@ -192,53 +192,59 @@
                 <header>
                     <h1>TOP REVIEW</h1>
                 </header>
+
                 <article>
                     @if(!is_null($topReview))
                     <img class="padding-2 img-border-light" src="{{URL::to($topReview->location->avatar)}}"
                          height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
                         <a href="{{$topReview->location->url()}}"><h1>{{$topReview->location->name}}</h1></a>
-
-                        <h2>{{$topReview->author->username}}</h2><span>bình luận</span>
+                        <h2>
+                            <a href="{{{$topReview->author->url()}}}">
+                                {{$topReview->author->username}}
+                            </a>
+                        </h2><span>bình luận</span>
                         <time> {{String::showTimeAgo($topReview->updated_at)}}</time>
-
                     </div>
                     <div class="clearfix"></div>
                     <header class="description" style="position: relative;">
 						<span>
-							{{String::tidy(Str::limit($topReview->updated_at,120))}}
+							{{String::tidy(Str::limit(strip_tags($topReview->meta_description),120))}}
 						</span>
-
-                        <p class="view-more text-right"><a style="position: absolute;bottom: 20px;right: 4px;"
-                                                           href="{{$topReview->location->url()}}">xem thêm</a></p>
+                        @if(strlen(strip_tags($topReview->meta_description)) >= 120)
+                            <a class="italic font-12px" href="{{$topReview->location->url()}}">xem thêm</a>
+                        @endif
                     </header>
                     @endif
                 </article>
-
             </section>
+
             <section class="col-md-4 col-xs-12 col-sm-6 box-post-hot padding-left-0">
                 <header>
                     <h1>TOP ĐỊA ĐIỂM</h1>
                 </header>
                 <article>
                     @if(!is_null($topLocation))
-                    <img class="padding-2 img-border-light" src="{{URL::to($topLocation->avatar)}}" height="100px"
-                         width="100px"/>
-                    <div class="col-none-padding lab-user-post">
-                        <a href="{{$topLocation->url()}}"><h1>{{$topLocation->name}}</h1></a>
-                        <h2> {{$topLocation->owner->display_name()}}</h2><span>Đã đăng </span>
-                        <time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
-                    </div>
-                    <div class="clearfix"></div>
-                    <header class="description" style="position: relative;">
-						<span>
-							{{String::tidy(Str::limit($topLocation->description,120))}}
-						</span>
-
-                        <p class="view-more text-right"><a style="position: absolute;bottom: 20px;right: 4px;"
-                                                           href="{{$topLocation->url()}}">xem thêm</a></p>
-                    </header>
-
+                        <img class="padding-2 img-border-light" src="{{URL::to($topLocation->avatar)}}" height="100px"
+                             width="100px"/>
+                        <div class="col-none-padding lab-user-post">
+                            <a href="{{$topLocation->url()}}"><h1>{{$topLocation->name}}</h1></a>
+                            <h2>
+                                <a href="{{{$topLocation->owner->url()}}}">
+                                    {{$topLocation->owner->display_name()}}
+                                </a>
+                            </h2><span>Đã đăng </span>
+                            <time>{{String::showTimeAgo($topLocation->updated_at)}} </time>
+                        </div>
+                        <div class="clearfix"></div>
+                        <header class="description" style="position: relative;">
+                            <span>
+                                {{String::tidy(Str::limit(strip_tags($topLocation->description),120))}}
+                            </span>
+                            @if(strlen(strip_tags($topLocation->description)) >= 120)
+                                <a class="italic font-12px" href="{{$topLocation->url()}}">xem thêm</a>
+                            @endif
+                        </header>
                     @endif
                 </article>
 
@@ -249,21 +255,25 @@
                 </header>
                 <article>
                     @if(isset($topBlog))
-                    <img class="padding-2 img-border-light" src="{{ isset($topBlog->thumbnail)?($topBlog->thumbnail) : (URL::to('assets/global/img/noimage.png'))}}" height="100px" width="100px"/>
+                    <img class="padding-2 img-border-light" src="{{empty($topBlog->getFeaturedImage()->thumbnail)? (URL::to('/assets/global/img/no-image.png')) : ($topBlog->getFeaturedImage()->thumbnail)}}" height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
-                        <a href="#"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
+                        <a href="{{{$topBlog->url()}}}"><h1>{{String::tidy($topBlog->title,50)}}</h1></a>
 
-                        <h2>{{$topBlog->author->username}}</h2><span>Đã đăng </span>
+                        <h2>
+                            <a href="{{{$topBlog->author->url()}}}">
+                                {{$topBlog->author->username}}
+                            </a>
+                        </h2><span>Đã đăng </span>
                         <time> {{String::showTimeAgo($topBlog->updated_at)}}</time>
                     </div>
                     <div class="clearfix"></div>
-                    <header class="description" style="position: relative">
+                    <header class="description">
 						<span class="text-justify">
-							{{String::tidy(Str::limit($topBlog->content,120))}}
+							{{String::tidy(Str::limit(strip_tags($topBlog->content),120))}}
 					  	</span>
-
-                        <p class="view-more text-right"><a style="position: absolute;bottom: 20px;right: 4px;" href="#">xem
-                                thêm</a></p>
+                        @if(strlen(strip_tags($topBlog->content)) > 120)
+                            <a class="italic font-12px" href="#">xem thêm</a>
+                        @endif
                     </header>
                     @endif
                 </article>

@@ -334,7 +334,7 @@ var Layout = function () {
 
         });
 
-        
+
         /****
          *
          *TagMenu Bạn Bè Blog
@@ -667,6 +667,19 @@ var Layout = function () {
 
     // noi de code chung
     var handleCommon = function () {
+        //luuhoabk - select2 cho thanh pho
+        function formatProvinceList (state) {
+            if (!state.id) { return state.text; }
+            var $state = $(
+                '<div><i class="icon-location-outline"></i> <span class="font-weight-600">'+ state.text+'</span></div>'
+            );
+            return $state;
+        };
+
+        $('#provinceList').select2({
+            templateResult: formatProvinceList
+        });
+
         // luuhoabk - kich hoat tooltip
         $(".tooltips").tooltip({  disabled: true });
 
@@ -683,7 +696,32 @@ var Layout = function () {
                 }
             }});
         });
+
+
+        //--luuhoabk - sticker
+        var stickyNavTop = $('.header-middle-right').offset().top;
+
+        var stickyNav = function() {
+            var scrollTop = $(window).scrollTop();
+
+            if (scrollTop > stickyNavTop) {
+                $('.header-middle-right').addClass('sticky',function(){
+                    $(this).find('.sticker-left').removeClass('col-md-8 col-md-offset-0').addClass('col-md-7 col-md-offset-1');
+                    $(this).find('.sticker-right').removeClass('col-md-4 col-md-offset-right-0').addClass('col-md-3 col-md-offset-right-1');
+                });
+            } else {
+                $('.sticker-left').removeClass('col-md-7 col-md-offset-1').addClass('col-md-8 col-md-offset-0');
+                $('.sticker-right').removeClass('col-md-3 col-md-offset-right-1').addClass('col-md-4 col-md-offset-right-0');
+                $('.header-middle-right').removeClass('sticky');
+
+            }
+        }
+        stickyNav();
+        $(window).scroll(function() {
+            stickyNav();
+        });
     }
+
     return {
         init: function () {
             handleCommon();
@@ -828,6 +866,7 @@ var Layout = function () {
             //responsive code end
         }
     };
+
 }();
 
 //-----luuhoabk ------

@@ -90,8 +90,7 @@
                         });
                     });
 
-
-                    //video confirm
+                    //video delete
                     $('#video tbody tr').on('click', function(e){
                         var self = $(this);
                         var post_id = $(this).find('.btn-video-delete').attr('data-post-id');
@@ -99,32 +98,6 @@
                         window.location = '{{Url::to('qtri-choidau/media/video/detail-video-')}}'+post_id;
                     })
 
-
-                    {{--//update state review--}}
-                    {{--$('.review-change-status').on('change', function(){--}}
-                        {{--var self = $(this);--}}
-                        {{--var post_id = self.attr('data-post-id');--}}
-                        {{--var status = self.find('option:selected').val();--}}
-                        {{--$.blockUI({message: '<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang cập nhật</div>'});--}}
-                        {{--$.ajax({--}}
-                            {{--url: '{{Url::to('qtri-choidau/location/actionreview')}}',--}}
-                            {{--data: {post_id: post_id, status: status, data_action:  'update_status'},--}}
-                            {{--type: "post",--}}
-                            {{--dataType: "json",--}}
-                            {{--success: function (respon) {--}}
-                            {{--},--}}
-                            {{--complete: function(){--}}
-                                {{--$.unblockUI();--}}
-                            {{--}--}}
-                        {{--});--}}
-                    {{--});--}}
-
-                    {{--// chi tiet review--}}
-                    {{--$('#review_wrapper').find('tbody tr').on('click', function(){--}}
-                    {{--var self = $(this);--}}
-                    {{--var post_id = $(this).find('btn-review-confirm').attr('data-post-id');--}}
-                    {{--window.location = '{{Url::to('qtri-choidau')}}}';--}}
-                    {{--});--}}
                 }
             });
 

@@ -11,6 +11,7 @@ class AdminHomeController extends AdminController {
         $detail_name_page='reports & statistics';
         $url_page='/#';
 
+
         return View::make('admin/home',compact('name_page','detail_name_page','url_page'));
 	}
     public function getInvalid()

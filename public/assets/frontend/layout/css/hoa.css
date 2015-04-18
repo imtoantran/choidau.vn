@@ -318,3 +318,7 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 .btn-load-add-video:hover{
 	background-color: #dbb115 !important;
 }
+
+span.select2-selection[aria-labelledby="select2-provinceList-container"]{
+	border-color: #f3f3f3!important;
+}

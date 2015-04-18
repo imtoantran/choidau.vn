@@ -1,3 +1,15 @@
+<?php
+$social = Social::orderBy('id','ASC')->whereType('social')->whereStatus(1)->get();
+$mobile_app = Social::orderBy('id','ASC')->whereType('mobile-app')->whereStatus(1)->get();
+
+$page_about = Social::whereType('page-about')->whereStatus(1)->first();
+$page_investor = Social::whereType('page-investor')->whereStatus(1)->first();
+
+$page_introduce = Social::whereType('page-introduce')->whereStatus(1)->first();
+$page_help = Social::whereType('page-help')->whereStatus(1)->first();
+$page_comment = Social::whereType('page-comment')->whereStatus(1)->first();
+
+?>
 <div class="pre-footer">
     <div class="container">
         <div class="row">
@@ -6,15 +18,16 @@
                 {{--<h2>About us</h2>--}}
                 <img  src="{{asset("assets/frontend/layout/img/logo.png")}}" width="125px" height="50px"/>
                 <ul class="list-unstyled list-inline">
-                    <li><i class="icon-play"></i></li>
-                    <li><i class="icon-facebook-1"></i></li>
-                    <li><i class="icon-twitter"></i></li>
-                    <li><i class="icon-linkedin"></i></li>
-                    <li><i class="icon-gplus"></i></li>
-                    <li><i class="icon-skype"></i></li>
-                    <li><i class="icon-pinterest"></i></li>
+                    @if(count($social))
+                        @foreach($social as $key=>$val)
+                            <li class="tooltips" data-original-title="{{$val->title}}">
+                                <a href="@if(empty($val->content)){{'#'}}@else{{$val->content}}@endif" target="_blank">
+                                    <i class="icon-{{$val->icon}} white"></i>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
-
             </div>
             <!-- END BOTTOM ABOUT BLOCK -->
 
@@ -24,16 +37,25 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <ul class="list-unstyled">
-                            <li><a href="#"><i class="icon-right-open-1"></i> Giới Thiệu</a></li>
-                            <li><a href="#"><i class="icon-right-open-1"></i> Trợ Giúp</a></li>
-                            <li><a href="#"><i class="icon-right-open-1"></i> Gióp Ý</a></li>
-                            <li><a href="#"><i class="icon-right-open-1"></i> Liên Hệ</a></li>
+                            @if(count($page_introduce))
+                                <li>
+                                    <a href="{{URL::to('page/')}}/@if(!empty($page_introduce->content)){{$page_introduce->content}}-{{Page::whereId($page_introduce->content)->first()->alias}}@else{{'#'}}@endif"><i class="icon-right-open-1"></i> Giới Thiệu</a>
+                                </li>
+                            @endif
+                            @if(count($page_help))
+                                <li>
+                                    <a href="{{URL::to('page/')}}/@if(!empty($page_help->content)){{$page_help->content}}-{{Page::whereId($page_help->content)->first()->alias}}@else{{'#'}}@endif"><i class="icon-right-open-1"></i> Trợ Giúp</a>
+                                </li>
+                            @endif
+                            @if(count($page_comment))
+                                <li>
+                                    <a href="{{URL::to('page/')}}/@if(!empty($page_comment->content)){{$page_comment->content}}-{{Page::whereId($page_comment->content)->first()->alias}}@else{{'#'}}@endif"><i class="icon-right-open-1"></i> Gióp Ý</a>
+                                </li>
+                            @endif
+                            <li><a href="{{URL::to('lien-he.html')}}"><i class="icon-right-open-1"></i> Liên Hệ</a></li>
                         </ul></div>
                     <div class="col-md-6 col-sm-6 col-xs-0"></div>
                 </div>
-
-
-
             </div>
             <!-- END BOTTOM CONTACTS -->
 
@@ -41,9 +63,15 @@
             <div class="col-md-3 col-sm-6 pre-footer-col pre-footer-col3" data-twttr-id="twttr-sandbox-0">
                 <h2>MOBILE APP</h2>
                 <ul class="list-unstyled">
-                    <li><img width="120px" height="40px" src="../../assets/frontend/layout/img/payments/app_store_icon.png"/></li>
-                    <li><img width="120px" height="40px" src="../../assets/frontend/layout/img/payments/googleplay-app-store.png"/></li>
-                    <li><img width="120px" height="40px" src="../../assets/frontend/layout/img/payments/windows store.jpg"/></li>
+                    @if(count($mobile_app))
+                        @foreach($mobile_app as $key=>$val)
+                            <li class="tooltips" data-original-title="{{$val->title}}">
+                                <a href="@if(empty($val->content)){{'#'}}@else{{$val->content}}@endif" target="_blank">
+                                    <img width="120px" height="40px" src="{{URL::to($val->icon)}}"/>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
 
             </div>
@@ -71,7 +99,22 @@
                 2015 © ChơiĐâu.net  UI.Designer By Suntory .  ALL Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
             </div>
             <div class="col-md-6 col-sm-6 pull-right text-right">
-                <a href="#">Về chúng tôi</a> | <a href="#">Nhà đầu tư</a>| <a href="#">Liên hệ</a>
+                <!-- about us -->
+                @if(count($page_about))
+                    <a href="@if(!empty($page_introduce->content)){{URL::to('page/')}}/{{$page_about->content}}-{{Page::whereId($page_about->content)->first()->alias}}@else{{'#'}}@endif">
+                        Về chúng tôi
+                    </a> |
+                @endif
+
+                <!-- investor -->
+                @if(count($page_investor))
+                    <a href="@if(!empty($page_introduce->content)){{URL::to('page/')}}/{{$page_investor->content}}-{{Page::whereId($page_investor->content)->first()->alias}}@else{{'#'}}@endif">
+                        Nhà đầu tư
+                    </a> |
+                @endif
+
+               <a href="{{URL::to('lien-he.html')}}">Liên hệ</a>
+
             </div>
             <!-- END COPYRIGHT -->
             <!-- BEGIN PAYMENTS -->

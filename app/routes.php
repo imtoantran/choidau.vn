@@ -40,7 +40,6 @@ Route::post("changePorvince", function () {
         Session::put("province", Province::find(Input::get("id")));
         return json_encode(["success" => true, "url" => URL::to($province->slug)]);
     }
-
 })->where("id", "[0-9]");
 /* imtoantran set province */
 /** ------------------------------------------
@@ -57,12 +56,14 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         Route::controller("/","AdminLocationsController");
     });
 
-
     // luuhoabk - qtri post
     Route::group(array('prefix' => 'blog', 'before' => 'hasRolePost'), function () {
         /* imtoantran start */
         # Blog Management
-        Route::get('{post}/show', 'AdminBlogsController@getShow');
+        Route::get('create/{catId}', 'AdminBlogsController@getCreate');
+        Route::post('create', 'AdminBlogsController@postCreate');
+//
+//        Route::get('{post}/show', 'AdminBlogsController@getShow');
         Route::get('{post}/edit', 'AdminBlogsController@getEdit');
         Route::post('{post}/edit', 'AdminBlogsController@postEdit');
         Route::get('{post}/delete', 'AdminBlogsController@getDelete');
@@ -97,7 +98,6 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         // END luuhoabk - qtri video
     });
 
-
     // luuhoabk - qtri FAQ
     Route::group(array('prefix' => 'hoi-dap', 'before' => 'hasRoleFAQ'), function () {
         //// luuhoabk - qtri hoi dap
@@ -118,15 +118,56 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
         Route::controller('/', 'AdminUsersController');
     });
 
-    // luuhoabk - qtri post
+    // luuhoabk - qtri Role
     Route::group(array('prefix' => 'roles', 'before' => 'hasRoleUserGroup'), function () {
-
         Route::get('{role}/show', 'AdminRolesController@getShow');
         Route::get('{role}/edit', 'AdminRolesController@getEdit');
         Route::post('{role}/edit', 'AdminRolesController@postEdit');
         Route::get('{role}/delete', 'AdminRolesController@getDelete');
         Route::post('{role}/delete', 'AdminRolesController@postDelete');
         Route::controller('/', 'AdminRolesController');
+    });
+
+    // luuhoabk - qtri Setting
+    Route::group(array('prefix' => 'ads', 'before' => 'hasRoleADS'), function () {
+        Route::post('update', 'AdminAdsController@adsUpdate');
+        Route::controller('/', 'AdminAdsController');
+    });
+
+    // luuhoabk - qtri Setting
+    Route::group(array('prefix' => 'setting', 'before' => 'hasRoleSetting'), function () {
+        //contact
+        Route::post('contact/web-info/update', 'AdminSettingController@contactWebinfoUpdate');
+        Route::get('contact/web-info', 'AdminSettingController@contactWebinfo');
+        Route::post('contact/map/update', 'AdminSettingController@contactMapUpdate');
+        Route::get('contact/map', 'AdminSettingController@contactMap');
+        Route::get('contact', 'AdminSettingController@getContact');
+        Route::get('contact/list', 'AdminSettingController@getContactList');
+        Route::post('contact/delete', 'AdminSettingController@contactDelete');
+        Route::get('contact/{contact_id}', 'AdminSettingController@contactDetail');
+
+
+        //Page
+        Route::post('page/delete', 'AdminSettingController@pageDelete');
+        Route::get('page/create', 'AdminSettingController@getCreate');
+        Route::post('page/save', 'AdminSettingController@pageSave');
+        Route::get('page-{page_id}/edit', 'AdminSettingController@getPageEdit');
+        Route::get('page', 'AdminSettingController@getPage');
+        Route::get('page/list', 'AdminSettingController@getPageList');
+        Route::post('page/update', 'AdminSettingController@socialUpdate');
+
+        //social
+        Route::get('social', 'AdminSettingController@getSocial');
+        Route::post('social/update', 'AdminSettingController@socialUpdate');
+
+        //script
+        Route::get('script', 'AdminSettingController@getScript');
+        Route::post('script/delete', 'AdminSettingController@scriptDelete');
+        Route::post('script/update', 'AdminSettingController@scriptUpdate');
+        Route::post('script/insert', 'AdminSettingController@scriptInsert');
+
+
+        Route::controller('/', 'AdminSettingController');
     });
 
 
@@ -137,9 +178,6 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
     Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
     Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
     Route::controller('comments', 'AdminCommentsController');
-
-
-
 
     Route::controller('/', 'AdminHomeController');
 });
@@ -164,6 +202,13 @@ Route::group(array('prefix' => 'post'), function () {
     Route::controller('/', 'PostController');
 
 });
+
+//page
+Route::controller("page/{page_id}-{page_alias}",'PageController');
+
+//contact
+Route::post("lien-he/tao-moi.html",'ContactController@saveContact');
+Route::controller("lien-he.html",'ContactController');
 
 Route::post("blog/comments/{post}","BlogController@postComments");
 
@@ -212,11 +257,10 @@ Route::get('blog/create/{catId}', 'BlogController@getCreate');
 
 /** -------------------Site VIDEO: luuhoabk-------------**/
 Route::controller('video.html', 'VideoController');
+Route::get('video/chi-tiet-video-{video_id}.html', 'VideoController@loadDetail');
+
 Route::group(array('prefix' => 'video', 'before' => 'auth'), function () {
     Route::get('tao-moi.html', 'VideoController@createVideo');
-    Route::get('chi-tiet-video-{video_id}.html', 'VideoController@loadDetail');
-//    Route::post('xac-thuc-video.html', 'VideoController@confimVideo');
-//    Route::get('cau-hoi-{postId}.html', 'FaqController@loadQuestionDetail');
 });
 /** -------------------END Site VIDEO: luuhoabk-------------**/
 
@@ -289,11 +333,10 @@ Route::group(array('prefix' => 'trang-ca-nhan', 'before' => 'auth'), function ()
     Route::any('/load-item-statusz-{id_status_slug}', 'BlogUserController@ala');
     Route::post('/list-ban-be.html', 'BlogUserController@getListFriend');
     Route::post('/list-hinh-anh.html', 'BlogUserController@getListPhoto');
-//    Route::post('/list-check-in.html', 'BlogUserController@getListCheckIn');
     Route::post('/list-location-like.html', 'BlogUserController@getListLocationLike');
     Route::post('/ban-be.html', 'BlogUserController@postFriend');
-//    Route::any('/load-item-checkin-{id_check_in}', 'BlogUserController@loadCheckIn');
     Route::get('/{user_slug}.html', 'BlogUserController@getIndex');
+    Route::get('/profile/{user_slug}.html', 'BlogUserController@getIndex');
     Route::get('/{user_slug}/post/{post}/', 'BlogUserController@userNotifications');
 });
 

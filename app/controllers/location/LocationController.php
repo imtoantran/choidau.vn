@@ -277,8 +277,9 @@ class LocationController extends BaseController
                 /* load location's images start  */
                 $profile_image = $location->avatar;
                 $reviewsImages = $location->reviewsImages();
+                $ads = Advertisement::wherePosition('ads-1')->first();
                 /* load location's images stop  */
-                return View::make("site/location/view", compact("location", "total_like", "total_checkin", "isLike", "isCheckin", "location_nearly", "reviews", "options", "blogs", "reviewsImages"));
+                return View::make("site/location/view", compact("location", "total_like", "total_checkin", "isLike", "isCheckin", "location_nearly", "reviews", "options", "blogs", "reviewsImages","ads"));
             }
 
         }
