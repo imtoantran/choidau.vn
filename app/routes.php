@@ -133,6 +133,16 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
 
     // luuhoabk - qtri Setting
     Route::group(array('prefix' => 'setting', 'before' => 'hasRoleSetting'), function () {
+        //contact
+        Route::post('contact/web-info/update', 'AdminSettingController@contactWebinfoUpdate');
+        Route::get('contact/web-info', 'AdminSettingController@contactWebinfo');
+        Route::post('contact/map/update', 'AdminSettingController@contactMapUpdate');
+        Route::get('contact/map', 'AdminSettingController@contactMap');
+        Route::get('contact', 'AdminSettingController@getContact');
+        Route::get('contact/list', 'AdminSettingController@getContactList');
+        Route::post('contact/delete', 'AdminSettingController@contactDelete');
+        Route::get('contact/{contact_id}', 'AdminSettingController@contactDetail');
+
 
         //Page
         Route::post('page/delete', 'AdminSettingController@pageDelete');
@@ -190,8 +200,12 @@ Route::group(array('prefix' => 'post'), function () {
 
 });
 
-
+//page
 Route::controller("page/{page_id}-{page_alias}",'PageController');
+
+//contact
+Route::post("lien-he/tao-moi.html",'ContactController@saveContact');
+Route::controller("lien-he.html",'ContactController');
 
 Route::post("blog/comments/{post}","BlogController@postComments");
 

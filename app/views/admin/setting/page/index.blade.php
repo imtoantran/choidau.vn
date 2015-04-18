@@ -36,7 +36,6 @@
                 "bServerSide": true,
                 "ajax": "{{ URL::to('qtri-choidau/setting/page/list') }}",
                 "fnDrawCallback": function (oSettings) {
-                    console.log(oSettings);
                     //xoa review
                     $('.page-item-delete').on('click',function(e){
                         e.stopPropagation();

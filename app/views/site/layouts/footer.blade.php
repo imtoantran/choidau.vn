@@ -52,7 +52,7 @@ $page_comment = Social::whereType('page-comment')->whereStatus(1)->first();
                                     <a href="{{URL::to('page/')}}/@if(!empty($page_comment->content)){{$page_comment->content}}-{{Page::whereId($page_comment->content)->first()->alias}}@else{{'#'}}@endif"><i class="icon-right-open-1"></i> Gióp Ý</a>
                                 </li>
                             @endif
-                            <li><a href="#"><i class="icon-right-open-1"></i> Liên Hệ</a></li>
+                            <li><a href="{{URL::to('lien-he.html')}}"><i class="icon-right-open-1"></i> Liên Hệ</a></li>
                         </ul></div>
                     <div class="col-md-6 col-sm-6 col-xs-0"></div>
                 </div>
@@ -113,7 +113,7 @@ $page_comment = Social::whereType('page-comment')->whereStatus(1)->first();
                     </a> |
                 @endif
 
-               <a href="#">Liên hệ</a>
+               <a href="{{URL::to('lien-he.html')}}">Liên hệ</a>
 
             </div>
             <!-- END COPYRIGHT -->

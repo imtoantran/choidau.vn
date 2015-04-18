@@ -58,7 +58,6 @@
 @section("scripts")
     <script type="text/javascript">
         jQuery(document).ready(function () {
-//            if ($('#editor').size() > 0) {
                 tinymce.init({
                     selector: "#editor",
                     menubar: false,
@@ -71,7 +70,6 @@
                     ],
                     toolbar: " code | preview | insertfile undo redo | styleselect | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image "
                 });
-//            }
 
             $("#add-media").mediaupload({
                 token:"{{Session::token()}}",

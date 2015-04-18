@@ -12,7 +12,92 @@ class AdminSettingController extends \AdminController
     {
 //        return View::make("admin.video.index");
     }
+    //contact
+    public function getContact()
+    {
+        $page_name = 'Quản lý liên hệ';
+        $detail_name_page = 'Danh sách liên hệ';
+        $page_icon = 'icon-vcard';
+        $url_page='contact';
+        $name_page='Setting - contact';
+        return View::make("admin.setting.contact.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page'));
+    }
 
+    public function getContactList(){
+        $contact = Contact::select(array('id','username', 'email', 'title', 'content','updated_at'));
+        return Datatables::of($contact)
+            ->edit_column('title', function($row){
+                $actions  = Str::limit($row['title'],50);
+                return $actions;
+            })
+            ->edit_column('content', function($row){
+                $actions  = Str::limit($row['content'],50);
+                return $actions;
+            })
+            ->add_column('actions', function($row){
+                $actions  = '<div>';
+                $actions .= '<a class="pull-right btn btn-xs btn-danger contact-item-delete" data-id="'.$row['id'].'" data-action="delete"><i class="icon-trash"></i> Xóa</a>';
+                $actions .= '<a class="pull-right btn btn-default btn-xs" href="/qtri-choidau/setting/contact/'.$row['id'].'"><i class="icon-eye"></i> <span>Xem</span></a>';
+                $actions .= '</div>';
+                return $actions;
+            })
+            ->make();
+    }
+
+    public function contactDelete(){
+        $data = Input::all();
+        echo Contact::whereId($data['id'])->delete();
+    }
+
+    public function contactDetail($contact_id){
+        $page_name = 'Quản lý liên hệ';
+        $detail_name_page = 'Chi tiết liên hệ';
+        $page_icon = 'icon-vcard';
+        $url_page=$contact_id;
+        $name_page='Setting - contact - detail';
+        $contact = Contact::find($contact_id);
+        return View::make("admin.setting.contact.detail", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','contact'));
+    }
+    // contact - map
+    public function contactMap(){
+        $page_name = 'Quản lý liên hệ';
+        $detail_name_page = 'Cập nhật vị trí bản đồ';
+        $page_icon = 'icon-map';
+        $url_page= '';
+        $name_page='Setting - contact - map';
+
+        $map = Social::whereType('website-map')->first()->content;
+        $web_map = array(10.823130, 106.629356);
+        if(strlen($map)>0){
+            if(is_float(explode(',',$map)[0]+0)){
+                $web_map = explode(',',$map);
+            }
+        }
+        return View::make("admin.setting.contact.map", compact('page_name','detail_name_page','page_icon','url_page', 'name_page', 'web_map'));
+    }
+
+    public function contactMapUpdate(){
+        $data = input::all();
+        $map_update = Social::whereType('website-map')->update(['content'=>$data['map_position']]);
+        echo $map_update;
+    }
+
+    // contact - web info
+    public function contactWebinfo(){
+        $page_name = 'Quản lý liên hệ';
+        $detail_name_page = 'Cập nhật thông tin liên hệ của website';
+        $page_icon = 'icon-info';
+        $url_page= '';
+        $name_page='Setting - contact - webinfo';
+        $web_info = Social::whereType('website-info')->first()->content;
+        return View::make("admin.setting.contact.webinfo", compact('page_name','detail_name_page','page_icon','url_page', 'name_page' , 'web_info'));
+    }
+
+    public function contactWebinfoUpdate(){
+        $data = input::all();
+        $webinfo_update = Social::whereType('website-info')->update(['content'=>$data['content']]);
+        echo $webinfo_update;
+    }
 
     //page
     public function getPage()
@@ -106,6 +191,7 @@ class AdminSettingController extends \AdminController
         $social_update = Social::whereId($data['social_id'])->update(['content'=>$data['social_link'],'status'=>$data['social_status']]);
         echo $social_update;
     }
+
 
 
     //script

@@ -289,7 +289,6 @@ if(Auth::check()){
                     </li>
                 @endif
 
-
                 {{--SETTING--}}
                 @if(Entrust::can('manager_setting'))
                     <li @if(Request::is("qtri-choidau/setting*")) class="active" @endif>
@@ -299,6 +298,25 @@ if(Auth::check()){
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
+                            {{--contact--}}
+                            <li @if(Request::is("qtri-choidau/setting/contact*")) class="active" @endif>
+                                <a href="#"><i class="icon-vcard"></i><span class="title"> Contact</span>
+                                    <span class="arrow "></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li @if(Request::is("qtri-choidau/setting/contact")) class="active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/setting/contact")}}"><i class="icon-th"></i> Contacts</a>
+                                    </li>
+                                    <li @if(Request::is("qtri-choidau/setting/contact/map")) class="active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/setting/contact/map")}}"><i class="icon-map"></i> Bản đồ</a>
+                                    </li>
+                                    <li @if(Request::is("qtri-choidau/setting/contact/web-info")) class="active" @endif>
+                                        <a href="{{URL::to("qtri-choidau/setting/contact/web-info")}}"><i class="icon-info"></i>  Thông tin website</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+
                             {{--page--}}
                             <li @if(Request::is("qtri-choidau/setting/page*")) class="active" @endif>
                                 <a href="{{URL::to("qtri-choidau/setting/page")}}"><i class="icon-doc-alt"></i> Pages</a>

@@ -104,7 +104,6 @@
                     if(respon){
                         alert('Thêm câu hỏi thành công.');
                     }else{
-//                        alert('')
                     }
                     window.location = '{{URL::current()}}';
                 }
