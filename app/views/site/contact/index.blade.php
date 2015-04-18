@@ -18,7 +18,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="font-weight: 500; padding-top: 10px;">
-                        {{$web_info}}dasd
+                        {{$web_info}}
                     </div>
                 </div>
             </div>
