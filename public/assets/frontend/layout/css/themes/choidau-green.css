@@ -568,6 +568,7 @@ color:white;
 }
 .notifications img{
   width: 34px !important;
+  height: 34px !important;
   vertical-align: top !important;
   margin-right: 5px !important;
 }
