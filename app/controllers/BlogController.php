@@ -42,9 +42,14 @@ class BlogController extends BaseController {
 	public function getIndex($catSlug = 'an-uong-choi')
 	{
 
-		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
+//		$blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->orderBy('updated_at','DESC')->take(4)->get();
+		$blogs = Post::orderBy('posts.updated_at', 'DESC')
+			->join('post_meta','posts.id', '=', 'post_meta.post_id')
+			->where('post_meta.meta_key', '=', 'featured_post')
+			->where('post_meta.meta_value', '=', '1')->take(4)->get();
+
 		foreach($blogs as $key=>$val){
-			$blog_item = Post::find($val['id']);
+			$blog_item = Post::find($val['post_id']);
 			if(isset($blog_item->getFeaturedImage()->thumbnail)){
 				$avatar = $blog_item->getFeaturedImage()->thumbnail;
 				$avatar = explode('/',$avatar);

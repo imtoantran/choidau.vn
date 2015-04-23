@@ -40,6 +40,51 @@
     @endif
 
 
+
+
+
+
+
+
+
+    {{--facebook like box--}}
+    <div class="row margin-0 clear-fix" style="margin-bottom: 30px;">
+        <div class="margin-top-15 col-md-5 " style="border-bottom: 1px solid #f5f5f5;"></div>
+        <div class="col-md-2 text-center font-weight-600 grey" style="line-height: 32px;">Facebook like box</div>
+        <div class="margin-top-15 col-md-5" style="border-bottom: 1px solid #f5f5f5;"></div>
+    </div>
+    <div class="row">
+        <div class="form-group clearfix" style="line-height: 32px;">
+            <label class="col-md-2 control-label">{{$facebook_like_box->title}}</label>
+            <div class="col-md-6">
+                <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-{{$facebook_like_box->icon}}"></i>
+                            </span>
+                    <input id="{{$facebook_like_box->id}}" name="{{$facebook_like_box->type}}" type="text" class="form-control social-input" value="{{$facebook_like_box->content}}">
+                            <span class="input-group-addon">
+                               <a href="#" class="tooltips social-cancel" data-original-title="Xóa văn bản"><i class="icon-cancel-squared"></i></a>
+                            </span>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="portlet-body">
+                    <input @if($facebook_like_box->status) {{"checked"}} @endif type="checkbox" name="social_status" class="social_status" id="{{$facebook_like_box->id}}"/>
+                </div>
+            </div>
+            <div class="col-md-1 padding-left-20">
+                <button class="btn btn-default btn-xs margin-bottom social-update" data-id="{{$facebook_like_box->id}}">
+                    <i class="icon-floppy"></i> Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     {{--info website--}}
     <div class="row margin-0 clear-fix" style="margin-bottom: 30px;">
         <div class="margin-top-15 col-md-5 " style="border-bottom: 1px solid #f5f5f5;"></div>

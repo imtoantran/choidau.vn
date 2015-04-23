@@ -319,6 +319,21 @@ ul.blog-comment-wrapper .action-assoc{font-weight: 600; font-size: 0.9em;}
 	background-color: #dbb115 !important;
 }
 
-span.select2-selection[aria-labelledby="select2-provinceList-container"]{
+span.select2-selection[aria-labelledby="select2-location-search-list-container"],span.select2-selection[aria-labelledby="select2-provinceList-container"]{
 	border-color: #f3f3f3!important;
 }
+span.select2-container.select2-container--default{width: 100%!important;}
+
+.page-login{margin-top: 20px; margin-bottom: 40px;}
+.page-login .modal-content{box-shadow: none!important; border: 1px solid #e5e5e5;}
+.page-login .modal-header.choidau-bg{background-color: #f4f4f4 !important;}
+.page-login .modal-header.choidau-bg h5{color: #444 !important;}
+.page-login #footer_login{border-top-color: #f7f7f7!important;}
+.page-login .close{display: none;}
+.page-login .btn-cancel{display: none;}
+
+.btn-search-location:hover{
+	transition: background-color 0.4s;
+	background-color: green;
+}
+.btn-search-location:hover i{color: #fff;}

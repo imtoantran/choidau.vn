@@ -13,6 +13,44 @@ class AdminSettingController extends \AdminController
 //        return View::make("admin.video.index");
     }
     //contact
+    public function getUserLevel()
+    {
+        $page_name = 'Quản lý cấp bậc';
+        $detail_name_page = 'Danh sách cấp bậc';
+        $page_icon = 'icon-list-numbered';
+        $url_page='user-level';
+        $name_page='Setting - user-level';
+        $user_level = Option::orderBy('value','ASC')->whereName('level_user')->get();
+
+        return View::make("admin.setting.user_level.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page', 'user_level'));
+    }
+
+
+    public function userLevelUpdate(){
+        $data = input::all();
+        $userLevel_update = Option::whereId($data['id'])->whereName('level_user')->update(['value'=>$data['value'],'description'=>$data['description']]);
+        echo $userLevel_update;
+    }
+
+    public function userLevelDelete(){
+        $data = input::all();
+        $userLevel_delete = Option::whereId($data['id'])->delete();
+        echo $userLevel_delete;
+    }
+    public function userLevelCreate(){
+        $data = input::all();
+        $user_level = new option();
+        $user_level->name ='level_user';
+        $user_level->description = $data['description'];
+        $user_level->value = $data['value'];
+        if($user_level->save()){
+            echo $user_level->id;
+        }else{
+            echo -1;
+        }
+    }
+
+    //contact
     public function getContact()
     {
         $page_name = 'Quản lý liên hệ';
@@ -81,6 +119,7 @@ class AdminSettingController extends \AdminController
         $map_update = Social::whereType('website-map')->update(['content'=>$data['map_position']]);
         echo $map_update;
     }
+
 
     // contact - web info
     public function contactWebinfo(){
@@ -183,7 +222,8 @@ class AdminSettingController extends \AdminController
         $email = Social::orderBy('id','ASC')->whereType('email')->first();
         $page = Social::orderBy('id','ASC')->where('type','like','page-%')->get();
         $page_option = Page::get();
-        return View::make("admin.setting.social.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','social','mobile_app','hotline','email','page','page_option'));
+        $facebook_like_box = Social::whereType('facebook-like-box')->first();
+        return View::make("admin.setting.social.index", compact('page_name','detail_name_page','page_icon','url_page', 'name_page','social','mobile_app','hotline','email','page','page_option','facebook_like_box'));
     }
 
     public function socialUpdate(){

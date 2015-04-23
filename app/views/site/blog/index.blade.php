@@ -42,8 +42,12 @@
                                     <i class = "icon-heart-empty"></i>{{$post->totalLikes()}} thích
                                 </p>
 
-                                <p class="margin-bottom-10">{{ String::tidy(Str::limit($post->excerpt(), 200)) }}</p>
-                                <p><a class="more" href="{{$post->url()}}">Xem thêm<i class="icon-angle-right"></i></a></p>
+                                <p class="margin-bottom-10"> {{String::tidy(Str::limit(strip_tags($post->excerpt()),200))}}</p>
+
+                            @if(strlen(strip_tags($post->excerpt())) >= 200)
+                                <p><a class="more" href="{{$post->url()}}.html">Xem thêm<i class="icon-angle-right"></i></a></p>
+                            @endif
+
                             </div>
                             <div class="clearfix"></div>
                             <hr>

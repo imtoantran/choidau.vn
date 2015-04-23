@@ -84,7 +84,7 @@
 {{-- imtoantran add style section from blade template end --}}
 <script src="{{asset('assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
 
-
+{{--chen script header--}}
 <?php
     $script_hp1 = Script::orderBy('created_at', 'DESC')->whereType('p1')->get();
     if(count($script_hp1)){

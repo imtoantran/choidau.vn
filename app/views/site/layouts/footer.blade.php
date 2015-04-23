@@ -81,7 +81,8 @@ $page_comment = Social::whereType('page-comment')->whereStatus(1)->first();
                 <ul class="list-unstyled">
                     <li><i class="icon-location-outline"></i>&nbsp; {{number_format(Location::count(),0, ".",".")}} địa điểm</li>
                     <li><i class="icon-group"></i>&nbsp; {{number_format(User::count(),0, ".",".")}} user</li>
-                    <li><i class="icon-picture"></i>&nbsp; {{number_format(Post::count(),0, ".",".")}} hình ảnh</li>
+{{--                    <li><i class="icon-picture"></i>&nbsp; {{number_format(Post::wherePost_type('image')->count(),0, ".",".")}} hình ảnh</li>--}}
+                    <li><i class="icon-picture"></i>&nbsp; {{number_format(DB::table("post_meta")->where('meta_key','like','%image')->count()+DB::table("location_post")->whereLocation_post_type_id(39)->count(),0, ".",".")}} hình ảnh</li>
                     <li><i class="icon-check"></i>&nbsp; {{number_format(DB::table("location_user")->whereActionType("checkin")->count(),0, ".",".")}} check in</li>
 
                 </ul>

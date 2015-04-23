@@ -225,8 +225,11 @@
                 </header>
                 <article>
                     @if(!is_null($topLocation))
-                        <img class="padding-2 img-border-light" src="{{URL::to($topLocation->avatar)}}" height="100px"
-                             width="100px"/>
+                        @if(!empty($topLocation->avatar) && isset($topLocation->avatar))
+                            <img class="padding-2 img-border-light" src="{{URL::to($topLocation->avatar)}}" height="100px" width="100px"/>
+                        @else
+                            <img src="{{URL::to('/assets/global/img/no-image.png')}}" alt=""/>
+                        @endif
                         <div class="col-none-padding lab-user-post">
                             <a href="{{$topLocation->url()}}"><h1>{{$topLocation->name}}</h1></a>
                             <h2>
@@ -288,10 +291,12 @@
                     <h1>Choidau.net <i class="icon-group" style="font-size: 20px; color: #fff;"></i></h1>
                 </header>
                 <article class="col-md-12 col-none-padding">
+                    @if(isset($facebook_like_box) && $facebook_like_box->status)
+                        <div class="fb-like-box" data-href="{{$facebook_like_box->content}}" data-width="263"
+                             data-height="200" data-colorscheme="light" data-show-faces="true" data-header="false"
+                             data-stream="false" data-show-border="false"></div>
+                    @endif
 
-                    <div class="fb-like-box" data-href="https://www.facebook.com/suntorydesign" data-width="263"
-                         data-height="200" data-colorscheme="light" data-show-faces="true" data-header="false"
-                         data-stream="false" data-show-border="false"></div>
                 </article>
             </div>
 
@@ -319,8 +324,11 @@
                 <div class="col-md-4 col-xs-12 col-sm-6 home-content-item margin-bottom-20 ">
                     <a href="{{$location->url()}}">
                         <div class="box-product-img-content">
-                            <img src="{{asset("$location->avatar")}}" width="100%" height="180px"/>
-
+                            @if(!empty($location->avatar) && isset($location->avatar))
+                                <img src="{{asset("$location->avatar")}}" width="100%" height="180px"/>
+                            @else
+                                <img src="{{URL::to('/assets/global/img/no-image.png')}}" alt=""/>
+                            @endif
                             <div class="location-description">
                                 <p><strong class="title font-14px">{{$location->name}}</strong></p>
                                 <small>{{$location->address_detail}}</small>
@@ -401,7 +409,8 @@
                                 @if($location->totalLike())
                                     @foreach($location->whoLiked()->take(3)->get() as $userLiked)
                                         <a data-id="{{$userLiked->id}}" href="{{URL::to($userLiked->url())}}">
-                                            <img class="img-circle tooltips" src="{{asset($userLiked->avatar)}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>
+                                            {{--<img class="img-circle tooltips" src="{{asset($userLiked->avatar)}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>--}}
+                                            <img class="img-circle tooltips" src="{{empty($userLiked->avatar)? (URL::to('/assets/global/img/no-image.png')) : (asset($userLiked->avatar))}}" data-original-title="{{($userLiked->fullname)?$userLiked->fullname:$userLiked->username}}"/>
                                         </a>
                                     @endforeach
                                 @else
@@ -479,7 +488,6 @@
                             'action_type': action_type
                         },
                         success: function (respon) {
-                            console.log(respon);
                             if(respon !=-1){
                                 var tag_none_img = self.closest('.home-content-item').find('.icon-picture-outline');
                                 var tag_img_wrapper = self.closest('.home-content-item').find('.box-product-wrapper');
@@ -494,7 +502,7 @@
                                     var html = '';
                                     @if(Auth::check())
                                         html += '<a data-id="{{Auth::user()->id}}" href="{{URL::to("/trang-ca-nhan/").Auth::user()->username.'.html'}}">';
-                                        html += '<img class="img-circle tooltips" src="{{Auth::user()->avatar}}" data-original-title="{{(Auth::user()->fullname) ? (Auth::user()->fullname):(Auth::user()->username)}}" />';
+                                        html += '<img class="img-circle tooltips" src="@if(empty(Auth::user()->avatar)){{URL::to('/assets/global/img/no-image.png')}}@else{{Auth::user()->avatar}}@endif" data-original-title="{{(Auth::user()->fullname) ? (Auth::user()->fullname):(Auth::user()->username)}}" />';
                                         html += '</a>';
                                     @endif
                                     tag_img_wrapper.prepend(html);

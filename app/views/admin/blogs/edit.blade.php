@@ -40,7 +40,7 @@
                             <!-- Content -->
                             <div class="form-group">
                                 <div class="col-md-12">
-                            <textarea id="editor" class="form-control full-width wysihtml5" name="content" value="content"  rows="10">
+                            <textarea id="editor" class="form-control full-width wysihtml5" value="content"  rows="10">
                                 @if(isset($post)) {{$post->content}} @endif
                             </textarea>
                                 </div>
@@ -96,7 +96,7 @@
                         <div class="caption">Bài viết nổi bật</div>
                     </div>
                     <div class="portlet-body">
-                        <input @if(isset($featured_post) && $featured_post) {{"checked"}} @endif type="checkbox" name="featured_post" id=""/>
+                        <input @if(isset($featured_post) && $featured_post) {{"checked"}} @endif type="checkbox" name="featured_post" id="featured_post"/>
                     </div>
                 </div>
                 <div class="portlet solid">
@@ -151,10 +151,11 @@
                     url:'{{URL::to('qtri-choidau/blog/' . $post->id . '/edit')}}',
                     type:"post",
                     dataType:"json",
-                    data:form.serialize()+'&content_tiny='+tinyMCE.activeEditor.getContent(),
+                    data:{'form':form.serialize(), 'content_tiny':tinyMCE.activeEditor.getContent()},
                     success:function(response){
                         if(response){
-                            window.location = '{{URL::to('qtri-choidau/blog/')}}/'+response+'/edit';
+                            alert('Cập nhật thành công.');
+                            {{--window.location = '{{URL::to('qtri-choidau/blog/')}}/'+response+'/edit';--}}
                         }else{
                             alert('Lỗi bài viết!, Xin vui lòng thử lại.');
                         }

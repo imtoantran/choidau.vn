@@ -12,13 +12,14 @@
 {{-- Content --}}
 @section('content')
 	<div class="pull-right">
-		<a href="{{{URL::to('qtri-choidau/blog/create/') }}}/{{{$catId}}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Đăng bài</a>
+		<a data-catid="{{{$catId}}}" href="#" class="btn btn-small btn-info iframe btn-create"><span class="glyphicon glyphicon-plus-sign"></span> Đăng bài</a>
 	</div>
 	<div class="pull-right">
 		<div class="form-group">
 			<div class="col-sm-12">
 				<select name="name" id="inputID" class="form-control">
 					<option value=""> -- Danh mục bài viết -- </option>
+					<option value="all" @if($slug === "all") selected @endif> -- Tất cả -- </option>
 					@foreach($categories as $category)
 						<option value="{{$category->slug}}" @if($slug === $category->slug) selected @endif> -- {{$category->name}} </option>
 						@endforeach
@@ -101,6 +102,15 @@
 				});
 			});
 			/* imtoantran user action end */
+
+			$('.btn-create').on('click', function(e){
+				e.preventDefault();
+				if($(this).attr('data-catid') == 'all'){
+					alert('Bạn hãy chọn một danh mục');
+				}else{
+					window.location = '{{{URL::to('qtri-choidau/blog/create/') }}}/{{{$catId}}}';
+				}
+			});
 		});
 	</script>
 @stop

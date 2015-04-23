@@ -271,6 +271,17 @@ class LocationController extends BaseController
                 /* imtoantran load review */
                 $options = json_decode(Option::whereName("review_visit_again")->first()->value, true);
                 $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();
+                foreach($blogs as $key=>$val){
+                    $blog_item = Post::find($val['id']);
+                    if(isset($blog_item->getFeaturedImage()->thumbnail)){
+                        $avatar = $blog_item->getFeaturedImage()->thumbnail;
+                        $avatar = explode('/',$avatar);
+                        $avatar = '/'.$avatar[1].'/'.$avatar[2].'/260x197-'.$avatar[3];
+                        $blogs[$key]['avatar'] = $avatar;
+                    }else{
+                        $blogs[$key]['avatar'] = '';
+                    }
+                }
                 if (!Cache::has("food_type")) {
                     Cache::forever("food_type", Option::where(["name" => "food_type"])->get(["id", "description"]), 24 * 60);
                 }
@@ -377,78 +388,6 @@ class LocationController extends BaseController
         }
     }
 
-//
-//    function like()
-//    {
-//        $user = Auth::user();
-//        $id = Input::get("id");
-//        $location = Location::find($id);
-//        $blog_user = $user->blog()->first();
-//        $count = $location->userAction()->whereUser_id($user->id)->whereAction_type('like')->count();
-//        $response = [];
-//        if ($count) {
-//            $location->userAction()->detach($user, ['action_type' => 'like']);
-//            $post_like = Status::where('parent_id', '=', $location->id)->where('user_id', '=', $user->id)->first();
-//            $blog_post = BlogPost::where('post_id', '=', $post_like->id)->where('user_id', '=', $user->id)
-//                ->where('blog_post_type_id', '=', '44')->where('blog_id', '=', $blog_user->id);
-//
-//            $blog_post->delete();
-////            $blog_user->status()->detach($user,['blog_post_type_id'=>44,'blog_id'=>$blog_user->id,'post_id'=>$post_like->id]);
-//            $post_like->delete();
-//            $response['canLike'] = true;
-//        } else {
-//            $location->userAction()->attach($user, ['action_type' => 'like', 'created_at' => date_format(new DateTime(), "Y-m-d H:i:s")]);
-//            $date = date_create("now");
-//            $date = date_format($date, "Y-m-d H:i:s");
-//
-//
-//            $post_like = new Status();
-//            $post_like->user_id = $user->id;
-//            $post_like->parent_id = $location->id;
-//            $post_like->save();
-//            $blog_user->status()->attach($user, ['blog_post_type_id' => 44, 'post_id' => $post_like->id, 'blog_id' => $blog_user->id, 'created_at' => $date, 'updated_at' => $date]);
-//
-//            $response['canLike'] = false;
-//        }
-//        $response['totalFavourites'] = $location->totalLike();
-//        $response['success'] = true;
-//        return json_encode($response);
-//    }
-
-//    function checkin()
-//    {
-//        $id = Input::get("id");
-//        $location = Location::find($id);
-//        $user = Auth::user();
-//        $response = [];
-//        if ($location->totalCheckIn()) {
-//            $response['success'] = false;
-//            $response['message'] = "Bạn đã đến đây";
-//        } else {
-//            $date = date_create("now");
-//            $date = date_format($date, "Y-m-d H:i:s");
-//            $location->userAction()->attach($user, ['action_type' => 'checkin', 'created_at' => $date, 'updated_at' => $date]);
-//            $blog_user = $user->blog()->first();
-//
-//            $post_check_in = new Checkin();
-//            $post_check_in->user_id = $user->id;
-//            $post_check_in->parent_id = $location->id;
-//            $post_check_in->save();
-//
-//            $blog_user->status()->attach($user, ['blog_post_type_id' => 41, 'blog_id' => $blog_user->id, 'post_id' => $post_check_in->id, 'created_at' => $date, 'updated_at' => $date]);
-//
-//
-//            $response['success'] = true;
-//        }
-//        $response['totalCheckedIn'] = $location->totalCheckIn();
-//
-//        return json_encode($response);
-//    }
-
-//    private function userAction()
-//    {
-//
-//    }
 
     /**
      * imtoantran
@@ -588,9 +527,6 @@ class LocationController extends BaseController
 
         echo $html_photo;
     }
-
-
-
 
     /*---------end load photo*/
 
@@ -783,4 +719,19 @@ class LocationController extends BaseController
     }
     //END luuhoabk create video
 
+    public function getLocation(){
+        $data = Input::all();
+        if($data['province_id'] == 'all'){
+            $location = Location::orderBy('created_at')->get();
+        }else{
+            Session::put("province",Province::find($data['province_id']));
+            $location = Location::orderBy('created_at')->whereProvince_id($data['province_id'])->get();
+        }
+        if(count($location)>0){
+            foreach($location as $key=>$val){
+                $location[$key]['url'] = $val->url();
+            }
+        }
+        echo json_encode($location);
+    }
 }

@@ -33,7 +33,7 @@ class AdminBlogsController extends AdminController
 
         // Grab all the blog posts
         $posts = $this->post;
-        return $this->blogCategory("an-uong-choi");
+        return $this->blogCategory("all");
         // Show the page
         //return View::make('admin/blogs/index', compact('posts', 'title'));
     }
@@ -46,13 +46,21 @@ class AdminBlogsController extends AdminController
      */
     public function blogCategory($slug = "an-uong-choi")
     {
-        $category = Category::whereSlug($slug)->first();
-        $catId = $category->id;
-        // Title
-        $title = "Danh mục: " . $category->name;
-        //$posts = $category->blogs()->get();
-        $categories = Category::whereSlug("danh-muc-bai-viet")->first()->children()->get();
         $page_name = "Quản lý blog bài viết";
+        $categories = Category::whereSlug("danh-muc-bai-viet")->first()->children()->get();
+        if($slug == 'all'){
+            $catId = 'all';
+            // Title
+            $title = "Tất cả danh mục";
+        }else{
+            $category = Category::whereSlug($slug)->first();
+            $catId = $category->id;
+            // Title
+            $title = "Danh mục: " . $category->name;
+        }
+
+
+
         // Show the page
         return View::make('admin/blogs/index', compact('title', 'page_name', 'slug', 'categories', 'catId'));
     }
@@ -138,11 +146,8 @@ class AdminBlogsController extends AdminController
         if ($temp_value->count()) {
             $featured_post = $temp_value->first()->meta_value;
         }
-        /* featured post stop */
-        /* featured image start */
+
         $featured_image = $post->getFeaturedImage();
-        /* featured image stop */
-        // Show the page
         return View::make('admin/blogs/edit', compact('post', 'title', 'featured_image', 'featured_post'));
     }
 
@@ -156,29 +161,24 @@ class AdminBlogsController extends AdminController
     {
 
         // Declare the rules for the form validation
-        $rules = array(
-            'title' => 'required|min:3',
-            'content' => 'required|min:3'
-        );
-
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
-
-        // Check if the form validates with success
-        if ($validator->passes()) {
+//
+        $data = Input::all();
+//        // Validate the inputs
+        parse_str($data['form'],$form);
+//        echo json_encode($form); exit;
             // Update the blog post data
-            $post->title = Input::get('title');
-            $post->slug = Str::slug(Input::get('title'));
-            $post->content = Input::get('content_tiny');
-            $post->meta_title = Input::get('meta-title');
-            $post->meta_description = Input::get('meta-description');
-            $post->meta_keywords = Input::get('meta-keywords');
+            $post->title =$form['title'];
+            $post->slug = Str::slug($form['title']);
+            $post->content = $data['content_tiny'];
+            $post->meta_title = $form['meta-title'];
+            $post->meta_description = $form['meta-description'];
+            $post->meta_keywords = $form['meta-keywords'];
 
             // Was the blog post updated?
             if ($post->save()) {
                 /* featured post start */
                 $meta = $post->meta()->whereMetaKey("featured_post")->first();
-                $is_featured_post = Input::has("featured_post");
+                $is_featured_post = isset($form['featured_post'])? 1 : 0;
                 if (isset($meta)) {
                     $meta->meta_value = $is_featured_post;
                     $meta->save();
@@ -189,26 +189,29 @@ class AdminBlogsController extends AdminController
                 /* featured post stop */
                 /* featured image start */
                 $meta = $post->meta()->whereMetaKey("featured_image")->first();
-                if (Input::has("featured_image")) {
+                if (!empty($form['featured_image'])) {
                     if (isset($meta)) {
-                        $meta->meta_value = Input::get("featured_image");
+                        $meta->meta_value = $form['featured_image'];
                         $meta->save();
                     } else {
-                        $meta = new PostMeta("featured_image", Input::get("featured_image"));
+                        $meta = new PostMeta("featured_image", $form['featured_image']);
                         $post->meta()->save($meta);
                     }
                 }
                 /* featured image stop */
-                // Redirect to the new blog post page
-                return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+                // Redirect to the new blog post
+                echo 1;
+//                return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+            }else{
+                echo 0;
             }
 
-            // Redirect to the blogs post management page
-            return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
-        }
+//            // Redirect to the blogs post management page
+//            return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+//        }
+//
+////         Form validation failed
 
-        // Form validation failed
-        return Redirect::to('qtri-choidau/blog/' . $post->id . '/edit')->withInput()->withErrors($validator);
     }
 
 
@@ -267,9 +270,20 @@ class AdminBlogsController extends AdminController
      */
     public function getData($slug = "an-uong-choi")
     {
-        $catId = Category::whereSlug($slug)->first()->id;
-        $posts = Blog::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'))
-            ->whereCategory_id($catId);
+        if($slug == 'all'){
+            $catId = array();
+            $catId[] = Category::whereSlug('su-kien')->first()->id;
+            $catId[] = Category::whereSlug('an-uong-choi')->first()->id;
+            $catId[] = Category::whereSlug('kinh-nghiem')->first()->id;
+            $posts = Blog::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'))->whereIn('category_id',$catId);
+        }else{
+            $catId = Category::whereSlug($slug)->first()->id;
+            $posts = Blog::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'))
+                ->whereCategory_id($catId);
+        }
+
+
+
         return Datatables::of($posts)
             ->edit_column('comments', '{{ DB::table(\'posts\')->where(\'parent_id\', \'=\', $id)->count() }}')
             ->add_column('actions', '<a href="{{{ URL::to(\'qtri-choidau/blog/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs" >{{{ Lang::get(\'button.edit\') }}}</a>

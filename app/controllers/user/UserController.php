@@ -254,16 +254,68 @@ class UserController extends BaseController
      */
     public function postForgotPassword()
     {
-        if (Confide::forgotPassword(Input::get('email'))) {
-            $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
-            return Redirect::to('user/forgot')
-                ->with('notice', $notice_msg);
-        } else {
-            $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-            return Redirect::to('user/login')
-                ->withInput()
-                ->with('error', $error_msg);
-        }
+        $user = array(
+            'email'=>'luuvanhoa87@gmail.com',
+            'name'=>'luuvanhoa'
+        );
+
+        $data = array(
+            'detail'=>'Your awesome detail here',
+            'name'	=> $user['name']
+    );
+
+//            Mail::send('site/partials/user/mail_template', array('firstname'=>'luuhoabk'), function($message){
+//               $sendmail = $message->to('luuvanhoa87@gmail.com', 'luuhoabk')->subject('Welcome to the Laravel 4 Auth App!');
+//               print_r($sendmail);
+//            });
+//        $email = 'luuvanhoa87@gmail.com';
+//        Mail::send('site/partials/user/mail_template', $data, function ($message) use ($email) {
+//            $message->subject('Message Subject');
+//            $message->from('luuhoabk.developer@gmail.com', 'Sender Name');
+//            $message->to($email); // Recipient address
+//        });
+
+//        echo Input::get('email'); exit;
+//        echo Confide::forgotPassword(Input::get('email')); exit;
+//
+//        if (Confide::forgotPassword(Input::get('email'))) {
+//            $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
+//            return Redirect::to('user/forgot')->with('notice', $notice_msg);
+//        } else {
+//            $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
+//            return Redirect::to('user/login')
+//                ->withInput()
+//                ->with('error', $error_msg);
+//        }
+
+
+
+//        $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
+//            ->setUsername('luuvanhoa87@gmail.com')
+//            ->setPassword('hoadeveloper');
+//
+//        // creating the Swift_Mailer instance and pass the config settings
+//        $mailer = Swift_Mailer::newInstance($transport);
+//
+//        // configuring the Swift mail instance with all details
+//        $message = Swift_Message::newInstance('test email')
+//            ->setFrom(array('luuhoabk.developer@gmail.com' => 'Amitav Roy'))
+//            ->setTo(array('luuvanhoa87@gmail.com' => 'Amitav Office'))
+//            ->setBody('site/partials/user/mail_template', 'text/html');
+//
+//        try
+//        {
+//            Mail::send('site/partials/user/mail_template', $data, function($message)
+//            {
+//                $message->to('luuvanhoa87@gmail.com', 'John Smith')
+//                    ->from('luuhoabk.developer@gmail.com')
+//                    ->subject('Welcome!');
+//            });
+//        }
+//        catch (Exception $e)
+//        {
+//            die('Error sending email. ' . $e);
+//        }
     }
 
     /**
@@ -587,10 +639,9 @@ class UserController extends BaseController
         $post = new Comment();
         $post->title        = "comment";
         $post->parent_id    =  $data['post_id'];
-        $post->parent_id    =  $data['post_id'];
         $post->content      = $data['comment_content'];
         $post->privacy      = 18;
-//        $post->post_type    = 'comment';
+        $post->post_type    = $data['post_type'];
         $post->user_id      = $user->id;
         $post->created_at   = date_format($now,"Y-m-d H:i:s");
         $post->updated_at   = date_format($now,"Y-m-d H:i:s");
@@ -620,12 +671,14 @@ class UserController extends BaseController
                 break;
             case 'user_info':
                 $birthday = explode("/",$data['birthday']);
+                $birthday = $birthday[2].'-'.$birthday[1].'-'.$birthday[0];
+                $birthday = str_replace(' ','',$birthday);
                 $save_info = User::whereId($user->id)->update([
                     'fullname'=>$data['fullname'],
                     'street'=>$data['address'],
                     'province_id'=>$data['user-province'],
                     'status_marriage_id'=>$data['status-marriage'],
-                    'birthday'=> $birthday[2].'-'.$birthday[1].'-'.$birthday[0],
+                    'birthday'=> $birthday,
                     'gender'=>$data['gender'],
                     'phone'=>$data['phone'],
                     'about'=>$data['about'],
