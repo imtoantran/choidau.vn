@@ -193,7 +193,9 @@
                             @endif
                         @endif
                         <div id="event-content">
-                            @if($location->event)
+                            @if(empty($location->event->content))
+                                <span class="grey"><i class="icon-attention-circled grey"></i> Chưa có sự kiện.</span>
+                            @else
                                 {{$location->event->content}}
                             @endif
                         </div>
