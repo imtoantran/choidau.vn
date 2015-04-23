@@ -16,6 +16,7 @@ return array(
 	*/
 
 	'driver' => 'smtp',
+//	'driver' => 'mandrill',//laravel 5
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +29,10 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.postmarkapp.com',
+//	'host' => 'smtp.postmarkapp.com',
+//	'host' => 'smtp.gmail.com',
+//	'host' => 'localhost',
+	'host' => 'smtp.mandrillapp.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +45,10 @@ return array(
 	|
 	*/
 
-	'port' => 2525,
+//	'port' => 2525,
+//	'port' => 465,
+	'port' => 578,
+//	'port' => 25,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +61,8 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+//	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'luuhoabk.developer@gmail.com', 'name' => 'luuhoabk'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -68,6 +76,7 @@ return array(
 	*/
 
 	'encryption' => 'tls',
+//	'encryption' => 'ssl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +89,8 @@ return array(
 	|
 	*/
 
-	'username' => null,
+//	'username' => null,
+	'username' => 'luuhoabk.developer@gmail',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,6 +103,12 @@ return array(
 	|
 	*/
 
-	'password' => null,
+//	'password' => null,
+	'password' => 'hoadeveloper',
+
+
+	'sendmail' => '',
+
+	'pretend' => false,
 
 );

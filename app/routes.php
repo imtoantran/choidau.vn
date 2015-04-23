@@ -136,6 +136,14 @@ Route::group(array('prefix' => 'qtri-choidau', 'before' => 'auth|permission'), f
 
     // luuhoabk - qtri Setting
     Route::group(array('prefix' => 'setting', 'before' => 'hasRoleSetting'), function () {
+
+        //user level
+        Route::get('user-level', 'AdminSettingController@getUserLevel');
+        Route::post('user-level/update', 'AdminSettingController@userLevelUpdate');
+        Route::post('user-level/delete', 'AdminSettingController@userLevelDelete');
+        Route::post('user-level/create', 'AdminSettingController@userLevelCreate');
+
+
         //contact
         Route::post('contact/web-info/update', 'AdminSettingController@contactWebinfoUpdate');
         Route::get('contact/web-info', 'AdminSettingController@contactWebinfo');
@@ -214,6 +222,7 @@ Route::post("blog/comments/{post}","BlogController@postComments");
 
 #location start
 /* imtoantran save food start */
+Route::post("location/getList",'LocationController@getLocation');
 Route::post("location/{location}/food/remove",'LocationController@removeFood');
 Route::post("location/{location}/food/add",'LocationController@addFood');
 Route::post("location/{location}/food/edit",'LocationController@editFood');
@@ -301,6 +310,8 @@ Route::group(array('prefix' => 'dia-diem', 'before' => 'auth'), function () {
 Route::group(array('prefix' => 'thanh-vien'), function () {
     Route::post('user-exist', 'UserController@userExist');
 
+    Route::post('quen-mat-khau.html', 'UserController@postForgotPassword');
+    Route::get('quen-mat-khau.html', 'UserController@getForgot');
     Route::get('dang-ky.html', 'UserController@getCreate');
     Route::post('dang-ky.html', 'UserController@postCreate');
     Route::get('dang-nhap.html', 'UserController@getLogin');

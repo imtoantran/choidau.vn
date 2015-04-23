@@ -598,6 +598,9 @@
 @stop
 @section("scripts")
     <script>
+        $('#location_province').select2();
+        $('#location_district').select2();
+
         // luuhoabk - bat su kien upload anh dai dien cho dia diem
         $("#btn-add-profile-picture").mediaupload({
             url: "{{URL::to("media/upload")}}",

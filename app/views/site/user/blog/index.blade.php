@@ -1540,16 +1540,17 @@
             //submit form blog infor
             $('form#frm-user-info').submit(function (e) {
                 e.preventDefault();
+//                console.log($(this).serialize());
                 $.blockUI({message: '<div class="block-ui"><i class="icon-spin2 animate-spin"></i> Đang xử lý</div>'});
                 $.ajax({
                     url: "{{URL::to('thanh-vien/update-info')}}",
                     type: 'post',
                     data: $(this).serialize() + '&update_type=user_info',
                     success: function (respon) {
-                        console.log(respon);
-//                            if(respon){
-//                                alert('Cập nhật thành công.');
-//                            }else{ alert('Cập nhật thất bại.');}
+                        if(respon){
+                            alert('Cập nhật thành công.');
+                            window.location = '{{URL::to('trang-ca-nhan')}}/profile/{{$user_blog->username}}.html';
+                        }else{ alert('Cập nhật thất bại.');}
                     },
                     complete: function () {
                         $.unblockUI();

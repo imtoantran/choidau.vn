@@ -297,6 +297,9 @@ var Location = function () {
 					dataType: 'json',
 					success: function(dbDistrict){
 						$.each(dbDistrict, function(key,value){
+							if(key == 0){
+								$('#select2-location_district-container').text(value.type+' '+value.name);
+							}
 							var location = value.location;
 							var lat = '10.776111' ;
 							var lng = '106.695833';

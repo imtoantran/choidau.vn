@@ -1,12 +1,12 @@
-<form method="POST" action="{{ URL::to('user/forgot-password') }}" accept-charset="UTF-8">
+<form method="POST" action="{{ URL::to('thanh-vien/quen-mat-khau.html') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
 
     <div class="form-group">
-        <label for="email">{{{ Lang::get('confide::confide.e_mail') }}}</label>
+        <label for="email">email</label>
         <div class="input-append input-group">
-            <input class="form-control" placeholder="{{{ Lang::get('confide::confide.e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
+            <input class="form-control" placeholder="Nhập email" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
             <span class="input-group-btn">
-                <input class="btn btn-default" type="submit" value="{{{ Lang::get('confide::confide.forgot.submit') }}}">
+                <input class="btn btn-default" type="submit" value="Gửi">
             </span>
         </div>
     </div>

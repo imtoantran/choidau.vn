@@ -298,6 +298,11 @@ if(Auth::check()){
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
+                            {{--user level--}}
+                            <li @if(Request::is("qtri-choidau/setting/user-level*")) class="active" @endif>
+                                <a href="{{URL::to("qtri-choidau/setting/user-level")}}"><i class="icon-list-numbered"></i> User Level</a>
+                            </li>
+
                             {{--contact--}}
                             <li @if(Request::is("qtri-choidau/setting/contact*")) class="active" @endif>
                                 <a href="#"><i class="icon-vcard"></i><span class="title"> Contact</span>

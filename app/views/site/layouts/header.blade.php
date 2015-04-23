@@ -2,6 +2,25 @@
     $social = Social::orderBy('id','ASC')->whereType('social')->whereStatus(1)->get();
     $hostline= Social::whereType('hotline')->whereStatus(1)->first();
     $email= Social::whereType('email')->whereStatus(1)->first();
+
+        if(Session::has("province")){
+            $location_search = Location::orderBy('name', 'ASC')->whereProvince_id(Session::get("province")['id'])->get();
+        }else{
+            $location_search = Location::orderBy('name', 'ASC')->get();
+        }
+        if(count($location_search)>0){
+            foreach($location_search as $key=>$val){
+                $location_search[$key]['url'] = $val->url();
+            }
+        }
+
+        if (!Cache::has('provinces')){
+            $provinces = Province::orderBy("name","asc")->get();
+            Cache::forever('provinces', $provinces);
+        }else{
+            $provinces = Cache::get("provinces");
+        }
+
 ?>
 
 <div class="header-top">
@@ -48,7 +67,7 @@
                     {{-- head tool-left --}}
                     <div class="sticker-left col-md-8 col-md-offset-0 padding-5">
                         <div class="row margin-none">
-                            <div class="box-search pull-left">
+                            <div class="box-search pull-left col-md-12">
                                 <div class="row margin-none">
                                     <div class="col-md-4 col-xs-12 col-sm-12 col-none-padding">
                                         <div class="form-group margin-bottom-0">
@@ -57,30 +76,41 @@
                                             <span class="input-group-addon">
                                                 <i class="icon-location"></i>
                                             </span>
-                                                <select class="form-control padding-5" id="provinceList" >
-                                                    @foreach(Cache::get("provinces") as $province)
-                                                        @if($province->id == 79)
-                                                            <option class="province-mark"
-                                                                    value="{{$province->id}}" @if($province->id == Session::get("province")->id)
-                                                                    selected @endif>{{$province->name}}</option>
-                                                        @else
-                                                            <option value="{{$province->id}}" @if($province->id == Session::get("province")->id)
-                                                                    selected @endif>{{$province->name}}</option>
-                                                        @endif
-                                                    @endforeach
+                                                <div class="location-search">
+                                                    <select class="form-control padding-5" id="provinceList" >
+                                                        @foreach($provinces as $province)
+                                                                <option
+                                                                        value="{{$province->id}}" @if($province->id == Session::get("province")->id)
+                                                                        selected @endif>{{$province->name}}</option>
+                                                        @endforeach
 
-                                                </select>
+                                                    </select>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-5 col-xs-12 col-sm-12">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" style="border:none;"
-                                                   id="header-input-string-search" placeholder="Tìm địa điểm...">
-                                            <span class="input-group-addon">
-                                                <i class="icon-search"></i>
-                                            </span>
+
+                                            {{--<input type="text" class="form-control" style="border:none;" id="header-input-string-search" placeholder="Tìm địa điểm...">--}}
+                                            <a class="input-group-addon btn-search-location">
+                                                <i class="icon-search tooltips" data-original-title="Tìm địa điểm" data-placement="bottom"></i>
+                                            </a>
+                                            <select class="form-control padding-5 grey" id="location-search-list">
+                                                @if(count($location_search) > 0)
+                                                    @foreach($location_search as $location_search)
+                                                            <option value="{{$location_search->id}}" data-url="{{$location_search->url}}">{{$location_search->name}}</option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="-1"> -- Tìm địa điểm --</option>
+                                                @endif
+                                            </select>
+                                            <a class="input-group-addon btn-search-all-location">
+                                                <i class="icon-th-large tooltips"  data-original-title="Tất cả địa điểm" data-placement="bottom"></i>
+                                            </a>
                                         </div>
+
                                     </div>
 
                                     {{--them dia diem--}}
@@ -208,25 +238,5 @@
 </div>
 
 @section('scripts')
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-//            var stickyNavTop = $('.header-middle-right').offset().top;
-//
-//            var stickyNav = function() {
-//                var scrollTop = $(window).scrollTop();
-//
-//                if (scrollTop > stickyNavTop) {
-//                    $('.header-middle-right').addClass('sticky');
-//                } else {
-//                    $('.header-middle-right').removeClass('sticky');
-//                }
-//            }
-//            stickyNav();
-//            $(window).scroll(function() {
-//                stickyNav();
-//                console.log('vdsfvd');
-//            });
-        });
-    </script>
 @stop
 

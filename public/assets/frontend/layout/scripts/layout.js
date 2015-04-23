@@ -667,11 +667,79 @@ var Layout = function () {
 
     // noi de code chung
     var handleCommon = function () {
+        $('#provinceList').on('change', function(){
+            //console.log($(this).val());
+            var province_id = $(this).val();
+            var html ='';
+            $('.btn-search-location i').iconLoad('icon-search');
+            $.ajax({
+                url: URL+"/location/getList",
+                type: 'post',
+                data: {'province_id': province_id},
+                dataType: 'json',
+                success: function(respon){
+                    $.each(respon, function(key,value){
+                        if(key == 0){
+                            $('#select2-location-search-list-container').text(value.name);
+                        }
+                        var location = value.location;
+                        html += '<option value="'+value.id+'" data-url="'+value.url+'">- '+value.name+'</option>';
+                    });
+                    $('#location-search-list').html(html);
+                }
+                ,complete: function(){
+                    $('.btn-search-location i').iconUnload('icon-search');
+                }
+            });
+        });
+
+        $('.btn-search-all-location').on('click',function(e){
+            e.preventDefault();
+            var html ='';
+            $('.btn-search-location i').iconLoad('icon-search');
+            $.ajax({
+                url: URL+"/location/getList",
+                type: 'post',
+                data: {'province_id':'all'},
+                dataType: 'json',
+                success: function(respon){
+                    $.each(respon, function(key,value){
+                        if(key == 0){
+                            $('#select2-location-search-list-container').text(value.name);
+                        }
+                        var location = value.location;
+                        html += '<option value="'+value.id+'" data-url="'+value.url+'">- '+value.name+'</option>';
+                    });
+                    $('#location-search-list').html(html);
+                }
+                ,complete: function(){
+                    $('.btn-search-location i').iconUnload('icon-search');
+                }
+            });
+        });
+
+        $('.btn-search-location').on('click',function(e){
+            e.preventDefault();
+            var location_id = $('#location-search-list').val();
+            if(location_id == -1){
+                alert('Hãy chọn một địa điểm.');
+            }else{
+                var url = $('#location-search-list').find(":selected").attr('data-url');
+                if(url.length >0){
+                    window.location = url;
+                }else{
+                    console.log('Lỗi kết nối đến địa điểm.');
+                }
+            }
+
+        });
+
+
         //luuhoabk - select2 cho thanh pho
         function formatProvinceList (state) {
             if (!state.id) { return state.text; }
             var $state = $(
-                '<div><i class="icon-location-outline"></i> <span class="font-weight-600">'+ state.text+'</span></div>'
+                '<div><i class="icon-location"></i> <span class="font-weight-600">'+ state.text+'</span></div>'
             );
             return $state;
         };
@@ -679,6 +747,7 @@ var Layout = function () {
         $('#provinceList').select2({
             templateResult: formatProvinceList
         });
+        $('#location-search-list').select2();
 
         // luuhoabk - kich hoat tooltip
         $(".tooltips").tooltip({  disabled: true });

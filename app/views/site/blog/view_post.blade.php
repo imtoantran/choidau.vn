@@ -61,7 +61,7 @@
                     </span>
             </div>
         </div>
-        <div>{{ $post->content() }}</div>
+        <div>{{$post->content()}}</div>
         <hr>
         <div>
             <div>

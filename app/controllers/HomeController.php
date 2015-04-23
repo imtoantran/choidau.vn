@@ -60,7 +60,19 @@ class HomeController extends BaseController
         $topBlog = $this->blog->wherePostType("blog")->orderBy("created_at", "desc")->first();
         /* top post end */
         $blogs = Category::whereSlug("danh-muc-bai-viet")->first()->allBlogs()->take(4)->get();;
-        return View::make('site/home/index', compact('page_title', 'categories', 'topReview', 'topLocation', 'topBlog', 'blogs'));
+        foreach($blogs as $key=>$val){
+            $blog_item = Post::find($val['id']);
+            if(isset($blog_item->getFeaturedImage()->thumbnail)){
+                $avatar = $blog_item->getFeaturedImage()->thumbnail;
+                $avatar = explode('/',$avatar);
+                $avatar = '/'.$avatar[1].'/'.$avatar[2].'/260x197-'.$avatar[3];
+                $blogs[$key]['avatar'] = $avatar;
+            }else{
+                $blogs[$key]['avatar'] = '';
+            }
+        }
+        $facebook_like_box = Social::whereType('facebook-like-box')->first();
+        return View::make('site/home/index', compact('page_title', 'categories', 'topReview', 'topLocation', 'topBlog', 'blogs','facebook_like_box'));
     }
 
     /**
