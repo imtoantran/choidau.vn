@@ -34,10 +34,13 @@ class AdminLocationsController extends \AdminController
 
     public function postVerify($location)
     {
-        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
+//        if (Auth::guest()) return Response::json(["success" => false, "message" => "Need permission"]);
+
         $option = Option::firstOrNew(["name" => "location_status", "value" => "verified", "description" => "Đã xác thực"]);
         $location->status_id = $option->id;
-        if ($location->save()) return Response::json(["success" => true, "message" => $option->description,"content"=>'<i class="icon icon-ok" data-placement="left" data-toggle="tooltip" title="Đã xác thực"></i>']);
+        if ($location->save()){
+            return Response::json(["success" => true, "message" => $option->description,"content"=>'<i class="icon icon-ok" data-placement="left" data-toggle="tooltip" title="Đã xác thực"></i>']);
+        }
 
     }
 

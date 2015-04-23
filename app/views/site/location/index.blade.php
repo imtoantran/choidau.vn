@@ -6,6 +6,7 @@
             <a class="title" href="#"><strong class="text-primary">{{$categoryTitle}}?</strong></a>
         </div>
     </div>
+    {{count($locations)}}
     <div class="col-md-12 margin-bottom-10 col-no-padding ">
         @foreach($locations as $location)
             <?php

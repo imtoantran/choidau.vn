@@ -28,7 +28,7 @@
                 "bServerSide": true,
                 "ajax": "{{ URL::to('qtri-choidau/location/data') }}",
                 "fnDrawCallback": function (oSettings) {
-
+                    console.log(oSettings);
                 }
             });
             $('#locations').on("click", "[data-action]", function (e) {

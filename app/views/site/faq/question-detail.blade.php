@@ -156,34 +156,10 @@
                             dataType: 'json',
                             success: function (respon) {
                                 if (respon.success) {
-                                    if(respon.total_row <=1){
-                                        parent_tag.html('');
-                                    }
-                                    self.val('');
-                                    var user_name = (respon.user.fullname.length <=0)? respon.user.username: respon.user.fullname;
-                                    var html = '';
-                                        html += '<div class="media">';
-                                        html += '<a href="#" class="pull-left text-center">';
-                                            if(respon.user.avatar.length >0){
-                                                html += '<img src="{{URL::to('/')}}'+respon.user.avatar+'" alt="" class="media-object avatar-pad2">';
-                                            }
-                                            else{
-                                                html += '<img src="{{URL::to('assets/global/img/no-image.png')}}" alt="" class="media-object avatar-pad2">';
-                                            }
-                                        html += '</a>';
-
-                                        html += '<div class="media-body">';
-                                        html += '<div>';
-                                        html += '<a class="text-style" href="'+respon.user_url+'">'+user_name+'</a>';
-                                        html += '- <span>'+respon.content+'</span>';
-                                        html += '</div>';
-                                        html += '<span class="grey"> phản hồi - Vừa xong</span>';
-                                        html += '</div>';
-                                        html += '</div>';
-                                    parent_tag.prepend(html);
-                                    $('.total-answer').text(respon.total_row);
-                                    self.prop("disabled", false);
-                                    self.focus();
+                                    alert('Phản hồi thành công.');
+                                    window.location = '{{URL::current()}}';
+                                }else{
+                                    alert('Phản hồi thất bại, Vui lòng thử lại.');
                                 }
                             },
                             complete : function(){

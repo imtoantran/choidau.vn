@@ -98,11 +98,11 @@ class FaqController extends BaseController {
 		$arr_post_temp = array();
 		foreach($arr_post as $key=>$val){
 			$num = Post::whereParent_id($val->id)->wherePost_type('faq-answer')->count();
-			if($num>0){break;}
-			else{
+			if($num<=0){
 				$arr_post_temp[] = $arr_post[$key];
 				if(count($arr_post_temp)>4){ break;}
 			}
+
 		}
 
 		if(count($arr_post_temp) > 0){

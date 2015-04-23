@@ -649,7 +649,7 @@ class UserController extends BaseController
             $post['success'] = 1;
             $post['post_id'] = $post->id;
             $post['updated_date'] = 'Vừa xong';
-            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type('comment')->count();
+            $post['total_row'] = Post::whereParent_id($data['post_id'])->wherePost_type('faq-answer')->count();
             $post['user'] = $user;
             $post['user_url'] = $user->url();
         }else{

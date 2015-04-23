@@ -94,8 +94,8 @@
                         </div>
 
                     </div>
-                    <div class="col-md-4 col-md-offset-1">
-                        <iframe width="100%" height="200px" src="http://www.youtube.com/embed/{{$video['guid']}}?html5=1"></iframe>
+                    <div class="col-md-6">
+                        <iframe width="100%" height="320px" src="http://www.youtube.com/embed/{{$video['guid']}}?html5=1"></iframe>
                     </div>
                 </div>
             </div>

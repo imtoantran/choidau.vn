@@ -225,7 +225,7 @@ class LocationController extends BaseController
     /* imtoantran save location images end */
     public function getView($provinceSlug, $slug = '')
     {
-        // kiem tra thanh pho ton tai hay khng
+        // kiem tra thanh pho ton tai hay khong
         if (Province::whereSlug($provinceSlug)->count()) {
             $province = Province::whereSlug($provinceSlug)->first();
             // kiem tra danh muc co ton tai hay khong va hien thi danh sach dia diem theo danh muc nay neu co
@@ -235,7 +235,7 @@ class LocationController extends BaseController
                     $categoryTitle = $category->description;
                     // kiem tra co dia diem trong danh muc hay khong
                     if (Location::whereCategoryId($category->id)->count()) {
-                        $locations = Location::whereCategoryId($category->id)->whereProvinceId($province->id)->paginate(9);
+                        $locations = Location::orderBy('created_at','DESC')->whereCategoryId($category->id)->whereProvinceId($province->id)->paginate(9);
                         return View::make("site.location.index", compact("locations", "categoryTitle"));
                     }
                 }
@@ -263,9 +263,9 @@ class LocationController extends BaseController
                 $reviews='';
                 /* imtoantran load review */
                 if(Input::has("notif_t") && Input::has("post")){
-                    $reviews = Review::where(["id"=>Input::get("post")])->paginate(2);
+                    $reviews = Review::where(["id"=>Input::get("post")])->paginate(5);
                 }else{
-                    $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(2);
+                    $reviews = $location->reviews()->orderBy("created_at", "DESC")->paginate(5);
                     $reviews->setBaseUrl("/location/$location->id/reviews");
                 }
                 /* imtoantran load review */
@@ -283,7 +283,7 @@ class LocationController extends BaseController
                     }
                 }
                 if (!Cache::has("food_type")) {
-                    Cache::forever("food_type", Option::where(["name" => "food_type"])->get(["id", "description"]), 24 * 60);
+                    Cache::forever("food_type", Option::where(["name" => "food_type"])->get(), 24 * 60);
                 }
                 /* load location's images start  */
                 $profile_image = $location->avatar;
@@ -721,17 +721,19 @@ class LocationController extends BaseController
 
     public function getLocation(){
         $data = Input::all();
-        if($data['province_id'] == 'all'){
-            $location = Location::orderBy('created_at')->get();
-        }else{
-            Session::put("province",Province::find($data['province_id']));
-            $location = Location::orderBy('created_at')->whereProvince_id($data['province_id'])->get();
-        }
-        if(count($location)>0){
-            foreach($location as $key=>$val){
-                $location[$key]['url'] = $val->url();
-            }
-        }
-        echo json_encode($location);
+        Session::put("province", Province::find($data['province_id']));
+//        if($data['province_id'] == 'all'){
+//            $location = Location::orderBy('created_at')->get();
+//        }else{
+//            Session::put("province",Province::find($data['province_id']));
+//            $location = Location::orderBy('created_at')->whereProvince_id($data['province_id'])->get();
+//        }
+//        if(count($location)>0){
+//            foreach($location as $key=>$val){
+//                $location[$key]['url'] = $val->url();
+//            }
+//        }
+//        echo json_encode($location);
+        echo 1;
     }
 }

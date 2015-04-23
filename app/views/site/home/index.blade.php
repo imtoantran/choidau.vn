@@ -308,8 +308,10 @@
 @section('content')
     @foreach($categories as $category)
         <p class="title font-16px margin-bottom-0 font-16px margin-bottom-10">
-            <i class="icon-location font-16px tooltips" title="Địa điểm"></i> <a href="#"><strong
-                        class="text-primary">{{$category->description}}?</strong></a>
+            <i class="icon-location font-16px tooltips" title="Địa điểm"></i>
+            <a href="{{URL::to(Session::get("province")->slug)}}/{{$category->slug}}">
+                <strong class="text-primary">{{$category->description}}?</strong>
+            </a>
         </p>
         <div class="row clearfix home-content-row">
             @foreach($category->location()->orderBy("created_at","desc")->take(3)->get() as $location)

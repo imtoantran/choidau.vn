@@ -668,7 +668,6 @@ var Layout = function () {
     // noi de code chung
     var handleCommon = function () {
         $('#provinceList').on('change', function(){
-            //console.log($(this).val());
             var province_id = $(this).val();
             var html ='';
             $('.btn-search-location i').iconLoad('icon-search');
@@ -678,14 +677,16 @@ var Layout = function () {
                 data: {'province_id': province_id},
                 dataType: 'json',
                 success: function(respon){
-                    $.each(respon, function(key,value){
-                        if(key == 0){
-                            $('#select2-location-search-list-container').text(value.name);
-                        }
-                        var location = value.location;
-                        html += '<option value="'+value.id+'" data-url="'+value.url+'">- '+value.name+'</option>';
-                    });
-                    $('#location-search-list').html(html);
+                    window.location = window.location.href;
+                    //console.log(respon);
+                    //$.each(respon, function(key,value){
+                    //    if(key == 0){
+                    //        $('#select2-location-search-list-container').text(value.name);
+                    //    }
+                    //    var location = value.location;
+                    //    html += '<option value="'+value.id+'" data-url="'+value.url+'">- '+value.name+'</option>';
+                    //});
+                    //$('#location-search-list').html(html);
                 }
                 ,complete: function(){
                     $('.btn-search-location i').iconUnload('icon-search');
@@ -755,7 +756,7 @@ var Layout = function () {
         //luuhoabk - kiem tra login
         $(".require-login").click(function (e) {
             e.preventDefault();
-
+            console.log('eee');
             var url = $(this).attr('data-url');
             $(this).login({callback: function(respon){
                 if(respon){

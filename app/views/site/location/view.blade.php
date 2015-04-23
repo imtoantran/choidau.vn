@@ -159,8 +159,22 @@
                     <li role="presentation" class=""><a href="#food" aria-controls="settings" role="tab"
                                                         data-toggle="tab" aria-expanded="false">Thực đơn</a></li>
                 </ul>
+                <div class="virtual-review" style="background-color: #f6f6f6; padding: 10px; margin: 10px 0px; cursor: pointer;">
+                    <div class="action-comment">
+
+                        <header class="action-comment-subject text-weight600" style="margin: 5px; color: #aaa;"><i class="icon-pen grey"></i> Đánh giá
+                        </header>
+                        <div class="action-comment-input">
+                            <textarea name="content-status" id="content-status" minlength="5"
+                                      data-required="1" rows="2"
+                                      style="width: 100%; padding: 5px; border: none; background-color: #fff;"
+                                      placeholder="Viết đánh giá của bạn." required disabled style="cursor: pointer;"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <!<!-- Tab panes -->
                 <div class="tab-content" id="choidau-person">
+
                     <div role="tabpanel" class="tab-pane active" id="review">
                         @include("site.location.review")
                     </div>
@@ -169,7 +183,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="event">
                         @if(Auth::check())
-                            @if(Auth::user() == $location->owner)
+                            @if(Auth::user() == $location->owner || Auth::user()->username =='admin')
                                 <div>
                                     <div class="text-right">
                                         <button class="btn btn-xs edit btn-primary">Sửa</button>
@@ -191,12 +205,14 @@
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="food">
-                        @if(Auth::check()&&Auth::user()==$location->owner)
+                        @if(Auth::check())
+                        @if(Auth::user()==$location->owner || Auth::user()->username =='admin')
                             <div class="text-right">
                                 <button class="btn btn-xs add" data-action="add"><i class="icon icon-plus"></i>Thêm món
                                     ăn
                                 </button>
                             </div>
+                        @endif
                         @endif
                         @include("site.location.food")
                     </div>
@@ -230,7 +246,7 @@
 
             {{--quang cao--}}
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 banner-right">
-                @if(isset($ads) && empty($ads))
+                @if(isset($ads) && !empty($ads))
                     {{$ads['content']}}
                 @endif
             </div>
@@ -251,7 +267,7 @@
                                 <div>Địa điểm lân cận</div>
                             </div>
                             @foreach($location_nearly as $key=>$val)
-                                @if($key < 6)
+                                @if($key < 3)
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 bg-primary location-item">
                                         <div class="location-info">
                                             <a href="{{$val->url()}}">
@@ -333,6 +349,11 @@
 @section("scripts")
     <script>
         $(document).ready(function () {
+                   $('.virtual-review').on('click', function(e){
+                       $('.vitual-click').trigger('click');
+
+                   });
+
                     /* imtoantran event editor start */
                     tinymce.init({
                         selector: "#event-editor textarea",
@@ -367,6 +388,20 @@
                     var albumWrapper = $('.wrapper-img');
                     var load_slider = function () {
                         $("#location-slider").load("{{URL::to("location/$location->id/images")}}", null, function (data) {
+                            $('#location-slider').find('.require-login').attr('data-url', '{{URL::current()}}')
+                            $('#location-slider').find('.require-login').on('click', function(e){
+                                e.preventDefault();
+                                var url = $(this).attr('data-url');
+                                $(this).login({callback: function(respon){
+                                    if(respon){
+                                        window.location.replace(url)
+                                    }else{
+                                        $('#popup-login').modal('show');
+                                    }
+                                }});
+                            });
+
+
                             Layout.initSliderLocation("slider1_container");
                             $("#uploadImageModal").unblock();
                         });
@@ -540,7 +575,7 @@
 
                     /* imtoantran food edit start */
                     @if(Auth::check())
-                    @if(Auth::user() == $location->owner)
+                    @if(Auth::user() == $location->owner || Auth::user()->username =='admin')
                     $("#food_form").on("submit", function (e) {
                        var data = $(this).serialize();
                         $.ajax({
