@@ -721,19 +721,17 @@ class LocationController extends BaseController
 
     public function getLocation(){
         $data = Input::all();
-        Session::put("province", Province::find($data['province_id']));
-//        if($data['province_id'] == 'all'){
-//            $location = Location::orderBy('created_at')->get();
-//        }else{
-//            Session::put("province",Province::find($data['province_id']));
-//            $location = Location::orderBy('created_at')->whereProvince_id($data['province_id'])->get();
-//        }
-//        if(count($location)>0){
-//            foreach($location as $key=>$val){
-//                $location[$key]['url'] = $val->url();
-//            }
-//        }
-//        echo json_encode($location);
-        echo 1;
+        if($data['province_id'] == 'all'){
+            $location = Location::orderBy('created_at')->get();
+        }else{
+            Session::put("province",Province::find($data['province_id']));
+            $location = Location::orderBy('created_at')->whereProvince_id($data['province_id'])->get();
+        }
+        if(count($location)>0){
+            foreach($location as $key=>$val){
+                $location[$key]['url'] = $val->url();
+            }
+        }
+        echo json_encode($location);
     }
 }
