@@ -194,7 +194,7 @@
                 </header>
 
                 <article>
-                    @if(!is_null($topReview))
+                    @if(isset($topReview))
                     <img class="padding-2 img-border-light" src="{{URL::to($topReview->location->avatar)}}"
                          height="100px" width="100px"/>
                     <div class="col-none-padding lab-user-post">
