@@ -41,11 +41,12 @@ class HomeController extends BaseController
 //		$locations = Location::with("category")->get();
         $categories = Category::whereIn("slug", ["an", "uong", "di"])->get();
         /* top review start */
-        if (!Cache::has("topReview")) {
+//        if (!Cache::has("topReview")) {
             $topReview = Review::has("location")->orderBy("created_at", "desc")->first();
-            Cache::put("topReview", $topReview, 120);
-        }
-        $topReview = Cache::get("topReview");
+            $topReview['location'] = Location::whereId($topReview->parent_id)->first();
+//            Cache::put("topReview", $topReview, 120);
+//        }
+//        $topReview = Cache::get("topReview");
 
         /* top review start */
         /* top location start */
