@@ -6,7 +6,7 @@
         </div>
         @foreach($blogs as $blog)
             <div class="col-xs-12 col-sm-6 col-lg-3 gallery-item" style="position: relative">
-                <a data-rel="fancybox-button" title="Project Name" href="{{$blog->url()}}.html" class="fancybox-button">
+                <a data-rel="fancybox-button" title="Project Name" href="{{$blog->url()}}" class="fancybox-button">
                     @if(isset($blog->avatar) && !empty($blog->avatar))
                         <img alt="" src="{{$blog->avatar}}" class="img-responsive" style="width: 100%">
                     @else

@@ -176,15 +176,16 @@
         function uploadFriendsConfirm() {
             var tag_parent = $('.wrapper-confirm-friends');
             $.ajax({
+                url:'{{URL::to('/thanh-vien/xac-thuc')}}',
+                dataType: "json",
                 type: "POST",
-                url: URL + "/thanh-vien/xac-thuc",
                 success: function (respon) {
-                    var data = $.parseJSON(respon);
-                    if (data.length > 0) {
+
+                    if(respon.length >0){
                         var strHtml = '';
                         strHtml += '<a href="#" class="tooltips dropdown-toggle icon-badge-number margin-left-10" data-original-title="Lời mời kết bạn"  data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="true">';
                         strHtml += '<i class="icon-users" style="font-size: 20px;"></i>';
-                        strHtml += '<span class="badge total-confirm-friends">' + data.length + '</span>';
+                        strHtml += '<span class="badge total-confirm-friends">' + respon.length + '</span>';
                         strHtml += '</a>';
                         strHtml += '<ul class="list-confirm-friends dropdown-menu extended tasks add-friend">';
                         strHtml += '</ul>';
@@ -193,7 +194,7 @@
                         var listFriend = tag_parent.find('.list-confirm-friends');
 
                         listFriend.html('<li>Lời mời kết bạn</li>');
-                        $.each(data, function (k, val) {
+                        $.each(respon, function (k, val) {
                             var username = (val.fullname != null && val.fullname != "") ? val.fullname : val.username;
                             var html = '';
                             html += '<div class="row margin-none">';
@@ -269,10 +270,10 @@
         }
 
         @if(Auth::check())
-        uploadFriendsConfirm();
-        setInterval(function () {
             uploadFriendsConfirm();
-        }, 30000);
+            setInterval(function () {
+                uploadFriendsConfirm();
+            }, 30000);
         @endif
     // end luuhoabk - confirm friend
 
@@ -334,7 +335,7 @@
                 });
             });
             $(".notifications li.notif").on("click",function(e){
-                var lo = frb.child('notifications/{{Auth::id()}}/'+$(this).attr("id"));
+                var lo = frb.child('notifications/@if(Auth::check()){{Auth::id()}}@endif/'+$(this).attr("id"));
                 $(this).find("ul.dropdown-menu li").each(function(index, e) {
                     lo.child($(e).removeClass("new").data("key")).update({unread:0});
                 });
@@ -344,15 +345,15 @@
         /* imtoantran fchat start */
         var ca = function (snt) {
             var data = snt.val();
-            if (data.sender == "{{Auth::id()}}" || data.receiver == "{{Auth::id()}}") {
-                id = ((data.sender == "{{Auth::id()}}") ? data.receiver : data.sender);
+            if (data.sender == "@if(Auth::check()){{Auth::id()}}@endif" || data.receiver == "@if(Auth::check()){{Auth::id()}}@endif") {
+                id = ((data.sender == "@if(Auth::check()){{Auth::id()}}@endif") ? data.receiver : data.sender);
                 var ml = $(w).find("ul[data-id=" + id + "]");
                 if (ml.length) {
                     var message_container = $("<div/>", {class: "message-container"});
                     time = new Date(data.timestamp);
                     var message = $("<div/>", {class: "message", text: data.text, title: time.toLocaleDateString()});
                     var messageElement = $("<li>");
-                    if (data.receiver == parseInt("{{Auth::id()}}")) {
+                    if (data.receiver == parseInt("@if(Auth::check()){{Auth::id()}}@endif")) {
                         avatar = $("<img />", {src: $("#friend-online img[data-id=" + data.sender + "]").attr("src")});
                         nameElement = $("<div class='ch-message-chat-username'>").append(avatar);
                         messageElement.append(nameElement).addClass("left");
@@ -362,7 +363,7 @@
                             ur++;
                             $("." + mc).addClass("new");
                         }
-                    } else if (data.sender == parseInt("{{Auth::id()}}")) {
+                    } else if (data.sender == parseInt("@if(Auth::check()){{Auth::id()}}@endif")) {
                         messageElement.addClass("right");
                     }
                     message_container.append(message).append(("<div class='time'><small><time> " + time.toLocaleTimeString() + " </time></small></div>"));
@@ -406,9 +407,9 @@
                     receiver: $(this).data("id"),
                     text: message,
                     read: 0,
-                    sender: {{Auth::id()}}
+                    sender: '@if(Auth::check()){{Auth::id()}}@endif'
                 });
-                frb.child("notifications/"+$(this).data("id")+"/messages/{{Auth::id()}}").set({unread:1,author:{{Auth::user()}},text:message,timestamp: moment().format("YYYY-m-d H:mm:ss"),name:"{{Auth::user()->display_name()}}"});
+                frb.child("notifications/"+$(this).data("id")+"/messages/@if(Auth::check()){{Auth::id()}}@endif").set({unread:1,author:'@if(Auth::check()){{Auth::user()}}@endif',text:message,timestamp: moment().format("YYYY-m-d H:mm:ss"),name:"@if(Auth::check()){{Auth::user()->display_name()}}@endif"});
                 this.value = '';
             };
         };

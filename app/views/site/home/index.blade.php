@@ -194,28 +194,29 @@
                 </header>
 
                 <article>
-                    @if(!is_null($topReview))
-                    <img class="padding-2 img-border-light" src="{{URL::to($topReview->location->avatar)}}"
-                         height="100px" width="100px"/>
-                    <div class="col-none-padding lab-user-post">
-                        <a href="{{$topReview->location->url()}}"><h1>{{$topReview->location->name}}</h1></a>
-                        <h2>
-                            <a href="{{{$topReview->author->url()}}}">
-                                {{$topReview->author->username}}
-                            </a>
-                        </h2><span>bình luận</span>
-                        <time> {{String::showTimeAgo($topReview->updated_at)}}</time>
-                    </div>
-                    <div class="clearfix"></div>
-                    <header class="description" style="position: relative;">
-						<span>
-							{{String::tidy(Str::limit(strip_tags($topReview->meta_description),120))}}
-						</span>
-                        @if(strlen(strip_tags($topReview->meta_description)) >= 120)
-                            <a class="italic font-12px" href="{{$topReview->location->url()}}">xem thêm</a>
-                        @endif
-                    </header>
-                    @endif
+                    {{$topReview->id}}
+                    {{--@if(count($topReview))--}}
+                    {{--<img class="padding-2 img-border-light" src="{{URL::to($topReview->location->avatar)}}"--}}
+                         {{--height="100px" width="100px"/>--}}
+                    {{--<div class="col-none-padding lab-user-post">--}}
+                        {{--<a href="{{$topReview->location->url()}}"><h1>{{$topReview->location->name}}</h1></a>--}}
+                        {{--<h2>--}}
+                            {{--<a href="{{{$topReview->author->url()}}}">--}}
+                                {{--{{$topReview->author->username}}--}}
+                            {{--</a>--}}
+                        {{--</h2><span>bình luận</span>--}}
+                        {{--<time> {{String::showTimeAgo($topReview->updated_at)}}</time>--}}
+                    {{--</div>--}}
+                    {{--<div class="clearfix"></div>--}}
+                    {{--<header class="description" style="position: relative;">--}}
+						{{--<span>--}}
+							{{--{{String::tidy(Str::limit(strip_tags($topReview->meta_description),120))}}--}}
+						{{--</span>--}}
+                        {{--@if(strlen(strip_tags($topReview->meta_description)) >= 120)--}}
+                            {{--<a class="italic font-12px" href="{{$topReview->location->url()}}">xem thêm</a>--}}
+                        {{--@endif--}}
+                    {{--</header>--}}
+                    {{--@endif--}}
                 </article>
             </section>
 
